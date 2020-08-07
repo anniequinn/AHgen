@@ -12,6 +12,8 @@ Food production and horticulture; Horticulture,Agriculture and aquaculture
 Food production and horticulture; Livestock,Agriculture and aquaculture
 Food production and horticulture; Orchard,Agriculture and aquaculture
 Food production and horticulture; Tree and plant nurseries,Agriculture and aquaculture
+Keyword filter; Dairy,Agriculture and aquaculture
+Keyword filter; Livestock,Agriculture and aquaculture
 Outdoors and natural environment; Allotments and community gardens,Agriculture and aquaculture
 "Airport; Aerodrome, terminal and gates",Airports (major)
 "Transport infrastructure; Airport apron, runways and taxiways",Airports (major)
@@ -23,6 +25,7 @@ Animal; Shelter and welfare,Animal shelters
 Retail; Boutique,Apparel retail
 Retail; Clothing,Apparel retail
 Retail; Clothing accessories,Apparel retail
+Keyword filter; Alteration,Apparel services
 Trades and services; Dry cleaning and laundrette,Apparel services
 Trades and services; Tailor,Apparel services
 Attractions; Aquarium,Aquariums
@@ -30,7 +33,6 @@ Waterway; Aquaducts and viaducts,Aqueducts and viaducts
 Military; Barracks,Armed forces barracks
 Military; Administration,Armed forces offices
 Military; Reserves,Armed forces offices
-Military; Land,Armed forces training grounds
 Military; Parade grounds,Armed forces training grounds
 Military; Training grounds,Armed forces training grounds
 Outdoor facility; Training grounds,Armed forces training grounds
@@ -49,8 +51,9 @@ Attractions; Miniature railway,Attractions
 Attractions; Multiplex,Attractions
 Attractions; Paintball,Attractions
 Attractions; Trampoline park,Attractions
-Attractions; Visitor centre,Attractions
 Attractions; Water and theme parks,Attractions
+Keyword filter; Multiplex,Attractions
+Keyword filter; Visitor centre,Attractions
 Sports and games; Racing and motor sport,Attractions
 Retail; Auction house,Auction houses
 Vehicles; Retail,Automotive retail
@@ -70,6 +73,7 @@ Attractions; Pool hall,Bars and nightclubs
 Hospitality; Bar,Bars and nightclubs
 University; Student union,Bars and nightclubs
 Outdoors and natural environment; Beach,Beaches
+Keyword filter; Barber,Beauty services
 Retail; Beauty and cosmetics,Beauty services
 Trades and services; Beauty industry,Beauty services
 Training; Beauty school,Beauty services
@@ -81,6 +85,7 @@ Attractions; Botanical garden,Botanical gardens
 Transport infrastructure; Bridge,Bridges
 Telecommunications; Office,Broadband provider offices
 Business and commerce; Production company,Broadcasting
+Keyword filter; Production company,Broadcasting
 Telecommunications; Broadcasting studio,Broadcasting
 Brownfield site,Brownfield sites
 Transport infrastructure; Railway land,Brownfield sites
@@ -107,6 +112,8 @@ Attractions; Historic,Castles and fortifications
 Historic; Castle,Castles and fortifications
 Religious sites and buildings; Cemeteries and graveyards,Cemeteries
 Business and commerce; NGO,Charity organisations
+Keyword filter; Outreach services,Charity organisations
+Keyword filter; Trust,Charity organisations
 Regeneration programme,Charity organisations
 Social facility; Charitable organisation offices or facilities,Charity organisations
 Social facility; Salvation Army,Charity organisations
@@ -116,27 +123,28 @@ Community centres; Breakfast & after school clubs and youth centres,Children's c
 Community centres; Social clubs,Children's clubs
 Community centres; Youth organisations,Children's clubs
 Attractions; Cinema,Cinemas
-Social facility; Citizens advice,Citizens Advice Bureaus
+Social facility; Citizens advice,Citizens Advice Bureau
 Outdoors and natural environment; Commons and gardens,Common green areas
 Outdoors and natural environment; Forest and woodland,Common green areas
 Community centres,Community centres
 "Community centres; Hall (Town, village or church)",Community centres
-Private clubs,Community centres
 Business and commerce; Appliances,Computer and electronics shops
 Retail; Electronics and household appliances,Computer and electronics shops
 Retail; IT and software,Computer and electronics shops
 Trades and services; Electronics repair,Computer and electronics shops
-Exhibition centres; Animal racing,Conference and exhibition centres (animal racing)
+Keyword filter; Animal racing,Conference and exhibition centres (animal racing)
 Exhibition centres; Conference centres,Conference and exhibition centres (general)
 Exhibition centres; Events venue,Conference and exhibition centres (general)
 Exhibition centres; Ice rink,Conference and exhibition centres (general)
 Exhibition centres; Stadiums and arenas,Conference and exhibition centres (general)
+Keyword filter; Velodromes,Conference and exhibition centres (general)
 Business and commerce; Engineering,Construction and engineering
 Road and rail maintenance,Construction and engineering
 Trades and services; Builder,Construction and engineering
 Business and commerce; Money transfer and currency exchange,Consumer finance
 Business and commerce; Pawnbrokers and money lenders,Consumer finance
 Buildings; Council offices,Council offices
+Keyword filter; City council,Council offices
 "Social facility; Government, financial services",Council offices
 Social facility; Housing office,Council offices
 Logistics; Courier,Couriers
@@ -145,9 +153,9 @@ Business and commerce; Business centres and managed / serviced offices,Coworking
 Business and commerce; Coworking office,Coworking office spaces
 Creative spaces; Art studios and centres,Creative spaces
 Creative spaces; Dance studios,Creative spaces
-Creative spaces; Other,Creative spaces
 Creative spaces; Photo studios and photographers,Creative spaces
 Creative spaces; Recording studios,Creative spaces
+Keyword filter; Creative spaces,Creative spaces
 Manufacturing; Glassblower,Creative spaces
 Manufacturing; Potter,Creative spaces
 Manufacturing; Sculptor,Creative spaces
@@ -169,6 +177,7 @@ Trades and services; Caterer,Dining and catering services
 Trades and services; Mobile caterer,Dining and catering services
 Governance; Diplomacy,Diplomatic buildings
 Industry; Warehouse,Distribution centres
+"Keyword filter; Logistics, loading dock",Distribution centres
 Logistics; Depots and sorting offices,Distribution centres
 Logistics; Distribution centre,Distribution centres
 Logistics; Distribution centre (supermarket),Distribution centres
@@ -214,6 +223,7 @@ Social facility; Homecare service,Healthcare (specialist)
 Healthcare; Outpatient services,Healthcare outpatient services
 Public transport; Helipad,Helipads
 College,Higher education
+Keyword filter; Colleges,Higher education
 University,Higher education
 Amenity; Fountain (decorative),Historic points of interest
 Amenity; Scenic viewpoint,Historic points of interest
@@ -242,13 +252,15 @@ Retail; Home improvement and DIY,Home and outdoor maintenance retail
 Retail; Household and cleaning,Home and outdoor maintenance retail
 Council; Park and street care,Home and outdoor maintenance services
 Environmental management; Pest control,Home and outdoor maintenance services
+Keyword filter; Environmental management,Home and outdoor maintenance services
 Trades and services; Cleaner,Home and outdoor maintenance services
 Trades and services; Gardener,Home and outdoor maintenance services
 Trades and services; Tool and equipment hire,Home and outdoor maintenance services
 Wastewater; Septic system services,Home and outdoor maintenance services
-Healthcare; A&E,Hospitals (A&E)
+Keyword filter; A&E,Hospitals (A&E)
 Healthcare; Hospital,Hospitals (general)
 Healthcare; Hospital administration office,Hospitals (general)
+Keyword filter; Hospital,Hospitals (general)
 University; Hospital,Hospitals (general)
 Hospitality; Apartments and serviced apartments,Hotels
 Hospitality; Guest house,Hotels
@@ -266,6 +278,7 @@ Trades and services; Glazing,Interior building trades
 Trades and services; Interiors,Interior building trades
 Hospitality; Internet cafe,Internet cafes
 Business and commerce; Technology and software,IT software and services
+Keyword filter; Tech companies,IT software and services
 Water; Lentic water bodies,Lakes and ponds
 Waste management; Landfill,Landfills and endpoint waste sites
 Buildings; Learned societies,Learned societies
@@ -276,6 +289,7 @@ Buildings; Library,Libraries and archives
 Governance; Lifeboat station,Lifeboat stations
 Trades and services; Locksmiths and cobblers,Locksmiths and cobblers
 Manufacturing; Clothing,Manufacturing (consumer discretionary)
+Manufacturing; IT hardware,Manufacturing (IT hardware)
 Manufacturing; Vehicle,Manufacturing (consumer discretionary)
 Manufacturing; Watchmakers and jewlers,Manufacturing (consumer discretionary)
 Food production and horticulture; Manufacturing,Manufacturing (consumer staples)
@@ -289,14 +303,13 @@ Industry; Oil pipeline,Manufacturing (energy)
 Industry; Refinery,Manufacturing (energy)
 Manufacturing; Industrials,Manufacturing (industrials)
 Manufacturing; Safety and security,Manufacturing (industrials)
-Manufacturing; IT hardware,Manufacturing (IT hardware)
 Industry; Materials,Manufacturing (materials)
 Industry; Quarry,Manufacturing (materials)
 Industry; Wood,Manufacturing (materials)
 Manufacturing; Blacksmiths and ironmongery,Manufacturing (materials)
 Manufacturing; Chemical works,Manufacturing (materials)
 Manufacturing; Packaging,Manufacturing (materials)
-Harbours,"Marinas, boatyards, and ferry terminals"
+Keyword filter; Harbour,"Marinas, boatyards, and ferry terminals"
 Public transport; Ferry terminals and marinas,"Marinas, boatyards, and ferry terminals"
 Healthcare; Medical laboratory,Medical laboratories
 Healthcare; General practice,Medical practices
@@ -309,10 +322,10 @@ Retail; Discount,Multi-line retail
 Attractions; Museums and art galleries,Museums and art galleries
 Attractions; Science centre,Museums and art galleries
 Amenity; Bandstand,Music and theatre venues
-Attractions; Auditoriums,Music and theatre venues
 Attractions; Comedy club,Music and theatre venues
 Attractions; Music or concert venue,Music and theatre venues
 Attractions; Theatre,Music and theatre venues
+Keyword filter; Auditoriums,Music and theatre venues
 Buildings; Government transport agencies,National government buildings
 Business and commerce; Defence agencies,National government buildings
 Business and commerce; QUANGO,National government buildings
@@ -320,11 +333,15 @@ Governance; Civic,National government buildings
 Governance; Defence agencies,National government buildings
 Governance; General public,National government buildings
 Governance; Standards agency,National government buildings
+Keyword filter; Defence,National government buildings
+Keyword filter; Government buildings,National government buildings
+Keyword filter; NHS foundation trust,National government buildings
 "Social facility; Government, homeless services",National government buildings
 Social facility; Immigration aid,National government buildings
 Outdoors and natural environment; Nature reserve,Nature reserves
 Buildings; Childcare,Nurseries
 Buildings; Nurseries and kindergartens,Nurseries
+Keyword filter; Day care,Nurseries
 School; Infant,Nurseries
 University; Observatory,Observatories
 Buildings; Headquarters,Offices (other)
@@ -336,6 +353,7 @@ Business and commerce; Unspecified,Offices (other)
 Industry; Industrial estate,Offices (other)
 Industry; Manufacturing,Offices (other)
 Industry; Unspecified,Offices (other)
+Keyword filter; Business and commerce,Offices (other)
 Retail; Off-licence,Off-licenses
 Healthcare; Optician,Opticians and ophthalmologists
 Amenity; Free library,Other communal resources
@@ -350,6 +368,7 @@ Retail; Speciality and luxury goods,Other discretionary goods retail
 Attractions; Sauna,Other discretionary services
 Attractions; Sex industry,Other discretionary services
 Attractions; Stripclubs and erotic dancing,Other discretionary services
+Keyword filter; Sauna,Other discretionary services
 Trades and services; Chauffeur company,Other discretionary services
 Trades and services; Speciality and luxury,Other discretionary services
 Retail; Baby care and maternity,Other staple goods retail
@@ -360,7 +379,6 @@ Amenity; Parking (entrance),Parking
 Amenity; Underground and multi-storey car parks,Parking
 Amenity; Dog walking park,Parks
 Amenity; Park,Parks
-Governance; Parliamentary buildings,Parliamentary buildings
 Healthcare; Pharmacy,Pharmacies
 Amenity; Piers and boardwalks,Piers and boardwalks
 Attractions; Soft play,Playgrounds (indoor)
@@ -371,8 +389,8 @@ Governance; Overseas registration unit,Police stations
 Governance; Parks police,Police stations
 "Governance; Police agencies, offices and headquarters",Police stations
 Governance; Police stations,Police stations
-Governance; Probation offices,Police stations
 Governance; Traffic wardens,Police stations
+Governance; Probation offices,Police stations
 Buildings; Political offices,Political offices
 Amenity; Post box,Post boxes
 Logistics; Post office,Post offices
@@ -383,6 +401,7 @@ Electricity network; Distribution cabinet,"Power poles, towers, and converter st
 Electricity network; Pole,"Power poles, towers, and converter stations"
 Electricity network; Tower,"Power poles, towers, and converter stations"
 Electricity network; Transition point,"Power poles, towers, and converter stations"
+Keyword filter; Cabinet,"Power poles, towers, and converter stations"
 Electricity generation,Power stations
 Electricity generation; Incinerator,Power stations
 Electricity generation; Power plant,Power stations
@@ -415,7 +434,6 @@ Religious sites and buildings; Chaplaincy,Religious buildings
 Religious sites and buildings; Convents and monasteries,Religious buildings
 Religious sites and buildings; Missionary,Religious buildings
 Religious sites and buildings; Place of worship,Religious buildings
-Buildings; Removal,Removal services
 Trades and services; Home removal,Removal services
 Buildings; Clinical science,Research and consulting services
 Buildings; Research,Research and consulting services
@@ -463,6 +481,8 @@ Transport infrastructure; Service access,Roads (minor) and pathways
 Transport infrastructure; Tertiary road,Roads (minor) and pathways
 Transport infrastructure; Track,Roads (minor) and pathways
 Transport infrastructure; Unclassified road,Roads (minor) and pathways
+Keyword filter; School,Schools
+Keyword filter; Schools,Schools
 School,Schools
 School; Junior,Schools
 School; Middle,Schools
@@ -517,6 +537,8 @@ Sports and games; Outdoor facility (golf),"Sports facilities (outdoor, permeable
 Sports and games; Recreation ground,"Sports facilities (outdoor, permeable)"
 Sports and games; Clubhouse and outdoor facility (golf),"Sports facilities (outdoor, permeable, with club)"
 Outdoors and natural environment; Spring (water),Springs and wells
+Keyword filter; Equestrian,Stables
+Keyword filter; Livery,Stables
 Sports and games; Horse riding centres,Stables
 Sports and games; Horse stables and paddocks,Stables
 Water; Detention and retention basins,Stormwater basins
@@ -532,7 +554,7 @@ Hospitality; Fast food and takeaways,Takeaways and fast food
 Public transport; Taxi rank,Taxi ranks
 Telecommunications; Relay station,Telecommunications towers
 Telecommunications; Tower,Telecommunications towers
-Telecommunications; Telephone exchanges,Telephone exchanges and data centres
+Telecommunications; Telephone exchanges,Telephone exchanges
 Telecommunications; Data centre,Telephone exchanges and data centres
 Telecommunications; Exchange,Telephone exchanges and data centres
 Amenity; Toll booth,Toll booths and weighbridges
@@ -542,6 +564,7 @@ Traffic management; Calming,Traffic calming measures
 Traffic management; Speed camera,Traffic calming measures
 Historic; Railway station or platform,Train stations (major)
 Public transport; Rail station,Train stations (major)
+Keyword filter; Catering college,Training centres
 Training; Occupational,Training centres
 Training; Occupational and networking,Training centres
 Training; Private tuition (children),Training centres
@@ -566,7 +589,6 @@ Buildings; Council depot,Vehicle depots
 Buildings; Depots,Vehicle depots
 Governance; Police garage,Vehicle depots
 "Transport infrastructure; Light & heavy rail depots, yards and sidings",Vehicle depots
-"Transport infrastructure; Rail depots, yards and sidings",Vehicle depots
 Vehicles; Depot,Vehicle depots
 "Vehicles; Light & heavy rail depots, yards and sidings",Vehicle depots
 Vehicles; Pound,Vehicle impounds
@@ -578,10 +600,11 @@ Amenity; Bike rental point,Vehicle sharing points
 Vehicles; Car share,Vehicle sharing points
 Animal; Veterinarian,Veterinary practices
 University; Veterinary college,Veterinary practices
+Keyword filter; Waste management,Waste collection service offices
 Waste management; Administrative office,Waste collection service offices
 Waste management; Collection,Waste collection service offices
+Keyword filter; Waste depot,Waste sorting centres
 Waste management; Sorting facility,Waste sorting centres
-Buildings; Pumping station,Wastewater pumping stations
 Wastewater; Sanitary dump,Wastewater tanks
 Wastewater; Treatment works,Wastewater treatment works
 Wastewater; Treatment works and facilities,Wastewater treatment works

@@ -17,29 +17,12 @@ function_read_abstractionHierarchy <-
   
 }
 
-
-function_abstractionHierarchy_to_nodeInfo <- function(abstractionHierarchy) { 
+function_abstractionHierarchy_to_edgeListTibble <- function(abstractionHierarchy) {
   
-  abstractionHierarchy %>% select(attr(abstractionHierarchy, "nodeInfo")) 
+  abstractionHierarchy %>% function_adjMat %>% get.data.frame %>% as_tibble()
   
-}
-
-
-function_nodeList <- function(nodeInfo) { 
-  
-  output <- 
-    nodeInfo %>% 
-    split(., .$layer) %>%
-    modify(. %>% select(nodeName, filterCoverage)) %>%
-    setNames(paste0("layer_", c("1_FP", "2_VPM", "3_GF", "4_ORP", "5_PO")))
-  output[1:4] <- output[1:4] %>% modify(. %>% select(-filterCoverage) %>% unlist %>% as.vector)
-  output[[5]] <- output[[5]] %>% split(., .$filterCoverage) %>% modify(. %>% select(-filterCoverage) %>% unlist %>% as.vector)
-  
-  return(output)
-  
-}
-
-
+  }
+    
 function_abstractionHierarchy_to_igraph <- function(abstractionHierarchy) { 
   
   dtAH <- abstractionHierarchy %>% select(-attr(abstractionHierarchy, "nodeInfo"))
@@ -48,6 +31,11 @@ function_abstractionHierarchy_to_igraph <- function(abstractionHierarchy) {
   
 }
 
+function_abstractionHierarchy_to_nodeInfo <- function(abstractionHierarchy) { 
+  
+  abstractionHierarchy %>% select(attr(abstractionHierarchy, "nodeInfo")) 
+  
+}
 
 function_igraphlist <- function(nodeInfo, igraph) {
   
@@ -69,13 +57,23 @@ function_igraphlist <- function(nodeInfo, igraph) {
 }
 
 
-# Is function_abstractionHierarchy_to_edgeListTibble unused?
-function_abstractionHierarchy_to_edgeListTibble <- function(abstractionHierarchy) {
+
+
+
+function_nodeList <- function(nodeInfo) { 
   
-  abstractionHierarchy %>% function_adjMat %>% get.data.frame %>% as_tibble()
+  output <- 
+    nodeInfo %>% 
+    split(., .$layer) %>%
+    modify(. %>% select(nodeName, filterCoverage)) %>%
+    setNames(paste0("layer_", c("1_FP", "2_VPM", "3_GF", "4_ORP", "5_PO")))
+  output[1:4] <- output[1:4] %>% modify(. %>% select(-filterCoverage) %>% unlist %>% as.vector)
+  output[[5]] <- output[[5]] %>% split(., .$filterCoverage) %>% modify(. %>% select(-filterCoverage) %>% unlist %>% as.vector)
   
-  }
-    
+  return(output)
+  
+}
+
 
 function_internal_removeNodes <- function(igraph, removeNodes) { igraph %>% delete_vertices(removeNodes) }
 
@@ -218,7 +216,7 @@ function_removeNodes_byLayer <- function(igraph, linkName, removeNodes, max = 10
   
 }
 
-function_weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "key.csv") { 
+function_weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "OSMAHkey_CS.csv") { 
   
   if(str_detect(objectCount, "RDS")) { output <- readRDS(objectCount) }
   if(str_detect(objectCount, "csv")) { output <- read_csv(objectCount, col_types = cols()) }
