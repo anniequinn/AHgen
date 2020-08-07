@@ -375,7 +375,7 @@ export <- function(exportObject, exportType, location = "generic") {
 
 
 weightsIndicators <- function(locationName,
-                              indicatorsFilename = "indicators_CS.csv",
+                              indicatorsFilename = "indicators.csv",
                               colNames = c("indName", "indDesc", "indStatus", "sourceDesc", "sourceLink", 
                                            "lastAccessed", "otherComments", "nodeVPM", "nodeGF"),
                               type = "igraph") {
@@ -455,7 +455,7 @@ baselinePhysicalObjects_fromHazard <- function(igraph) {
 
 
 
-baselinePhysicalObjects_fromFile <- function(objectCountFilename, keyFilename = "OSMAHkey_CS.csv") { 
+baselinePhysicalObjects_fromFile <- function(objectCountFilename, keyFilename = "key.csv") { 
   
   if(str_detect(objectCountFilename, "RDS")) { input <- readRDS(objectCountFilename) %>% na.omit }
   if(str_detect(objectCountFilename, "csv")) { input <- read_csv(objectCountFilename, col_types = cols()) %>% na.omit }
@@ -475,7 +475,7 @@ baselinePhysicalObjects_fromFile <- function(objectCountFilename, keyFilename = 
 }
 
 
-baselinePhysicalObjects_fromFile_revised <- function(objectCountFilename, keyFilename = "OSM_AH_key.csv") { 
+baselinePhysicalObjects_fromFile_revised <- function(objectCountFilename, keyFilename = "key.csv") { 
   
   if(str_detect(objectCountFilename, "RDS")) { 
     input <- readRDS(objectCountFilename) 
@@ -559,7 +559,7 @@ removeNodes <- function(igraph, removeNodes) {
 }
 
 
-weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "OSMAHkey_CS.csv") {
+weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "key.csv") {
   
   objectCount %>% function_weightsHazard(baselineScenario, keyFilename) %>% function_removeNodes_hazard
   

@@ -2,8 +2,8 @@
 # AHgen.R
 # Annie Visser-Quinn & Melissa Bedinger
 #
-# Created: 03-05-2020
-# Last revised: 22-07-2020
+# Created: 2020-05-03
+# Last revised: 2020-08-07
 # -------------------------------------------------------------------------
 
 rm(list = ls()); cat("\014")
@@ -18,13 +18,15 @@ source("functions/functions_internal.R")
 # Useful to have access to the internal functions for troubleshooting
 # But these can be embedded in the main functions internally at a later date
 
+# Inputs to change are suffixed with the hash symbol #####
+
 
 # -------------------------------------------------------------------------
 # GENERIC ABSTRACTION HIERARCHY -------------------------------------------
 # -------------------------------------------------------------------------
 # GENERIC ABSTRACTION HIERARCHY
 # Load in abstraction hierarchy
-dl = genericAbstractionHierarchy(filename = "melissaInputs/USAH_final_20200712.csv")
+dl = genericAbstractionHierarchy(filename = "USAH.csv")
 
 # Manually add edgelist to the igraph object
 dl$edgeList = dl$igraph %>% genEdgelist
@@ -155,7 +157,7 @@ locationName <- "Edinburgh" ###################################################
 # type = "igraph" or "tibble"; default is "igraph"
 di_weightsIndicators <- 
   weightsIndicators(locationName = locationName, 
-                    indicatorsFilename = "melissaInputs/indicators_20200712.csv")
+                    indicatorsFilename = "indicators.csv")
 
 # WEIGHTING
 di_weightedIndicators <- 
@@ -179,11 +181,11 @@ checkWeightLinks(igraphGeneric = di_generic$links_2_VPM_to_GF,
 # -------------------------------------------------------------------------
 # BASELINE PHYSICAL OBJECTS
 # Object count can be RDS or csv
-# keyFilename is OSM_AH_key.csv by default
+# keyFilename is key.csv by default
 dvPO =
   baselinePhysicalObjects_fromFile_revised(
     objectCountFilename = "OSMtidyOutputs/Bristol_City_6_dataTidy-filtered_20200712-170018.RDS", ################
-    keyFilename = "melissaInputs/key_MBtest4.csv")
+    keyFilename = "key.csv")
 
 # VECTOR OF NODES TO REMOVE
 # No function as this seems to case specific
@@ -230,7 +232,7 @@ weightsHazard %>% args
 # key is the filename of the OSMtidy-AHgen key; OSMAHkey_CS.csv by default
 
 di_weightsHazard <- weightsHazard("outputs/AHgen_Jaipur_objectCount_manual.RDS", #####
-                                  keyFilename = "melissaInputs/key_MBtest4.csv") #####
+                                  keyFilename = "key.csv") #####
 di_weightsHazard %>% summary
 di_weightsHazard$removeNodes
 di_weightsHazard$weightNodes #### Can export using export()
@@ -399,7 +401,7 @@ dt_weightedIndicators_and_nodesRemoved =
   select(-WVBC_generic)
 
 # Add object count
-objectCount_rough <- function(objectCountFilename, keyFilename = "OSM_AH_key.csv") { 
+objectCount_rough <- function(objectCountFilename, keyFilename = "key.csv") { 
   
   if(str_detect(objectCountFilename, "RDS")) { 
     input <- readRDS(objectCountFilename) 
@@ -424,7 +426,7 @@ objectCount_rough <- function(objectCountFilename, keyFilename = "OSM_AH_key.csv
 # Create object count
 oCount = objectCount_rough(
   objectCountFilename = "OSMtidyOutputs/Bristol_City_6_dataTidy-filtered_20200712-170018.RDS", ################
-  keyFilename = "melissaInputs/key_MBtest4.csv")
+  keyFilename = "key.csv")
 # Rename columns in oCount
 colnames(oCount) = c("nodeName", "osmFrequency")
 # Join to results file

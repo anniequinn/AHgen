@@ -2,8 +2,8 @@
 # AHgen - hazard cutout walkthrough.R
 # Annie Visser-Quinn
 #
-# Created: 01-05-2020
-# Last revised: 18-05-2020
+# Created: 2020-05-01
+# Last revised: 2020-08-07
 # -------------------------------------------------------------------------
 
 rm(list = ls()); cat("\014")
@@ -14,6 +14,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 source("functions/functions.R")
 
+# Change input geodata and hazard shapefiles
 
 # -------------------------------------------------------------------------
 # DATA --------------------------------------------------------------------

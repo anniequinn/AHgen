@@ -218,7 +218,7 @@ function_removeNodes_byLayer <- function(igraph, linkName, removeNodes, max = 10
   
 }
 
-function_weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "OSMAHkey_CS.csv") { 
+function_weightsHazard <- function(objectCount, baselineScenario = "baseline", keyFilename = "key.csv") { 
   
   if(str_detect(objectCount, "RDS")) { output <- readRDS(objectCount) }
   if(str_detect(objectCount, "csv")) { output <- read_csv(objectCount, col_types = cols()) }
