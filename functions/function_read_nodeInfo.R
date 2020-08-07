@@ -1,4 +1,4 @@
-function_read_nodeInfo_csv <- function(filename) {
+read_nodeInfo_csv <- function(filename) {
   
   if(!str_detect(filename, ".csv")) stop(".csv missing in filename")
   
@@ -13,7 +13,7 @@ function_read_nodeInfo_csv <- function(filename) {
   
 }
 
-function_read_nodeInfo_xlsx <- function(filename, sheet = 1) {
+read_nodeInfo_xlsx <- function(filename, sheet = 1) {
   
   require(readxl)
   

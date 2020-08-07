@@ -1,4 +1,4 @@
-function_read_adjMat_csv <- function(filename) {
+read_adjMat_csv <- function(filename) {
   
   if(!str_detect(filename, ".csv")) stop(".csv missing in filename")
   
@@ -20,7 +20,7 @@ function_read_adjMat_csv <- function(filename) {
   
 }
 
-function_read_adjMat_xlsx <- function(filename, sheet = 1) {
+read_adjMat_xlsx <- function(filename, sheet = 1) {
   
   require(readxl)
   

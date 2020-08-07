@@ -19,18 +19,18 @@ files <- list.files("inputs"); files
 
 # Read in adjacency matrix spreadsheet as csv or excel file type
 
-"inputs/USAH_adjMat_2020-05-20.csv" %>% function_read_adjMat_csv
-"inputs/USAH_adjMat_2020-05-20.xlsx" %>% function_read_adjMat_xlsx
+"inputs/USAH_adjMat_2020-05-20.csv" %>% read_adjMat_csv
+"inputs/USAH_adjMat_2020-05-20.xlsx" %>% read_adjMat_xlsx
 
-dh <- "inputs/USAH_adjMat_2020-05-20.xlsx" %>% function_read_adjMat_xlsx; dh
+dh <- "inputs/USAH_adjMat_2020-05-20.xlsx" %>% read_adjMat_xlsx; dh
 
 
 # Read in node info spreadsheet as csv or excel file type
 
-"inputs/USAH_nodeInfo_2020-05-20.csv" %>% function_read_nodeInfo_csv
-"inputs/USAH_nodeInfo_2020-05-20.xlsx" %>% function_read_nodeInfo_xlsx
+"inputs/USAH_nodeInfo_2020-05-20.csv" %>% read_nodeInfo_csv
+"inputs/USAH_nodeInfo_2020-05-20.xlsx" %>% read_nodeInfo_xlsx
 
-dk <- "inputs/USAH_nodeInfo_2020-05-20.xlsx" %>% function_read_nodeInfo_xlsx; dk
+dk <- "inputs/USAH_nodeInfo_2020-05-20.xlsx" %>% read_nodeInfo_xlsx; dk
 
 
 # OTHER FUNCTIONS ---------------------------------------------------------
@@ -70,7 +70,24 @@ de4 <- de2 %>% rename(weight = weightNew) %>% edgelist_to_igraph; de4
 weightLinks(de3, de4, "igraph")
 
 
-# Read in the indicators edge list??
+# INDICATORS DATABASE -----------------------------------------------------
+
+# Location specific indicators quantified for a range of UK cities
+# Available in the indicators database
+
+read_indicatorsDatabase("inputs/linkWeights_indicatorsDatabase_2020-05-22.xlsx",
+                        "Bristol")
+
+read_indicatorsDatabase("inputs/linkWeights_indicatorsDatabase_2020-05-22.xlsx",
+                        "Edinburgh")
+
+read_indicatorsDatabase("inputs/linkWeights_indicatorsDatabase_2020-05-22.xlsx",
+                        "Glasgow")
+
+
+
+
+
 
 
 
