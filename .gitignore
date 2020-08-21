@@ -58,3 +58,60 @@ codeToReview.R
 AHgen.R
 functions/vis.R
 functions/V0.0.1
+functions/vis.R
+vis.R
+functions/V0.0.1/functions.R
+functions/V0.0.1/functions_fromMelissa.R
+functions/V0.0.1/functions_internal.R
+functions/vis.R
+tmp/troubleshooting/AHgen object count V2.R
+tmp/troubleshooting/AHgen object count V3.R
+tmp/troubleshooting/AHgen object count V4.R
+tmp/troubleshooting/AHgen object count V5.R
+tmp/troubleshooting/AHgen object count.R
+tmp/troubleshooting/cutHazard_London/cutHazard.R
+tmp/troubleshooting/cutHazard_London/cutHazard_AVQ.R
+tmp/troubleshooting/cutHazard_London/cutHazard_AVQ.RData
+tmp/troubleshooting/cutHazard_London/functions/functions.R
+tmp/troubleshooting/cutHazard_London/functions/functions_internal.R
+tmp/troubleshooting/cutHazard_London/OSMtidyOutputs/London_Central_6_dataTidy-filtered_20200712-205912.RDS
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.cpg
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.dbf
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.prj
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.sbn
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.sbx
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shp
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shp.xml
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shx
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.dbf
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.prj
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.shp
+tmp/troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.shx
+tmp/troubleshooting/Edinburgh/EdinburghV2.R
+tmp/troubleshooting/Edinburgh/modKey.csv
+tmp/troubleshooting/Edinburgh/modKey.xlsx
+tmp/troubleshooting/Edinburgh/OSMAHmatching.csv
+tmp/troubleshooting/Edinburgh/troubleshooting.R
+tmp/troubleshooting/Edinburgh/troubleshooting2.R
+tmp/troubleshooting/Melissa/OSMAH_key_mod.csv
+tmp/troubleshooting/Melissa/OSMAH_key_mod.xlsx
+tmp/troubleshooting/Melissa/OSMAH_key_test3.csv
+tmp/troubleshooting/Melissa/OSMAH_key_test3_modified.csv
+tmp/troubleshooting/Melissa/summaryCount.xlsx
+tmp/troubleshooting/troubleshooting3.R
+AHgen.R
+codeToReview.R
+functions/V0.0.1/functions.R
+functions/V0.0.1/functions_fromMelissa.R
+functions/V0.0.1/functions_internal.R
+AHgen.R
+codeToReview.R
+functions/V0.0.1/functions.R
+functions/V0.0.1/functions_fromMelissa.R
+functions/V0.0.1/functions_internal.R
+functions/vis.R
+troubleshooting/Melissa/OSMAH_key_mod.csv
+troubleshooting/Melissa/OSMAH_key_mod.xlsx
+troubleshooting/Melissa/OSMAH_key_test3.csv
+troubleshooting/Melissa/OSMAH_key_test3_modified.csv
+troubleshooting/Melissa/summaryCount.xlsx
