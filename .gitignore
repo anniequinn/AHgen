@@ -1,4 +1,3 @@
-
 *.pptx
 archive/AHgen walkthrough.R
 archive/AHgen walkthrough 4.R
@@ -8,7 +7,7 @@ archive/AHgen Vx.x.x - walkthrough 2020-07-24.R
 archive/AHgen object count.R
 parts 5 and 6/ahAnalysis - Part 5.R
 parts 5 and 6/ahVisualisation - Part 6.R
-.Rhistory
+*.Rhistory
 archive/OSMtidy-AHgen_areas V6 2020-08-05.R
 archive/env.RData
 archive/summaryCount.csv
@@ -50,3 +49,6 @@ troubleshooting/AHgen object count V5.R
 troubleshooting/AHgen object count V4.R
 troubleshooting/AHgen object count V3.R
 troubleshooting/AHgen object count V2.R
+archive/USAH_edgeList_generic.csv
+archive/linkWeights_indicatorsDatabase_2020-05-22.xlsx
+archive
