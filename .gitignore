@@ -5,12 +5,14 @@ archive/AHgen walkthrough 3.R
 archive/AHgen walkthrough 2.R
 archive/AHgen Vx.x.x - walkthrough 2020-07-24.R
 archive/AHgen object count.R
+parts 5 and 6
 parts 5 and 6/ahAnalysis - Part 5.R
 parts 5 and 6/ahVisualisation - Part 6.R
 *.Rhistory
 archive/OSMtidy-AHgen_areas V6 2020-08-05.R
 archive/env.RData
 archive/summaryCount.csv
+hazards
 hazards/shpHazard2.dbf
 hazards/shpHazard2.prj
 hazards/shpHazard2.shp
@@ -52,3 +54,7 @@ troubleshooting/AHgen object count V2.R
 archive/USAH_edgeList_generic.csv
 archive/linkWeights_indicatorsDatabase_2020-05-22.xlsx
 archive
+codeToReview.R
+AHgen.R
+functions/vis.R
+functions/V0.0.1
