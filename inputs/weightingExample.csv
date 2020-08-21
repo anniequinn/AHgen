@@ -1,0 +1,63 @@
+layers,from,to,weightNew
+l1FP_l2VPM,Cultural heritage and sense of place,Collective identity and community support,0.73
+l1FP_l2VPM,Cultural heritage and sense of place,Environmental sustainability,0.7000000000000001
+l1FP_l2VPM,Cultural heritage and sense of place,Integrated development and planning,0.75
+l1FP_l2VPM,Cultural heritage and sense of place,Socio-economic equality and equity,0.04
+l1FP_l2VPM,Economic opportunity,Diverse livelihoods and employment,0.54
+l1FP_l2VPM,Economic opportunity,Reliable communications and mobility,0.97
+l1FP_l2VPM,Economic opportunity,Socio-economic equality and equity,1
+l1FP_l2VPM,Economic opportunity,Sustainable economy,0.88
+l1FP_l2VPM,Globalised connectivity,Diverse livelihoods and employment,0.8400000000000001
+l1FP_l2VPM,Globalised connectivity,Effective leadership and management,0.55
+l1FP_l2VPM,Globalised connectivity,Empowered stakeholders,0.74
+l1FP_l2VPM,Globalised connectivity,Environmental sustainability,0.9600000000000001
+l1FP_l2VPM,Globalised connectivity,Reliable communications and mobility,0.8
+l1FP_l2VPM,Globalised connectivity,Sustainable economy,0.62
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Collective identity and community support,0.16
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Diverse livelihoods and employment,0.99
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Effective leadership and management,0.8400000000000001
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Empowered stakeholders,0.78
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Reliable communications and mobility,0.63
+l1FP_l2VPM,Knowledge transfer and diffusion of innovation,Socio-economic equality and equity,0.61
+l1FP_l2VPM,Physical settlement,Collective identity and community support,0.27
+l1FP_l2VPM,Physical settlement,Effective provision of critical services,0.09
+l1FP_l2VPM,Physical settlement,Environmental sustainability,0.47000000000000003
+l1FP_l2VPM,Physical settlement,Integrated development and planning,0.7000000000000001
+l1FP_l2VPM,Physical settlement,Minimal vulnerability,0.3
+l1FP_l2VPM,Physical settlement,Reduced exposure and fragility,0.6
+l1FP_l2VPM,Physical settlement,Socio-economic equality and equity,1
+l1FP_l2VPM,Pooling of resources,Collective identity and community support,0.97
+l1FP_l2VPM,Pooling of resources,Diverse livelihoods and employment,0.63
+l1FP_l2VPM,Pooling of resources,Effective leadership and management,0.33
+l1FP_l2VPM,Pooling of resources,Integrated development and planning,0.15000000000000002
+l1FP_l2VPM,Pooling of resources,Reliable communications and mobility,0.93
+l1FP_l2VPM,Pooling of resources,Sustainable economy,0.42000000000000004
+l1FP_l2VPM,Safety and security,Collective identity and community support,0.39
+l1FP_l2VPM,Safety and security,Comprehensive security and rule of law,0.27
+l1FP_l2VPM,Safety and security,Effective leadership and management,0.73
+l1FP_l2VPM,Safety and security,Effective provision of critical services,0.36000000000000004
+l1FP_l2VPM,Safety and security,Effective safeguards to human health and life,0.23
+l1FP_l2VPM,Safety and security,Empowered stakeholders,0.9
+l1FP_l2VPM,Safety and security,Minimal vulnerability,0.98
+l1FP_l2VPM,Safety and security,Reduced exposure and fragility,0.91
+l1FP_l2VPM,Social opportunity and care,Collective identity and community support,0.59
+l1FP_l2VPM,Social opportunity and care,Effective safeguards to human health and life,0.9400000000000001
+l1FP_l2VPM,Social opportunity and care,Empowered stakeholders,0.61
+l1FP_l2VPM,Social opportunity and care,Integrated development and planning,0.67
+l1FP_l2VPM,Social opportunity and care,Minimal vulnerability,0.41000000000000003
+l1FP_l2VPM,Social opportunity and care,Reliable communications and mobility,0.060000000000000005
+l1FP_l2VPM,Social opportunity and care,Socio-economic equality and equity,0.8400000000000001
+l1FP_l2VPM,Wellbeing,Collective identity and community support,0.32
+l1FP_l2VPM,Wellbeing,Comprehensive security and rule of law,0.75
+l1FP_l2VPM,Wellbeing,Diverse livelihoods and employment,0.01
+l1FP_l2VPM,Wellbeing,Effective leadership and management,0.38
+l1FP_l2VPM,Wellbeing,Effective provision of critical services,0.35000000000000003
+l1FP_l2VPM,Wellbeing,Effective safeguards to human health and life,0.76
+l1FP_l2VPM,Wellbeing,Empowered stakeholders,0.7000000000000001
+l1FP_l2VPM,Wellbeing,Environmental sustainability,0.98
+l1FP_l2VPM,Wellbeing,Integrated development and planning,0.9
+l1FP_l2VPM,Wellbeing,Minimal vulnerability,0.41000000000000003
+l1FP_l2VPM,Wellbeing,Reduced exposure and fragility,0.4
+l1FP_l2VPM,Wellbeing,Reliable communications and mobility,0.4
+l1FP_l2VPM,Wellbeing,Socio-economic equality and equity,0.8400000000000001
+l1FP_l2VPM,Wellbeing,Sustainable economy,0.37

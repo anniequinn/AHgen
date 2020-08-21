@@ -1,0 +1,185 @@
+---
+title: "AHgen - Vignette 1, Getting started"
+author: "Dr Annie Visser-Quinn, a.visser-quinn@hw.ac.uk"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{AHgen - Vignette 1, Getting started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(
+  root.dir = normalizePath('../AHgen')
+  )
+
+rm(list = ls()); cat("\014")
+
+library(tidyverse)
+library(igraph)
+
+```
+
+```{r, eval = FALSE, include = FALSE}
+getwd()
+```
+<span style="color: red;">Couple of lines for introduction. Describe what Abstraction Hierarchy / Urban System Abstraction Hierarchy (USAH) is and point user in right direction.</span>
+
+<p>
+
+## 1. Prerequisites
+- OSMtidy V0.0.21
+- R version 3.6.3 or newer; type `version` in the console to check
+- R packages `tidyverse`, `igraph`, `sf`, `readxl` and `openxlsx`
+
+To install these packages: `install.packages(c("tidyverse", "igraph", "sf", "readxl", "openxlsx"))`. Packages can be loaded using `library` as required.
+
+## 2. Set-up and functions
+
+To use AHgen, you should save your R script within the *AHgen* directory. Set up your R script by (copy and paste from the code chunk below): (1) clearing the environment and console, (2) setting the working directory to your script directory, and (3) loading the required packages.
+
+```{r, eval = FALSE}
+rm(list = ls()); cat("\014") 
+
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+library(tidyverse)
+library(igraph)
+library(readxl)
+```
+
+<p>
+
+The functions that make up AHgen are located in the *functions* folder. You can load all of them in by running the script in *functions.R* using `source()`. In the code chunk below, `ls()` prints the names of the functions loaded into the environment.
+```{r}
+source("functions/functions.R")
+
+ls()
+```
+
+
+## 3. Data - Read adjacency matrix
+The USAH generic template is represented as an adjacency matrix. <span style="color: red;">Some descriptor on what adjacency matrix is. Points to somewhere else for details. Can modify the matrix or add a different one for different applications.</span>
+
+All inputs for AHgen are located in the folder *inputs*, the adjacency matrix files have the prefix *USAH/adjMat*. Two versions in different formats are available: *.csv*, a plain-text version and *.xlsx*, a user-friendly navigable Excel spreadsheet.
+
+The adjacency matrix can be read in using the functions `read_adjMat_csv()` or `read_adjMat_xlsx()`. The former has only one input argument - the filename. The latter requires the filename as well as the sheet number; this is set to 1 by default.
+
+```{r, eval = FALSE}
+# All 3 function calls below import the same generic template as an adjacency matrix
+read_adjMat_csv("inputs/USAH_adjMat_2020-05-20.csv")
+read_adjMat_xlsx("inputs/USAH_adjMat_2020-05-20.xlsx")
+read_adjMat_xlsx("inputs/USAH_adjMat_2020-05-20.xlsx", sheet = 1)
+```
+
+<p>
+
+*Note* Previews and summaries of the adjacency matrix are long in R. For this vignette we examine the adjacency matrix using `str(list.len = 10, width = 100, strict.width = "cut")`.
+
+```{r}
+da <- read_adjMat_xlsx("inputs/USAH_adjMat_2020-05-20.xlsx")
+da %>% str(list.len = 10, width = 100, strict.width = "cut")
+```
+
+## 4. Data - Node information
+The second input required is the node information - this can also be found in the *inputs* folder. The functions follow the same structure as the *read_adjMat* functions: `read_nodeInfo_csv()` and `read_nodeInfo_xlsx()`.
+
+*Note* Again, this vignette examines the node information data using `str()`
+
+```{r}
+dn <- read_nodeInfo_xlsx("inputs/USAH_nodeInfo_2020-05-20.xlsx")
+dn %>% str(width = 100, strict.width = "cut")
+```
+
+## 5. Conversion to edge list and igraph
+Weighting and analysis in AHgen requires an edge list or igraph. <span style="color: red;">Descriptions for edge list and igraph with forward links.</span>
+
+
+### 5.1 Adjacency matrix to edge list
+To convert the adjacency matrix into an edge list use the function `adjMat_to_edgelist()`. There are two input arguments: the adjacency matrix and whether the output should be a list of the levels of the abstraction hierarchy (TRUE or FALSE). 
+
+```{r}
+de <- da %>% adjMat_to_edgelist
+de
+
+de_list <- da %>% adjMat_to_edgelist(outputList = TRUE)
+de_list
+```
+
+<p>
+
+The edge list is in a tibble format, it can be navigated and edited like any data.frame or tibble in R.
+
+```{r}
+de$layers %>% unique # Unique layer names
+
+de %>% filter(layers == "l1FP_l2VPM") # Filter layers
+
+de %>% filter_all(any_vars(str_detect(str_to_lower(.), "collective")))
+
+de %>% filter_all(any_vars(str_detect(str_to_lower(.), "subway")))
+
+de %>% filter(weight != 1) # None, all are equal weight in generic template
+```
+
+<p>
+
+<span style="color: green;">Would the filter piece of code be useful as a function for AHgen?</span>
+
+Use the tidyverse function `bind_rows()` to collapse the list of edge lists.
+
+```{r}
+de_list %>% bind_rows()
+```
+
+### 5.2 Adjacency matrix to igraph
+The adjacency matrix can be converted directly to an igraph using the function `adjMat_to_igraph()`. The function has one input argument, the adjacency matrix.
+
+```{r} 
+di <- da %>% adjMat_to_igraph
+di
+```
+
+The top two lines in above output tell us about the igraph. On the first line, it states that this is an igraph and provides a code name for the graph. The four bits which follow are the code that denotes the type of igraph; the abstraction hierarchy is *U*ndirected, the *N*odes have names and the *W*eight attribute has been set. The fourth bit is whether the graph is bipartite (it is not, hence *-*). 
+
+The second line provides the attributes of the nodes (denoted by v) and edges (denoted by e). The abstraction hierarchy has named nodes *name (v/c)* and weighted edges *weight (e/n)*. The letter after the forward slash tells you the class of this attribute, character and numeric in this case. 
+
+The rest of the output is the names of the edges. See the igraph package for details on how to explore the igraph further. Some simple examples are provided below.
+
+```{r}
+V(di)
+
+E(di)
+
+E(di)$weight %>% head(n = 25)
+
+E(di)$layers %>% head(n = 25)
+```
+
+
+### 5.3 Edge list to igraph
+
+The edge list can be converted to an igraph using the function `edgelist_to_igraph()`. The function has two input arguments, an edge list and whether the output should be in list form. 
+
+```{r}
+de %>% edgelist_to_igraph(outputList = FALSE)
+
+de %>% edgelist_to_igraph(outputList = TRUE)
+```
+
+
+### 5.4 igraph to edge list
+
+<span style="color: green;">Should AHgen provide a function for this? It's very simple, but for the sake of completeness maybe?</span>
+
+```{r, eval = FALSE}
+di %>% get.data.frame %>% as_tibble() %>% select(layers, everything())
+```
+
+The walkthrough continues with **Part 2 - Link weighting**.

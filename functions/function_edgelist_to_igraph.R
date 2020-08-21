@@ -7,7 +7,7 @@ edgelist_to_igraph <- function(edgelist, outputList = FALSE) {
   }
   
   internal_add_layerAttribute <- function(igraph, edgelist) { 
-    igraph %>% set.edge.attribute(name = "layers", value = edgelist$layers)
+    igraph %>% set_edge_attr(name = "layers", value = edgelist$layers)
   }
   
   if(outputList == TRUE) { 

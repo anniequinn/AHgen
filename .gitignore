@@ -9,3 +9,44 @@ archive/AHgen object count.R
 parts 5 and 6/ahAnalysis - Part 5.R
 parts 5 and 6/ahVisualisation - Part 6.R
 .Rhistory
+archive/OSMtidy-AHgen_areas V6 2020-08-05.R
+archive/env.RData
+archive/summaryCount.csv
+hazards/shpHazard2.dbf
+hazards/shpHazard2.prj
+hazards/shpHazard2.shp
+hazards/shpHazard2.shx
+hazards/surfaceWaterFlooding_Edinburgh_shapefileValidated.dbf
+hazards/surfaceWaterFlooding_Edinburgh_shapefileValidated.prj
+hazards/surfaceWaterFlooding_Edinburgh_shapefileValidated.shp
+hazards/surfaceWaterFlooding_Edinburgh_shapefileValidated.shx
+troubleshooting/troubleshooting3.R
+troubleshooting/Edinburgh/troubleshooting2.R
+troubleshooting/Edinburgh/troubleshooting.R
+troubleshooting/Edinburgh/OSMAHmatching.csv
+troubleshooting/Edinburgh/modKey.xlsx
+troubleshooting/Edinburgh/modKey.csv
+troubleshooting/Edinburgh/EdinburghV2.R
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.shx
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.shp
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.prj
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3_multipolygon.dbf
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shx
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shp.xml
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.shp
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.sbx
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.sbn
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.prj
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.dbf
+troubleshooting/cutHazard_London/shapefilesHazard/London_Central_Simplified100_FloodZone3.cpg
+troubleshooting/cutHazard_London/OSMtidyOutputs/London_Central_6_dataTidy-filtered_20200712-205912.RDS
+troubleshooting/cutHazard_London/functions/functions_internal.R
+troubleshooting/cutHazard_London/functions/functions.R
+troubleshooting/cutHazard_London/cutHazard_AVQ.RData
+troubleshooting/cutHazard_London/cutHazard_AVQ.R
+troubleshooting/cutHazard_London/cutHazard.R
+troubleshooting/AHgen object count.R
+troubleshooting/AHgen object count V5.R
+troubleshooting/AHgen object count V4.R
+troubleshooting/AHgen object count V3.R
+troubleshooting/AHgen object count V2.R

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Dr Annie Visser-Quinn, a.visser-quinn@hw.ac.uk" />
+
+<meta name="date" content="2020-08-20" />
+
+<title>AHgen - Vignette 1, Getting started</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">AHgen - Vignette 1, Getting started</h1>
+<h4 class="author">Dr Annie Visser-Quinn, <a href="mailto:a.visser-quinn@hw.ac.uk" class="email">a.visser-quinn@hw.ac.uk</a></h4>
+<h4 class="date">2020-08-20</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#prerequisites">1. Prerequisites</a></li>
+<li><a href="#set-up-and-functions">2. Set-up and functions</a></li>
+<li><a href="#data---read-adjacency-matrix">3. Data - Read adjacency matrix</a></li>
+<li><a href="#data---node-information">4. Data - Node information</a></li>
+<li><a href="#conversion-to-edge-list-and-igraph">5. Conversion to edge list and igraph</a><ul>
+<li><a href="#adjacency-matrix-to-edge-list">5.1 Adjacency matrix to edge list</a></li>
+<li><a href="#adjacency-matrix-to-igraph">5.2 Adjacency matrix to igraph</a></li>
+<li><a href="#edge-list-to-igraph">5.3 Edge list to igraph</a></li>
+<li><a href="#igraph-to-edge-list">5.4 igraph to edge list</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><span style="color: red;">Couple of lines for introduction. Describe what Abstraction Hierarchy / Urban System Abstraction Hierarchy (USAH) is and point user in right direction.</span></p>
+<p>
+<div id="prerequisites" class="section level2">
+<h2>1. Prerequisites</h2>
+<ul>
+<li>OSMtidy V0.0.21</li>
+<li>R version 3.6.3 or newer; type <code>version</code> in the console to check</li>
+<li>R packages <code>tidyverse</code>, <code>igraph</code>, <code>sf</code>, <code>readxl</code> and <code>openxlsx</code></li>
+</ul>
+<p>To install these packages: <code>install.packages(c(&quot;tidyverse&quot;, &quot;igraph&quot;, &quot;sf&quot;, &quot;readxl&quot;, &quot;openxlsx&quot;))</code>. Packages can be loaded using <code>library</code> as required.</p>
+</div>
+<div id="set-up-and-functions" class="section level2">
+<h2>2. Set-up and functions</h2>
+<p>To use AHgen, you should save your R script within the <em>AHgen</em> directory. Set up your R script by (copy and paste from the code chunk below): (1) clearing the environment and console, (2) setting the working directory to your script directory, and (3) loading the required packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>()); <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\014</span><span class="st">&quot;</span>) </span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">setwd</span>(<span class="kw">dirname</span>(rstudioapi<span class="op">::</span><span class="kw">getSourceEditorContext</span>()<span class="op">$</span>path))</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(readxl)</span></code></pre></div>
+<p>
+<p>The functions that make up AHgen are located in the <em>functions</em> folder. You can load all of them in by running the script in <em>functions.R</em> using <code>source()</code>. In the code chunk below, <code>ls()</code> prints the names of the functions loaded into the environment.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">source</span>(<span class="st">&quot;functions/functions.R&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">ls</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;adjMat_to_edgelist&quot;              &quot;adjMat_to_igraph&quot;               
+##  [3] &quot;calcChange&quot;                      &quot;calcMetrics&quot;                    
+##  [5] &quot;calcUWVBC&quot;                       &quot;calcWVBC&quot;                       
+##  [7] &quot;edgelist_to_igraph&quot;              &quot;function_igraphResultFormatting&quot;
+##  [9] &quot;function_mergeNodeInfo&quot;          &quot;layerKey&quot;                       
+## [11] &quot;read_adjMat_csv&quot;                 &quot;read_adjMat_xlsx&quot;               
+## [13] &quot;read_indicatorsDatabase&quot;         &quot;read_nodeInfo_csv&quot;              
+## [15] &quot;read_nodeInfo_xlsx&quot;              &quot;weightLinks&quot;</code></pre>
+</div>
+<div id="data---read-adjacency-matrix" class="section level2">
+<h2>3. Data - Read adjacency matrix</h2>
+<p>The USAH generic template is represented as an adjacency matrix. <span style="color: red;">Some descriptor on what adjacency matrix is. Points to somewhere else for details. Can modify the matrix or add a different one for different applications.</span></p>
+<p>All inputs for AHgen are located in the folder <em>inputs</em>, the adjacency matrix files have the prefix <em>USAH/adjMat</em>. Two versions in different formats are available: <em>.csv</em>, a plain-text version and <em>.xlsx</em>, a user-friendly navigable Excel spreadsheet.</p>
+<p>The adjacency matrix can be read in using the functions <code>read_adjMat_csv()</code> or <code>read_adjMat_xlsx()</code>. The former has only one input argument - the filename. The latter requires the filename as well as the sheet number; this is set to 1 by default.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># All 3 function calls below import the same generic template as an adjacency matrix</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">read_adjMat_csv</span>(<span class="st">&quot;inputs/USAH_adjMat_2020-05-20.csv&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">read_adjMat_xlsx</span>(<span class="st">&quot;inputs/USAH_adjMat_2020-05-20.xlsx&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">read_adjMat_xlsx</span>(<span class="st">&quot;inputs/USAH_adjMat_2020-05-20.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>
+<p><em>Note</em> Previews and summaries of the adjacency matrix are long in R. For this vignette we examine the adjacency matrix using <code>str(list.len = 10, width = 100, strict.width = &quot;cut&quot;)</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>da &lt;-<span class="st"> </span><span class="kw">read_adjMat_xlsx</span>(<span class="st">&quot;inputs/USAH_adjMat_2020-05-20.xlsx&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required package: readxl</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>da <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">str</span>(<span class="dt">list.len =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">100</span>, <span class="dt">strict.width =</span> <span class="st">&quot;cut&quot;</span>)</span></code></pre></div>
+<pre><code>## tibble [475 x 478] (S3: tbl_df/tbl/data.frame)
+##  $ layer                                                              : num [1:475] 1 1 1 1 1 1 1 ..
+##  $ layerName                                                          : chr [1:475] &quot;Functional p&quot;..
+##  $ nodeName                                                           : chr [1:475] &quot;Cultural her&quot;..
+##  $ Cultural heritage and sense of place                               : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Economic opportunity                                               : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Globalised connectivity                                            : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Knowledge transfer and diffusion of innovation                     : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Physical settlement                                                : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Pooling of resources                                               : num [1:475] 0 0 0 0 0 0 0 ..
+##  $ Safety and security                                                : num [1:475] 0 0 0 0 0 0 0 ..
+##   [list output truncated]</code></pre>
+</div>
+<div id="data---node-information" class="section level2">
+<h2>4. Data - Node information</h2>
+<p>The second input required is the node information - this can also be found in the <em>inputs</em> folder. The functions follow the same structure as the <em>read_adjMat</em> functions: <code>read_nodeInfo_csv()</code> and <code>read_nodeInfo_xlsx()</code>.</p>
+<p><em>Note</em> Again, this vignette examines the node information data using <code>str()</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>dn &lt;-<span class="st"> </span><span class="kw">read_nodeInfo_xlsx</span>(<span class="st">&quot;inputs/USAH_nodeInfo_2020-05-20.xlsx&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>dn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">str</span>(<span class="dt">width =</span> <span class="dv">100</span>, <span class="dt">strict.width =</span> <span class="st">&quot;cut&quot;</span>)</span></code></pre></div>
+<pre><code>## tibble [475 x 35] (S3: tbl_df/tbl/data.frame)
+##  $ nodeName                                       : chr [1:475] &quot;Cultural heritage and sense of p&quot;..
+##  $ layer                                          : num [1:475] 1 1 1 1 1 1 1 1 1 2 ...
+##  $ layerName                                      : chr [1:475] &quot;Functional purposes&quot; &quot;Functional&quot;..
+##  $ definition                                     : chr [1:475] NA NA NA NA ...
+##  $ UKspecific                                     : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ filterCoverage                                 : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ subnetwork_infrastructure_communications       : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_electric             : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_food                                : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_gas                  : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_medical                             : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_lawOrder                            : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_nature                              : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_religion                            : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport            : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport_air        : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport_active     : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport_rail       : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport_roadPrivate: num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_transport_roadPublic : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_waste                : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_water                : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_water_black          : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_water_blue           : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_water_green          : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ subnetwork_infrastructure_water_grey           : num [1:475] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ hazard_biological                              : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_cyberAttack                             : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_drought                                 : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_earthquake                              : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_fire                                    : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_flood                                   : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_landslide                               : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_snow                                    : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..
+##  $ hazard_wind                                    : logi [1:475] FALSE FALSE FALSE FALSE FALSE FAL..</code></pre>
+</div>
+<div id="conversion-to-edge-list-and-igraph" class="section level2">
+<h2>5. Conversion to edge list and igraph</h2>
+<p>Weighting and analysis in AHgen requires an edge list or igraph. <span style="color: red;">Descriptions for edge list and igraph with forward links.</span></p>
+<div id="adjacency-matrix-to-edge-list" class="section level3">
+<h3>5.1 Adjacency matrix to edge list</h3>
+<p>To convert the adjacency matrix into an edge list use the function <code>adjMat_to_edgelist()</code>. There are two input arguments: the adjacency matrix and whether the output should be a list of the levels of the abstraction hierarchy (TRUE or FALSE).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>de &lt;-<span class="st"> </span>da <span class="op">%&gt;%</span><span class="st"> </span>adjMat_to_edgelist</span>
+<span id="cb11-2"><a href="#cb11-2"></a>de</span></code></pre></div>
+<pre><code>## # A tibble: 4,120 x 4
+##    layers    from                         to                              weight
+##    &lt;chr&gt;     &lt;chr&gt;                        &lt;chr&gt;                            &lt;dbl&gt;
+##  1 l1FP_l2V~ Cultural heritage and sense~ Collective identity and commun~      1
+##  2 l1FP_l2V~ Cultural heritage and sense~ Environmental sustainability         1
+##  3 l1FP_l2V~ Cultural heritage and sense~ Integrated development and pla~      1
+##  4 l1FP_l2V~ Cultural heritage and sense~ Socio-economic equality and eq~      1
+##  5 l1FP_l2V~ Economic opportunity         Diverse livelihoods and employ~      1
+##  6 l1FP_l2V~ Economic opportunity         Reliable communications and mo~      1
+##  7 l1FP_l2V~ Economic opportunity         Socio-economic equality and eq~      1
+##  8 l1FP_l2V~ Economic opportunity         Sustainable economy                  1
+##  9 l1FP_l2V~ Globalised connectivity      Diverse livelihoods and employ~      1
+## 10 l1FP_l2V~ Globalised connectivity      Effective leadership and manag~      1
+## # ... with 4,110 more rows</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>de_list &lt;-<span class="st"> </span>da <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">adjMat_to_edgelist</span>(<span class="dt">outputList =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>de_list</span></code></pre></div>
+<pre><code>## $l1FP_l2VPM
+## # A tibble: 62 x 4
+##    layers    from                         to                              weight
+##    &lt;chr&gt;     &lt;chr&gt;                        &lt;chr&gt;                            &lt;dbl&gt;
+##  1 l1FP_l2V~ Cultural heritage and sense~ Collective identity and commun~      1
+##  2 l1FP_l2V~ Cultural heritage and sense~ Environmental sustainability         1
+##  3 l1FP_l2V~ Cultural heritage and sense~ Integrated development and pla~      1
+##  4 l1FP_l2V~ Cultural heritage and sense~ Socio-economic equality and eq~      1
+##  5 l1FP_l2V~ Economic opportunity         Diverse livelihoods and employ~      1
+##  6 l1FP_l2V~ Economic opportunity         Reliable communications and mo~      1
+##  7 l1FP_l2V~ Economic opportunity         Socio-economic equality and eq~      1
+##  8 l1FP_l2V~ Economic opportunity         Sustainable economy                  1
+##  9 l1FP_l2V~ Globalised connectivity      Diverse livelihoods and employ~      1
+## 10 l1FP_l2V~ Globalised connectivity      Effective leadership and manag~      1
+## # ... with 52 more rows
+## 
+## $l2VPM_l3GF
+## # A tibble: 141 x 4
+##    layers    from                         to                              weight
+##    &lt;chr&gt;     &lt;chr&gt;                        &lt;chr&gt;                            &lt;dbl&gt;
+##  1 l2VPM_l3~ Collective identity and com~ Ceremonies and services for ma~      1
+##  2 l2VPM_l3~ Collective identity and com~ Communication systems                1
+##  3 l2VPM_l3~ Collective identity and com~ Community activities and engag~      1
+##  4 l2VPM_l3~ Collective identity and com~ Foster social cohesion               1
+##  5 l2VPM_l3~ Collective identity and com~ Historical and cultural value ~      1
+##  6 l2VPM_l3~ Collective identity and com~ Learning and education               1
+##  7 l2VPM_l3~ Collective identity and com~ Observance of religion               1
+##  8 l2VPM_l3~ Collective identity and com~ Recreational activities              1
+##  9 l2VPM_l3~ Collective identity and com~ Social interaction                   1
+## 10 l2VPM_l3~ Collective identity and com~ Societal hazard regulation           1
+## # ... with 131 more rows
+## 
+## $l3GF_l4ORP
+## # A tibble: 694 x 4
+##    layers     from           to                                 weight
+##    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;                               &lt;dbl&gt;
+##  1 l3GF_l4ORP Animal welfare Administrate retail activity            1
+##  2 l3GF_l4ORP Animal welfare Animal rescue                           1
+##  3 l3GF_l4ORP Animal welfare Criminal investigation                  1
+##  4 l3GF_l4ORP Animal welfare Enforce environmental standards         1
+##  5 l3GF_l4ORP Animal welfare Houses animals                          1
+##  6 l3GF_l4ORP Animal welfare Manage pests                            1
+##  7 l3GF_l4ORP Animal welfare Manufacture consumer discretionary      1
+##  8 l3GF_l4ORP Animal welfare Manufacture consumer staples            1
+##  9 l3GF_l4ORP Animal welfare Monitor environment                     1
+## 10 l3GF_l4ORP Animal welfare Provide animal healthcare               1
+## # ... with 684 more rows
+## 
+## $l4ORP_l5PO
+## # A tibble: 3,223 x 4
+##    layers     from                              to                        weight
+##    &lt;chr&gt;      &lt;chr&gt;                             &lt;chr&gt;                      &lt;dbl&gt;
+##  1 l4ORP_l5PO Accommodates prisoners            Prison and jails               1
+##  2 l4ORP_l5PO Act as access point for electric~ Accountancy firms              1
+##  3 l4ORP_l5PO Act as access point for electric~ Advertising                    1
+##  4 l4ORP_l5PO Act as access point for electric~ Agriculture and aquacult~      1
+##  5 l4ORP_l5PO Act as access point for electric~ Air bases                      1
+##  6 l4ORP_l5PO Act as access point for electric~ Airports (major)               1
+##  7 l4ORP_l5PO Act as access point for electric~ Airports (minor)               1
+##  8 l4ORP_l5PO Act as access point for electric~ Ambulance stations             1
+##  9 l4ORP_l5PO Act as access point for electric~ Animal care                    1
+## 10 l4ORP_l5PO Act as access point for electric~ Animal shelters                1
+## # ... with 3,213 more rows</code></pre>
+<p>
+<p>The edge list is in a tibble format, it can be navigated and edited like any data.frame or tibble in R.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>de<span class="op">$</span>layers <span class="op">%&gt;%</span><span class="st"> </span>unique <span class="co"># Unique layer names</span></span></code></pre></div>
+<pre><code>## [1] &quot;l1FP_l2VPM&quot; &quot;l2VPM_l3GF&quot; &quot;l3GF_l4ORP&quot; &quot;l4ORP_l5PO&quot;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(layers <span class="op">==</span><span class="st"> &quot;l1FP_l2VPM&quot;</span>) <span class="co"># Filter layers</span></span></code></pre></div>
+<pre><code>## # A tibble: 62 x 4
+##    layers    from                         to                              weight
+##    &lt;chr&gt;     &lt;chr&gt;                        &lt;chr&gt;                            &lt;dbl&gt;
+##  1 l1FP_l2V~ Cultural heritage and sense~ Collective identity and commun~      1
+##  2 l1FP_l2V~ Cultural heritage and sense~ Environmental sustainability         1
+##  3 l1FP_l2V~ Cultural heritage and sense~ Integrated development and pla~      1
+##  4 l1FP_l2V~ Cultural heritage and sense~ Socio-economic equality and eq~      1
+##  5 l1FP_l2V~ Economic opportunity         Diverse livelihoods and employ~      1
+##  6 l1FP_l2V~ Economic opportunity         Reliable communications and mo~      1
+##  7 l1FP_l2V~ Economic opportunity         Socio-economic equality and eq~      1
+##  8 l1FP_l2V~ Economic opportunity         Sustainable economy                  1
+##  9 l1FP_l2V~ Globalised connectivity      Diverse livelihoods and employ~      1
+## 10 l1FP_l2V~ Globalised connectivity      Effective leadership and manag~      1
+## # ... with 52 more rows</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter_all</span>(<span class="kw">any_vars</span>(<span class="kw">str_detect</span>(<span class="kw">str_to_lower</span>(.), <span class="st">&quot;collective&quot;</span>)))</span></code></pre></div>
+<pre><code>## # A tibble: 18 x 4
+##    layers    from                           to                            weight
+##    &lt;chr&gt;     &lt;chr&gt;                          &lt;chr&gt;                          &lt;dbl&gt;
+##  1 l1FP_l2V~ Cultural heritage and sense o~ Collective identity and comm~      1
+##  2 l1FP_l2V~ Knowledge transfer and diffus~ Collective identity and comm~      1
+##  3 l1FP_l2V~ Physical settlement            Collective identity and comm~      1
+##  4 l1FP_l2V~ Pooling of resources           Collective identity and comm~      1
+##  5 l1FP_l2V~ Safety and security            Collective identity and comm~      1
+##  6 l1FP_l2V~ Social opportunity and care    Collective identity and comm~      1
+##  7 l1FP_l2V~ Wellbeing                      Collective identity and comm~      1
+##  8 l2VPM_l3~ Collective identity and commu~ Ceremonies and services for ~      1
+##  9 l2VPM_l3~ Collective identity and commu~ Communication systems              1
+## 10 l2VPM_l3~ Collective identity and commu~ Community activities and eng~      1
+## 11 l2VPM_l3~ Collective identity and commu~ Foster social cohesion             1
+## 12 l2VPM_l3~ Collective identity and commu~ Historical and cultural valu~      1
+## 13 l2VPM_l3~ Collective identity and commu~ Learning and education             1
+## 14 l2VPM_l3~ Collective identity and commu~ Observance of religion             1
+## 15 l2VPM_l3~ Collective identity and commu~ Recreational activities            1
+## 16 l2VPM_l3~ Collective identity and commu~ Social interaction                 1
+## 17 l2VPM_l3~ Collective identity and commu~ Societal hazard regulation         1
+## 18 l2VPM_l3~ Collective identity and commu~ Travel (people, not goods)         1</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter_all</span>(<span class="kw">any_vars</span>(<span class="kw">str_detect</span>(<span class="kw">str_to_lower</span>(.), <span class="st">&quot;subway&quot;</span>)))</span></code></pre></div>
+<pre><code>## # A tibble: 23 x 4
+##    layers     from                                        to              weight
+##    &lt;chr&gt;      &lt;chr&gt;                                       &lt;chr&gt;            &lt;dbl&gt;
+##  1 l4ORP_l5PO Act as access point for electricity         Subway stations      1
+##  2 l4ORP_l5PO Act as access point for food                Subway stations      1
+##  3 l4ORP_l5PO Act as access point for gas                 Subway stations      1
+##  4 l4ORP_l5PO Act as access point for potable water       Subway stations      1
+##  5 l4ORP_l5PO Act as access point for public transport    Subway stations      1
+##  6 l4ORP_l5PO Act as access point for sanitation          Subway stations      1
+##  7 l4ORP_l5PO Act as access point for telecommunication   Subway stations      1
+##  8 l4ORP_l5PO Act as access point for traffic information Subway stations      1
+##  9 l4ORP_l5PO Act as access point to cash                 Subway stations      1
+## 10 l4ORP_l5PO Act as mode of transport                    Subway trains        1
+## # ... with 13 more rows</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(weight <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># None, all are equal weight in generic template</span></span></code></pre></div>
+<pre><code>## # A tibble: 0 x 4
+## # ... with 4 variables: layers &lt;chr&gt;, from &lt;chr&gt;, to &lt;chr&gt;, weight &lt;dbl&gt;</code></pre>
+<p>
+<p><span style="color: green;">Would the filter piece of code be useful as a function for AHgen?</span></p>
+<p>Use the tidyverse function <code>bind_rows()</code> to collapse the list of edge lists.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>de_list <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 4,120 x 4
+##    layers    from                         to                              weight
+##    &lt;chr&gt;     &lt;chr&gt;                        &lt;chr&gt;                            &lt;dbl&gt;
+##  1 l1FP_l2V~ Cultural heritage and sense~ Collective identity and commun~      1
+##  2 l1FP_l2V~ Cultural heritage and sense~ Environmental sustainability         1
+##  3 l1FP_l2V~ Cultural heritage and sense~ Integrated development and pla~      1
+##  4 l1FP_l2V~ Cultural heritage and sense~ Socio-economic equality and eq~      1
+##  5 l1FP_l2V~ Economic opportunity         Diverse livelihoods and employ~      1
+##  6 l1FP_l2V~ Economic opportunity         Reliable communications and mo~      1
+##  7 l1FP_l2V~ Economic opportunity         Socio-economic equality and eq~      1
+##  8 l1FP_l2V~ Economic opportunity         Sustainable economy                  1
+##  9 l1FP_l2V~ Globalised connectivity      Diverse livelihoods and employ~      1
+## 10 l1FP_l2V~ Globalised connectivity      Effective leadership and manag~      1
+## # ... with 4,110 more rows</code></pre>
+</div>
+<div id="adjacency-matrix-to-igraph" class="section level3">
+<h3>5.2 Adjacency matrix to igraph</h3>
+<p>The adjacency matrix can be converted directly to an igraph using the function <code>adjMat_to_igraph()</code>. The function has one input argument, the adjacency matrix.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>di &lt;-<span class="st"> </span>da <span class="op">%&gt;%</span><span class="st"> </span>adjMat_to_igraph</span>
+<span id="cb27-2"><a href="#cb27-2"></a>di</span></code></pre></div>
+<pre><code>## IGRAPH 52e71f9 UNW- 475 4120 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52e71f9 (vertex names):
+## [1] Cultural heritage and sense of place--Collective identity and community support
+## [2] Cultural heritage and sense of place--Environmental sustainability             
+## [3] Cultural heritage and sense of place--Integrated development and planning      
+## [4] Cultural heritage and sense of place--Socio-economic equality and equity       
+## [5] Economic opportunity                --Diverse livelihoods and employment       
+## [6] Economic opportunity                --Reliable communications and mobility     
+## [7] Economic opportunity                --Socio-economic equality and equity       
+## + ... omitted several edges</code></pre>
+<p>The top two lines in above output tell us about the igraph. On the first line, it states that this is an igraph and provides a code name for the graph. The four bits which follow are the code that denotes the type of igraph; the abstraction hierarchy is a <em>U</em>ndirected, the <em>N</em>odes have names and the <em>W</em>eight attribute has been set. The fourth is whether the graph is bipartite (it is not).</p>
+<p>The second line provides the attributes of the nodes (denoted by v) and edges (denoted by e). The abstraction hierarchy has named nodes <em>name (v/c)</em> and weighted edges <em>weight (e/n)</em>. The letter after the forward slash tells you the class of this attribute, character and numeric in this case.</p>
+<p>The rest of the output is the names of the edges. See the igraph package for details on how to explore the igraph further. Some simple examples are provided below.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">V</span>(di)</span></code></pre></div>
+<pre><code>## + 475/475 vertices, named, from 52e71f9:
+##   [1] Cultural heritage and sense of place                               
+##   [2] Economic opportunity                                               
+##   [3] Globalised connectivity                                            
+##   [4] Knowledge transfer and diffusion of innovation                     
+##   [5] Physical settlement                                                
+##   [6] Pooling of resources                                               
+##   [7] Safety and security                                                
+##   [8] Social opportunity and care                                        
+##   [9] Wellbeing                                                          
+##  [10] Collective identity and community support                          
+## + ... omitted several vertices</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">E</span>(di)</span></code></pre></div>
+<pre><code>## + 4120/4120 edges from 52e71f9 (vertex names):
+## [1] Cultural heritage and sense of place--Collective identity and community support
+## [2] Cultural heritage and sense of place--Environmental sustainability             
+## [3] Cultural heritage and sense of place--Integrated development and planning      
+## [4] Cultural heritage and sense of place--Socio-economic equality and equity       
+## [5] Economic opportunity                --Diverse livelihoods and employment       
+## [6] Economic opportunity                --Reliable communications and mobility     
+## [7] Economic opportunity                --Socio-economic equality and equity       
+## [8] Economic opportunity                --Sustainable economy                      
+## [9] Globalised connectivity             --Diverse livelihoods and employment       
+## + ... omitted several edges</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">E</span>(di)<span class="op">$</span>weight <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">25</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">E</span>(di)<span class="op">$</span>layers <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">25</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot;
+##  [6] &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot;
+## [11] &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot;
+## [16] &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot;
+## [21] &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot; &quot;l1FP_l2VPM&quot;</code></pre>
+</div>
+<div id="edge-list-to-igraph" class="section level3">
+<h3>5.3 Edge list to igraph</h3>
+<p>The edge list can be converted to an igraph using the function <code>edgelist_to_igraph()</code>. The function has two input arguments, an edge list and whether the output should be in list form.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">edgelist_to_igraph</span>(<span class="dt">outputList =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## IGRAPH 52eee28 UNW- 475 4120 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52eee28 (vertex names):
+## [1] Cultural heritage and sense of place--Collective identity and community support
+## [2] Cultural heritage and sense of place--Environmental sustainability             
+## [3] Cultural heritage and sense of place--Integrated development and planning      
+## [4] Cultural heritage and sense of place--Socio-economic equality and equity       
+## [5] Economic opportunity                --Diverse livelihoods and employment       
+## [6] Economic opportunity                --Reliable communications and mobility     
+## [7] Economic opportunity                --Socio-economic equality and equity       
+## + ... omitted several edges</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>de <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">edgelist_to_igraph</span>(<span class="dt">outputList =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## $l1FP_l2VPM
+## IGRAPH 52f0b60 UNW- 23 62 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52f0b60 (vertex names):
+## [1] Cultural heritage and sense of place--Collective identity and community support
+## [2] Cultural heritage and sense of place--Environmental sustainability             
+## [3] Cultural heritage and sense of place--Integrated development and planning      
+## [4] Cultural heritage and sense of place--Socio-economic equality and equity       
+## [5] Economic opportunity                --Diverse livelihoods and employment       
+## [6] Economic opportunity                --Reliable communications and mobility     
+## [7] Economic opportunity                --Socio-economic equality and equity       
+## + ... omitted several edges
+## 
+## $l2VPM_l3GF
+## IGRAPH 52f12ae UNW- 50 141 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52f12ae (vertex names):
+## [1] Collective identity and community support--Ceremonies and services for major life events
+## [2] Collective identity and community support--Communication systems                        
+## [3] Collective identity and community support--Community activities and engagement          
+## [4] Collective identity and community support--Foster social cohesion                       
+## [5] Collective identity and community support--Historical and cultural value contribution   
+## [6] Collective identity and community support--Learning and education                       
+## + ... omitted several edges
+## 
+## $l3GF_l4ORP
+## IGRAPH 52f19fb UNW- 203 694 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52f19fb (vertex names):
+##  [1] Animal welfare--Administrate retail activity      
+##  [2] Animal welfare--Animal rescue                     
+##  [3] Animal welfare--Criminal investigation            
+##  [4] Animal welfare--Enforce environmental standards   
+##  [5] Animal welfare--Houses animals                    
+##  [6] Animal welfare--Manage pests                      
+##  [7] Animal welfare--Manufacture consumer discretionary
+##  [8] Animal welfare--Manufacture consumer staples      
+## + ... omitted several edges
+## 
+## $l4ORP_l5PO
+## IGRAPH 52f2629 UNW- 416 3223 -- 
+## + attr: name (v/c), weight (e/n), layers (e/c)
+## + edges from 52f2629 (vertex names):
+## [1] Accommodates prisoners             --Prison and jails           
+## [2] Act as access point for electricity--Accountancy firms          
+## [3] Act as access point for electricity--Advertising                
+## [4] Act as access point for electricity--Agriculture and aquaculture
+## [5] Act as access point for electricity--Air bases                  
+## [6] Act as access point for electricity--Airports (major)           
+## [7] Act as access point for electricity--Airports (minor)           
+## [8] Act as access point for electricity--Ambulance stations         
+## + ... omitted several edges</code></pre>
+</div>
+<div id="igraph-to-edge-list" class="section level3">
+<h3>5.4 igraph to edge list</h3>
+<p><span style="color: green;">Should AHgen provide a function for this? It’s very simple, but for the sake of completeness maybe?</span></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>di <span class="op">%&gt;%</span><span class="st"> </span>get.data.frame <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(layers, <span class="kw">everything</span>())</span></code></pre></div>
+<p>The walkthrough continues with <strong>Part 2 - Link weighting</strong>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
