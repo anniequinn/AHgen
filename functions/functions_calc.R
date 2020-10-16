@@ -1,22 +1,6 @@
-function_mergeNodeInfo <- function(dt, nodeInfo) {
+calcWVBC <- function(igraph, vInfo) {
   
-  nodeInfo %>% 
-    select(layer, layerName, nodeName) %>%
-    right_join(dt, by = "nodeName")
-  
-}
-
-function_igraphResultFormatting <- function(igraphresult, name) { 
-  
-  igraphresult %>% 
-    as.data.frame %>% 
-    rownames_to_column %>% 
-    setNames(c("nodeName", name)) %>%
-    as_tibble()
-  
-}
-  
-calcWVBC <- function(igraph, nodeInfo) {
+  source("functions/functions_internal_calc.R", local = TRUE)
   
   require(tnet)
   
@@ -30,26 +14,30 @@ calcWVBC <- function(igraph, nodeInfo) {
     symmetrise_w() %>%
     betweenness_w(directed = TRUE, alpha = 0.5) %>%
     as_tibble %>%
-    mutate(nodeName = rownames(tnet)) %>%
-    select(nodeName, WVBC = betweenness)
+    mutate(vName = rownames(tnet)) %>%
+    select(vName, WVBC = betweenness)
   
-  output <- function_mergeNodeInfo(dt = tnet2, nodeInfo = nodeInfo)
+  output <- function_merge_vInfo(dt = tnet2, vInfo = vInfo)
 
   return(output)
   
 }
 
-calcUWVBC <- function(igraph, nodeInfo) { 
+calcUWVBC <- function(igraph, vInfo) { 
+  
+  source("functions/functions_internal_calc.R", local = TRUE)
   
   require(igraph)
   
   igraph::betweenness(igraph) %>%
     function_igraphResultFormatting(name = "UWVBC") %>%
-    function_mergeNodeInfo(nodeInfo)
+    function_merge_vInfo(vInfo)
   
 }
   
-calcMetrics <- function(igraph, nodeInfo, metrics) {
+calcMetrics <- function(igraph, vInfo, metrics) {
+  
+  source("functions/functions_internal_calc.R", local = TRUE)
   
   output <- 
     
@@ -57,14 +45,14 @@ calcMetrics <- function(igraph, nodeInfo, metrics) {
     
     calc <- get(paste0("calc", x))
     
-    calc(igraph = igraph, nodeInfo = nodeInfo)
+    calc(igraph = igraph, vInfo = vInfo)
     
   })
   
   output <- 
     output %>% 
-    reduce(full_join, by = c("layer", "layerName", "nodeName")) %>%
-    arrange(layer, layerName, nodeName)
+    reduce(full_join, by = c("level", "levelName", "vInfo")) %>%
+    arrange(level, levelName, vInfo)
   
   return(output)
   
@@ -72,18 +60,21 @@ calcMetrics <- function(igraph, nodeInfo, metrics) {
 
 calcChange <- function(before, after, metric) { 
   
+  source("functions/functions_internal_calc.R", local = TRUE)
+  
   before <- 
     before %>% 
-    select(layer, layerName, nodeName, matches(metric)) %>% 
-    setNames(c("layer", "layerName", "nodeName", "before"))
+    select(level, levelName, vName, matches(metric)) %>% 
+    setNames(c("level", "levelName", "vName", "before"))
+  
   after <- 
     after %>% 
-    select(layer, layerName, nodeName, matches(metric)) %>% 
-    setNames(c("layer", "layerName", "nodeName", "after"))
+    select(level, levelName, vName, matches(metric)) %>% 
+    setNames(c("level", "levelName", "vName", "after"))
   
   output <- 
     list(before, after) %>% 
-    reduce(full_join, by = c("layer", "layerName", "nodeName")) %>%
+    reduce(full_join, by = c("level", "levelName", "vName")) %>%
     mutate(absChange_afterMinusBefore = after-before,
            pctChange = absChange_afterMinusBefore/before * 100)
   

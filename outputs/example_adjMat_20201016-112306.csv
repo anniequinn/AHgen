@@ -1,0 +1,11 @@
+level,levelName,vName,Provide efficient and accessible mobility,Increased road user safety,Road user satisfaction,Safe efficient traffic flow,Compliant user behaviour,Effective occupant protection,Road Transportation System capabilities and limitations,Driver capabilities and limitations,Vehicle capacity,Vehicle components
+1,Functional purposes,Provide efficient and accessible mobility,0,1,1,0,0,0,0,0,0,0
+2,Values and priority measures,Increased road user safety,1,0,0,1,1,1,0,0,0,0
+2,Values and priority measures,Road user satisfaction,1,0,0,1,1,1,0,0,0,0
+3,Generalised functions,Safe efficient traffic flow,0,1,1,0,0,0,1,1,1,0
+3,Generalised functions,Compliant user behaviour,0,1,1,0,0,0,1,1,1,0
+3,Generalised functions,Effective occupant protection,0,1,1,0,0,0,1,1,1,0
+4,Object-related processes,Road Transportation System capabilities and limitations,0,0,0,1,1,1,0,0,0,1
+4,Object-related processes,Driver capabilities and limitations,0,0,0,1,1,1,0,0,0,1
+4,Object-related processes,Vehicle capacity,0,0,0,1,1,1,0,0,0,1
+5,Physical objects,Vehicle components,0,0,0,0,0,0,1,1,1,0

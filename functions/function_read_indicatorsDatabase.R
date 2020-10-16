@@ -20,8 +20,8 @@ read_indicatorsDatabase <- function(filename,
     mutate(value = coalesce(!!! select(., matches(preferenceLevels)))) %>%
     select(-all_of(preferenceLevels)) %>%
     rename(weightNew = value) %>%
-    mutate(layers = "l2VPM_l3GF") %>% #### Confirm????
-    select(layers, everything())
+    mutate(layer = "l2VPM_l3GF") %>% 
+    select(layer, everything())
   
   return(output)
   
