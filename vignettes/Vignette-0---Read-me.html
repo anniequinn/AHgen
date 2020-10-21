@@ -1674,14 +1674,76 @@ div.tocify {
 </div>
 
 
-<p><span style="color:red;"><span class="citation">@annie</span> This document will be the readme. Add preamble text.</span></p>
-<div id="abstraction-hierarchy" class="section level2">
-<h2>Abstraction hierarchy</h2>
-<p><span style="color:red"><span class="citation">@melissa</span> Couple of lines for introduction. Describe various things (text might not go exactly here): AH; AHgen. <strong>AHgen</strong> is provided as software code (i.e. it has not been packaged); vertex; layer; level; weighting; flow chart(s); effectively point user in right direction with some general background. </span></p>
+<p>AHgen is <strong>under development</strong>, V0.0.1 is available as a pre-release here: <a href="https://github.com/avisserquinn/AHgen/releases/tag/V0.0.1" class="uri">https://github.com/avisserquinn/AHgen/releases/tag/V0.0.1</a></p>
+<div id="what-is-an-abstraction-hierarchy" class="section level2">
+<h2>What is an abstraction hierarchy?</h2>
+<p>The Abstraction Hierarchy enables analysis of systems at any scale – from microwaves to transport systems to entire cities. By understanding how physical objects connect to different – yet interdependent – functions, we can improve the design of the system.</p>
+<p><span style="color:red;">Let’s consider some key terms before we continue.</span></p>
+<ul>
+<li>A <strong>network</strong> is a collection of parts (<strong>vertices</strong>) and connections between parts (<strong>edges</strong>)</li>
+<li>The <strong>Abstraction Hierarchy</strong> is a type of <strong>hierarchical network</strong> that <strong>connects</strong> the <strong>tangible</strong> to the <strong>intangible</strong></li>
+</ul>
+<p>In the Abstraction Hierarchy:</p>
+<ul>
+<li>Vertices are structured across five <strong>levels</strong> of increasing abstraction, from physical objects to the functional purpose(s) of the system</li>
+<li>Edges, the links between two levels (a <strong>layer</strong>), representing the functional connections between the physical and abstract</li>
+</ul>
+<p><span style="color:red;">Abstraction hierarchy image(s)?</span></p>
+<p><br></p>
+</div>
+<div id="what-is-ahgen" class="section level2">
+<h2>What is AHgen?</h2>
+<p>Applications of the Abstraction Hierarchy typically aim to visualise the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. AHgen brings the Abstraction Hierarchy into the 21st century by providing an open source software code in R.</p>
+<p><span style="color:red;">Other advantages to AHgen include:</span></p>
+<ul>
+<li>User-friendly and accessible, it does not require previous R or coding experience</li>
+<li>Designed using a Building Block Method, AHgen may be readily extended by the more advanced R user</li>
+</ul>
+<p><br></p>
+</div>
+<div id="ahgen-workflow-and-functions" class="section level2">
+<h2>AHgen workflow and functions</h2>
+<p>AHgen is extremely flexible, with lots of possible workflows. There are five families of functions:</p>
+<ul>
+<li><strong>Input</strong> Reading in the Abstraction Hierarchy and accompanying data</li>
+<li><strong>Convert</strong> Converting the Abstraction Hierarchy into a various formats compatible with network analysis</li>
+<li><strong>Weight</strong> Weighting the edges</li>
+<li><strong>Analyse</strong> Applying network analysis</li>
+<li><strong>Visualise</strong> An innovative way of visualising the Abstraction Hierarchy as a circle</li>
+</ul>
+<p><span style="color:red;">Melissa figure here</span></p>
+<p>There are four vignettes designed to get you on your way: <span style="color:red;">Add links</span></p>
+<ul>
+<li>Vignette 1</li>
+<li>Vignette 2</li>
+<li>Vignette 3</li>
+<li>Vignette 4</li>
+</ul>
+<p><br></p>
+</div>
+<div id="applications" class="section level2">
+<h2>Applications</h2>
+<p>Three walkthrough vignettes are provided to illustrate the application of AHgen across various domains and scales:</p>
+<p><span style="color:red;">Make these into links but also maybe have a line on what type of domain/scale they cover</span></p>
+<ul>
+<li>Vignette 5</li>
+<li>Vignette 6</li>
+<li>Vignette 7</li>
+</ul>
+<p><span style="color:red;">Not sure what to do with this text right now.</span></p>
+<p>AHgen can be applied to Abstraction Hierarchies in any domain at any scale for various objectives. The Urban Systems Abstraction Hierarchy (USAH) is an example of an Abstraction Hierarchy on a massive scale. Exploring USAH with AHgen it’s possible to:</p>
+<ul>
+<li>Look at the interdependencies between urban functions</li>
+<li>Explore how these functions are impacted by different conditions</li>
+<li>Explore the impact of hazards by degrading connections in the system (edge weighting)</li>
+<li>Explore the impact of reconnecting vertices and edges (effectively redesigning the system)</li>
+</ul>
+<p><br></p>
 </div>
 <div id="getting-started" class="section level2 tabset">
 <h2>Getting started</h2>
-<p>To get started, you’ll need to:</p>
+<p><span style="color:red;">This might be better off in its own section.</span></p>
+<p>To get started with AHgen, you’ll need to:</p>
 <ul>
 <li>Step 1 - <strong>Install</strong> R and (optional) RStudio</li>
 <li>Step 2 - Install the required R <strong>packages</strong></li>
@@ -1751,16 +1813,19 @@ div.tocify {
 </div>
 <div id="section" class="section level3 unnumbered">
 <h3></h3>
+<p><br></p>
 </div>
 </div>
-<div id="vignettes" class="section level2">
-<h2>Vignettes</h2>
-<p>Vignettes are the documentation that show you how to use AHgen. They are provided in the <strong>vignettes</strong> folder of AHgen in a <strong>.html</strong> file which can be read in your browser.</p>
-<p>Two types of vignette are provided:</p>
-<ul>
-<li><strong>Vignettes <span style="color:red;">X-Y</span></strong> - Designing to get you on your way, introducing the AHgen functions through practical examples</li>
-<li><strong>Vignettes <span style="color:red;">A-B</span></strong> - AHgen workflows for three example cases</li>
-</ul>
+<div id="acknowledgements" class="section level2">
+<h2>Acknowledgements</h2>
+<p>The AHgen was developed to compare Urban Systems Abstraction Hierarchy models (USAH) for UK cities. Development is funded by the UKRI EPSRC as part of the <em>Water Resilient Cities project</em>, grant number EP/N030419/1, as well as an associated EPSRC Impact Acceleration Fund, <em>Urban system response and recovery: Development of an online tool to explore the impact of COVID-19</em>.</p>
+</div>
+<div id="contributions-citation" class="section level2">
+<h2>Contributions &amp; citation</h2>
+<p><strong>Contributions</strong></p>
+<p><span style="color: red;"><em>Conceptualisation &amp; development</em>: Melissa Bedinger <em>Lead developer:</em> Annie Visser-Quinn <em>What other ones do we want to put here?</em> </span></p>
+<p><strong>Contact</strong> If you have any questions about using or running the code, please contact <a href="mailto:m.bedinger@hw.ac.uk" class="email">m.bedinger@hw.ac.uk</a>.</p>
+<p><strong>Please cite</strong> Annie Visser-Quinn and Melissa Bedinger. (2020) AHgen V0.0.1, Edinburgh, Scotland. <a href="doi:10.5281/zenodo.3975549" class="uri">doi:10.5281/zenodo.3975549</a> <a href="https://doi.org/10.5281/zenodo.3975549"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgICAgd2lkdGg9IjE4NiIgaGVpZ2h0PSIyMCI+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4Mj0iMCIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNiYmIiIHN0b3Atb3BhY2l0eT0iLjEiLz4KICAgICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bWFzayBpZD0iYSIgd2lkdGg9IjE4NiIgaGVpZ2h0PSIyMCI+CiAgICAgICAgICAgIDxyZWN0IHdpZHRoPSIxODYiIGhlaWdodD0iMjAiIHJ4PSIzIgogICAgICAgICAgICBmaWxsPSIjZmZmIi8+CiAgICAgICAgPC9tYXNrPgogICAgICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgICAgICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDMxdjIwSDB6IiAvPgogICAgICAgICAgICA8cGF0aCBmaWxsPSIjMDA3ZWM2IgogICAgICAgICAgICBkPSJNMzEgMGgxNTV2MjBIMzF6IgogICAgICAgICAgICAvPgogICAgICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDE4NnYyMEgweiIgLz4KICAgICAgICA8L2c+CiAgICAgICAgPGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLAogICAgICAgIFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiCiAgICAgICAgICAgIGZpbGwtb3BhY2l0eT0iLjMiPgogICAgICAgICAgICAgICAgRE9JCiAgICAgICAgICAgIDwvdGV4dD4KICAgICAgICAgICAgPHRleHQgeD0iMTYiIHk9IjE0Ij4KICAgICAgICAgICAgICAgIERPSQogICAgICAgICAgICA8L3RleHQ+CiAgICAgICAgICAgIDx0ZXh0IHg9IjEwOCIKICAgICAgICAgICAgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPgogICAgICAgICAgICAgICAgMTAuNTI4MS96ZW5vZG8uMzk3NTU0OQogICAgICAgICAgICA8L3RleHQ+CiAgICAgICAgICAgIDx0ZXh0IHg9IjEwOCIgeT0iMTQiPgogICAgICAgICAgICAgICAgMTAuNTI4MS96ZW5vZG8uMzk3NTU0OQogICAgICAgICAgICA8L3RleHQ+CiAgICAgICAgPC9nPgogICAgPC9zdmc+" alt="DOI" /></a> <span style="color: red;">To be updated once we can do a new Zenodo</span></p>
 </div>
 
 

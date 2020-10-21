@@ -28,15 +28,80 @@ library(tidyverse)
 library(igraph)
 ```
 
-<span style = "color:red;">@annie This document will be the readme. Add preamble text.</span>
+AHgen is **under development**, V0.0.1 is available as a pre-release here: https://github.com/avisserquinn/AHgen/releases/tag/V0.0.1
 
-## Abstraction hierarchy 
+## What is an abstraction hierarchy?
+The Abstraction Hierarchy enables analysis of systems at any scale – from microwaves to transport systems to entire cities. By understanding how physical objects connect to different – yet interdependent – functions, we can improve the design of the system.
 
-<span style="color:red">@melissa Couple of lines for introduction. Describe various things (text might not go exactly here): AH; AHgen. **AHgen** is provided as software code (i.e. it has not been packaged); vertex; layer; level; weighting; flow chart(s); effectively point user in right direction with some general background. </span>
+<span style = "color:red;">Let’s consider some key terms before we continue.</span>
 
+- A **network** is a collection of parts (**vertices**) and connections between parts (**edges**)
+- The **Abstraction Hierarchy** is a type of **hierarchical network** that **connects** the **tangible** to the **intangible** 
+
+In the Abstraction Hierarchy:
+
+- Vertices are structured across five **levels** of increasing abstraction, from physical objects to the functional purpose(s) of the system
+- Edges, the links between two levels (a **layer**), representing the functional connections between the physical and abstract
+
+<span style = "color:red;">Abstraction hierarchy image(s)?</span>
+
+<br>
+
+## What is AHgen?
+Applications of the Abstraction Hierarchy typically aim to visualise the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. AHgen brings the Abstraction Hierarchy into the 21st century by providing an open source software code in R. 
+
+<span style = "color:red;">Other advantages to AHgen include:</span>
+
+- User-friendly and accessible, it does not require previous R or coding experience
+- Designed using a Building Block Method, AHgen may be readily extended by the more advanced R user 
+
+<br>
+
+## AHgen workflow and functions
+
+AHgen is extremely flexible, with lots of possible workflows. There are five families of functions: 
+
+- **Input** Reading in the Abstraction Hierarchy and accompanying data
+- **Convert** Converting the Abstraction Hierarchy into a various formats compatible with network analysis
+- **Weight** Weighting the edges
+- **Analyse** Applying network analysis
+- **Visualise** An innovative way of visualising the Abstraction Hierarchy as a circle
+
+<span style = "color:red;">Melissa figure here</span>
+
+There are four vignettes designed to get you on your way: <span style = "color:red;">Add links</span>
+
+- Vignette 1 
+- Vignette 2
+- Vignette 3
+- Vignette 4
+
+<br>
+
+## Applications
+Three walkthrough vignettes are provided to illustrate the application of AHgen across various domains and scales:
+
+<span style = "color:red;">Make these into links but also maybe have a line on what type of domain/scale they cover</span>
+
+- Vignette 5
+- Vignette 6
+- Vignette 7
+
+<span style = "color:red;">Not sure what to do with this text right now.</span>
+
+AHgen can be applied to Abstraction Hierarchies in any domain at any scale for various objectives. The Urban Systems Abstraction Hierarchy (USAH) is an example of an Abstraction Hierarchy on a massive scale. Exploring USAH with AHgen it’s possible to:
+
+- Look at the interdependencies between urban functions
+- Explore how these functions are impacted by different conditions
+- Explore the impact of hazards by degrading connections in the system (edge weighting)
+- Explore the impact of reconnecting vertices and edges (effectively redesigning the system)
+
+<br>
 
 ## Getting started {.tabset}
-To get started, you'll need to: 
+<span style = "color:red;">This might be better off in its own section.</span>
+
+To get started with AHgen, you'll need to: 
 
 - Step 1 - **Install** R and (optional) RStudio
 - Step 2 - Install the required R **packages**
@@ -113,11 +178,17 @@ ls()
 
 ### {-}
 
+<br>
 
-## Vignettes
-Vignettes are the documentation that show you how to use AHgen. They are provided in the **vignettes** folder of AHgen in a **.html** file which can be read in your browser. 
+## Acknowledgements
+The AHgen was developed to compare Urban Systems Abstraction Hierarchy models (USAH) for UK cities. Development is funded by the UKRI EPSRC as part of the *Water Resilient Cities project*, grant number EP/N030419/1, as well as an associated EPSRC Impact Acceleration Fund, *Urban system response and recovery: Development of an online tool to explore the impact of COVID-19*.
 
-Two types of vignette are provided:
 
-- **Vignettes <span style = "color:red;">X-Y</span>** - Designing to get you on your way, introducing the AHgen functions through practical examples
-- **Vignettes <span style = "color:red;">A-B</span>** - AHgen workflows for three example cases
+## Contributions & citation
+**Contributions**
+
+<span style="color: red;">*Conceptualisation & development*: Melissa Bedinger *Lead developer:* Annie Visser-Quinn *What other ones do we want to put here?* </span>
+
+**Contact** If you have any questions about using or running the code, please contact m.bedinger@hw.ac.uk. 
+
+**Please cite** Annie Visser-Quinn and Melissa Bedinger. (2020) AHgen V0.0.1, Edinburgh, Scotland. doi:10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549) <span style="color: red;">To be updated once we can do a new Zenodo</span>
