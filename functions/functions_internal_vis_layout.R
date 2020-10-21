@@ -1,20 +1,25 @@
 internal_horizontalLayout <- function(edgelist, vInfo) {
   
   # Add a central dummy vertex
-  tmp <- vInfo %>% filter(level == 1)
+  vInfo2 <- vInfo %>% filter(level == 1)
   
-  if(nrow(tmp) > 1) {
-    
-    edgelist <- 
-      tibble(from = "dummyVertex", to = tmp$vName, layer = "dummyLayer", weight = 1) %>% 
-      rbind(edgelist)
-    
-  }
+  edgelist2 <- 
+    tibble(from = "dummyVertex", to = vInfo2$vName, layer = "dummyLayer", weight = NA) %>% 
+    rbind(edgelist)
   
-  igraph <- edgelist %>% edgelist_to_igraph(vInfo)
+  vInfo2 <- 
+    vInfo2 %>% 
+    slice(1) %>%
+    mutate(vName = "dummyVertex", level = 1, levelName = "dummyLevel") %>% 
+    rbind(vInfo %>% mutate(level = level + 1))
   
-  # Vertex levels
-  if(nrow(tmp) > 1) { levels <- c(1, V(igraph)$level+1) } else { levels <- V(igraph)$level }
+  igraph <- 
+    edgelist2 %>% 
+    select(from, to, weight) %>% 
+    graph.data.frame(directed = FALSE)
+  
+  levels <- vInfo2$level
+  
   
   # Determine horizontal version of layout based on sugiyama
   layoutSug <- 
@@ -23,26 +28,14 @@ internal_horizontalLayout <- function(edgelist, vInfo) {
   colnames(layoutSug) <- c("x", "y")
   
   layoutSug <- 
-    layoutSug %>%
+    layoutSug %>% 
     as_tibble %>% 
-    mutate(level = y) %>%
+    slice(-1) %>%
+    cbind(vInfo) %>%
+    as_tibble() %>%
+    mutate(y = level) %>%
     select(level, x, y) %>%
     split(., .$level)
-
-  # Fix an error which can occur
-  if(nrow(layoutSug[[1]]) > 1) { 
-    
-    layoutSug <- rev(layoutSug)
-    
-    layoutSug <- 
-      
-      lapply(1:length(layoutSug), function(i) { 
-        
-        layoutSug[[i]] %>% mutate(level = i, y = i)
-      
-    })
-    
-  }
   
   layoutSug <- 
     lapply(1:length(layoutSug), function(i) { 
@@ -57,11 +50,6 @@ internal_horizontalLayout <- function(edgelist, vInfo) {
     }) %>% 
     bind_rows() %>%
     select(level, pos, x, y)
-  
-  # Remove dummy vertex
-  if(nrow(tmp) > 1) { 
-    layoutSug <- layoutSug %>% mutate(level = level-1, y = y+1) %>% filter(level != 0)
-  }
   
   return(layoutSug)
   
