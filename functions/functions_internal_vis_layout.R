@@ -1,28 +1,48 @@
 internal_horizontalLayout <- function(edgelist, vInfo) {
   
   # Add a central dummy vertex
-  edgelist <- 
-    tibble(from = "dummyVertex", to = vInfo$vName, layer = "dummyLayer", weight = 1) %>% 
-    rbind(edgelist)
+  tmp <- vInfo %>% filter(level == 1)
   
-  igraph <- 
-    edgelist %>% 
-    select(from, to, weight) %>% 
-    graph.data.frame(directed = FALSE)
-  E(igraph)$layer <- edgelist$layer
+  if(nrow(tmp) > 1) {
+    
+    edgelist <- 
+      tibble(from = "dummyVertex", to = tmp$vName, layer = "dummyLayer", weight = 1) %>% 
+      rbind(edgelist)
+    
+  }
+  
+  igraph <- edgelist %>% edgelist_to_igraph(vInfo)
   
   # Vertex levels
-  levels <- c(1, vInfo$level+1)
+  if(nrow(tmp) > 1) { levels <- c(1, V(igraph)$level+1) } else { levels <- V(igraph)$level }
   
   # Determine horizontal version of layout based on sugiyama
   layoutSug <- 
     (igraph %>% 
-       layout_with_sugiyama(layers = levels))$layout %>% 
+       layout_with_sugiyama(layers = levels))$layout
+  colnames(layoutSug) <- c("x", "y")
+  
+  layoutSug <- 
+    layoutSug %>%
     as_tibble %>% 
-    set_names(c("x", "y")) %>% 
     mutate(level = y) %>%
     select(level, x, y) %>%
     split(., .$level)
+
+  # Fix an error which can occur
+  if(nrow(layoutSug[[1]]) > 1) { 
+    
+    layoutSug <- rev(layoutSug)
+    
+    layoutSug <- 
+      
+      lapply(1:length(layoutSug), function(i) { 
+        
+        layoutSug[[i]] %>% mutate(level = i, y = i)
+      
+    })
+    
+  }
   
   layoutSug <- 
     lapply(1:length(layoutSug), function(i) { 
@@ -39,7 +59,9 @@ internal_horizontalLayout <- function(edgelist, vInfo) {
     select(level, pos, x, y)
   
   # Remove dummy vertex
-  layoutSug <- layoutSug %>% mutate(level = level-1, y = y+1) %>% filter(level != 0)
+  if(nrow(tmp) > 1) { 
+    layoutSug <- layoutSug %>% mutate(level = level-1, y = y+1) %>% filter(level != 0)
+  }
   
   return(layoutSug)
   

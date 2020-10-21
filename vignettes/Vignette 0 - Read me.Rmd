@@ -1,0 +1,123 @@
+---
+title: "Welcome to AHgen"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{Vignette 1 - Getting started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(
+  root.dir = normalizePath('../../AHgen')
+  )
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(igraph)
+```
+
+<span style = "color:red;">@annie This document will be the readme. Add preamble text.</span>
+
+## Abstraction hierarchy 
+
+<span style="color:red">@melissa Couple of lines for introduction. Describe various things (text might not go exactly here): AH; AHgen. **AHgen** is provided as software code (i.e. it has not been packaged); vertex; layer; level; weighting; flow chart(s); effectively point user in right direction with some general background. </span>
+
+
+## Getting started {.tabset}
+To get started, you'll need to: 
+
+- Step 1 - **Install** R and (optional) RStudio
+- Step 2 - Install the required R **packages**
+- Step 3 - **Download the AHgen** source code from this GitHub repository
+- Step 4 - Prepare a script in R to **load the AHgen functions**
+
+A walkthrough of each step is provided via the **tabs** below.
+
+
+### Step 1 - Install
+
+These screenshots will guide you through the process of downloading [R](https://cloud.r-project.org/) and [RStudio](https://rstudio.com/products/rstudio/download/). But first:
+
+- **What is R?** - R is an open source (free) programming language used to develop statistical software such as AHgen. 
+- **What is RStudio?** - RStudio is an "integrated development environment for R". In simpler terms, RStudio provides a more user-friendly environment to run R code from. It is also open source and highly recommended. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center"}
+files <- list.files("vignettes/images/gettingStarted", pattern = ".png", full.names = TRUE)
+
+include_graphics(normalizePath(files))
+```
+
+### Step 2 - R packages
+
+**Required packages:** `readxl`, `openxlsx`, `tidyverse`, `igraph`, `tnet` and `ggraph`
+
+An **R package** is a collection of functions and/or data that have been *packaged* together. For more information, check out [this handy guide](https://www.datacamp.com/community/tutorials/r-packages-guide). 
+
+To install the required packages:
+
+- Open RStudio
+- Paste `install.packages(c("readxl", "openxlsx", "tidyverse", "igraph", "tnet", "ggraph"))` into the console (bottom left hand side) and press `enter`. *Note, you might be asked to install dependencies or update packages*
+
+A package is like a book, you use a `library()` to check a package out of the library. AHgen will load these packages for you, or you can copy and paste the code chunk below.
+
+```{r, eval = FALSE}
+library(readxl)
+library(openxlsx)
+library(tidyverse)
+library(igraph)
+library(tnet)
+library(ggraph)
+```
+
+### Step 3 - Download AHgen
+<span style="color: red;">To be filled in once the github is more up to date.</span>
+
+### Step 4 - Load AHgen functions
+The functions that make up AHgen are located in the *functions* folder. You can load all of them in by running the script in *functions.R* using `source()`. Step-by-step: 
+
+- Open RStudio
+- Navigate to *File > New file > R Script*
+- Save the script in the AHgen directory (folder)
+- Copy and paste the code chunk below into your script
+
+```{r, eval = FALSE}
+rm(list = ls()) # Clear environment
+cat("\014") # Clear console
+
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # Set working directory to script directory
+
+source("functions/functions.R") # Read in the functions script
+```
+
+- Highlight your script and run by pressing `Ctrl+Enter`. The names of the functions will appear in the top right corner
+- Type `ls()` directly in the console to print the names of the loaded functions, shown below
+
+```{r, include = FALSE}
+source("functions/functions.R")
+```
+```{r, echo = FALSE}
+ls()
+```
+
+### {-}
+
+
+## Vignettes
+Vignettes are the documentation that show you how to use AHgen. They are provided in the **vignettes** folder of AHgen in a **.html** file which can be read in your browser. 
+
+Two types of vignette are provided:
+
+- **Vignettes <span style = "color:red;">X-Y</span>** - Designing to get you on your way, introducing the AHgen functions through practical examples
+- **Vignettes <span style = "color:red;">A-B</span>** - AHgen workflows for three example cases

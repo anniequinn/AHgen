@@ -1,0 +1,98 @@
+---
+title: "Vignette 4 - Visualisation"
+author: 
+ - Dr Annie Visser-Quinn (a.visser-quinn@hw.ac.uk)
+ - Dr Melissa Bedinger (m.bedinger@hw.ac.uk)
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{Vignette 3 - Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = TRUE, 
+                      message=FALSE, 
+                      warning=FALSE)
+
+knitr::opts_knit$set(
+  root.dir = normalizePath('../../AHgen')
+  )
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(igraph)
+```
+
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri(file.path("vignettes/images/hex.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; top:0; right:0; padding:10px; max-width:20%')
+```
+
+```{r include = FALSE}
+source("functions/functions.R")
+
+dh <- read_adjMat("inputs/AH_mobility.xlsx") 
+dv <- dh %>% select(level, levelName, vName)
+de <- dh %>% adjMat_to_edgelist(dv)
+di <- dh %>% adjMat_to_igraph(dv)
+di_w <- weightEdges(de, read_xlsx("inputs/exampleWeights.xlsx")) %>% edgelist_to_igraph(dv)
+```
+
+<span style="color: red;">Text goes here</span>
+
+Create a visKey. Could also do it external to R and import.
+
+```{r}
+visKey <-
+  tribble(~layer, ~min, ~max, ~addR, ~r,
+        1,250,290,0,1,
+        2,250,290,0,2,
+        3,260,280,0,3,
+        4,260,280,0,4,
+        5,250,290,0,5)
+
+visKey
+```
+
+Explain what arguments vis_layout has.
+
+<span style="color: red;">There are some errors manifesting in the node positions that needs to be checked</span>
+
+
+
+```{r}
+plot_layout <- vis_layout(edgelist = de, 
+                          vInfo = dv, 
+                          minSpacing = 0, maxSpacing = 1000, 
+                          key = visKey)
+plot_layout
+```
+
+Function to quickly plot a ggplot.
+Can still edit this in situ.
+Or start from scratch.
+If key is specified, the circles are drawn??
+
+```{r}
+plot_ggplot <- vis_ggplot(plot_layout, key = visKey)
+plot_ggplot
+```
+
+Lastly is plotly. 
+
+```{r} 
+plot_plotly <- vis_plotly(plot_ggplot, circles = TRUE)
+plot_plotly
+```

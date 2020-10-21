@@ -1,7 +1,15 @@
+require(readxl)
+require(openxlsx)
+require(tidyverse)
+require(igraph)
+require(tnet)
+require(ggraph)
+
 source("functions/function_read_adjMat.R")
 source("functions/function_read_vInfo.R")  
-source("functions/function_read_indicatorsDatabase.R")
+source("functions/function_read_weightScenario.R")
 
+source("functions/function_preview.R")
 source("functions/functions_convert.R")
    
 source("functions/function_weightEdges.R")

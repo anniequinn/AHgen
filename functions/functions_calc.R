@@ -29,7 +29,9 @@ calcUWVBC <- function(igraph, vInfo) {
   
   require(igraph)
   
-  igraph::betweenness(igraph) %>%
+  igraph %>% 
+    remove.edge.attribute("weight") %>%
+    igraph::betweenness() %>%
     function_igraphResultFormatting(name = "UWVBC") %>%
     function_merge_vInfo(vInfo)
   
@@ -51,8 +53,8 @@ calcMetrics <- function(igraph, vInfo, metrics) {
   
   output <- 
     output %>% 
-    reduce(full_join, by = c("level", "levelName", "vInfo")) %>%
-    arrange(level, levelName, vInfo)
+    reduce(full_join, by = c("level", "levelName", "vName")) %>%
+    arrange(level, levelName, vName)
   
   return(output)
   

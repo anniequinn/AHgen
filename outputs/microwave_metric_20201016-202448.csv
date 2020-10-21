@@ -1,0 +1,26 @@
+level,levelName,vName,WVBC
+1,Functional purposes,To cook food,0
+2,Values and priority measures,Time to heat food,256.20476190476194
+2,Values and priority measures,Ease of cooking,11.785714285714285
+2,Values and priority measures,Even dissipation of heat,5.8
+2,Values and priority measures,Minimise environmental impact,36.204761904761895
+2,Values and priority measures,Minimise energy use,36.204761904761895
+3,Generalised functions,Generate heat,168
+3,Generalised functions,Monitor condition of food,188.33333333333334
+3,Generalised functions,Control heat transfer to food,161.47619047619048
+3,Generalised functions,Control dissipation of heat,176.1904761904762
+4,Object-related processes,Generate radio waves,46
+4,Object-related processes,Generate light,46
+4,Object-related processes,Set level of power,51.8
+4,Object-related processes,Support food,46
+4,Object-related processes,Stop heat dissipating to surroundings,90
+4,Object-related processes,Connect to electricity supply,46
+4,Object-related processes,Countdown time,46
+5,Physical objects,Magnetron,0
+5,Physical objects,Controls,0
+5,Physical objects,Light,0
+5,Physical objects,Plate,0
+5,Physical objects,Door,0
+5,Physical objects,Walls,0
+5,Physical objects,Plug,0
+5,Physical objects,Timer,0

@@ -1,7 +1,10 @@
 # FROM ADJ MAT ------------------------------------------------------------
-adjMat_to_edgelist <- function(adjMat) { 
+adjMat_to_edgelist <- function(adjMat, vInfo) {
   
-  mat <- adjMat %>% select(4:ncol(.))
+  colNames <- names(adjMat)
+  index <- which(colNames %in% c("vName", "level", "levelName"))
+  
+  mat <- adjMat %>% select(-index)
   mat[upper.tri(mat, diag = TRUE)] <- NA
   
   source("functions/function_melt2.R", local = TRUE)
@@ -18,6 +21,8 @@ adjMat_to_edgelist <- function(adjMat) {
   
   step2 <- 
     adjMat %>% 
+    select(-any_of(c("level", "levelName"))) %>%
+    left_join(vInfo, by = "vName") %>%
     select(level, levelName, vName) %>% 
     left_join(levelKey, by = c("level", "levelName")) %>% 
     select(abbr, vName)
@@ -35,9 +40,9 @@ adjMat_to_edgelist <- function(adjMat) {
   
 }
 
-adjMat_to_igraph <- function(adjMat) { 
+adjMat_to_igraph <- function(adjMat, vInfo) { 
   
-  layer <- (adjMat %>% adjMat_to_edgelist)$layer
+  layer <- (adjMat %>% adjMat_to_edgelist(vInfo))$layer
   
   output <- 
     adjMat %>% 

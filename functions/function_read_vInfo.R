@@ -4,12 +4,15 @@ read_vInfo <- function(filename, sheet = 1) {
   
   if(!str_detect(filename, ".xlsx")) stop(".xlsx missing in filename")
   
-  output <- readxl::read_xlsx(filename, col_types = NULL)
+  output <- readxl::read_xlsx(filename, col_types = NULL, sheet = sheet)
   
   colNames <- output %>% names
-  index <- which(colNames == "vName")
   
-  if(sum(index) != 1) stop("Column vName not found")
+  index <- colNames %in% c("level", "levelName", "vName")
+  
+  output <- output[,index]
+  
+  if(sum(colNames == "level") == 1) { output <- output %>% mutate(level = as.numeric(level)) }
   
   return(output)
   
