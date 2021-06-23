@@ -1,4 +1,4 @@
-calcWVBC <- function(igraph, vInfo) {
+calcWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.1109/ICASSP.2015.7178599 ; stable version being developed in Python as of 2021-06-23
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
@@ -23,7 +23,8 @@ calcWVBC <- function(igraph, vInfo) {
   
 }
 
-calcUWVBC <- function(igraph, vInfo) { 
+
+calcUWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.1109/ICASSP.2015.7178599; stable version being developed in Python as of 2021-06-23
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
@@ -36,7 +37,26 @@ calcUWVBC <- function(igraph, vInfo) {
     function_merge_vInfo(vInfo)
   
 }
+
+
+calcEC <- function(igraph, vInfo) {
   
+  require(igraph)
+
+  output <- (igraph %>% eigen_centrality(directed = TRUE))$vector
+  
+  output <- 
+    output %>%
+    as.data.frame %>%
+    rownames_to_column() %>% 
+    setNames(c("vName", "centrality")) %>%
+    inner_join(vInfo) 
+  
+  return(output)
+
+}
+
+
 calcMetrics <- function(igraph, vInfo, metrics) {
   
   source("functions/functions_internal_calc.R", local = TRUE)
@@ -59,6 +79,7 @@ calcMetrics <- function(igraph, vInfo, metrics) {
   return(output)
   
 }
+
 
 calcChange <- function(before, after, metric) { 
   
