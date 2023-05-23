@@ -1,0 +1,16 @@
+Package: AHgen
+Type: Package
+Title: AHgen is an R package for anyone who needs to generate, analyse, and compare five-level hierarchical networks called “Abstraction Hierarchies".
+Version: 0.0.1
+Author: Dr Annie Visser-Quinn <a.visser-quinn@hw.ac.uk> and Dr Melissa Bedinger <m.bedinger@ed.ac.uk>
+Maintainer: Dr Annie Visser-Quinn <a.visser-quinn@hw.ac.uk> and Dr Melissa Bedinger <m.bedinger@ed.ac.uk>
+Description: AHgen is a software code, created in R. It is for anyone who needs to generate, analyse, and compare five-level hierarchical networks called “Abstraction Hierarchies".
+    AHgen was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from OSMtidy (V0.0.6; https://doi.org/10.5281/zenodo.7957953). 
+    Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+Depends:
+    tidyverse,
+    igraph,
+    tnet
