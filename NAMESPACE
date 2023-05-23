@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+#' @import tidyverse
+#' @import igraph
+#' @import tnet
+#' @import stats
+#' @import readxl
+#' @import openxlsx
+#' @import data.table
