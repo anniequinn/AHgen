@@ -16,7 +16,7 @@ assign_subnetworks <-
              select('vName', subnetworkColName))
     
     
-    # Generate water key by loop
+    # Generate key by loop
     for(i in 5:2) {
       
       temp <- key[[paste0("key_L", i)]] %>% as.data.frame
@@ -25,8 +25,8 @@ assign_subnetworks <-
         edgelist_template %>%
         mutate(x = temp[, subnetworkColName][match(edgelist_template$to, temp$'vName')]) %>%
         as_tibble() %>%
-        setNames(c("layer", "from", "to", "weight", "fromlevel", "tolevel", 
-                   subnetworkColName)) %>%
+        stats::setNames(c("layer", "from", "to", "weight", "fromlevel", "tolevel", 
+                          subnetworkColName)) %>%
         filter(tolevel == i) %>%
         select(from, subnetworkColName) %>%
         distinct() %>%
@@ -44,4 +44,4 @@ assign_subnetworks <-
       select(-all_of(subnetworkColName)) %>%
       left_join(key, by = "vName") %>% select(vName, subnetworkColName)
     
-}
+  }

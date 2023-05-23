@@ -1,4 +1,6 @@
-calcWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.1109/ICASSP.2015.7178599 ; stable version being developed in Python as of 2021-06-23
+calcWVBC <- # Unstable version
+  function(igraph, 
+           vInfo) { 
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
@@ -24,7 +26,9 @@ calcWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.110
 }
 
 
-calcUWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.1109/ICASSP.2015.7178599; stable version being developed in Python as of 2021-06-23
+calcUWVBC <- # Unstable version
+  function(igraph, 
+           vInfo) { 
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
@@ -39,25 +43,63 @@ calcUWVBC <- function(igraph, vInfo) { # Unstable version: https://doi.org/10.11
 }
 
 
-calcEC <- function(igraph, vInfo) {
+calcEC <- 
+  function(igraph, 
+           vInfo) {
   
   require(igraph)
-
+  
   output <- (igraph %>% eigen_centrality(directed = TRUE))$vector
   
   output <- 
     output %>%
     as.data.frame %>%
-    rownames_to_column() %>% 
-    setNames(c("vName", "centrality")) %>%
+    tibble::rownames_to_column() %>% 
+    stats::setNames(c("vName", "centrality")) %>%
     inner_join(vInfo) 
   
   return(output)
-
+  
 }
 
 
-calcMetrics <- function(igraph, vInfo, metrics) {
+calcSBC <- 
+  function(igraph, 
+           vInfo) {
+  
+  require(igraph)
+  
+  options(digits = 15) # Ensure R global options can account ~15 decimal points for inverted proxyWeight 1.9999999999
+  
+  igraph_invertedWeight <- 
+    igraph %>% 
+    igraph_to_edgelist() %>%
+    dplyr::mutate(weight = 2 - weight) %>%
+    edgelist_to_igraph(vInfo)
+  
+  output <- 
+    sbc_norm(graph = igraph_invertedWeight, 
+             undirected = TRUE, 
+             normalize = TRUE)
+  
+  output <- 
+    output %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column() %>% 
+    stats::setNames(c("vName", "SBC", "SBC_norm")) %>%
+    inner_join(vInfo)
+  
+  options(digits = 7) # Return R global options for 7 decimal points
+  
+  return(output)
+    
+}
+
+
+calcMetrics <- 
+  function(igraph, 
+           vInfo, 
+           metrics) {
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
@@ -81,25 +123,65 @@ calcMetrics <- function(igraph, vInfo, metrics) {
 }
 
 
-calcChange <- function(before, after, metric) { 
+calcChange <- 
+  function(before, 
+           after, 
+           metric) { 
   
   source("functions/functions_internal_calc.R", local = TRUE)
   
   before <- 
     before %>% 
     select(level, levelName, vName, matches(metric)) %>% 
-    setNames(c("level", "levelName", "vName", "before"))
+    stats::setNames(c("level", "levelName", "vName", "before"))
   
   after <- 
     after %>% 
     select(level, levelName, vName, matches(metric)) %>% 
-    setNames(c("level", "levelName", "vName", "after"))
+    stats::setNames(c("level", "levelName", "vName", "after"))
   
   output <- 
     list(before, after) %>% 
     reduce(full_join, by = c("level", "levelName", "vName")) %>%
     mutate(absChange_afterMinusBefore = after-before,
            pctChange = absChange_afterMinusBefore/before * 100)
+  
+  output <- 
+    output %>% 
+    mutate(pctChange = ifelse(before == 0 & after == 0, 0, pctChange))
+  
+  return(output)
+  
+}
+
+
+calcChangeNewEC <- 
+  function(before, 
+           after, 
+           metric) { 
+  
+  source("functions/functions_internal_calc.R", local = TRUE)
+  
+  before <- 
+    before %>% 
+    select(level, levelName, vName, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "vName", "before")) %>%
+    mutate(sumEC_before = sum(before),
+           nodePropBefore = (before / sumEC_before) * 100)
+  
+  after <- 
+    after %>% 
+    select(level, levelName, vName, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "vName", "after")) %>%
+    mutate(sumEC_after = sum(after),
+           nodePropAfter = (after / sumEC_after) * 100)
+  
+  output <- 
+    list(before, after) %>% 
+    reduce(full_join, by = c("level", "levelName", "vName")) %>%
+    mutate(absChange_afterMinusBefore = nodePropAfter - nodePropBefore,
+           pctChange = (absChange_afterMinusBefore/nodePropBefore) * 100) %>%
+    select(level, levelName, vName, before, after, absChange_afterMinusBefore, pctChange)
   
   output <- 
     output %>% 

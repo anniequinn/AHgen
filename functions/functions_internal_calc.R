@@ -6,6 +6,7 @@ function_merge_vInfo <- function(dt, vInfo) {
   
 }
 
+
 function_igraphResultFormatting <- function(igraphresult, name) { 
   
   igraphresult %>% 

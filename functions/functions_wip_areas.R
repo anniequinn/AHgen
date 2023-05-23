@@ -1,31 +1,51 @@
-function_clusterGeo <- function(inputData, repetitions = 1, maxIterations = 500) {
+function_clusterGeo <- 
+  function(inputData, 
+           repetitions = 1, 
+           maxIterations = 500) {
   
-  function_internal_clusterGeo <- function(input, maxIterations) {
+  function_internal_clusterGeo <- 
+    function(input, 
+             maxIterations) {
     
     ll <- input %>% st_intersects
+    
     le <- lengths(ll)
+    
     ll <- ll[order(le, decreasing = TRUE)]
+    
     simplified <- list()
+    
     input2 <- input %>% st_as_sf %>% st_make_valid()
     
     for(i in 1:maxIterations) { 
       
       # Save together as one object
-      simplified[[i]] <- input %>% slice(ll[[1]]) %>% summarise() %>% mutate(desc = "Sports and games; Clubhouse and outdoor facility (golf)")
+      simplified[[i]] <- 
+        input %>% 
+        slice(ll[[1]]) %>% 
+        summarise() %>% 
+        mutate(desc = "Sports and games; Clubhouse and outdoor facility (golf)")
       
       # Save indices of removals
-      remove <- which(sapply(1:length(ll), function(x) { ll[[x]] %in% ll[[1]] %>% sum }) > 0)
+      remove <- 
+        which(sapply(1:length(ll), function(x) { 
+          
+          ll[[x]] %in% ll[[1]] %>% sum 
+          
+          }) > 0)
       
       # Update input 
       input2 <- input2 %>% slice(-ll[[1]])
       
       # Update ll
       ll <- ll[-remove]
+      
       if(length(ll) == 0) break
       
     }
     
-    simplified <- simplified %>% mapedit:::combine_list_of_sf() # Final golf course output
+    simplified <- 
+      simplified %>% mapedit:::combine_list_of_sf() # Final golf course output
     
     return(simplified)
     
@@ -68,9 +88,16 @@ function_simpleMap <- function(input) {
 
 
 
-function_simplifyPoints <- function(inputData, distance = 500, repetitions = 1, maxIterations = 500) {
+function_simplifyPoints <- 
+  function(inputData, 
+           distance = 500, 
+           repetitions = 1, 
+           maxIterations = 500) {
   
-  function_internal_simplifyPoints <- function(input, distance, maxIterations) {
+  function_internal_simplifyPoints <- 
+    function(input, 
+             distance, 
+             maxIterations) {
     
     ll <- st_is_within_distance(input, input, units::set_units(distance, "m")); ll
     le <- lengths(ll); le

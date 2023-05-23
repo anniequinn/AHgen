@@ -12,7 +12,11 @@ read_vInfo <- function(filename, sheet = 1) {
   
   output <- output[,index]
   
-  if(sum(colNames == "level") == 1) { output <- output %>% mutate(level = as.numeric(level)) }
+  if(sum(colNames == "level") == 1) { 
+    
+    output <- output %>% mutate(level = as.numeric(level)) 
+    
+    }
   
   return(output)
   

@@ -1,6 +1,7 @@
 # Function to generate vInfo_template_full with updated subnetwork assignment
 update_subnetworks <- 
-  function(edgelist_template, vInfo_template_full) {
+  function(edgelist_template, 
+           vInfo_template_full) {
     
     # Extract vInfo_template_full column names
     namesInfo <- names(vInfo_template_full)
@@ -17,7 +18,8 @@ update_subnetworks <-
       reduce(full_join, by = "vName")
     
     output <-
-      vInfo_template_full %>% select(-all_of(namesSubnetworks)) %>% 
+      vInfo_template_full %>% 
+      select(-all_of(namesSubnetworks)) %>% 
       full_join(newSubnetworks, by = "vName")
     
-}
+  }

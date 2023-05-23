@@ -1,67 +1,83 @@
-vis_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key) { 
+vis_layout <- 
+  function(edgelist, 
+           vInfo, 
+           minSpacing = 0, 
+           maxSpacing = 100, 
+           key) { 
   
   require(ggraph)
   
   source("functions/functions_internal_vis_layout.R", local = TRUE)
   
   output <- 
-    internal_horizontalLayout(edgelist = edgelist, vInfo = vInfo) %>%
-    internal_horizontalLayout_spacing(., minSpacing = minSpacing, maxSpacing = maxSpacing) %>%
-    internal_radialLayout(horizontalLayout = ., edgelist = edgelist, key = key) %>% 
-    internal_genericLayout(radialLayout = .)
+    internal_horizontalLayout(
+      edgelist = edgelist, vInfo = vInfo) %>%
+    internal_horizontalLayout_spacing(
+      ., minSpacing = minSpacing, maxSpacing = maxSpacing) %>%
+    internal_radialLayout(
+      horizontalLayout = ., edgelist = edgelist, key = key) %>% 
+    internal_genericLayout(
+      radialLayout = .)
   
   return(output)
   
 }
 
-vis_ggplot <- function(layout, key = NULL,
-                       vecOpacity = c(1,1,1,1),
-                       vecSize = c(5,4,3.5,3,2.5)) {
+
+vis_ggplot <- 
+  function(layout, 
+           key = NULL,
+           vecOpacity = c(1,1,1,1),
+           vecSize = c(5,4,3.5,3,2.5)) {
   
   require(gginnards)
   
   # Edges and vertices
-  p1 <- suppressWarnings({
-    layout$edges %>% 
-      arrange(desc(layer)) %>%
-      ggplot() + 
-      geom_segment(aes(x = x, xend = xend, y = y, yend = yend, 
-                       alpha = layer), 
-                   size = 0.3, colour = "#34495E",
-                   show.legend = FALSE) + 
-      
-      scale_alpha_manual(values = vecOpacity,
-                         labels = { 
-                           layout$edges %>% 
-                             arrange(desc(layer)) %>% 
-                             group_by(layer) %>% 
-                             summarise %>% 
-                             select(layer) %>% 
-                             unlist %>% 
-                             as.vector
-                         }
-      ) +
-      
-      geom_point(data = layout$vertices %>% mutate(level = fct_inorder(as.character(level), ordered = TRUE)), 
-                 aes(x = x, y = y,
-                     size = level,
-                     fill = level,
+    p1 <- 
+      suppressWarnings({
+        layout$edges %>% 
+          arrange(desc(layer)) %>%
+          ggplot() + 
+          geom_segment(aes(x = x, xend = xend, y = y, yend = yend, 
+                           alpha = layer), 
+                       size = 0.3, colour = "#34495E",
+                       show.legend = FALSE) + 
+          
+          scale_alpha_manual(values = vecOpacity,
+                             labels = { 
+                               layout$edges %>% 
+                                 arrange(desc(layer)) %>% 
+                                 group_by(layer) %>% 
+                                 summarise %>% 
+                                 select(layer) %>% 
+                                 unlist %>% 
+                                 as.vector
+                             }
+          ) +
+          
+          geom_point(data = layout$vertices %>% mutate(level = fct_inorder(as.character(level), ordered = TRUE)), 
+                     aes(x = x, y = y,
+                         size = level,
+                         fill = level,
+                         
+                         # Warning suppressed, need to add this for plotly interaction
+                         label = vName), 
                      
-                     # Warning suppressed, need to add this for plotly interaction
-                     label = vName), 
-                 
-                 shape = 21, colour = "#34495E") + 
-      
-      scale_size_manual(values = vecSize, labels = unique(layout$vertices)) +
-      scale_fill_viridis_d(labels = unique(layout$vertices), direction = -1)
-    
-  })
+                     shape = 21, colour = "#34495E") + 
+          
+          scale_size_manual(values = vecSize, labels = unique(layout$vertices)) +
+          scale_fill_viridis_d(labels = unique(layout$vertices), direction = -1)
+        
+      })
   
   output <- p1
   
   # Circles
   if(!is.null(key)) {
-    internal_circleFun <- function(rVec, center = c(0,0), npoints = 100){
+    internal_circleFun <- 
+      function(rVec, 
+               center = c(0,0), 
+               npoints = 100){
       
       tt <- seq(0, 2 * pi, length.out = npoints)
       
@@ -111,20 +127,20 @@ vis_ggplot <- function(layout, key = NULL,
   
 }
 
-vis_plotly <- function(ggplotPlot, 
-                       edgeNames = c("Layer 1 - FP to VPM",
-                                     "Layer 2 - VPM to GF",
-                                     "Layer 3 - GF to ORP",
-                                     "Layer 4 - ORP to PO"),
-                       vNames = paste0("Level ", 1:5),
-                       circles = TRUE) {
+
+vis_plotly <- 
+  function(ggplotPlot, 
+           edgeNames = c("Layer 1 - FP to VPM",
+                         "Layer 2 - VPM to GF",
+                         "Layer 3 - GF to ORP",
+                         "Layer 4 - ORP to PO"),
+           vNames = paste0("Level ", 1:5),
+           circles = TRUE) {
   
   require(plotly)
   
   # If encountering problems, use development version
   # devtools::install_github("ropensci/plotly")
-  
-  
   
   output <- 
     ggplotly(ggplotPlot, tooltip = "vName") %>% 
