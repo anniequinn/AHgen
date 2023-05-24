@@ -3,6 +3,7 @@ exportPattern("^[[:alpha:]]+")
 #' @import igraph
 #' @import tnet
 #' @import stats
+#' @import sf
 #' @import readxl
 #' @import openxlsx
 #' @import data.table
