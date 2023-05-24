@@ -1,5 +1,7 @@
 # FROM ADJ MAT ------------------------------------------------------------
-adjMat_to_edgelist <- function(adjMat, vInfo) {
+adjMat_to_edgelist <- 
+  function(adjMat, 
+           vInfo) {
   
   colNames <- names(adjMat)
   index <- which(colNames %in% c("vName", "level", "levelName"))
@@ -40,7 +42,10 @@ adjMat_to_edgelist <- function(adjMat, vInfo) {
   
 }
 
-adjMat_to_igraph <- function(adjMat, vInfo) { 
+
+adjMat_to_igraph <- 
+  function(adjMat, 
+           vInfo) { 
   
   layer <- (adjMat %>% adjMat_to_edgelist(vInfo))$layer
   
@@ -57,23 +62,41 @@ adjMat_to_igraph <- function(adjMat, vInfo) {
   
 }
 
+
 # FROM EDGE LIST ----------------------------------------------------------
-edgelist_to_igraph <- function(edgelist, vInfo) { 
+edgelist_to_igraph <- 
+  function(edgelist, 
+           vInfo) { 
   
-  internal_edgelist_to_igraph <- function(edgelist) { 
+  internal_edgelist_to_igraph <- 
+    function(edgelist) { 
+      
     edgelist %>% 
       select(from, to, weight) %>% 
       graph.data.frame(directed = FALSE)
+      
   }
   
-  internal_add_layerAttribute <- function(igraph, edgelist) { 
+  internal_add_layerAttribute <- 
+    function(igraph, edgelist) { 
+      
     igraph %>% set_edge_attr(name = "layer", value = edgelist$layer)
+      
+  }
+  
+  internal_add_weightAttribute <- 
+    function(igraph, 
+             edgelist) {
+    
+    igraph %>% set_edge_attr(name = "weight", value = edgelist$weight)
+      
   }
   
   output <- 
     edgelist %>% 
     internal_edgelist_to_igraph %>% 
-    internal_add_layerAttribute(edgelist = edgelist)
+    internal_add_layerAttribute(edgelist = edgelist) %>%
+    internal_add_weightAttribute(edgelist = edgelist)
   
   V(output)$level <- vInfo$level
   V(output)$levelName <- vInfo$levelName
@@ -82,14 +105,19 @@ edgelist_to_igraph <- function(edgelist, vInfo) {
   
 }
 
-edgelist_to_adjMat <- function(edgelist, vInfo) {
+
+edgelist_to_adjMat <- 
+  function(edgelist, 
+           vInfo) {
   
   edgelist %>% edgelist_to_igraph(vInfo) %>% igraph_to_adjMat
   
 }
 
+
 # FROM IGRAPH -------------------------------------------------------------
-igraph_to_adjMat <- function(igraph) {
+igraph_to_adjMat <- 
+  function(igraph) {
   
   output <- 
     igraph %>%
@@ -109,7 +137,9 @@ igraph_to_adjMat <- function(igraph) {
   
 }
 
-igraph_to_edgelist <- function(igraph) { 
+
+igraph_to_edgelist <- 
+  function(igraph) { 
   
   igraph %>% 
     get.data.frame %>% 

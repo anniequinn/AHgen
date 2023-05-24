@@ -1,25 +1,22 @@
-internal_horizontalLayout <- function(edgelist, vInfo) {
+internal_horizontalLayout <- 
+  function(edgelist, 
+           vInfo) {
   
   # Add a central dummy vertex
-  vInfo2 <- vInfo %>% filter(level == 1)
+  tmp <- vInfo %>% filter(level == 1)
   
-  edgelist2 <- 
-    tibble(from = "dummyVertex", to = vInfo2$vName, layer = "dummyLayer", weight = NA) %>% 
-    rbind(edgelist)
+  if(nrow(tmp) > 1) {
+    
+    edgelist <- 
+      tibble(from = "dummyVertex", to = tmp$vName, layer = "dummyLayer", weight = 1) %>% 
+      rbind(edgelist)
+    
+  }
   
-  vInfo2 <- 
-    vInfo2 %>% 
-    slice(1) %>%
-    mutate(vName = "dummyVertex", level = 1, levelName = "dummyLevel") %>% 
-    rbind(vInfo %>% mutate(level = level + 1))
+  igraph <- edgelist %>% edgelist_to_igraph(vInfo)
   
-  igraph <- 
-    edgelist2 %>% 
-    select(from, to, weight) %>% 
-    graph.data.frame(directed = FALSE)
-  
-  levels <- vInfo2$level
-  
+  # Vertex levels
+  if(nrow(tmp) > 1) { levels <- c(1, V(igraph)$level+1) } else { levels <- V(igraph)$level }
   
   # Determine horizontal version of layout based on sugiyama
   layoutSug <- 
@@ -28,14 +25,26 @@ internal_horizontalLayout <- function(edgelist, vInfo) {
   colnames(layoutSug) <- c("x", "y")
   
   layoutSug <- 
-    layoutSug %>% 
+    layoutSug %>%
     as_tibble %>% 
-    slice(-1) %>%
-    cbind(vInfo) %>%
-    as_tibble() %>%
-    mutate(y = level) %>%
+    mutate(level = y) %>%
     select(level, x, y) %>%
     split(., .$level)
+
+  # Fix an error which can occur
+  if(nrow(layoutSug[[1]]) > 1) { 
+    
+    layoutSug <- rev(layoutSug)
+    
+    layoutSug <- 
+      
+      lapply(1:length(layoutSug), function(i) { 
+        
+        layoutSug[[i]] %>% mutate(level = i, y = i)
+      
+    })
+    
+  }
   
   layoutSug <- 
     lapply(1:length(layoutSug), function(i) { 
@@ -51,11 +60,20 @@ internal_horizontalLayout <- function(edgelist, vInfo) {
     bind_rows() %>%
     select(level, pos, x, y)
   
+  # Remove dummy vertex
+  if(nrow(tmp) > 1) { 
+    layoutSug <- layoutSug %>% mutate(level = level-1, y = y+1) %>% filter(level != 0)
+  }
+  
   return(layoutSug)
   
 }
 
-internal_horizontalLayout_spacing <- function(horizontalLayout, minSpacing = 0.05, maxSpacing = 0.25) {
+
+internal_horizontalLayout_spacing <- 
+  function(horizontalLayout, 
+           minSpacing = 0.05, 
+           maxSpacing = 0.25) {
   
   dl <- horizontalLayout %>% split(., .$level)
   
@@ -93,9 +111,16 @@ internal_horizontalLayout_spacing <- function(horizontalLayout, minSpacing = 0.0
 }
 
 
-internal_radialLayout <- function(horizontalLayout, edgelist, key) { 
+internal_radialLayout <- 
+  function(horizontalLayout, 
+           edgelist, 
+           key) { 
   
-  makeRadial <- function(data_internal, minAngle, maxAngle, radiusChange) { 
+  makeRadial <- 
+    function(data_internal, 
+             minAngle, 
+             maxAngle, 
+             radiusChange) { 
     
     # theta, angle in degrees
     min = minAngle
@@ -141,7 +166,9 @@ internal_radialLayout <- function(horizontalLayout, edgelist, key) {
   
 }
 
-internal_genericLayout <- function(radialLayout) { 
+
+internal_genericLayout <- 
+  function(radialLayout) { 
   
   require(ggraph)
   
@@ -170,9 +197,16 @@ internal_genericLayout <- function(radialLayout) {
 }
 
 visLayout <- 
-  function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key) { 
+  function(
+    edgelist, 
+    vInfo, 
+    minSpacing = 0, 
+    maxSpacing = 100, 
+    key) { 
+    
     internal_horizontalLayout(edgelist = edgelist, vInfo = vInfo) %>%
       internal_horizontalLayout_spacing(., minSpacing = minSpacing, maxSpacing = maxSpacing) %>%
       internal_radialLayout(horizontalLayout = ., edgelist = edgelist, key = key) %>% 
       internal_genericLayout(radialLayout = .)
+    
   }
