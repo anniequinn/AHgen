@@ -1,6 +1,5 @@
 # Function to generate USAH_scenario output based on a new scenario edgelist
-apply_scenario <- function(USAH_template,
-                           USAH_input, 
+apply_scenario <- function(USAH_input, 
                            edgelist_scenario,
                            proxyWeight = 0) {
   
@@ -41,18 +40,19 @@ apply_scenario <- function(USAH_template,
   # Keep track of included/excluded nodes even if they are not fully removed (just edges set to proxyWeight)
   
   USAH_scenario$vIncluded <- 
-    USAH_template$vIncluded %>% 
+    USAH_input$vIncluded %>% 
     filter(!vName %in% all_of(all_excluded))
   
   USAH_scenario$vExcluded <- 
-    USAH_template$vIncluded %>% 
-    filter(vName %in% all_of(all_excluded))
+    USAH_input$vIncluded %>% 
+    filter(vName %in% all_of(all_excluded)) %>%
+    rbind(USAH_input$vExcluded)
   
   # Attach scenario-specific edgelist
   USAH_scenario$edgelist <- 
     edgelist_scenario %>%
     filter(weight != 0)
-
+  
   # Create scenario-specific adjMat
   USAH_scenario$adjMat <- 
     USAH_scenario$edgelist %>%
