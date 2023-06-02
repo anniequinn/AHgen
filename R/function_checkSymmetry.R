@@ -4,25 +4,25 @@
 checkSymmetry <- 
   function(adjMat) {
     
-    vNames <- adjMat %>% pull(vName)
+    Nodes <- adjMat %>% pull(Node)
     
     unsymmetrical <- list()
     
-    for(x in vNames) {
+    for(x in Nodes) {
       # add new column to identify if from rowwise or columnwise in adjMat - would then need to only select duplicated(step3) without this column
       step1 <- 
         adjMat %>% 
         select(x) %>% 
         t() %>% 
         as.data.frame %>% 
-        stats::setNames(vNames) %>% 
+        stats::setNames(Nodes) %>% 
         data.table::setDT(keep.rownames = TRUE) %>% 
-        rename(vName = rn)
+        rename(Node = rn)
       
       step2 <- 
         adjMat %>% 
         select(-level, -levelName_full, -levelName) %>% 
-        filter(vName == x)
+        filter(Node == x)
       
       step3 <- step1 %>% rbind(step2)
       

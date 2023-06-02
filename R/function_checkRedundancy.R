@@ -3,11 +3,11 @@
 checkRedundancy <- 
   function(adjMat) {
     
-    # Create vector of vNames
-    vNames <- adjMat %>% pull(vName)
+    # Create vector of nodeNames
+    nodeNames <- adjMat %>% pull(Node)
     
     # Create basic vInfo
-    vInfo_template <- adjMat %>% select(level, levelName_full, levelName, vName)
+    vInfo_template <- adjMat %>% select(level, levelName_full, levelName, Node)
     
     # Create igraph object
     igraph <- adjMat %>% adjMat_to_igraph(vInfo = vInfo_template)
@@ -16,7 +16,7 @@ checkRedundancy <-
     neighbors <- list()
     
     # Populate list with each vertex's neighbors
-    for(x in vNames) {
+    for(x in nodeNames) {
       
       neighbors[[x]] <- igraph %>% neighbors(x) %>% as.vector %>% as.matrix
       
@@ -29,8 +29,8 @@ checkRedundancy <-
     indDuplicatedVec <- 
       duplicated(neighbors) | duplicated(neighbors, fromLast = TRUE)
     
-    # Return vNames of these vector numbers
-    redundant <- vNames[indDuplicatedVec]
+    # Return nodeNames of these vector numbers
+    redundant <- nodeNames[indDuplicatedVec]
     
     if (length(redundant) > 0) {
       
