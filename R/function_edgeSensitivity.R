@@ -9,7 +9,8 @@ edgeSensitivity <- function(USAH_input, sign, pct) {
       USAH_input$edgelist %>% 
       mutate(weight = ifelse(weight != 1, (weight * (1 + pct)), weight)) %>%
       mutate(weight = ifelse(weight > 1, 1, weight)) %>%
-      mutate(weight = ifelse(weight < 0, 0, weight))
+      mutate(weight = ifelse(weight < 0, 0, weight)) %>%
+      weight_hangingVertices() # For vertices with downward weights all = 0, make upward weights = 0
     
   } else if(sign == "minus") {
     
@@ -17,7 +18,8 @@ edgeSensitivity <- function(USAH_input, sign, pct) {
       USAH_input$edgelist %>% 
       mutate(weight = ifelse(weight != 1, (weight * (1 - pct)), weight)) %>%
       mutate(weight = ifelse(weight > 1, 1, weight)) %>%
-      mutate(weight = ifelse(weight < 0, 0, weight))
+      mutate(weight = ifelse(weight < 0, 0, weight)) %>%
+      weight_hangingVertices() # For vertices with downward weights all = 0, make upward weights = 0
     
   }
   

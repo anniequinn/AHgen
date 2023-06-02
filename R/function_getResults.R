@@ -1,6 +1,5 @@
 getResults <- 
-  function(igraph, 
-           vInfo) {
+  function(igraph, vInfo, version, location, scenario) {
   
   resultsEC <- 
     igraph %>%
@@ -45,8 +44,12 @@ getResults <-
   
   output <- 
     rbind(resultsEC, resultsSBC, resultsDegrees) %>%
-    mutate(metric = fct_inorder(metric)) %>% 
-    select(metric, level, levelName, vName, value, contains("rank"))
+    mutate(metric = fct_inorder(metric),
+           version = paste0("USAH_", version),
+           location = location,
+           scenario = scenario) %>% 
+    select(level, levelName, version, location, scenario,
+           vName, metric, value, contains("rank"))
   
   return(output)
   
