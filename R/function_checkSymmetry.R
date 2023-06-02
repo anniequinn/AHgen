@@ -21,7 +21,7 @@ checkSymmetry <-
       
       step2 <- 
         adjMat %>% 
-        select(-level, -levelName) %>% 
+        select(-level, -levelName_full, -levelName) %>% 
         filter(vName == x)
       
       step3 <- step1 %>% rbind(step2)

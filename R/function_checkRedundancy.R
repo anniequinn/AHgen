@@ -7,7 +7,7 @@ checkRedundancy <-
     vNames <- adjMat %>% pull(vName)
     
     # Create basic vInfo
-    vInfo_template <- adjMat %>% select(level, levelName, vName)
+    vInfo_template <- adjMat %>% select(level, levelName_full, levelName, vName)
     
     # Create igraph object
     igraph <- adjMat %>% adjMat_to_igraph(vInfo = vInfo_template)
