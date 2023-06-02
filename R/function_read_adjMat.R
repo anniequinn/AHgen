@@ -6,7 +6,7 @@ read_adjMat <- function(filename, sheet = 1, rescale = FALSE) {
   
   # Prepare column names and classes
   colNames <- readxl::read_xlsx(filename, col_types = NULL) %>% names
-  index <- colNames %in% c("level", "levelName", "vName")
+  index <- colNames %in% c("level", "levelName_full", "levelName", "vName")
   
   nCols <- colNames %>% length
   colClass <- rep("numeric", nCols)
@@ -16,7 +16,7 @@ read_adjMat <- function(filename, sheet = 1, rescale = FALSE) {
   # Read in adjMat
   output <- 
     readxl::read_xlsx(filename, col_types = colClass) %>%
-    select(any_of(c("level", "levelName", "vName")), everything()) 
+    select(any_of(c("level", "levelName_full", "levelName", "vName")), everything()) 
   
   
   # Adjust values
