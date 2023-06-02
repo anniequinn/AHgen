@@ -9,8 +9,6 @@ adjMat_to_edgelist <-
   mat <- adjMat %>% select(-index)
   mat[upper.tri(mat, diag = TRUE)] <- NA
   
-  source("function_melt2.R", local = TRUE)
-  
   step1 <- 
     adjMat %>% 
     select(vName) %>% 
