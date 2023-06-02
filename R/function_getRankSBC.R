@@ -16,10 +16,10 @@ function_getRankSBC <-
         filter(level >= 3) %>%
         filter(rank_byLevel <= 37) %>%
         mutate(value_amp = (value * 100000) %>% round(0), # * 100000 is to amplify values for easier distinction by eye
-               vName = paste0(vName, " (", value_amp, ")"),
+               Node = paste0(Node, " (", value_amp, ")"),
                levelName_viz = str_c(level, " - ", levelName)) %>%
         group_by(levelName_viz, rank_byLevel) %>% 
-        mutate(Node = paste0(vName, collapse = ", ")) %>%
+        mutate(Node = paste0(Node, collapse = ", ")) %>%
         ungroup() %>%
         select(levelName_viz, rank_byLevel, Node) %>%
         distinct() %>%
@@ -79,7 +79,7 @@ function_getRankSBC <-
         filter(metric == "SBC_norm") %>%
         filter(level >= 3) %>%
         mutate(value_table = paste0(Node, " (", value_amp %>% round(), ")")) %>%
-        select(location, scenario, level, levelName, value_table, rank_byLevel) %>%
+        select(location, scenario, level, levelName_full, levelName, value_table, rank_byLevel) %>%
         pivot_wider(names_from = scenario, values_from = value_table) %>% 
         mutate_all(~str_remove_all(as.character(.x), 'c\\(')) %>%
         mutate_all(~str_remove_all(as.character(.x), '\"\\)')) %>%

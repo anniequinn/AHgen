@@ -4,14 +4,14 @@ adjMat_to_edgelist <-
            vInfo) {
   
   colNames <- names(adjMat)
-  index <- which(colNames %in% c("vName", "level", "levelName_full", "levelName"))
+  index <- which(colNames %in% c("Node", "level", "levelName_full", "levelName"))
   
   mat <- adjMat %>% select(-index)
   mat[upper.tri(mat, diag = TRUE)] <- NA
   
   step1 <- 
     adjMat %>% 
-    select(vName) %>% 
+    select(Node) %>% 
     cbind(mat) %>% 
     as_tibble() %>%
     melt2(measure.vars = c(2:ncol(.))) %>% 
@@ -34,16 +34,16 @@ adjMat_to_edgelist <-
   step2 <- 
     adjMat %>% 
     select(-any_of(c("level", "levelName_full", "levelName"))) %>%
-    left_join(vInfo, by = "vName") %>%
-    select(level, levelName_full, levelName, vName) %>% 
+    left_join(vInfo, by = "Node") %>%
+    select(level, levelName_full, levelName, Node) %>% 
     left_join(levelKey, by = c("level", "levelName_full", "levelName")) %>% 
-    select(abbr, vName)
+    select(abbr, Node)
   
   output <- 
     step1 %>%
-    select(from = variable, to = vName, weight = value) %>%
-    left_join(step2 %>% select(levelFrom = abbr, from = vName), by = "from") %>%
-    left_join(step2 %>% select(levelTo = abbr, to = vName), by = "to") %>%
+    select(from = variable, to = Node, weight = value) %>%
+    left_join(step2 %>% select(levelFrom = abbr, from = Node), by = "from") %>%
+    left_join(step2 %>% select(levelTo = abbr, to = Node), by = "to") %>%
     mutate(layer = paste(levelFrom, levelTo, sep = "_")) %>%
     select(layer, from, to, weight) %>%
     arrange(layer, from, to)
@@ -61,7 +61,7 @@ adjMat_to_igraph <-
   
   output <- 
     adjMat %>% 
-    select(-level, -levelName_full, -levelName, -vName) %>% 
+    select(-level, -levelName_full, -levelName, -Node) %>% 
     as.matrix() %>% graph.adjacency(mode = "undirected", weighted = TRUE) 
   
   E(output)$layer <- layer
@@ -136,7 +136,7 @@ igraph_to_adjMat <-
     get.adjacency() %>% 
     as.matrix %>% 
     as.data.frame %>% 
-    rownames_to_column("vName") %>% 
+    rownames_to_column("Node") %>% 
     as_tibble()
   
   output <- 

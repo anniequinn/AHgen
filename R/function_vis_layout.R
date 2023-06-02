@@ -61,7 +61,7 @@ vis_ggplot <-
                          fill = level,
                          
                          # Warning suppressed, need to add this for plotly interaction
-                         label = vName), 
+                         label = Node), 
                      
                      shape = 21, colour = "#34495E") + 
           
@@ -134,7 +134,7 @@ vis_plotly <-
                          "Layer 2 - VPM to GF",
                          "Layer 3 - GF to ORP",
                          "Layer 4 - ORP to PO"),
-           vNames = paste0("Level ", 1:5),
+           nodeNames = paste0("Level ", 1:5),
            circles = TRUE) {
   
   require(plotly)
@@ -143,7 +143,7 @@ vis_plotly <-
   # devtools::install_github("ropensci/plotly")
   
   output <- 
-    ggplotly(ggplotPlot, tooltip = "vName") %>% 
+    ggplotly(ggplotPlot, tooltip = "Node") %>% 
     layout(legend = list(orientation = "h", x = 0, y = 1))
   
   output <- plotly_build(output)
@@ -155,11 +155,11 @@ vis_plotly <-
     output$x$data[[4]][8:9] <- edgeNames[[3]]
     output$x$data[[5]][8:9] <- edgeNames[[4]]
     
-    output$x$data[[6]][8:9] <- vNames[[1]]
-    output$x$data[[7]][8:9] <- vNames[[2]]
-    output$x$data[[8]][8:9] <- vNames[[3]]
-    output$x$data[[9]][8:9] <- vNames[[4]]
-    output$x$data[[10]][8:9] <- vNames[[5]]
+    output$x$data[[6]][8:9] <- nodeNames[[1]]
+    output$x$data[[7]][8:9] <- nodeNames[[2]]
+    output$x$data[[8]][8:9] <- nodeNames[[3]]
+    output$x$data[[9]][8:9] <- nodeNames[[4]]
+    output$x$data[[10]][8:9] <- nodeNames[[5]]
     
   }
   
@@ -170,11 +170,11 @@ vis_plotly <-
     output$x$data[[3]][8:9] <- edgeNames[[3]]
     output$x$data[[4]][8:9] <- edgeNames[[4]]
     
-    output$x$data[[5]][8:9] <- vNames[[1]]
-    output$x$data[[6]][8:9] <- vNames[[2]]
-    output$x$data[[7]][8:9] <- vNames[[3]]
-    output$x$data[[8]][8:9] <- vNames[[4]]
-    output$x$data[[9]][8:9] <- vNames[[5]]
+    output$x$data[[5]][8:9] <- nodeNames[[1]]
+    output$x$data[[6]][8:9] <- nodeNames[[2]]
+    output$x$data[[7]][8:9] <- nodeNames[[3]]
+    output$x$data[[8]][8:9] <- nodeNames[[4]]
+    output$x$data[[9]][8:9] <- nodeNames[[5]]
     
   }
   

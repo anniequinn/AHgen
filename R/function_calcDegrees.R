@@ -21,7 +21,7 @@ calcDegrees <-
     va <- vertex.attributes(base)
     
     key <- 
-      data.frame("vName" = unlist(va$name), 
+      data.frame("Node" = unlist(va$name), 
                  "level" = unlist(va$level), 
                  "num" = 1:length(unlist(va$name)))
     
@@ -38,7 +38,7 @@ calcDegrees <-
       as.data.frame() %>% 
       rownames_to_column()
     
-    colnames(di) <- c("vName", "degree_up1")
+    colnames(di) <- c("Node", "degree_up1")
     
     #Calculate down degree
     do <- 
@@ -46,7 +46,7 @@ calcDegrees <-
       as.data.frame() %>% 
       rownames_to_column()
     
-    colnames(do) <- c("vName", "degree_down1")
+    colnames(do) <- c("Node", "degree_down1")
     
     dt <- merge(di,do)
     
@@ -65,13 +65,13 @@ calcDegrees <-
     dt$degree_down3 <- 0
     
     for(i in which(dt$level <=3)){
-      vName <- dt$vName[i]
+      Node <- dt$Node[i]
       
       temp <- 
         dir %>% 
         get.data.frame %>% 
         as_tibble() %>% 
-        filter(from == vName)
+        filter(from == Node)
       
       t <- length(unique(temp$to))
      
@@ -121,13 +121,13 @@ calcDegrees <-
     dt$degree_up3 <- 0
     
     for(i in which(dt$level >=3)){
-      vName <- dt$vName[i]
+      Node <- dt$Node[i]
      
       temp <- 
         dir %>% 
         get.data.frame %>% 
         as_tibble() %>% 
-        filter(to == vName)
+        filter(to == Node)
       
       t <- length(unique(temp$from))
       
@@ -181,7 +181,7 @@ calcDegrees <-
       as.data.frame() %>% 
       rownames_to_column()
     
-    colnames(di) <- c("vName", "nodeDegree_up1")
+    colnames(di) <- c("Node", "nodeDegree_up1")
     
     #Calculate down degree
     do <- 
@@ -189,7 +189,7 @@ calcDegrees <-
       as.data.frame() %>% 
       rownames_to_column()
     
-    colnames(do) <- c("vName", "nodeDegree_down1")
+    colnames(do) <- c("Node", "nodeDegree_down1")
     
     dt_nodes <- merge(di,do)
     
@@ -212,7 +212,7 @@ calcDegrees <-
     
     for(i in which(dt_nodes$level <= 3)){
       
-      node <- dt_nodes$vName[i]
+      node <- dt_nodes$Node[i]
       
       temp <- 
         dir %>% 
@@ -304,7 +304,7 @@ calcDegrees <-
     
     for(i in which(dt_nodes$level >= 3)){
       
-      node <- dt_nodes$vName[i]
+      node <- dt_nodes$Node[i]
       
       temp <- 
         dir %>% 
@@ -392,7 +392,7 @@ calcDegrees <-
   
     dt_final <- 
       dt %>% 
-      full_join(dt_nodes, by = "vName") %>%
+      full_join(dt_nodes, by = "Node") %>%
       inner_join(vInfo)
     
     return(dt_final)

@@ -29,21 +29,21 @@ apply_geoData <- function(geoData,
   to <- 
     edgelist_location_step2 %>% 
     select(to, weight) %>% 
-    rename(vName = to)
+    rename(Node = to)
   
   from <- 
     edgelist_location_step2 %>% 
     select(from, weight) %>% 
-    rename(vName = from)
+    rename(Node = from)
   
   all_excluded <- 
     to %>% rbind(from) %>% unique() %>% table() %>% as.data.frame() %>% 
     filter(weight == 1, Freq == 0) %>% mutate_if(is.factor, as.character) %>% # not precise but works
-    pull(vName)
+    pull(Node)
   
   vInfo_location <- 
     vInfo_template %>% 
-    filter(!vName %in% all_of(all_excluded)) # Keep track of included/excluded nodes even if they are not fully removed (just edges set to proxyWeight)
+    filter(!Node %in% all_of(all_excluded)) # Keep track of included/excluded nodes even if they are not fully removed (just edges set to proxyWeight)
   
   vInfo_tmp <-
     if(proxyWeight == 0) {vInfo_location} else {vInfo_template} # Not sure this is still needed

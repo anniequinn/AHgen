@@ -8,12 +8,12 @@ apply_scenario <- function(USAH_input,
   edges_to <- 
     edgelist_scenario %>% 
     select(to, weight) %>% 
-    rename(vName = to)
+    rename(Node = to)
   
   edges_from <- 
     edgelist_scenario %>% 
     select(from, weight) %>% 
-    rename(vName = from)
+    rename(Node = from)
   
   edges_all <- 
     edges_to %>% 
@@ -32,7 +32,7 @@ apply_scenario <- function(USAH_input,
   
   all_excluded <- 
     dplyr::setdiff(edges_excluded, edges_included) %>% 
-    pull(vName)
+    pull(Node)
   
   # Create list object for output
   USAH_scenario <- list()
@@ -41,11 +41,11 @@ apply_scenario <- function(USAH_input,
   
   USAH_scenario$vIncluded <- 
     USAH_input$vIncluded %>% 
-    filter(!vName %in% all_of(all_excluded))
+    filter(!Node %in% all_of(all_excluded))
   
   USAH_scenario$vExcluded <- 
     USAH_input$vIncluded %>% 
-    filter(vName %in% all_of(all_excluded)) %>%
+    filter(Node %in% all_of(all_excluded)) %>%
     rbind(USAH_input$vExcluded)
   
   # Attach scenario-specific edgelist

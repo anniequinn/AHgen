@@ -20,7 +20,7 @@ gen_edgesNew <- function(
       vInfo_template %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_drought == FALSE) %>%
-      pull(vName)
+      pull(Node)
     
     # Update 
     objectsAffected <- 
@@ -35,7 +35,7 @@ gen_edgesNew <- function(
       vInfo_template %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_flood == FALSE) %>%
-      pull(vName)
+      pull(Node)
     
     # Update objectsAffected
     objectsAffected <- 

@@ -8,7 +8,7 @@ read_vInfo <- function(filename, sheet = 1) {
   
   colNames <- output %>% names
   
-  index <- colNames %in% c("level", "levelName", "vName")
+  index <- colNames %in% c("level", "levelName_full", "levelName", "Node")
   
   output <- output[,index]
   

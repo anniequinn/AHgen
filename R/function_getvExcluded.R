@@ -17,13 +17,13 @@ function_getvExcluded <-
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(vName)
+        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
         
       }
       
       step1 <- 
         USAH_input$vExcluded %>%
-        filter(!vName %in% baseline_vExcluded) %>%
+        filter(!Node %in% baseline_vExcluded) %>%
         mutate(levelName_viz = 
                  case_when(
                    level == 1 ~ str_c(level, " - ", levelName),
@@ -32,15 +32,15 @@ function_getvExcluded <-
                    level == 4 ~ str_c(level, " - ", levelName),
                    level == 5 ~ str_c(level, " - ", levelName),
                    level == "Total" ~ "Total")) %>%
-        select(-level, -levelName) %>%
+        select(-level, -levelName_full, -levelName) %>%
         group_by(levelName_viz) %>%
         count() %>%
         adorn_totals(where = "row") %>%
-        rename(vName = n)
+        rename(Node = n)
       
       output <-
         USAH_input$vExcluded %>%
-        filter(!vName %in% baseline_vExcluded) %>%
+        filter(!Node %in% baseline_vExcluded) %>%
         arrange(level) %>%
         mutate(levelName_viz = 
                  case_when(
@@ -50,9 +50,9 @@ function_getvExcluded <-
                    level == 4 ~ str_c(level, " - ", levelName),
                    level == 5 ~ str_c(level, " - ", levelName),
                    level == "Total" ~ "Total")) %>%
-        select(levelName_viz, vName) %>%
+        select(levelName_viz, Node) %>%
         rbind(step1) %>%
-        rename(Level = levelName_viz, Node = vName)
+        rename(Level = levelName_viz, Node = Node)
       
     }
     
@@ -66,7 +66,7 @@ function_getvExcluded <-
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(vName)
+        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
         
       }
       
@@ -119,7 +119,7 @@ function_getvExcluded <-
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(vName)
+        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
         
       }
       

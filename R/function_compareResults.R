@@ -48,19 +48,19 @@ compareResults <- function(baselineScenario,
     
     step2 <-
       allScenarios_results[[x]] %>%
-      select(type, vName, rank_overall, rank_byLevel) %>%
+      select(type, Node, rank_overall, rank_byLevel) %>%
       rename(scenario_result_rankOverall = rank_overall, 
              scenario_result_rankByLevel = rank_byLevel)
     
     output <-
       step1 %>%
-      full_join(step2, by = c("type", "vName")) %>%
+      full_join(step2, by = c("type", "Node")) %>%
       gather(resultType, 
              result, 
              scenario_result_centrality:scenario_result_rankByLevel) %>% # put columns related to scenario results into "long format"
       mutate_(scenario = x) %>% # add column to specify which scenario each result corresponds to ## need to find way to directly use character string not number
       group_by(resultType, level) %>% # group by resultType and level so that the following outlier function calculates this for each group
-      mutate(outlierLabel = ifelse(is_outlier(result), vName, NA)) %>% # calculate outliers and where these exist assign an outlierLabel to be used in plots
+      mutate(outlierLabel = ifelse(is_outlier(result), Node, NA)) %>% # calculate outliers and where these exist assign an outlierLabel to be used in plots
       ungroup
     
     outputList[[x]] <- output # add output for specific scenario to the overall list

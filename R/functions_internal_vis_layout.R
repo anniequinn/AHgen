@@ -8,7 +8,7 @@ internal_horizontalLayout <-
   if(nrow(tmp) > 1) {
     
     edgelist <- 
-      tibble(from = "dummyVertex", to = tmp$vName, layer = "dummyLayer", weight = 1) %>% 
+      tibble(from = "dummyVertex", to = tmp$Node, layer = "dummyLayer", weight = 1) %>% 
       rbind(edgelist)
     
   }
@@ -190,7 +190,7 @@ internal_genericLayout <-
   vertices <- 
     findNodes(radialLayout) %>% 
     as_tibble %>% 
-    select(level, vName = name, x, y, pos, theta)
+    select(level, Node = name, x, y, pos, theta)
   
   list(edges = edges, vertices = vertices)
   

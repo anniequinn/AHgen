@@ -9,7 +9,7 @@ getResults <-
     group_by(level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
-    arrange(level, vName) %>%
+    arrange(level, Node) %>%
     mutate(metric = "EC", .before = 1)
   
   resultsSBC <-
@@ -22,7 +22,7 @@ getResults <-
     group_by(metric, level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
-    arrange(level, vName)
+    arrange(level, Node)
   
   resultsDegrees <-
     igraph %>%
@@ -40,7 +40,7 @@ getResults <-
     group_by(metric, level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
-    arrange(level, vName)
+    arrange(level, Node)
   
   output <- 
     rbind(resultsEC, resultsSBC, resultsDegrees) %>%
@@ -48,8 +48,8 @@ getResults <-
            version = paste0("USAH_", version),
            location = location,
            scenario = scenario) %>% 
-    select(level, levelName, version, location, scenario,
-           vName, metric, value, contains("rank"))
+    select(level, levelName_full, levelName, version, location, scenario,
+           Node, metric, value, contains("rank"))
   
   return(output)
   

@@ -15,11 +15,11 @@ update_subnetworks <-
           edgelist_template = edgelist_template,
           vInfo_template_full = vInfo_template_full,
           subnetworkColName = x) }) %>% 
-      reduce(full_join, by = "vName")
+      reduce(full_join, by = "Node")
     
     output <-
       vInfo_template_full %>% 
       select(-all_of(namesSubnetworks)) %>% 
-      full_join(newSubnetworks, by = "vName")
+      full_join(newSubnetworks, by = "Node")
     
   }

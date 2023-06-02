@@ -16,8 +16,8 @@ calcWVBC <- # Unstable version
     symmetrise_w() %>%
     betweenness_w(directed = TRUE, alpha = 0.5) %>%
     as_tibble %>%
-    mutate(vName = rownames(tnet)) %>%
-    select(vName, WVBC = betweenness)
+    mutate(Node = rownames(tnet)) %>%
+    select(Node, WVBC = betweenness)
   
   output <- function_merge_vInfo(dt = tnet2, vInfo = vInfo)
 
@@ -55,7 +55,7 @@ calcEC <-
     output %>%
     as.data.frame %>%
     tibble::rownames_to_column() %>% 
-    stats::setNames(c("vName", "centrality")) %>%
+    stats::setNames(c("Node", "centrality")) %>%
     inner_join(vInfo) 
   
   return(output)
@@ -86,7 +86,7 @@ calcSBC <-
     output %>%
     as.data.frame() %>%
     tibble::rownames_to_column() %>% 
-    stats::setNames(c("vName", "SBC", "SBC_norm")) %>%
+    stats::setNames(c("Node", "SBC", "SBC_norm")) %>%
     inner_join(vInfo)
   
   options(digits = 7) # Return R global options for 7 decimal points
@@ -115,8 +115,8 @@ calcMetrics <-
   
   output <- 
     output %>% 
-    reduce(full_join, by = c("level", "levelName", "vName")) %>%
-    arrange(level, levelName, vName)
+    reduce(full_join, by = c("level", "levelName", "Node")) %>%
+    arrange(level, levelName, Node)
   
   return(output)
   
@@ -132,17 +132,17 @@ calcChange <-
   
   before <- 
     before %>% 
-    select(level, levelName, vName, matches(metric)) %>% 
-    stats::setNames(c("level", "levelName", "vName", "before"))
+    select(level, levelName, Node, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "Node", "before"))
   
   after <- 
     after %>% 
-    select(level, levelName, vName, matches(metric)) %>% 
-    stats::setNames(c("level", "levelName", "vName", "after"))
+    select(level, levelName, Node, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "Node", "after"))
   
   output <- 
     list(before, after) %>% 
-    reduce(full_join, by = c("level", "levelName", "vName")) %>%
+    reduce(full_join, by = c("level", "levelName", "Node")) %>%
     mutate(absChange_afterMinusBefore = after-before,
            pctChange = absChange_afterMinusBefore/before * 100)
   
@@ -164,24 +164,24 @@ calcChangeNewEC <-
   
   before <- 
     before %>% 
-    select(level, levelName, vName, matches(metric)) %>% 
-    stats::setNames(c("level", "levelName", "vName", "before")) %>%
+    select(level, levelName, Node, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "Node", "before")) %>%
     mutate(sumEC_before = sum(before),
            nodePropBefore = (before / sumEC_before) * 100)
   
   after <- 
     after %>% 
-    select(level, levelName, vName, matches(metric)) %>% 
-    stats::setNames(c("level", "levelName", "vName", "after")) %>%
+    select(level, levelName, Node, matches(metric)) %>% 
+    stats::setNames(c("level", "levelName", "Node", "after")) %>%
     mutate(sumEC_after = sum(after),
            nodePropAfter = (after / sumEC_after) * 100)
   
   output <- 
     list(before, after) %>% 
-    reduce(full_join, by = c("level", "levelName", "vName")) %>%
+    reduce(full_join, by = c("level", "levelName", "Node")) %>%
     mutate(absChange_afterMinusBefore = nodePropAfter - nodePropBefore,
            pctChange = (absChange_afterMinusBefore/nodePropBefore) * 100) %>%
-    select(level, levelName, vName, before, after, absChange_afterMinusBefore, pctChange)
+    select(level, levelName, Node, before, after, absChange_afterMinusBefore, pctChange)
   
   output <- 
     output %>% 
