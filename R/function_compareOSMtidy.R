@@ -127,7 +127,7 @@ compareInternal <- function(baselineName,
     mutate(total_prop = mean(c(n_prop, area_prop, length_prop), na.rm = TRUE)) %>% # Calculate mean of three columns ignoring all NA values
     mutate(total_prop = ifelse(total_prop < 0.01, 0, total_prop)) %>% # Round down for edge weights < 1% functionality remaining (indicating e.g. 1419/1420 m^2 of a building has been flooded)
     mutate(across(where(is.numeric), ~na_if(., NaN))) %>% # Replace NaN with NA across numeric columns of entire dataframe
-    mutate(across(where(is.character), ~na_if(., "NaN"))) %>% # Replace NaN with NA across entire dataframe
+    mutate(across(where(is.character), ~na_if(., "NaN"))) # Replace NaN with NA across entire dataframe
     
     return(output_element)
   
