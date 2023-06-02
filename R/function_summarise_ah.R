@@ -10,7 +10,7 @@ summarise_ah <- function(vIncluded,
   
   vertices <- 
     vIncluded %>% 
-    group_by(level, levelName) %>% 
+    group_by(level, levelName_full, levelName) %>% 
     count() %>% 
     janitor::adorn_totals("row")
   
