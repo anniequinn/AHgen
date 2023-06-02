@@ -4,7 +4,7 @@ adjMat_to_edgelist <-
            vInfo) {
   
   colNames <- names(adjMat)
-  index <- which(colNames %in% c("vName", "level", "levelName"))
+  index <- which(colNames %in% c("vName", "level", "levelName_full", "levelName"))
   
   mat <- adjMat %>% select(-index)
   mat[upper.tri(mat, diag = TRUE)] <- NA
@@ -17,14 +17,26 @@ adjMat_to_edgelist <-
     melt2(measure.vars = c(2:ncol(.))) %>% 
     filter(value == 1)
   
-  source("object_levelKey.R", local = TRUE)
+  levelKey <- 
+    tibble(level = 1:5, 
+           levelName_full = c("Functional purposes", 
+                              "Values and priority measures", 
+                              "Generalised functions", 
+                              "Object-related processes", 
+                              "Physical objects"),
+           levelName = c("Purposes",
+                         "Outcomes",
+                         "Tasks",
+                         "Processes",
+                         "Resources")) %>%
+    mutate(abbr = paste0("l", level, c("FP", "VPM", "GF", "ORP", "PO")))
   
   step2 <- 
     adjMat %>% 
-    select(-any_of(c("level", "levelName"))) %>%
+    select(-any_of(c("level", "levelName_full", "levelName"))) %>%
     left_join(vInfo, by = "vName") %>%
-    select(level, levelName, vName) %>% 
-    left_join(levelKey, by = c("level", "levelName")) %>% 
+    select(level, levelName_full, levelName, vName) %>% 
+    left_join(levelKey, by = c("level", "levelName_full", "levelName")) %>% 
     select(abbr, vName)
   
   output <- 
@@ -49,11 +61,12 @@ adjMat_to_igraph <-
   
   output <- 
     adjMat %>% 
-    select(-level, -levelName, -vName) %>% 
+    select(-level, -levelName_full, -levelName, -vName) %>% 
     as.matrix() %>% graph.adjacency(mode = "undirected", weighted = TRUE) 
   
   E(output)$layer <- layer
   V(output)$level <- adjMat$level
+  V(output)$levelName_full <- adjMat$levelName_full
   V(output)$levelName <- adjMat$levelName
   
   return(output)
@@ -97,6 +110,7 @@ edgelist_to_igraph <-
     internal_add_weightAttribute(edgelist = edgelist)
   
   V(output)$level <- vInfo$level
+  V(output)$levelName_full <- vInfo$levelName_full
   V(output)$levelName <- vInfo$levelName
   
   return(output)
@@ -128,6 +142,7 @@ igraph_to_adjMat <-
   output <- 
     output %>% 
     add_column(level = V(igraph)$level, 
+               levelName_full = V(igraph)$levelName_full,
                levelName = V(igraph)$levelName, 
                .before = 1)
   
