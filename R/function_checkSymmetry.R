@@ -11,10 +11,18 @@ checkSymmetry <-
     for(x in vNames) {
       # add new column to identify if from rowwise or columnwise in adjMat - would then need to only select duplicated(step3) without this column
       step1 <- 
-        adjMat %>% select(x) %>% t() %>% as.data.frame %>% stats::setNames(vNames) %>% 
-        data.table::setDT(keep.rownames = TRUE) %>% rename(vName = rn)
+        adjMat %>% 
+        select(x) %>% 
+        t() %>% 
+        as.data.frame %>% 
+        stats::setNames(vNames) %>% 
+        data.table::setDT(keep.rownames = TRUE) %>% 
+        rename(vName = rn)
       
-      step2 <- adjMat %>% select(-level, -levelName) %>% filter(vName == x)
+      step2 <- 
+        adjMat %>% 
+        select(-level, -levelName_full, -levelName) %>% 
+        filter(vName == x)
       
       step3 <- step1 %>% rbind(step2)
       
