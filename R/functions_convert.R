@@ -9,7 +9,7 @@ adjMat_to_edgelist <-
   mat <- adjMat %>% select(-index)
   mat[upper.tri(mat, diag = TRUE)] <- NA
   
-  source("functions/function_melt2.R", local = TRUE)
+  source("function_melt2.R", local = TRUE)
   
   step1 <- 
     adjMat %>% 
@@ -19,7 +19,7 @@ adjMat_to_edgelist <-
     melt2(measure.vars = c(2:ncol(.))) %>% 
     filter(value == 1)
   
-  source("functions/object_levelKey.R", local = TRUE)
+  source("object_levelKey.R", local = TRUE)
   
   step2 <- 
     adjMat %>% 
