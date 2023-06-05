@@ -12,23 +12,23 @@ compareOSMtidy <- function(baselineName,
     
     compare_byCategory <-
       compareBy(baselineName = baselineName,
-                countOSMtidy_baseline, 
+                countOSMtidy_baseline = countOSMtidy_baseline, 
                 scenarioName = scenarioName,
-                countOSMtidy_scenario,
+                countOSMtidy_scenario = countOSMtidy_scenario,
                 classification = "category")
     
     compare_byPhysicalObject <-
       compareBy(baselineName = baselineName,
-                countOSMtidy_baseline, 
+                countOSMtidy_baseline = countOSMtidy_baseline, 
                 scenarioName = scenarioName,
-                countOSMtidy_scenario,
+                countOSMtidy_scenario = countOSMtidy_scenario,
                 classification = "physicalObject")
     
     compare_byDesc <-
       compareBy(baselineName = baselineName,
-                countOSMtidy_baseline, 
+                countOSMtidy_baseline = countOSMtidy_baseline, 
                 scenarioName = scenarioName,
-                countOSMtidy_scenario,
+                countOSMtidy_scenario = countOSMtidy_scenario,
                 classification = "desc")
     
     output <- 
@@ -41,9 +41,9 @@ compareOSMtidy <- function(baselineName,
     
     output <-
       compareBy(baselineName = baselineName,
-                countOSMtidy_baseline, 
+                countOSMtidy_baseline = countOSMtidy_baseline, 
                 scenarioName = scenarioName, 
-                countOSMtidy_scenario,
+                countOSMtidy_scenario = countOSMtidy_scenario,
                 classification = "desc")
     
   }
@@ -54,9 +54,9 @@ compareOSMtidy <- function(baselineName,
 
 # Level 2 internal function
 compareBy <- function(baselineName,
-                      countOSMtidy_baseline, 
+                      countOSMtidy_baseline = countOSMtidy_baseline, 
                       scenarioName,
-                      countOSMtidy_scenario,
+                      countOSMtidy_scenario = countOSMtidy_scenario,
                       classification = "desc") {
   
   if (classification == "category") {
