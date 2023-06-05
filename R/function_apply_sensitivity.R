@@ -15,7 +15,7 @@ apply_sensitivity <-
       "USAH_", version, "_", location, "_", scenario, "_minus", pct*100)]] <-   
       apply_scenario(USAH_input = USAH_input, edgelist_scenario = edgelist_minus,
                      version = version, location = location,
-                     scenario = "{scenario}-minus10pct")
+                     scenario = "{scenario}-minus{pct*100}pct")
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus = 
@@ -26,7 +26,7 @@ apply_sensitivity <-
       "USAH_", version, "_", location, "_", scenario, "_plus", pct*100)]] <-   
       apply_scenario(USAH_input = USAH_scenario, edgelist_scenario = edgelist_minus,
                      version = version, location = location, 
-                     scenario = "{scenario}-plus10pct")
+                     scenario = "{scenario}-plus{pct*100}pct")
     
     output$results <-
       output[[1]]$results %>% 
