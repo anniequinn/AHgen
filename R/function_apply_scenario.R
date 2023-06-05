@@ -1,7 +1,8 @@
 # Function to generate USAH_scenario output based on a new scenario edgelist
 apply_scenario <- function(USAH_input, 
                            edgelist_scenario,
-                           proxyWeight = 0) {
+                           proxyWeight = 0,
+                           version, location, scenario) {
   
   # Create dataframe of only the included vertices
   
@@ -66,7 +67,8 @@ apply_scenario <- function(USAH_input,
   # Create scenario-specific results based on weighted vertex betweenness centrality
   USAH_scenario$results <- 
     getResults(igraph = USAH_scenario$igraph, 
-               vInfo = USAH_scenario$vIncluded)
+               vInfo = USAH_scenario$vIncluded,
+               version = version, location = location, scenario = scenario)
   
   # Create scenario-specific summary of network
   USAH_scenario$summary <- 
