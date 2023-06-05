@@ -71,7 +71,8 @@ apply_geoData <- function(geoData,
          "adjMat" = adjMat_location, # Create location-specific adjacency matrix
          "edgelist" = edgelist_location, # Attach location-specific edgelist
          "igraph" = igraph_location, # Attach location-specific igraph
-         "results" = getResults(igraph = igraph_location, vInfo = vInfo_tmp), # Create location-specific results
+         "results" = getResults(igraph = igraph_location, vInfo = vInfo_tmp,
+                                version = version, location = location, scenario = scenario), # Create location-specific results
          "summary" = summarise_ah(vIncluded = vInfo_location, # Create summary of vertices by level
                                   edgelist = edgelist_location, # Create summary of edges by layer
                                   proxyWeight = proxyWeight)) # Specify proxyWeight
