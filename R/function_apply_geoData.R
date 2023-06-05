@@ -2,7 +2,10 @@ apply_geoData <- function(geoData,
                           desc_detection,
                           vInfo_template, 
                           edgelist_template, 
-                          proxyWeight = 0) {
+                          proxyWeight = 0,
+                          version,
+                          location,
+                          scenario) {
   
   PO_excluded <- 
     desc_detection$notDetected_exclude %>%  # Take dataframe of desc terms not detected in this location which should be excluded
