@@ -8,7 +8,7 @@ checkDiff <-
   
   diff <- setdiff(step1, step2)
   
-  if(nrow(diff) == 0) {
+  if((nrow(diff) == 0) == TRUE) {
     
     print("All edges match. Proceed!")
     
