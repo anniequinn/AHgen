@@ -8,9 +8,9 @@ checkDiff <-
   
   diff <- setdiff(step1, step2)
   
-  n <- diff %>% nrow %>% as.numeric
+  n <- diff %>% nrow %>% as.character # as.character is a workaround fix to "avoid argument is of length 0" error
   
-  if(n == 0) {
+  if(n == "0") {
     
     print("All edges match. Proceed!")
     
