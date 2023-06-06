@@ -6,11 +6,11 @@ checkDuplicates <- function(edgelist) {
   
   dup <- edges[ind,]
   
-  if(nrow(dup) == 0) {
+  if(isTRUE(nrow(dup)) == 0) {
     
     print("There are no duplicate edges. Proceed!")
     
-  } else {
+  } else if(isTRUE(nrow(dup)) != 0) {
     
     return(dup)
     
