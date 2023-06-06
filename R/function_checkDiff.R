@@ -14,7 +14,7 @@ checkDiff <-
     
     print("All edges match. Proceed!")
     
-  } else {
+  } else if(isTRUE(n != 0)) {
     
     return(diff)
     
