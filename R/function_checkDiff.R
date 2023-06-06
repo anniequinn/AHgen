@@ -12,7 +12,7 @@ checkDiff <-
     
     print("All edges match. Proceed!")
     
-  } else if((diff %>% nrow %>% as.numeric) > 0)) {
+  } else if((diff %>% nrow %>% as.numeric) > 0) {
     
     return(diff)
     
