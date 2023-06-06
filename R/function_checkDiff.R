@@ -1,6 +1,4 @@
-checkDiff <- 
-  function(edgesNew, 
-           edgelist) {
+checkDiff <- function(edgesNew, edgelist) {
   
   step1 <- edgesNew %>% select(from, to)
   
@@ -8,11 +6,11 @@ checkDiff <-
   
   diff <- setdiff(step1, step2)
   
-  if(nrow(diff) == 0) {
+  if(isTRUE(nrow(diff)) == 0) {
     
     print("All edges match. Proceed!")
     
-  } else {
+  } else if(isTRUE(nrow(diff)) != 0) {
     
     return(diff)
     
