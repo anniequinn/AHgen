@@ -28,6 +28,9 @@ apply_sensitivity <-
                      name = name, version = version, location = location, 
                      scenario = "{scenario}-plus{pct*100}pct")
     
+    output[[1]]$results <-
+      output[[1]]$results # Find non-0 rank changes
+    
     output$results <-
       output[[1]]$results %>% 
       rbind(output[[2]]$results) %>%
