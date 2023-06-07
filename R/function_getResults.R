@@ -1,5 +1,5 @@
 getResults <- 
-  function(igraph, vInfo, version, location, scenario) {
+  function(igraph, vInfo, name, version, location, scenario) {
   
   resultsEC <- 
     igraph %>%
@@ -45,10 +45,15 @@ getResults <-
   output <- 
     rbind(resultsEC, resultsSBC, resultsDegrees) %>%
     mutate(metric = fct_inorder(metric),
-           version = paste0("USAH_", version),
+           version = paste0(name, "_", version),
            location = location,
            scenario = scenario) %>% 
-    select(level, levelName_full, levelName, version, location, scenario,
+    group_by(metric, level) %>% # Group by metric and level so that the outlier function calculates this for each group
+    mutate(outlier = ifelse(outlier(value), "Yes", "No"), # Identify whether node is an outlier
+           outlierLabel = ifelse(outlier(value), Node, NA)) %>% # Attach a label for any outliers for easier plotting
+    ungroup() %>%
+    select(version, location, scenario, 
+           level, levelName_full, levelName,
            Node, metric, value, contains("rank"))
   
   return(output)

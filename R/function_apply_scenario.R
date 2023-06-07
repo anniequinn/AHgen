@@ -1,8 +1,8 @@
-# Function to generate USAH_scenario output based on a new scenario edgelist
-apply_scenario <- function(USAH_input, 
+# Function to generate AH_scenario output based on a new scenario edgelist
+apply_scenario <- function(AH_input, 
                            edgelist_scenario,
                            proxyWeight = 0,
-                           version, location, scenario) {
+                           name, version, location, scenario) {
   
   # Create dataframe of only the included vertices
   
@@ -36,46 +36,45 @@ apply_scenario <- function(USAH_input,
     pull(Node)
   
   # Create list object for output
-  USAH_scenario <- list()
+  AH_scenario <- list()
   
   # Keep track of included/excluded nodes even if they are not fully removed (just edges set to proxyWeight)
   
-  USAH_scenario$vIncluded <- 
-    USAH_input$vIncluded %>% 
+  AH_scenario$vIncluded <- 
+    AH_input$vIncluded %>% 
     filter(!Node %in% all_of(all_excluded))
   
-  USAH_scenario$vExcluded <- 
-    USAH_input$vIncluded %>% 
+  AH_scenario$vExcluded <- 
+    AH_input$vIncluded %>% 
     filter(Node %in% all_of(all_excluded)) %>%
-    rbind(USAH_input$vExcluded)
+    rbind(AH_input$vExcluded)
   
   # Attach scenario-specific edgelist
-  USAH_scenario$edgelist <- 
+  AH_scenario$edgelist <- 
     edgelist_scenario %>%
     filter(weight != 0)
   
   # Create scenario-specific adjMat
-  USAH_scenario$adjMat <- 
-    USAH_scenario$edgelist %>%
-    edgelist_to_adjMat(vInfo = USAH_scenario$vIncluded)
+  AH_scenario$adjMat <- 
+    AH_scenario$edgelist %>%
+    edgelist_to_adjMat(vInfo = AH_scenario$vIncluded)
   
   # Create scenario-specific igraph
-  USAH_scenario$igraph <- 
-    USAH_scenario$edgelist %>%
-    edgelist_to_igraph(vInfo = USAH_scenario$vIncluded)
+  AH_scenario$igraph <- 
+    AH_scenario$edgelist %>%
+    edgelist_to_igraph(vInfo = AH_scenario$vIncluded)
   
   # Create scenario-specific results based on weighted vertex betweenness centrality
-  USAH_scenario$results <- 
-    getResults(igraph = USAH_scenario$igraph, 
-               vInfo = USAH_scenario$vIncluded,
-               version = version, location = location, scenario = scenario)
+  AH_scenario$results <- 
+    getResults(igraph = AH_scenario$igraph, vInfo = AH_scenario$vIncluded, 
+               name = name, version = version, location = location, scenario = scenario)
   
   # Create scenario-specific summary of network
-  USAH_scenario$summary <- 
-    summarise_ah(vIncluded = USAH_scenario$vIncluded, # Create summary of vertices by level
-                 edgelist = USAH_scenario$edgelist, # Create summary of edges by layer
+  AH_scenario$summary <- 
+    summarise_ah(vIncluded = AH_scenario$vIncluded, # Create summary of vertices by level
+                 edgelist = AH_scenario$edgelist, # Create summary of edges by layer
                  proxyWeight = proxyWeight) # Specify proxyWeight
   
-  return(USAH_scenario)
+  return(AH_scenario)
   
 }

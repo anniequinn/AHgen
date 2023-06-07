@@ -1,12 +1,13 @@
-exportUSAH <- function(USAH, directory = NULL, version, location, scenario) {
+exportAH <- function(AH_input, directory = NULL, 
+                     name, version, location, scenario) {
   
   filenameRDS <- 
     filenameTimestamp(
       prefix = paste0(
-        directory, "USAH_", version, "_", location, "_", scenario),
+        directory, name, "_", version, "_", location, "_", scenario),
       extension = ".RDS")
   
-  USAH %>% saveRDS(filenameRDS)
+  AH_input %>% saveRDS(filenameRDS)
   
   message(paste0("Files saved as: "))
   
@@ -15,10 +16,11 @@ exportUSAH <- function(USAH, directory = NULL, version, location, scenario) {
   filenameXLSX <- 
     filenameTimestamp(
       prefix = paste0(
-        directory, "USAH_", version, "_", location, "_", scenario, "_results"),
+        directory, name, "_", version, "_", location, "_", scenario, 
+        "_results"),
       extension = ".xlsx")
   
-  USAH$results %>% write.xlsx(filenameXLSX)
+  AH_input$results %>% write.xlsx(filenameXLSX)
   
   message(paste0("Files saved as: "))
   
