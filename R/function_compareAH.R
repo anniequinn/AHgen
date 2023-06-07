@@ -76,14 +76,31 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
              ifelse(baseline_value == 0 & value == 0, 0,
                     ((value_amp - baseline_value_amp) / baseline_value_amp) * 100), # Not that changePct is after * 100 for % value
            change_rankByLevel = baseline_rankByLevel - rank_byLevel, # Note that a smaller rank number signifies a higher rank; a positive change_rank number signifies an increase in rank
-           change_rankOverall = baseline_rankOverall - rank_overall) %>% # Note that a smaller rank number signifies a higher rank; a positive change_rank number signifies an increase in rank
-    select(scenarioName, version, location, scenario, date, # scenario identifiers
-           level, levelName_full, levelName, Node, # basic identifiers
-           baseline_value, baseline_value_amp, baseline_rankByLevel, baseline_rankOverall, # baseline results
-           metric, value, value_amp, rank_byLevel, rank_byLevel_conf, 
-           rank_overall, rank_overall_conf, outlier, outlierLabel, # scenario results
-           change_value_amp, change_pct, change_rankByLevel, change_rankOverall) # change
-  
+           change_rankOverall = baseline_rankOverall - rank_overall) # Note that a smaller rank number signifies a higher rank; a positive change_rank number signifies an increase in rank
+    
+  if("confidence_rankByLevel" %in% colnames(scenarios$results)) {
+    
+    scenarios_compared$results <-
+      scenarios_compared$results %>%
+      select(scenarioName, version, location, scenario, date, # scenario identifiers
+             level, levelName_full, levelName, Node, # basic identifiers
+             metric, baseline_value, baseline_value_amp, baseline_rankByLevel, baseline_rankOverall, # baseline results
+             value, value_amp, change_value_amp, change_pct, # scenario value change
+             rank_byLevel, change_rankByLevel, confidence_rankByLevel, # scenario rank change
+             value_minus, rank_byLevel_minus, confidence_rankByLevel_minus, # scenario sensitivity run (minus)
+             value_plus, rank_byLevel_plus, confidence_rankByLevel_plus) # scenario sensitivity run (plus)
+
+  } else {
+    
+    scenarios_compared$results <-
+      scenarios_compared$results %>%
+      select(scenarioName, version, location, scenario, date, # scenario identifiers
+             level, levelName_full, levelName, Node, # basic identifiers
+             metric, baseline_value, baseline_value_amp, baseline_rankByLevel, baseline_rankOverall, # baseline results
+             value, value_amp, change_value_amp, change_pct, # scenario value change
+             rank_byLevel, change_rankByLevel) # scenario rank change
+  }
+    
   return(scenarios_compared)
 
 }

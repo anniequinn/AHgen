@@ -5,7 +5,6 @@ getResults <-
     igraph %>%
     calcEC(vInfo) %>%
     rename(value = centrality) %>%
-    mutate(rank_overall = dense_rank(desc(value))) %>% 
     group_by(level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
@@ -16,9 +15,6 @@ getResults <-
     igraph %>%
     calcSBC(vInfo) %>%
     gather(c("SBC", "SBC_norm"), key = "metric", value = "value") %>%
-    group_by(metric) %>%
-    mutate(rank_overall = dense_rank(desc(value))) %>%
-    ungroup() %>%
     group_by(metric, level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
@@ -34,9 +30,6 @@ getResults <-
              "nodeDegree_up2", "nodeDegree_up3", "nodeDegree_up4",
              "nodeDegree_down2", "nodeDegree_down3", "nodeDegree_down4"),
            key = "metric", value = "value") %>%
-    group_by(metric) %>%
-    mutate(rank_overall = dense_rank(desc(value))) %>%
-    ungroup() %>%
     group_by(metric, level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%
@@ -44,7 +37,19 @@ getResults <-
   
   output <- 
     rbind(resultsEC, resultsSBC, resultsDegrees) %>%
-    mutate(metric = fct_inorder(metric),
+    mutate(levelName_full = 
+             factor(levelName_full, levels = c("Functional purposes", 
+                                               "Values and priority measures", 
+                                               "Generalisted functions",
+                                               "Object-related processes",
+                                               "Physical objects")),
+           levelName = 
+             factor(levelName, levels = c("Purposes", 
+                                          "Outcomes", 
+                                          "Tasks",
+                                          "Processes",
+                                          "Resources")),
+           metric = fct_inorder(metric),
            version = paste0(name, "_", version),
            location = location,
            scenario = scenario) %>% 
