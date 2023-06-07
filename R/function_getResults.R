@@ -48,13 +48,8 @@ getResults <-
            version = paste0(name, "_", version),
            location = location,
            scenario = scenario) %>% 
-    group_by(metric, level) %>% # Group by metric and level so that the outlier function calculates this for each group
-    mutate(outlier = ifelse(outlier(value), "Yes", "No"), # Identify whether node is an outlier
-           outlierLabel = ifelse(outlier(value), Node, NA)) %>% # Attach a label for any outliers for easier plotting
-    ungroup() %>%
-    select(version, location, scenario, 
-           level, levelName_full, levelName,
-           Node, metric, value, outlier, outlierLabel, contains("rank"))
+    select(version, location, scenario, level, levelName_full, levelName,
+           Node, metric, value, contains("rank"))
   
   return(output)
   
