@@ -1,5 +1,4 @@
 # Function to compare counts between a baseline and a scenario
-
 compareOSMtidy <- function(baselineName,
                            countOSMtidy_baseline,
                            scenarioName,
@@ -120,15 +119,16 @@ compareInternal <- function(baselineName,
            "n_{scenarioName}" := n.y, 
            "area_{scenarioName}" := area.y, 
            "length_{scenarioName}" := length.y) %>%
-    mutate(across(where(is.numeric), ~na_if(., 0))) %>% # Replace 0 with NA across numeric columns of dataframe
-    mutate(across(where(is.numeric), ~na_if(., NaN))) %>% # Replace NaN with NA across numeric columns of entire dataframe
-    mutate(across(where(is.character), ~na_if(., "NaN"))) %>% # Replace NaN with NA across character columns of entire dataframe
+    naniar::replace_with_na_all(condition = ~.x == 0) %>% # Replace 0 with NA across entire dataframe
+    mutate_all(~ifelse(is.nan(.), NA, .)) %>% # Replace NaN (numeric) with NA across entire dataframe
+    naniar::replace_with_na_all(condition = ~.x %in% naniar::common_na_strings) %>% # Replace NaN (and other similar character strings) with NA across entire dataframe
     rowwise() %>% # Across row
     mutate(total_prop = mean(c(n_prop, area_prop, length_prop), na.rm = TRUE)) %>% # Calculate mean of three columns ignoring all NA values
+    ungroup() %>%
     mutate(total_prop = ifelse(total_prop < 0.01, 0, total_prop)) %>% # Round down for edge weights < 1% functionality remaining (indicating e.g. 1419/1420 m^2 of a building has been flooded)
-    mutate(across(where(is.numeric), ~na_if(., NaN))) %>% # Replace NaN with NA across numeric columns of entire dataframe
-    mutate(across(where(is.character), ~na_if(., "NaN"))) # Replace NaN with NA across entire dataframe
-    
+    mutate_all(~ifelse(is.nan(.), NA, .)) %>% # Replace NaN (numeric) with NA across entire dataframe
+    naniar::replace_with_na_all(condition = ~.x %in% naniar::common_na_strings) # Replace NaN (and other similar character strings) with NA across entire dataframe
+  
     return(output_element)
   
 }
