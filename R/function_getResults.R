@@ -54,7 +54,7 @@ getResults <-
     ungroup() %>%
     select(version, location, scenario, 
            level, levelName_full, levelName,
-           Node, metric, value, contains("rank"))
+           Node, metric, value, outlier, outlierLabel, contains("rank"))
   
   return(output)
   
