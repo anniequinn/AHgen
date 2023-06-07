@@ -4,7 +4,7 @@
 # abstraction hierarchy
 summarise_ah <- function(vIncluded, 
                          edgelist, 
-                         proxyWeight = 0.0000000001) {
+                         proxyWeight = 0) {
   
   require(janitor)
   
@@ -12,7 +12,8 @@ summarise_ah <- function(vIncluded,
     vIncluded %>% 
     group_by(level, levelName_full, levelName) %>% 
     count() %>% 
-    janitor::adorn_totals("row")
+    janitor::adorn_totals("row") %>%
+    rename(n_vertices = n)
   
   edgelist_true <- 
     edgelist %>% 
@@ -23,7 +24,8 @@ summarise_ah <- function(vIncluded,
     group_by(layer) %>% 
     count() %>% 
     ungroup(layer) %>%
-    janitor::adorn_totals("row")
+    janitor::adorn_totals("row") %>%
+    rename(n_edges = n)
   
   list("vertices" = vertices, "edges" = edges)
   
