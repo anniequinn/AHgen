@@ -13,10 +13,11 @@ apply_sensitivity <-
     
     # Generate minus scenario output
     output[[paste0(
-      name, "_", version, "_", location, "_", scenario, "_minus", pct*100)]] <-   
-      apply_scenario(AH_input = AH_input, edgelist_scenario = edgelist_minus,
+      name, "_", version, "_", location, "_", scenario, "_minus", pct*100, "pct")]] <-   
+      apply_scenario(AH_input = AH_input, 
+                     edgelist_scenario = edgelist_minus,
                      name = name, version = version, location = location,
-                     scenario = "{scenario}-minus{pct*100}pct")
+                     scenario = paste0(scenario, "-minus", pct*100, "pct"))
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus = 
@@ -24,10 +25,10 @@ apply_sensitivity <-
     
     # Generate plus scenario output
     output[[paste0(
-      name, "_", version, "_", location, "_", scenario, "_plus", pct*100)]] <-   
-      apply_scenario(AH_input = USAH_scenario, edgelist_scenario = edgelist_minus,
+      name, "_", version, "_", location, "_", scenario, "_plus", pct*100, "pct")]] <-   
+      apply_scenario(AH_input = USAH_scenario, edgelist_scenario = edgelist_plus,
                      name = name, version = version, location = location, 
-                     scenario = "{scenario}-plus{pct*100}pct")
+                     scenario = paste0(scenario, "-plus", pct*100, "pct"))
     
 
     # Understand confidence in rank_byLevel 
