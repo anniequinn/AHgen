@@ -50,17 +50,13 @@ apply_sensitivity <-
     
     confidence_step2 <-
       output[[2]]$results %>%
-      select(scenario, Node, metric, value, rank_byLevel, rank_overall) %>%
-      rename(value_minus = value,
-             rank_byLevel_minus = rank_byLevel,
-             rank_overall_minus = rank_overall)
+      select(scenario, Node, metric, value, rank_byLevel) %>%
+      rename(value_minus = value, rank_byLevel_minus = rank_byLevel)
     
     confidence_step3 <-
       output[[3]]$results %>%
-      select(scenario, Node, metric, value, rank_byLevel, rank_overall) %>%
-      rename(value_plus = value,
-             rank_byLevel_plus = rank_byLevel,
-             rank_overall_plus = rank_overall)
+      select(scenario, Node, metric, value, rank_byLevel) %>%
+      rename(value_plus = value, rank_byLevel_plus = rank_byLevel)
     
     confidence_minus <-
       confidence_step1 %>%
@@ -120,11 +116,10 @@ apply_sensitivity <-
                       levels = c("High", "Medium", "Low"))) %>%
       select(version, location, scenario, level, levelName_full, levelName,
              Node, metric, value, value_minus, value_plus,
-             rank_byLevel, confidence_rankByLevel, 
-             rank_byLevel_minus, confidence_rankByLevel_minus, 
-             rank_byLevel_plus, confidence_rankByLevel_plus,
-             rank_overall, rank_overall_minus, rank_overall_plus)
-    
+             rank_byLevel, confidence_rankByLevel_minusPlus, 
+             confidence_rankByLevel_minus, rank_byLevel_minus, 
+             confidence_rankByLevel_plus, rank_byLevel_plus)
+      
     return(output)
     
   }
