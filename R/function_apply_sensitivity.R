@@ -84,7 +84,7 @@ apply_sensitivity <-
       output[[1]]$results %>% 
       full_join(confidence_minus) %>%
       full_join(confidence_plus) %>%
-      mutate(confidence_rankByLevel = 
+      mutate(confidence_rankByLevel_minusPlus = 
                case_when(
                  confidence_rankByLevel_minus == "High" & 
                    confidence_rankByLevel_plus == "High" ~ "High",
@@ -111,8 +111,8 @@ apply_sensitivity <-
              confidence_rankByLevel_plus = 
                factor(confidence_rankByLevel_plus, 
                       levels = c("High", "Medium", "Low")),
-             confidence_rankByLevel = 
-               factor(confidence_rankByLevel,
+             confidence_rankByLevel_minusPlus = 
+               factor(confidence_rankByLevel_minusPlus,
                       levels = c("High", "Medium", "Low"))) %>%
       select(version, location, scenario, level, levelName_full, levelName,
              Node, metric, value, value_minus, value_plus,
