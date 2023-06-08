@@ -117,8 +117,9 @@ apply_sensitivity <-
       select(version, location, scenario, level, levelName_full, levelName,
              Node, metric, value, value_minus, value_plus,
              rank_byLevel, confidence_rankByLevel_minusPlus, 
-             confidence_rankByLevel_minus, rank_byLevel_minus, 
-             confidence_rankByLevel_plus, rank_byLevel_plus)
+             confidence_rankByLevel_minus, confidence_rankByLevel_plus, 
+             change_rankByLevel_minus, change_rankByLevel_plus, 
+             rank_byLevel_minus, rank_byLevel_plus)
       
     return(output)
     
