@@ -26,10 +26,20 @@ apply_sensitivity <-
     # Generate plus scenario output
     output[[paste0(
       name, "_", version, "_", location, "_", scenario, "_plus", pct*100, "pct")]] <-   
-      apply_scenario(AH_input = USAH_scenario, edgelist_scenario = edgelist_plus,
+      apply_scenario(AH_input = AH_input, 
+                     edgelist_scenario = edgelist_plus,
                      name = name, version = version, location = location, 
                      scenario = paste0(scenario, "-plus", pct*100, "pct"))
     
+    # Pull out key parts of AH_input for easy feeding into compareAH
+    
+    output$summary$vertices <- AH_input$summary$vertices
+    
+    output$summary$edges <- AH_input$summary$edges
+    
+    output$vExcluded <- AH_input$vExcluded
+    
+    # Then process the $results list element
 
     # Understand confidence in rank_byLevel 
     # according to minus & plus sensitivity runs, with default set to 
