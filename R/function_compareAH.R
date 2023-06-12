@@ -11,10 +11,11 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
           mutate(scenario_dummy = scenarioName) %>%
           separate(scenario_dummy, 
                    c("name", "version", "location", "scenario", "date"), 
-                   sep = "_")
+                   sep = "_") %>%
+          mutate(version = paste0(name, "_", version))
       }) %>%
       discard(function(x) nrow(x) == 1) %>%
-      do.call(rbind, .) %>%
+      do.call(bind_rows, .) %>%
       remove_rownames()
     
   }
@@ -82,7 +83,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     scenarios_compared$results <-
       results_step2 %>%
       select(
-        scenarioName, name, version, location, scenario, date, # scenario identifiers
+        scenarioName, version, location, scenario, date, # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
         metric, benchmark_value, benchmark_value_amp, benchmark_rankByLevel, # baseline / benchmark results
         value, value_amp, change_value_amp, change_pct, # scenario value change
@@ -105,7 +106,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     scenarios_compared$results <-
       results_step2 %>%
       select(
-        scenarioName, name, version, location, scenario, date, # scenario identifiers
+        scenarioName, version, location, scenario, date, # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
         metric, benchmark_value, benchmark_value_amp, benchmark_rankByLevel, # baseline / benchmark results
         value, value_amp, change_value_amp, change_pct, # scenario value change
