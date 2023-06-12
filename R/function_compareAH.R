@@ -78,7 +78,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
                     ((value_amp - benchmark_value_amp) / benchmark_value_amp) * 100), # Not that changePct is after * 100 for % value
            change_rankByLevel = benchmark_rankByLevel - rank_byLevel) # Note that a smaller rank number signifies a higher rank; a positive change_rank number signifies an increase in rank
 
-  if(any(sapply(scenarios_toCompare$results, function(x) any(names(x) == "confidence_rankByLevel_minusPlus")))) {
+  if(any(sapply(scenarios_toCompare, function(x) any(names(x$results) == "confidence_rankByLevel_minusPlus")))) {
     
     scenarios_compared$results <-
       results_step2 %>%
