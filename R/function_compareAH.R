@@ -61,8 +61,9 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   # change_pct is itself amplified * 100 to make it easier to distinguish by eye
   # where a value of 7.5 = 7.5% (not 750%)
   
-  results_step1 <-
+  results_step2 <-
     AH_benchmark$results %>%
+    select(-version, -location, -scenario) %>%
     rename(baseline_value = value, baseline_rankByLevel = rank_byLevel) %>%
     full_join(results_step1, 
               by = c("level", "levelName_full", "levelName", "Node", "metric")) %>%
@@ -79,7 +80,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   if(any(sapply(scenarios_toCompare, function(x) any(names(x) == "confidence_rankByLevel_minusPlus")))) {
     
     scenarios_compared$results <-
-      results_step1 %>%
+      results_step2 %>%
       select(
         scenarioName, name, version, location, scenario, date, # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
@@ -91,7 +92,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         value_minus, value_plus) # sensitivity values for detail on confidence
         
     scenarios_compared$confidence <-
-      results_step1 %>%
+      results_step2 %>%
       group_by(scenarioName, level) %>%
       count(confidence_rankByLevel_minusPlus) %>%
       ungroup()
@@ -102,7 +103,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   } else {
     
     scenarios_compared$results <-
-      results_step1 %>%
+      results_step2 %>%
       select(
         scenarioName, name, version, location, scenario, date, # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
