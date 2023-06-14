@@ -92,12 +92,17 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         confidence_rankByLevel_plus, rank_byLevel_plus, # sensitivity rank for detail on confidence (plus) 
         value_minus, value_plus) # sensitivity values for detail on confidence
         
-    scenarios_compared$confidence <-
+    scenarios_compared$confidence$scenarioLevel <-
       results_step2 %>%
       group_by(scenarioName, version, location, scenario, date, 
                level, levelName_full, levelName) %>%
       count(confidence_rankByLevel_minusPlus) %>%
-      ungroup()
+      ungroup() %>%
+      group_by(scenarioName, level) %>%
+      mutate(n_scenarioLevel = sum(n)) %>%
+      ungroup() %>%
+      mutate(pct_scenarioLevel = (n / n_scenarioLevel) * 100)
+    
     # probably need to add a another step to add %
     # and do some renaming of columns etc. here 
     # refer to summarise_AH
