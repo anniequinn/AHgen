@@ -94,15 +94,27 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         
     scenarios_compared$confidence$scenarioLevel <-
       results_step2 %>%
+      filter(metric == c("EC", "SBC_norm")) %>%
       group_by(scenarioName, version, location, scenario, date, 
-               level, levelName_full, levelName) %>%
+               level, levelName_full, levelName, metric) %>%
       count(confidence_rankByLevel_minusPlus) %>%
       ungroup() %>%
       group_by(scenarioName, level) %>%
       mutate(n_scenarioLevel = sum(n)) %>%
       ungroup() %>%
-      mutate(pct_scenarioLevel = (n / n_scenarioLevel) * 100)
+      mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
     
+    scenarios_compared$confidence$scenario_acrossAllLevels <-
+      results_step2 %>%
+      filter(metric == c("EC", "SBC_norm") %>%
+      group_by(scenarioName, version, location, scenario, date, metric) %>%
+      count(confidence_rankByLevel_minusPlus) %>%
+      ungroup() %>%
+      group_by(scenarioName) %>%
+      mutate(n_scenarioLevel = sum(n)) %>%
+      ungroup() %>%
+      mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
+      
     # probably need to add a another step to add %
     # and do some renaming of columns etc. here 
     # refer to summarise_AH

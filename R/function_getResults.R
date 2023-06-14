@@ -40,7 +40,7 @@ getResults <-
     mutate(levelName_full = 
              factor(levelName_full, levels = c("Functional purposes", 
                                                "Values and priority measures", 
-                                               "Generalisted functions",
+                                               "Generalised functions",
                                                "Object-related processes",
                                                "Physical objects")),
            levelName = 
