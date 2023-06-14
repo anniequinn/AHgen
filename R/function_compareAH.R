@@ -78,8 +78,9 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
                     ((value_amp - benchmark_value_amp) / benchmark_value_amp) * 100), # Not that changePct is after * 100 for % value
            change_rankByLevel = benchmark_rankByLevel - rank_byLevel) # Note that a smaller rank number signifies a higher rank; a positive change_rank number signifies an increase in rank
 
-  if(any(sapply(scenarios_toCompare, function(x) any(names(x$results) == "confidence_rankByLevel_minusPlus")))) {
+  if (any(sapply(scenarios_toCompare, function(x) any(names(x$results) == "confidence_rankByLevel_minusPlus"))))
     
+  {
     scenarios_compared$results <-
       results_step2 %>%
       select(
@@ -91,7 +92,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         confidence_rankByLevel_minus, rank_byLevel_minus, # sensitivity rank for detail on confidence (minus)
         confidence_rankByLevel_plus, rank_byLevel_plus, # sensitivity rank for detail on confidence (plus) 
         value_minus, value_plus) # sensitivity values for detail on confidence
-        
+    
     scenarios_compared$confidence$scenarioLevel <-
       results_step2 %>%
       filter(metric == c("EC", "SBC_norm")) %>%
@@ -107,18 +108,14 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     scenarios_compared$confidence$scenario_acrossAllLevels <-
       results_step2 %>%
       filter(metric == c("EC", "SBC_norm") %>%
-      group_by(scenarioName, version, location, scenario, date, metric) %>%
-      count(confidence_rankByLevel_minusPlus) %>%
-      ungroup() %>%
-      group_by(scenarioName) %>%
-      mutate(n_scenarioLevel = sum(n)) %>%
-      ungroup() %>%
-      mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
-      
-    # probably need to add a another step to add %
-    # and do some renaming of columns etc. here 
-    # refer to summarise_AH
-
+               group_by(scenarioName, version, location, scenario, date, metric) %>%
+               count(confidence_rankByLevel_minusPlus) %>%
+               ungroup() %>%
+               group_by(scenarioName) %>%
+               mutate(n_scenarioLevel = sum(n)) %>%
+               ungroup() %>%
+               mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
+    
   } else {
     
     scenarios_compared$results <-
@@ -129,6 +126,7 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         metric, benchmark_value, benchmark_value_amp, benchmark_rankByLevel, # baseline / benchmark results
         value, value_amp, change_value_amp, change_pct, # scenario value change
         rank_byLevel, change_rankByLevel) # scenario rank change
+    
   }
     
   return(scenarios_compared)
