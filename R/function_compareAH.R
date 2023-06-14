@@ -93,29 +93,6 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         confidence_rankByLevel_plus, rank_byLevel_plus, # sensitivity rank for detail on confidence (plus) 
         value_minus, value_plus) # sensitivity values for detail on confidence
     
-    scenarios_compared$confidence$scenarioLevel <-
-      results_step2 %>%
-      filter(metric == c("EC", "SBC_norm")) %>%
-      group_by(scenarioName, version, location, scenario, date, 
-               level, levelName_full, levelName, metric) %>%
-      count(confidence_rankByLevel_minusPlus) %>%
-      ungroup() %>%
-      group_by(scenarioName, level) %>%
-      mutate(n_scenarioLevel = sum(n)) %>%
-      ungroup() %>%
-      mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
-    
-    scenarios_compared$confidence$scenario_acrossAllLevels <-
-      results_step2 %>%
-      filter(metric == c("EC", "SBC_norm") %>%
-               group_by(scenarioName, version, location, scenario, date, metric) %>%
-               count(confidence_rankByLevel_minusPlus) %>%
-               ungroup() %>%
-               group_by(scenarioName) %>%
-               mutate(n_scenarioLevel = sum(n)) %>%
-               ungroup() %>%
-               mutate(pct_scenarioLevel = round(((n / n_scenarioLevel) * 100), 2))
-    
   } else {
     
     scenarios_compared$results <-
