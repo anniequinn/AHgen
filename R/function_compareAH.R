@@ -93,6 +93,9 @@ compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         confidence_rankByLevel_plus, rank_byLevel_plus, # sensitivity rank for detail on confidence (plus) 
         value_minus, value_plus) # sensitivity values for detail on confidence
     
+    scenarios_compared$confidence <-
+      summarise_confidence(results = scenarios_compared$results)
+    
   } else {
     
     scenarios_compared$results <-
