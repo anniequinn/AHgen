@@ -1,3 +1,6 @@
-colsLevels <- readRDS("aes_colsLevels.RDS")
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
 
-usethis::use_data(colsLevels)
+USAH_3.0_template_baseline_vInfo_full <- 
+  read_xlsx("USAH_3.0_template_baseline_vInfo-full_20230608.xlsx")
+
+usethis::use_data(USAH_3.0_template_baseline_vInfo_full)
