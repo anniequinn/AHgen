@@ -13,4 +13,5 @@ LazyData: true
 Depends:
     tidyverse,
     igraph,
-    tnet
+    tnet,
+    R (>= 2.10)
