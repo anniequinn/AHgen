@@ -12,6 +12,10 @@
 #' a baseline, river floods with a 1 in 100-year return period, and
 #' river floods with a 1 in 200-year return period. 
 #' 
+#' @colsFloodRiver_df A data frame of three colours for scenarios relating to 
+#' a baseline, river floods with a 1 in 100-year return period, and
+#' river floods with a 1 in 200-year return period.  
+#' 
 #' @colsLevels A vector of colours associated with each level of
 #' the abstraction hierarchy. 
 #' 
