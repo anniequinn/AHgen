@@ -157,7 +157,8 @@ colsFloodRiver_df <- read_xlsx("aes_colsFloodRiver_df.xlsx")
 # Reformat data frame
 colsFloodRiver_df <-
   colsFloodRiver_df %>%
-  mutate(scenario = factor(scenario, levels = c("baseline", "1 in 100-year flood", "1 in 200-year flood")))
+  mutate(scenario = factor(scenario, levels = c("baseline", "1 in 100-year flood", "1 in 200-year flood")),
+         cols = fct_inorder(cols))
 
 # Pull vectors for separate outputs
 colsFloodRiver <- colsFloodRiver_df %>% pull(cols)
