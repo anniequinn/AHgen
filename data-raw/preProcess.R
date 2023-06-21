@@ -5,7 +5,7 @@
 # Created: 2022-06-16
 
 # Last revised by: Dr Melissa Bedinger (dr.m.bedinger@gmail.com)
-# Last revised: 2023-06-19
+# Last revised: 2023-06-21
 # =========================================================================
 
 # PREP --------------------------------------------------------------------
@@ -28,7 +28,7 @@ library(AHgen)
 USAH_3.0_template_baseline_adjMat <- AHgen::read_adjMat("USAH_3.0_template_baseline_adjMat_20230602.xlsx")
 
 # Load data frame
-USAH_3.0_template_baseline_vInfo_full <- read_xlsx("USAH_3.0_template_baseline_vInfo-full_20230616.xlsx")
+USAH_3.0_template_baseline_vInfo_full <- read_xlsx("USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
 
 usethis::use_data(USAH_3.0_template_baseline_adjMat)
 usethis::use_data(USAH_3.0_template_baseline_vInfo_full)
