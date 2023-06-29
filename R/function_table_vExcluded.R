@@ -1,11 +1,9 @@
 # Function to get table of vExcluded
-function_getvExcluded <- 
-  function(
-    USAH_baseline,
-    USAH_input, 
-    singleScenario = TRUE,
-    compareLocations = FALSE,
-    compareScenarios = FALSE) {
+# previously named function_getvExcluded
+table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benchmark?
+                            singleScenario = TRUE,
+                            compareLocations = FALSE,
+                            compareScenarios = FALSE) {
     
     if(singleScenario == TRUE &
        compareLocations == FALSE &

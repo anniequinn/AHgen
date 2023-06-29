@@ -1,5 +1,4 @@
-getResults <- 
-  function(igraph, vInfo, name, version, location, scenario) {
+getResults <- function(igraph, vInfo, name, version, location, scenario) {
   
   resultsEC <- 
     igraph %>%

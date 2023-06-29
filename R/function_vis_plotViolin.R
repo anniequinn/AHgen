@@ -1,5 +1,5 @@
-plotViolin <- function(results, metricName, type = "half", 
-                       levels = NULL, family = "Harding") {
+vis_plotViolin <- function(results, metricName, type = "half", 
+                           levels = NULL, family = "Harding") {
   
   # yaxisLab prep
   if(metricName == "EC")

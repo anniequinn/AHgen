@@ -1,10 +1,10 @@
 # Function to get table of nodes ranked by SBC
-function_getRankSBC <- 
-  function(
-    USAH_input,
-    singleScenario = TRUE,
-    compareLocations = FALSE,
-    compareScenarios = FALSE) {
+# previously named function_getRankSBC
+table_rankSBC <- 
+  function(USAH_input,
+           singleScenario = TRUE,
+           compareLocations = FALSE,
+           compareScenarios = FALSE) {
     
     if (singleScenario == TRUE &
         compareLocations == FALSE &

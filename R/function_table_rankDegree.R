@@ -1,9 +1,7 @@
 # Function to get table of nodes ranked by degree
 # Options are "all", "Purposes", "Outcomes", "Tasks", "Processes", and "Resources"
-function_getRankDegree <-
-  function(
-    USAH_input,
-    level = "all") {
+# previously named function_getRankDegree
+table_rankDegree <- function(USAH_input, level = "all") {
     
     if(level == "all") {
       

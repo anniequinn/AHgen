@@ -1,5 +1,6 @@
-plotRank <- function(results, metricName, levels, benchmark = "baseline",
-                     change.only = FALSE, confidence.lines = FALSE, family = "Harding") {
+vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
+                         change.only = FALSE, confidence.lines = FALSE, 
+                         family = "Harding") {
   
   if(change.only == FALSE){
     

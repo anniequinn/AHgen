@@ -1,10 +1,9 @@
 # Function to get table of edges
-function_getEdges <- 
-  function(
-    USAH_input,
-    singleScenario = TRUE,
-    compareLocations = FALSE,
-    compareScenarios = FALSE) {
+# previously named function_getEdges
+table_edges <- function(USAH_input,
+                        singleScenario = TRUE,
+                        compareLocations = FALSE,
+                        compareScenarios = FALSE) {
     
     if(singleScenario == TRUE) {
       

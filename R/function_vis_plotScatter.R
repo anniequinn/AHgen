@@ -1,8 +1,8 @@
-plotScatter <- function(results, benchmark = "baseline", 
-                        metricName, type, 
-                        levels = NULL, locations = NULL, 
-                        omit.zeros = TRUE, omit.inf = TRUE,
-                        family = "Harding") { 
+vis_plotScatter <- function(results, benchmark = "baseline", 
+                            metricName, type, 
+                            levels = NULL, locations = NULL, 
+                            omit.zeros = TRUE, omit.inf = TRUE,
+                            family = "Harding") { 
   
   # Size aesthetics prep
   results <- 

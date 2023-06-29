@@ -1,10 +1,9 @@
 # Function to get table of nodes ranked by EC
-function_getRankEC <- 
-  function(
-    USAH_input,
-    singleScenario = TRUE,
-    compareLocations = FALSE,
-    compareScenarios = FALSE) {
+# previously function_getRankEC
+table_rankEC <- function(USAH_input, 
+                         singleScenario = TRUE, 
+                         compareLocations = FALSE, 
+                         compareScenarios = FALSE) {
     
     if(singleScenario == TRUE &
        compareLocations == FALSE &

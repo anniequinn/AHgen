@@ -1,10 +1,9 @@
 # Function to get table of vertices
-function_getVertices <- 
-  function(
-    USAH_input,
-    singleScenario = TRUE,
-    compareLocations = FALSE,
-    compareScenarios = FALSE) {
+# previously named function_getVertices
+table_vertices <- function(USAH_input,
+                           singleScenario = TRUE,
+                           compareLocations = FALSE,
+                           compareScenarios = FALSE) {
     
     if(singleScenario == TRUE) {
       
