@@ -194,7 +194,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
       plotBase +
       geom_line(aes(colour = cols, linetype = linetypes), alpha = 0.8, linewidth = 0.4) +
       geom_point(aes(colour = cols), size = 0.4, show.legend = TRUE) +
-      geom_text_repel(
+      ggrepel::geom_text_repel(
         data = subset(results, 
                       scenario == benchmark & group == "multi-benchmark"),
         box.padding = 0.1, direction = "y", hjust = "left", force = 0.2, 

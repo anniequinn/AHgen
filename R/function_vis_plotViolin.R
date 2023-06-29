@@ -21,8 +21,8 @@ vis_plotViolin <- function(results, metricName, type = "half",
   
   if(type == "half"){
     
-    # !!! NOTE !!! Still no idea why, but colsBaseline & colsFloodRiver200 needed
-    # to be swapped to create accurate visualisation
+    # !!! NOTE !!! Still haven't located the root issue
+    # but colsBaseline & colsFloodRiver200 needed to be swapped to create accurate visualisation
     
     violinPlot <-
       ggplot(data = results) +
@@ -36,7 +36,7 @@ vis_plotViolin <- function(results, metricName, type = "half",
       see::geom_violinhalf(
         data = results %>% filter(scenario == "1 in 200-year flood"), 
         alpha = 0.7, aes(fill = colsBaseline), linewidth = 0.1) + # using default colours from AHgen package
-      facet_grid2(
+      ggh4x::facet_grid2(
         independent = "x", levelName ~ location, 
         labeller = label_wrap_gen(width = 15), scales = "free", switch = "y") +
       labs(y = yaxisLab) +
@@ -80,7 +80,7 @@ vis_plotViolin <- function(results, metricName, type = "half",
       ggplot(data = results) +
       aes(x = levelName, y = value, color = scenario) +
       geom_violin(alpha = 0.1, position = "identity", linewidth = 0.2) +
-      facet_grid2(
+      ggh4x::facet_grid2(
         independent = "x", levelName ~ location, 
         labeller = label_wrap_gen(width = 15), scales = "free", switch = "y") +
       labs(y = yaxisLab) +

@@ -1,5 +1,5 @@
 # Helper function to export Excel workbook
-exportExcel <- function(inputList, filename) {
+export_excel <- function(inputList, filename) {
   
   require(openxlsx)
   

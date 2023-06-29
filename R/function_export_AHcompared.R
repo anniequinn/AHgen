@@ -1,14 +1,14 @@
-exportCountCompared <- function(countCompared, directory = NULL, 
-                                version, location, baseline, scenario) {
+export_AHcompared <- function(AH_compared, directory = NULL, 
+                              name, version, benchmark, scenarios) {
   
   filenameRDS <- 
     filenameTimestamp(
       prefix = paste0(
         directory, 
-        "countCompared_", version, "_", location, "_", baseline, "-", scenario),
+        "comparison_", name, "_", version, "_", benchmark, "-", scenarios),
       extension = ".RDS")
   
-  countCompared %>% saveRDS(filenameRDS)
+  AH_compared %>% saveRDS(filenameRDS)
   
   message(paste0("Files saved as: "))
   
@@ -18,10 +18,10 @@ exportCountCompared <- function(countCompared, directory = NULL,
     filenameTimestamp(
       prefix = paste0(
         directory, 
-        "countCompared_", version, "_", location, "_", baseline, "-", scenario),
+        "comparison_", name, "_", version, "_", benchmark, "-to-", scenarios),
       extension = ".xlsx")
   
-  countCompared %>% exportExcel(filenameXLSX)
+  AH_compared$results %>% xlsx::write.xlsx(filenameXLSX)
   
   message(paste0("Files saved as: "))
   

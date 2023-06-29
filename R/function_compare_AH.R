@@ -1,4 +1,6 @@
-compareAH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
+compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
+  
+  require(Biobase)
   
   # Internal function
   mapSubLists <- function(input, scenarioNames) {

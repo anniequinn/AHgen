@@ -2,7 +2,15 @@ vis_plotScatter <- function(results, benchmark = "baseline",
                             metricName, type, 
                             levels = NULL, locations = NULL, 
                             omit.zeros = TRUE, omit.inf = TRUE,
-                            family = "Harding") { 
+                            family) { 
+  
+  # by = "location"
+  # if levels = single, & location = single, single plot
+  # if levels = c(1, 2), c(1, 2, 3) etc., & location = single, ncol = 3 facet_wrap
+  # if levels = single & location = multiple, ncol = 3 facet_wrap
+  # if levels = all [either c(1, 2, 3) or c(3, 4, 5) & locations = all & scenarios = all goes to facet_grid2
+  
+  # by = "scenario" (e.g. Edinburgh COVID weeks) flip the scenario & location?
   
   # Size aesthetics prep
   results <- 
@@ -124,10 +132,10 @@ vis_plotScatter <- function(results, benchmark = "baseline",
       geom_hline(yintercept = 0, color = "gray85", linewidth = 0.4) +
       geom_point(aes(shape = scenario, color = scenario), 
                  size = results$sizes, stroke = 0.2) +
-      scale_x_reordered() +
-      facet_grid2(independent = "x", levelName ~ location, 
-                  labeller = label_wrap_gen(width = 15), 
-                  scales = "free", switch = "y") +
+      tidytext::scale_x_reordered() +
+      ggh4x::facet_grid2(independent = "x", levelName ~ location, 
+                         labeller = label_wrap_gen(width = 15), 
+                         scales = "free", switch = "y") +
       labs(y = yaxisLab) +
       scale_color_manual(values = levels(results$cols)) +
       scale_shape_manual(values = shapesAll) +
@@ -187,7 +195,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
                  size = results$sizes, stroke = 0.2) +
       facet_wrap(~location, labeller = label_wrap_gen(width = 15), 
                  ncol = 3, scales = "free") +
-      scale_x_reordered() +
+      tidytext::scale_x_reordered() +
       labs(title = titleLab, y = yaxisLab) +
       scale_color_manual(values = levels(results$cols)) +
       scale_shape_manual(values = shapesAll) +
@@ -239,7 +247,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
                  y = !!sym(values))) +
       geom_point(aes(shape = scenario, color = scenario), 
                  size = 1.2, stroke = 0.4) +
-      scale_x_reordered() +
+      tidytext::scale_x_reordered() +
       labs(title = titleLab, y = yaxisLab) +
       scale_color_manual(values = levels(results$cols)) +
       scale_shape_manual(values = shapesAll) +

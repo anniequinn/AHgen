@@ -1,5 +1,5 @@
-exportAH <- function(AH_input, directory = NULL, 
-                     name, version, location, scenario) {
+export_AH <- function(AH_input, directory = NULL, 
+                      name, version, location, scenario) {
   
   filenameRDS <- 
     filenameTimestamp(
@@ -20,7 +20,7 @@ exportAH <- function(AH_input, directory = NULL,
         "_results"),
       extension = ".xlsx")
   
-  AH_input$results %>% write.xlsx(filenameXLSX)
+  AH_input$results %>% xlsx::write.xlsx(filenameXLSX)
   
   message(paste0("Files saved as: "))
   

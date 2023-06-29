@@ -1,8 +1,8 @@
 # Function to compare counts between a baseline and a scenario
-compareOSMtidy <- function(baselineName,
-                           countOSMtidy_baseline,
-                           scenarioName,
-                           countOSMtidy_scenario) {
+compare_OSMtidy <- function(baselineName,
+                            countOSMtidy_baseline,
+                            scenarioName,
+                            countOSMtidy_scenario) {
   
   check <- "byPhysicalObject_all"
   

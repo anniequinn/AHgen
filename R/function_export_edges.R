@@ -1,5 +1,5 @@
-exportEdges <- function(edges, directory = NULL, 
-                        name, version, location, scenario) {
+export_edges <- function(edges, directory = NULL, 
+                         name, version, location, scenario) {
   
   filenameRDS <- 
     filenameTimestamp(
@@ -20,7 +20,7 @@ exportEdges <- function(edges, directory = NULL,
         "_results"),
       extension = ".xlsx")
   
-  edges %>% write.xlsx(filenameXLSX)
+  edges %>% xlsx::write.xlsx(filenameXLSX)
   
   message(paste0("Files saved as: "))
   

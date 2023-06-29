@@ -113,7 +113,7 @@ To get started with AHgen, you'll need to:
 A walkthrough of each step is provided via the **tabs** below.
 
 
-### Step 1 - Install
+### Step 1 - Install R & RStudio
 
 These screenshots will guide you through the process of downloading [R](https://cloud.r-project.org/) and [RStudio](https://rstudio.com/products/rstudio/download/). But first:
 
