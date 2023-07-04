@@ -71,7 +71,7 @@ apply_scenario <- function(AH_input,
   
   # Create scenario-specific summary of network
   AH_scenario$summary <- 
-    summarise_ah(vIncluded = AH_scenario$vIncluded, # Create summary of vertices by level
+    summarise_AH(vIncluded = AH_scenario$vIncluded, # Create summary of vertices by level
                  edgelist = AH_scenario$edgelist, # Create summary of edges by layer
                  proxyWeight = proxyWeight) # Specify proxyWeight
   
