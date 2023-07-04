@@ -11,7 +11,7 @@ calc_SBC <- function(igraph, vInfo) {
     edgelist_to_igraph(vInfo)
   
   output <- 
-    sbc_norm(graph = igraph_invertedWeight, undirected = TRUE, normalize = TRUE)
+    sbc_norm(igraph = igraph_invertedWeight, undirected = TRUE, normalize = TRUE)
   
   output <- 
     output %>%
