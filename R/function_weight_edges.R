@@ -1,4 +1,4 @@
-weightEdges <- function(edgelist, edgesNew) {
+weight_edges <- function(edgelist, edgesNew) {
   
   output <- 
     edgelist %>% 
