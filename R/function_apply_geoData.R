@@ -75,7 +75,7 @@ apply_geoData <- function(geoData,
          "results" = gen_results(
            igraph = igraph_location, vInfo = vInfo_tmp, name = name, 
            version = version, location = location, scenario = scenario), # Create location-specific results
-         "summary" = summarise_ah(vIncluded = vInfo_location, # Create summary of vertices by level
+         "summary" = summarise_AH(vIncluded = vInfo_location, # Create summary of vertices by level
                                   edgelist = edgelist_location, # Create summary of edges by layer
                                   proxyWeight = proxyWeight)) # Specify proxyWeight
   
