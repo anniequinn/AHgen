@@ -51,7 +51,7 @@ gen_edgesNew <- function(vInfo_template_full, edgelist,
   
   # Join dataframes
   edgesNew <-
-    edgelist_input %>%
+    edgelist %>%
     filter(to %in% objectsAffected) %>% # Filter edgelist_input to only physical objects affected
     left_join(objectsAffected_weights, by = "to") %>% # Join
     select(-weight) # Remove weight column now superseded by weightNew
