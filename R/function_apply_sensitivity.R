@@ -9,7 +9,7 @@ apply_sensitivity <-
     
     # Decrease any affected edge weights by x% (e.g. 10%)
     edgelist_minus = 
-      calcSensitivity(AH_input = AH_input, sign = "minus", pct = pct)
+      calc_sensitivity(AH_input = AH_input, sign = "minus", pct = pct)
     
     # Generate minus scenario output
     output[[paste0(
@@ -21,7 +21,7 @@ apply_sensitivity <-
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus = 
-      calcSensitivity(AH_input = AH_input, sign = "plus", pct = pct)
+      calc_sensitivity(AH_input = AH_input, sign = "plus", pct = pct)
     
     # Generate plus scenario output
     output[[paste0(
