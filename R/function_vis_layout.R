@@ -1,9 +1,4 @@
-vis_layout <- 
-  function(edgelist, 
-           vInfo, 
-           minSpacing = 0, 
-           maxSpacing = 100, 
-           key) { 
+vis_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key) { 
   
   require(ggraph)
   

@@ -66,8 +66,8 @@ apply_scenario <- function(AH_input,
   
   # Create scenario-specific results based on weighted vertex betweenness centrality
   AH_scenario$results <- 
-    getResults(igraph = AH_scenario$igraph, vInfo = AH_scenario$vIncluded, 
-               name = name, version = version, location = location, scenario = scenario)
+    gen_results(igraph = AH_scenario$igraph, vInfo = AH_scenario$vIncluded, 
+                name = name, version = version, location = location, scenario = scenario)
   
   # Create scenario-specific summary of network
   AH_scenario$summary <- 

@@ -1,11 +1,7 @@
-# Generate edgesNew 
-# based on proportion of physical objects still functional from countOSMtidy ### NEED TO TEST THIS ON REAL SCENARIO
-gen_edgesNew <- function(
-  vInfo_template,
-  hazard = NA,
-  edgelist_input,
-  countCompared,
-  proxyWeight = 0) {
+# Generate edgesNew based on proportion of physical objects still functional 
+# as represented in a countCompared OSMtidy output
+gen_edgesNew <- function(vInfo_template_full, edgelist, 
+                         countCompared, hazard = NA, proxyWeight = 0) {
   
   # Create vector of physical objects affected
   objectsAffected <-
@@ -17,7 +13,7 @@ gen_edgesNew <- function(
     
     # Create check for affected physical objects by hazard type (drought)
     objectsNotAffected_drought <-
-      vInfo_template %>% 
+      vInfo_template_full %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_drought == FALSE) %>%
       pull(Node)
@@ -32,7 +28,7 @@ gen_edgesNew <- function(
     
     # Create check for affected physical objects by hazard type (flood)
     objectsNotAffected_flood <-
-      vInfo_template %>% 
+      vInfo_template_full %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_flood == FALSE) %>%
       pull(Node)

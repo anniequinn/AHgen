@@ -1,12 +1,12 @@
 apply_geoData <- function(geoData, 
-                          desc_detection,
+                          desc_check,
                           vInfo_template, 
                           edgelist_template, 
                           proxyWeight = 0,
                           name, version, location, scenario) {
   
   PO_excluded <- 
-    desc_detection$notDetected_exclude %>%  # Take dataframe of desc terms not detected in this location which should be excluded
+    desc_check$notDetected_exclude %>%  # Take dataframe of desc terms not detected in this location which should be excluded
     select(physicalObject) %>% unique() %>% pull(physicalObject) # Create vector of physical objects to be excluded
   
   edgesNew <-
@@ -17,7 +17,7 @@ apply_geoData <- function(geoData,
   
   edgelist_location_step1 <- 
     edgelist_template %>% 
-    weightEdges(edgesNew)
+    weight_edges(edgesNew)
   
   # Check for hanging vertices which have all links downward with proxyWeight (to imitate removal)
   # and iteratively set upward links with proxyWeight (to imitate removal) as relevant
@@ -66,14 +66,15 @@ apply_geoData <- function(geoData,
   
   # Create outputList
   outputList <- 
-    list("desc_detection" = desc_detection, # Attach desc_detection list detailing which desc were detected in this location
+    list("desc_check" = desc_check, # Attach desc_check list detailing which desc were detected in this location
          "vIncluded" = vInfo_location, # Attach dataframe of included vertices
          "vExcluded" = dplyr::setdiff(vInfo_template, vInfo_location), # Create and attach dataframe of excluded vertices
          "adjMat" = adjMat_location, # Create location-specific adjacency matrix
          "edgelist" = edgelist_location, # Attach location-specific edgelist
          "igraph" = igraph_location, # Attach location-specific igraph
-         "results" = getResults(igraph = igraph_location, vInfo = vInfo_tmp, name = name,
-                                version = version, location = location, scenario = scenario), # Create location-specific results
+         "results" = gen_results(
+           igraph = igraph_location, vInfo = vInfo_tmp, name = name, 
+           version = version, location = location, scenario = scenario), # Create location-specific results
          "summary" = summarise_ah(vIncluded = vInfo_location, # Create summary of vertices by level
                                   edgelist = edgelist_location, # Create summary of edges by layer
                                   proxyWeight = proxyWeight)) # Specify proxyWeight

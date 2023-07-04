@@ -1,9 +1,7 @@
-# Function to remove hanging vertices after initial adjustments have been made
 # Note this is written in such a way that apply_geoData is best applied before 
-# apply_stressors, not tested backward order yet
-weight_hangingVertices <- function(
-  edgelist, 
-  proxyWeight = 0) {
+# apply_stressors (or changing weight at upper levels rather than l4ORP_l5PO), 
+# not tested backward order yet
+weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
   
   # Check for ORPs which have all links weighted the proxyWeight (to imitate removal) 
   # and set all their links to GFs to the proxyWeight
@@ -38,7 +36,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew)
     
     return(edgelist)
     
@@ -75,7 +73,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew)
     
     return(edgelist)
     
@@ -112,7 +110,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew)
     
     return(edgelist)
     
@@ -149,7 +147,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew)
     
     return(edgelist)
     

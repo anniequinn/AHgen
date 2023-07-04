@@ -1,6 +1,4 @@
-# Function to get table of edges
-# previously named function_getEdges
-table_edges <- function(USAH_input,
+table_edges <- function(AH_input,
                         singleScenario = TRUE,
                         compareLocations = FALSE,
                         compareScenarios = FALSE) {
@@ -8,7 +6,7 @@ table_edges <- function(USAH_input,
     if(singleScenario == TRUE) {
       
       output <-
-        USAH_input$summary$edges %>%
+        AH_input$summary$edges %>%
         mutate(`Number of Links` = 
                  paste0(n, 
                         " (", 
@@ -22,7 +20,7 @@ table_edges <- function(USAH_input,
                compareScenarios == FALSE) {
       
       output <-
-        USAH_input$edges %>%
+        AH_input$edges %>%
         select(layerName_viz, location, n_edges) %>% 
         group_by(location) %>% 
         mutate(group_max = max(n_edges)) %>% 
@@ -40,7 +38,7 @@ table_edges <- function(USAH_input,
                compareScenarios == TRUE) {
       
       output <-
-        USAH_input$edges %>%
+        AH_input$edges %>%
         select(layerName_viz, scenario, n_edges) %>%
         group_by(scenario) %>%
         mutate(group_max = max(n_edges)) %>% 
@@ -57,7 +55,7 @@ table_edges <- function(USAH_input,
                compareScenarios == TRUE) {
       
       output <-
-        USAH_input$edges %>%
+        AH_input$edges %>%
         select(layerName_viz, location, scenario, n_edges) %>%
         group_by(location, scenario) %>%
         mutate(group_max = max(n_edges)) %>% 

@@ -2,8 +2,8 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   
   require(Biobase)
   
-  # Internal function
-  mapSubLists <- function(input, scenarioNames) {
+  # Internal function to map sublists in list elements
+  internal_mapSubLists <- function(input, scenarioNames) {
     
     input %>%
       Map(cbind, ., scenarioName = scenarioNames) %>%
@@ -30,26 +30,26 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     scenarios_toCompare %>% 
     Biobase::subListExtract("summary") %>%
     Biobase::subListExtract("vertices") %>%
-    mapSubLists(scenarioNames = scenarioNames)
+    internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Pull out only the $summary$edges list elements from  and reformat
   scenarios_compared$edges <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("summary") %>%
     Biobase::subListExtract("edges") %>%
-    mapSubLists(scenarioNames = scenarioNames)
+    internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Pull out only the $vExcluded list elements from scenarios_toCompare and reformat
   scenarios_compared$vExcluded <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("vExcluded") %>% 
-    mapSubLists(scenarioNames = scenarioNames)
+    internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Pull out only the $results list elements from scenarios_toCompare and reformat
   results_step1 <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("results") %>% 
-    mapSubLists(scenarioNames = scenarioNames)
+    internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Key points here: 
   
