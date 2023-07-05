@@ -64,7 +64,7 @@ The Abstraction Hierarchy is a method from the discipline of human factors, as o
 Below is an interactive version of an Abstraction Hierarchy for a generic UK city: the Urban Systems Abstraction Hierarchy (USAH), which you can also find at https://mbedinger.shinyapps.io/AHexploreR.
 
 ```{r, echo = FALSE}
-knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "800px")
+knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "600px")
 ```
 
 <br>
@@ -80,12 +80,15 @@ AHgen was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenar
 AHgen is extremely flexible, with lots of possible workflows. There are five families of functions: 
 
 1. **Input** Reading in the Abstraction Hierarchy and accompanying data
-2. **Convert** Converting the Abstraction Hierarchy into a various formats compatible with network analysis
-3. **Weight** Weighting the edges
-4. **Analyse** Applying network analysis
-5. **Visualise** An innovative way of visualising the Abstraction Hierarchy
+2. **Convert** Converting the Abstraction Hierarchy into formats compatible with network analysis in R
+3. **Weight** Weighting edges
+4. **Analyse** Applying network analysis, summarising outputs, and comparing Abstraction Hierarchies
+5. **Visualise** Visualising the Abstraction Hierarchy and results
 
-<span style = "color:red;">Melissa figure here</span>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/workflow-clean.png"), 
+               alt = 'workflow-clean', width = 700)
+```
 
 There are five vignettes designed to get you on your way: <span style = "color:red;">Add links</span>
 
@@ -98,14 +101,9 @@ There are five vignettes designed to get you on your way: <span style = "color:r
 <br>
 
 ## Applications
-AHgen can be applied to Abstraction Hierarchies in any domain at any scale for various objectives. The Urban Systems Abstraction Hierarchy (USAH) is an example of an Abstraction Hierarchy on a massive scale. Exploring USAH with AHgen it’s possible to:
+AHgen can be applied to Abstraction Hierarchies in any domain at any scale for various objectives.
 
-- Look at the interdependencies between urban functions
-- Explore how these functions are impacted by different conditions
-- Explore the impact of hazards by degrading connections in the system (edge weighting)
-- Explore the impact of reconnecting vertices and edges (effectively redesigning the system)
-
-Six walkthrough vignettes are provided to illustrate the application of AHgen to an entire city, creating the Urban Systems Abstraction Hierarchy (USAH).
+Six walkthrough vignettes are provided to illustrate the application of AHgen to create and explore the Urban Systems Abstraction Hierarchy (USAH).
 
 - Vignette 6 - Generating a template
 - Vignette 7 - Applying geospatial data
@@ -126,6 +124,7 @@ Six walkthrough vignettes are provided to illustrate the application of AHgen to
 - McClymont, K., Bedinger, M., Beevers, L., Walker, G., Morrison, D. (2021). [‘Chapter 2.2 – Analyzing city-scale resilience using a novel systems approach’](https://doi.org/10.1016/B978-0-12-819047-0.00011-1), in Santos, P.P., Chmutina, & K. Von Meding, J., and Raju, E., (eds.) *Understanding Disaster Risk*. Elsevier, p. 179-201.
 - Bedinger, M., Beevers, L., Walker, G. H., Visser-Quinn, A., & McClymont, K. (2020). [Urban systems: Mapping interdependencies and outcomes to support systems thinking](http://dx.doi.org/10.1029/2019EF001389). Earth’s Future, 8(3), e2019EF001389.
 - Beevers, L., Walker, G., & Strathie, A. (2016). [A systems approach to flood vulnerability](https://doi.org/10.1080/10286608.2016.1202931). *Civil Engineering and Environmental Systems*, 33(3), p. 199-213.
+- Segarra, S. & Ribeiro, A. (2014). [A stable betweenness centrality measure in networks](https://doi.org/10.1109/ICASSP.2014.6854324). *2014 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)*, Florence, Italy, p. 3859-3863.
 
 
 ## Acknowledgements

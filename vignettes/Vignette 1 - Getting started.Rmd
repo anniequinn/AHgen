@@ -64,7 +64,7 @@ These screenshots will guide you through the process of downloading [R](https://
 - **What is RStudio?** - RStudio is an "integrated development environment for R". In simpler terms, RStudio provides a more user-friendly environment to run R code from. It is also open source and highly recommended. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center"}
-files <- list.files("vignettes/images/0 - Getting started", pattern = ".png", full.names = TRUE)
+files <- list.files("vignettes/images/1 - Getting started", pattern = ".png", full.names = TRUE)
 
 include_graphics(normalizePath(files))
 ```

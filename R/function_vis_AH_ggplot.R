@@ -27,7 +27,9 @@ vis_AH_ggplot <- function(layout, key = NULL,
                              }
           ) +
           
-          geom_point(data = layout$vertices %>% mutate(level = fct_inorder(as.character(level), ordered = TRUE)), 
+          geom_point(data = 
+                       layout$vertices %>% 
+                       mutate(level = fct_inorder(as.character(level), ordered = TRUE)), 
                      aes(x = x, y = y,
                          size = level,
                          fill = level,
@@ -46,10 +48,7 @@ vis_AH_ggplot <- function(layout, key = NULL,
     
     # Circles
     if(!is.null(key)) {
-      internal_circleFun <- 
-        function(rVec, 
-                 center = c(0,0), 
-                 npoints = 100){
+      internal_circleFun <- function(rVec, center = c(0,0), npoints = 100){
           
           tt <- seq(0, 2 * pi, length.out = npoints)
           

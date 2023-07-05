@@ -114,10 +114,7 @@ vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key
   internal_layout_radial <- function(layoutHorizontal, edgelist, key) { 
     
     internal_makeRadial <- 
-      function(data_internal, 
-               minAngle, 
-               maxAngle, 
-               radiusChange) { 
+      function(data_internal, minAngle, maxAngle, radiusChange) { 
         
         # theta, angle in degrees
         min = minAngle
