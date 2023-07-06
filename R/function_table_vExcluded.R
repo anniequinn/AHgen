@@ -1,6 +1,4 @@
-# Function to get table of vExcluded
-# previously named function_getvExcluded
-table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benchmark?
+table_vExcluded <- function(vExcluded_benchmark, vExcluded_input,
                             singleScenario = TRUE,
                             compareLocations = FALSE,
                             compareScenarios = FALSE) {
@@ -9,48 +7,34 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
        compareLocations == FALSE &
        compareScenarios == FALSE) {
       
-      if((class(USAH_baseline$vExcluded) == "list") == TRUE) {
+      if((class(vExcluded_benchmark) == "list") == TRUE) {
         
-        baseline_vExcluded <- NULL
+        vExcluded_input_vExcluded <- NULL
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
+        vExcluded_input_vExcluded <- vExcluded_benchmark %>% pull(Node)
         
       }
       
       step1 <- 
-        USAH_input$vExcluded %>%
-        filter(!Node %in% baseline_vExcluded) %>%
-        mutate(levelName_viz = 
-                 case_when(
-                   level == 1 ~ str_c(level, " - ", levelName),
-                   level == 2 ~ str_c(level, " - ", levelName),
-                   level == 3 ~ str_c(level, " - ", levelName),
-                   level == 4 ~ str_c(level, " - ", levelName),
-                   level == 5 ~ str_c(level, " - ", levelName),
-                   level == "Total" ~ "Total")) %>%
+        vExcluded_input %>%
+        filter(!Node %in% benchmark_vExcluded) %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
         select(-level, -levelName_full, -levelName) %>%
-        group_by(levelName_viz) %>%
+        group_by(Level) %>%
         count() %>%
         adorn_totals(where = "row") %>%
         rename(Node = n)
       
       output <-
-        USAH_input$vExcluded %>%
-        filter(!Node %in% baseline_vExcluded) %>%
+        vExcluded_input %>%
+        filter(!Node %in% benchmark_vExcluded) %>%
         arrange(level) %>%
-        mutate(levelName_viz = 
-                 case_when(
-                   level == 1 ~ str_c(level, " - ", levelName),
-                   level == 2 ~ str_c(level, " - ", levelName),
-                   level == 3 ~ str_c(level, " - ", levelName),
-                   level == 4 ~ str_c(level, " - ", levelName),
-                   level == 5 ~ str_c(level, " - ", levelName),
-                   level == "Total" ~ "Total")) %>%
-        select(levelName_viz, Node) %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(Level, Node) %>%
         rbind(step1) %>%
-        rename(Level = levelName_viz, Node = Node)
+        arrange(Level, Node)
       
     }
     
@@ -58,52 +42,55 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
        compareLocations == TRUE & 
        compareScenarios == FALSE) {
       
-      if((class(USAH_baseline$vExcluded) == "list") == TRUE) {
+      if((class(vExcluded_benchmark) == "list") == TRUE) {
         
-        baseline_vExcluded <- NULL
+        benchmark_vExcluded <- NULL
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
+        benchmark_vExcluded <- vExcluded_benchmark %>% pull(Node)
         
       }
       
       step1 <- 
-        USAH_input$vExcluded %>%
-        select(location, levelName_viz, Node) %>% 
-        group_by(location, levelName_viz) %>% 
+        vExcluded_input %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(location, Level, Node) %>% 
+        group_by(location, Level) %>% 
         count() %>%
         ungroup() %>%
         pivot_wider(names_from = location, values_from = n) %>% 
         mutate(Node = NA, n_scenarios = NA)
       
       step2 <- 
-        USAH_input$vExcluded %>%
-        select(location, levelName_viz, Node) %>% 
+        vExcluded_input %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(location, Level, Node) %>% 
         group_by(location) %>% 
         count() %>%
         ungroup() %>%
-        mutate(levelName_viz = "Total") %>%
+        mutate(Level = "Total") %>%
         pivot_wider(names_from = location, values_from = n) %>% 
         mutate(Node = NA, n_scenarios = NA)
       
       step3 <- 
-        USAH_input$vExcluded %>%
+        vExcluded_input %>%
         select(location) %>%
         unique() %>%
         pull(location) 
       
       output <- 
-        USAH_input$vExcluded %>%
-        select(location, levelName_viz, Node) %>% 
+        vExcluded_input %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(location, Level, Node) %>% 
         mutate(tick = "X") %>%
         pivot_wider(names_from = location, values_from = tick) %>%
         rowwise() %>%
         mutate(n_scenarios = sum(!is.na(c_across(all_of(step3))))) %>%
-        arrange(levelName_viz, desc(n_scenarios), Node) %>%
+        arrange(Level, desc(n_scenarios), Node) %>%
         rbind(step1, step2) %>%
-        rename(Level = levelName_viz, 
-               `Number of Scenarios where Excluded` = n_scenarios)
+        rename(`Number of Scenarios where Excluded` = n_scenarios) %>%
+        arrange(Level, Node)
       
     }
     
@@ -111,21 +98,22 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
        compareLocations == FALSE & 
        compareScenarios == TRUE) {
       
-      if((class(USAH_baseline$vExcluded) == "list") == TRUE) {
+      if((class(vExcluded_benchmark) == "list") == TRUE) {
         
-        baseline_vExcluded <- NULL
+        benchmark_vExcluded <- NULL
         
       } else {
         
-        baseline_vExcluded <- USAH_baseline$vExcluded %>% pull(Node)
+        benchmark_vExcluded <- vExcluded_benchmark %>% pull(Node)
         
       }
       
       step1 <-
-        USAH_input$vExcluded %>%
-        select(scenario, levelName_viz, Node) %>% 
-        filter(!Node %in% baseline_vExcluded) %>%
-        group_by(scenario, levelName_viz) %>% 
+        vExcluded_input %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(scenario, Level, Node) %>% 
+        filter(!Node %in% benchmark_vExcluded) %>%
+        group_by(scenario, Level) %>% 
         count() %>%
         ungroup() %>%
         pivot_wider(names_from = scenario, values_from = n) %>% 
@@ -138,27 +126,29 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
       } else {
         
         step2 <-
-          USAH_input$vExcluded %>%
-          select(scenario, levelName_viz, Node) %>% 
-          filter(!Node %in% baseline_vExcluded) %>%
+          vExcluded_input %>%
+          mutate(Level = str_c(level, " - ", levelName)) %>%
+          select(scenario, Level, Node) %>% 
+          filter(!Node %in% benchmark_vExcluded) %>%
           group_by(scenario) %>% 
           count() %>%
           ungroup() %>%
-          mutate(levelName_viz = "Total") %>%
+          mutate(Level = "Total") %>%
           pivot_wider(names_from = scenario, values_from = n) %>% 
           mutate(Node = NA, n_scenarios = NA)
         
         step3 <-
-          USAH_input$vExcluded %>%
+          vExcluded_input %>%
           filter(scenario != "baseline") %>%
           select(scenario) %>% 
           unique() %>%
           pull(scenario) 
         
         step4 <- 
-          USAH_input$vExcluded %>%
-          select(scenario, levelName_viz, Node) %>% 
-          filter(!Node %in% baseline_vExcluded) %>%
+          vExcluded_input %>%
+          mutate(Level = str_c(level, " - ", levelName)) %>%
+          select(scenario, Level, Node) %>% 
+          filter(!Node %in% vExcluded_input_vExcluded) %>%
           filter(scenario != "baseline") %>%
           mutate(tick = "X") %>%
           pivot_wider(names_from = scenario, values_from = tick) %>% 
@@ -167,24 +157,25 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
           step4 %>%
           rowwise() %>%
           mutate(n_scenarios = sum(!is.na(c_across(all_of(step3))))) %>%
-          arrange(levelName_viz, desc(n_scenarios), Node) %>%
+          arrange(Level, desc(n_scenarios), Node) %>%
           rbind(step1, step2) %>%
-          rename(Level = levelName_viz, 
-                 `Number of Scenarios where Excluded` = n_scenarios)
+          rename(`Number of Scenarios where Excluded` = n_scenarios) %>%
+          arrange(Level, Node)
         
       }
       
     }
     
-    if(USAH_baseline == "NA" &
+    if(vExcluded_benchmark == "NA" &
        singleScenario == FALSE & 
        compareLocations == TRUE & 
        compareScenarios == TRUE) {
       
       step1 <-
-        USAH_input$vExcluded %>%
-        select(location, scenario, levelName_viz, Node) %>%
-        group_by(location, scenario, levelName_viz) %>%
+        vExcluded_input %>%
+        mutate(Level = str_c(level, " - ", levelName)) %>%
+        select(location, scenario, Level, Node) %>%
+        group_by(location, scenario, Level) %>%
         count() %>%
         ungroup() %>%
         pivot_wider(names_from = scenario, values_from = n) %>% 
@@ -197,24 +188,26 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
       } else {
         
         step2 <-
-          USAH_input$vExcluded %>%
-          select(location, scenario, levelName_viz, Node) %>% 
+          vExcluded_input %>%
+          mutate(Level = str_c(level, " - ", levelName)) %>%
+          select(location, scenario, Level, Node) %>% 
           group_by(location, scenario) %>% 
           count() %>%
           ungroup() %>%
-          mutate(levelName_viz = "Total") %>%
+          mutate(Level = "Total") %>%
           pivot_wider(names_from = scenario, values_from = n) %>% 
           mutate(Node = NA, n_scenarios = NA)
         
         step3 <-
-          USAH_input$vExcluded %>%
+          vExcluded_input %>%
           select(scenario) %>% 
           unique() %>%
           pull(scenario) 
         
         step4 <- 
-          USAH_input$vExcluded %>%
-          select(location, scenario, levelName_viz, Node) %>% 
+          vExcluded_input %>%
+          mutate(Level = str_c(level, " - ", levelName)) %>%
+          select(location, scenario, Level, Node) %>% 
           mutate(tick = "X") %>%
           pivot_wider(names_from = scenario, values_from = tick)
           
@@ -222,10 +215,10 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
           step4 %>%
           rowwise() %>%
           mutate(n_scenarios = sum(!is.na(c_across(all_of(step3))))) %>%
-          arrange(levelName_viz, desc(n_scenarios), Node) %>%
+          arrange(Level, desc(n_scenarios), Node) %>%
           rbind(step1, step2) %>%
-          rename(Level = levelName_viz, 
-               `Number of Scenarios where Excluded` = n_scenarios)
+          rename(`Number of Scenarios where Excluded` = n_scenarios) %>%
+          arrange(location, Level, Node)
         
       }
       
@@ -233,4 +226,4 @@ table_vExcluded <- function(USAH_baseline, USAH_input, # change baseline to benc
     
     return(output)
     
-  }
+}

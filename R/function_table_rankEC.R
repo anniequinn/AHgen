@@ -1,6 +1,4 @@
-# Function to get table of nodes ranked by EC
-# previously function_getRankEC
-table_rankEC <- function(USAH_input, 
+table_rankEC <- function(results, 
                          singleScenario = TRUE, 
                          compareLocations = FALSE, 
                          compareScenarios = FALSE) {
@@ -10,7 +8,7 @@ table_rankEC <- function(USAH_input,
        compareScenarios == FALSE) {
       
       step1 <-
-        USAH_input$results %>%
+        results %>%
         filter(metric %in% 
                  c("nodeDegree_down2", "nodeDegree_down3", "nodeDegree_down4")) %>%
         filter(level <= 3) %>%
@@ -24,16 +22,15 @@ table_rankEC <- function(USAH_input,
         select(Node, nodeDegree_PO)
       
       output <-
-        USAH_input$results %>%
+        results %>%
         filter(metric == "EC") %>%
         filter(level <= 3) %>%
         full_join(step1, by = "Node") %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName), 
+        mutate(Level = str_c(level, " - ", levelName), 
                Node = paste0(Node, " (", value %>% round(5), ", ", nodeDegree_PO, ")")) %>% # bear in mind if from USAH_x$results, not allScenarios_compared, this is value before being amplified
-        select(levelName_viz, rank_byLevel, Node) %>%
-        arrange(levelName_viz, rank_byLevel) %>%
-        rename(Level = levelName_viz,
-               `Ranked Within Level by Eigenvector Centrality` = rank_byLevel)
+        select(Level, rank_byLevel, Node) %>%
+        arrange(Level, rank_byLevel) %>%
+        rename(`Ranked Within Level by Eigenvector Centrality` = rank_byLevel)
       
     } 
     
@@ -42,7 +39,7 @@ table_rankEC <- function(USAH_input,
        compareScenarios == FALSE) {
       
       step1 <-
-        USAH_input$results %>%
+        results %>%
         filter(metric %in% 
                  c("nodeDegree_down2", "nodeDegree_down3", "nodeDegree_down4")) %>%
         filter(level <= 3) %>%
@@ -57,7 +54,7 @@ table_rankEC <- function(USAH_input,
         select(location, Node, nodeDegree_PO) 
       
       output <-
-        USAH_input$results %>%
+        results %>%
         filter(metric == "EC") %>%
         filter(level <= 3) %>%
         full_join(step1, by = c("location", "Node")) %>% 
@@ -77,7 +74,7 @@ table_rankEC <- function(USAH_input,
        compareScenarios == TRUE) {
       
       step1 <-
-        USAH_input$results %>%
+        results %>%
         filter(metric %in% 
                  c("nodeDegree_down2", "nodeDegree_down3", "nodeDegree_down4")) %>%
         filter(level <= 3) %>%
@@ -92,7 +89,7 @@ table_rankEC <- function(USAH_input,
         select(scenario, Node, nodeDegree_PO) 
       
       output <-
-        USAH_input$results %>%
+        results %>%
         filter(metric == "EC") %>%
         filter(level <= 3) %>%
         full_join(step1, by = c("scenario", "Node")) %>% 
@@ -111,7 +108,7 @@ table_rankEC <- function(USAH_input,
        compareScenarios == TRUE) {
       
       step1 <-
-        USAH_input$results %>%
+        results %>%
         filter(metric %in% 
                  c("nodeDegree_down2", "nodeDegree_down3", "nodeDegree_down4")) %>%
         filter(level <= 3) %>%
@@ -126,14 +123,14 @@ table_rankEC <- function(USAH_input,
         select(location, scenario, Node, nodeDegree_PO) 
       
       output <-
-        USAH_input$results %>%
+        results %>%
         filter(metric == "EC") %>%
         filter(level <= 3) %>%
         full_join(step1, by = c("location", "scenario", "Node")) %>% 
         mutate(value_table = paste0(Node, " (", value_amp %>% round(5), ", ", nodeDegree_PO, ")")) %>%
         select(location, scenario, level, levelName_full, levelName, value_table, rank_byLevel) %>% 
         pivot_wider(names_from = scenario, values_from = value_table) %>% 
-        arrange(level, rank_byLevel) %>%
+        arrange(location, level, rank_byLevel) %>%
         rename(Level = level,
                `Level Name` = levelName,
                `Ranked Within Level by Eigenvector Centrality` = rank_byLevel)
@@ -142,4 +139,4 @@ table_rankEC <- function(USAH_input,
     
     return(output)
     
-  }
+}

@@ -1,105 +1,142 @@
-# Function to get table of nodes ranked by degree
-# Options are "all", "Purposes", "Outcomes", "Tasks", "Processes", and "Resources"
-# previously named function_getRankDegree
-table_rankDegree <- function(USAH_input, level = "all") {
+table_rankDegree <- function(results, levels = "all", 
+                             singleScenario = TRUE, 
+                             compareLocations = FALSE,
+                             compareScenarios = FALSE) {
+  
+  if(singleScenario == TRUE) {
+    results <- results %>% mutate(prefix = NA)
+  } else if(singleScenario == FALSE &
+            compareLocations == TRUE &
+            compareScenarios == FALSE) {
+    results <- results %>% mutate(prefix = str_c(location, " - "))
+  } else if(singleScenario == FALSE &
+            compareLocations == FALSE &
+            compareScenarios == TRUE) {
+    results <- results %>% mutate(prefix = str_c(scenario, " - "))
+  } else if(singleScenario == FALSE &
+            compareLocations == TRUE &
+            compareScenarios == TRUE) {
+    results <- results %>% mutate(prefix = str_c(location, " ", scenario, " - "))
+  }
+  
+  if(levels == "all") {
     
-    if(level == "all") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_up1", "nodeDegree_down1", "nodeDegree_total1")) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        arrange(levelName_viz, desc(nodeDegree_total1)) %>%
-        rename(Level = levelName_viz, Node = Node, 
-               `Up Degree` = nodeDegree_up1, 
-               `Down Degree` = nodeDegree_down1, 
-               `Total Degree` = nodeDegree_total1)
-      
-    } else if(level == "Purposes") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_down1", "nodeDegree_down2", 
-                   "nodeDegree_down3", "nodeDegree_down4")) %>%
-        filter(level == 1) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        rename(Level = levelName_viz, Node = Node,
-               Outcomes = nodeDegree_down1, Tasks = nodeDegree_down2, 
-               Processes = nodeDegree_down3, Resources = nodeDegree_down4) %>%
-        select(Level, Node, Outcomes, Tasks, Processes, Resources)
-      
-    } else if(level == "Outcomes") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_up1", "nodeDegree_down1", 
-                   "nodeDegree_down2", "nodeDegree_down3")) %>%
-        filter(level == 2) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        rename(Level = levelName_viz, Node = Node,
-               Purposes = nodeDegree_up1, Tasks = nodeDegree_down1, 
-               Processes = nodeDegree_down2, Resources = nodeDegree_down3) %>%
-        select(Level, Node, Purposes, Tasks, Processes, Resources)
-      
-    } else if(level == "Tasks") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_up2", "nodeDegree_up1", 
-                   "nodeDegree_down1", "nodeDegree_down2")) %>%
-        filter(level == 3) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        rename(Level = levelName_viz, Node = Node,
-               Purposes = nodeDegree_up2, Outcomes = nodeDegree_up1, 
-               Processes = nodeDegree_down1, Resources = nodeDegree_down2) %>%
-        select(Level, Node, Purposes, Outcomes, Processes, Resources)
-      
-    } else if(level == "Processes") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_up3", "nodeDegree_up2", 
-                   "nodeDegree_up1", "nodeDegree_down1")) %>%
-        filter(level == 4) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        rename(Level = levelName_viz, Node = Node,
-               Purposes = nodeDegree_up3, Outcomes = nodeDegree_up2, 
-               Tasks = nodeDegree_up1, Resources = nodeDegree_down1) %>%
-        select(Level, Node, Purposes, Outcomes, Tasks, Resources)
-      
-    } else if(level == "Resources") {
-      
-      output <-
-        USAH_input$results %>%
-        filter(metric %in% 
-                 c("nodeDegree_up4", "nodeDegree_up3", 
-                   "nodeDegree_up2", "nodeDegree_up1")) %>%
-        filter(level == 5) %>%
-        mutate(levelName_viz = str_c(level, " - ", levelName)) %>%
-        select(levelName_viz, Node, metric, value) %>%
-        pivot_wider(names_from = metric, values_from = value) %>%
-        rename(Level = levelName_viz, Node = Node,
-               Purposes = nodeDegree_up4, Outcomes = nodeDegree_up3, 
-               Tasks = nodeDegree_up2, Processes = nodeDegree_up1) %>%
-        select(Level, Node, Purposes, Outcomes, Tasks, Processes)
-      
-    }
+    output <-
+      results %>%
+      filter(metric %in% 
+               c("nodeDegree_up1", "nodeDegree_down1", "nodeDegree_total1")) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_up1" ~ "Up Degree",
+                                metric == "nodeDegree_down1" ~ "Down Degree",
+                                metric == "nodeDegree_total1" ~ "Total Degree"),
+             metric = factor(metric, levels = c("Up Degree", "Down Degree", "Total Degree")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
     
-    return(output)
+  } else if(levels == "Purposes") {
+    
+    output <-
+      results %>%
+      filter(metric %in% 
+               c("nodeDegree_down1", "nodeDegree_down2", 
+                 "nodeDegree_down3", "nodeDegree_down4")) %>%
+      filter(level == 1) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_down1" ~ "Outcomes",
+                                metric == "nodeDegree_down2" ~ "Tasks",
+                                metric == "nodeDegree_down3" ~ "Processes",
+                                metric == "nodeDegree_down4" ~ "Resources"),
+             metric = factor(metric, levels = 
+                               c("Outcomes", "Tasks", "Processes", "Resources")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
+    
+  } else if(levels == "Outcomes") {
+    
+    output <-
+      AH_input$results %>%
+      filter(metric %in% 
+               c("nodeDegree_up1", "nodeDegree_down1", 
+                 "nodeDegree_down2", "nodeDegree_down3")) %>%
+      filter(level == 2) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_up1" ~ "Purposes",
+                                metric == "nodeDegree_down1" ~ "Tasks",
+                                metric == "nodeDegree_down2" ~ "Processes",
+                                metric == "nodeDegree_down3" ~ "Resources"),
+             metric = factor(metric, levels = 
+                               c("Purposes", "Tasks", "Processes", "Resources")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
+    
+  } else if(levels == "Tasks") {
+    
+    output <-
+      AH_input$results %>%
+      filter(metric %in% 
+               c("nodeDegree_up2", "nodeDegree_up1", 
+                 "nodeDegree_down1", "nodeDegree_down2")) %>%
+      filter(level == 3) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_up2" ~ "Purposes",
+                                metric == "nodeDegree_up1" ~ "Outcomes",
+                                metric == "nodeDegree_down1" ~ "Processes",
+                                metric == "nodeDegree_down2" ~ "Resources"),
+             metric = factor(metric, levels = 
+                               c("Purposes", "Outcomes", "Processes", "Resources")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
+    
+  } else if(level == "Processes") {
+    
+    output <-
+      AH_input$results %>%
+      filter(metric %in% 
+               c("nodeDegree_up3", "nodeDegree_up2", 
+                 "nodeDegree_up1", "nodeDegree_down1")) %>%
+      filter(level == 4) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_up3" ~ "Purposes",
+                                metric == "nodeDegree_up2" ~ "Outcomes",
+                                metric == "nodeDegree_up1" ~ "Tasks",
+                                metric == "nodeDegree_down1" ~ "Resources"),
+             metric = factor(metric, levels = 
+                               c("Purposes", "Outcomes", "Tasks", "Resources")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
+    
+  } else if(levels == "Resources") {
+    
+    output <-
+      results %>%
+      filter(metric %in% 
+               c("nodeDegree_up4", "nodeDegree_up3", 
+                 "nodeDegree_up2", "nodeDegree_up1")) %>%
+      filter(level == 5) %>%
+      mutate(Level = str_c(level, " - ", levelName),
+             metric = case_when(metric == "nodeDegree_up4" ~ "Purposes",
+                                metric == "nodeDegree_up3" ~ "Outcomes",
+                                metric == "nodeDegree_up2" ~ "Tasks",
+                                metric == "nodeDegree_up1" ~ "Processes"),
+             metric = factor(metric, levels = 
+                               c("Purposes", "Outcomes", "Tasks", "Processes")),
+             metric_viz = str_c(prefix, metric)) %>%
+      arrange(location, scenario, metric) %>%
+      select(Level, Node, metric_viz, value) %>%
+      pivot_wider(names_from = metric_viz, values_from = value)
     
   }
+  
+  return(output)
+  
+}
