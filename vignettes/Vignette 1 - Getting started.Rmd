@@ -2,7 +2,6 @@
 title: "1 - Getting started"
 author:  
  - Annie Visser-Quinn & Melissa Bedinger
-date: "`r Sys.Date()`"
 output: 
   html_document:
     toc: true
@@ -41,84 +40,163 @@ library(AHgen)
 
 ---
 
-In the vignette below, you will find a step-by-step guide to getting started with AHgen. This vignette is associated with v1.0.
+In the vignette below, you will find a step-by-step guide to getting started with AHgen.
 
 ## Getting started {.tabset}
-<span style = "color:red;">This might be better off in its own section.</span>
-
 To get started with AHgen, you'll need to: 
 
-- Step 1 - **Install** R and (optional) RStudio
-- Step 2 - Install the required R **packages**
-- Step 3 - **Download the AHgen** source code from this GitHub repository
-- Step 4 - Prepare a script in R to **load the AHgen functions**
+- Step 1 - Install **R** and **RStudio**
+- Step 2 - Install the required **R packages**
+- Step 3 - Install **AHgen** from a GitHub repository
 
-A walkthrough of each step is provided via the **tabs** below.
+A walkthrough of each step is provided via the tabs below.
 
 
 ### Step 1 - Install R & RStudio
 
-These screenshots will guide you through the process of downloading [R](https://cloud.r-project.org/) and [RStudio](https://rstudio.com/products/rstudio/download/). But first:
+**What is R?** R is an open source (free) programming language used to develop statistical software such as AHgen. 
 
-- **What is R?** - R is an open source (free) programming language used to develop statistical software such as AHgen. 
-- **What is RStudio?** - RStudio is an "integrated development environment for R". In simpler terms, RStudio provides a more user-friendly environment to run R code from. It is also open source and highly recommended. 
+**What is RStudio?** RStudio is an "integrated development environment for R". In simpler terms, RStudio provides a more user-friendly environment to run R code from. It is also open source and highly recommended. 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center"}
-files <- list.files("vignettes/images/1 - Getting started", pattern = ".png", full.names = TRUE)
+The screenshots below will guide you through the process of downloading [R](https://cloud.r-project.org/) and [RStudio](https://rstudio.com/products/rstudio/download/).
 
-include_graphics(normalizePath(files))
+*Note that the versions of R and RStudio shown in the screenshots below will now be outdated; please download the most recent version.*
+
+
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/1.png"),
+               alt = 'install', width = 700)
 ```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/2.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/3.png"),
+               alt = 'install', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/4.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/5.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/6.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 1/7.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
 
 ### Step 2 - R packages
 
-**Required packages:** `readxl`, `openxlsx`, `tidyverse`, `igraph`, `tnet`, `ggraph`, and `AHgen`
+An **R package** is a collection of functions and/or data that have been *packaged* together. For more information, check out [this guide](https://www.datacamp.com/community/tutorials/r-packages-guide). 
 
-An **R package** is a collection of functions and/or data that have been *packaged* together. For more information, check out [this handy guide](https://www.datacamp.com/community/tutorials/r-packages-guide). 
+#### Required packages to get started 
+- [`devtools`](https://cran.r-project.org/web/packages/devtools/readme/README.html) - This package makes package development easier by providing R functions that simplify and expedite common tasks. The install_github() function is used in example AHgen scripts, to install a package straight from GitHub. This is useful if a package is not yet hosted on CRAN, or if you want to play with a different [branch](https://r-bio.github.io/intro-git-rstudio/) of a package (e.g. the newest 'development' version).
+- [`pacman`](https://cran.r-project.org/web/packages/pacman/readme/README.html) - This package is an R package management tool that combines the functionality of base library related functions into intuitively named functions. The p_load() function is used in example AHgen scripts, to load multiple packages at the same time instead of using the library() function. Any packages in the p_load() function will also be installed if you have not already done so; this acts as an extra check.
 
-To install the required packages:
+To install these packages:
+1. Open RStudio. 
+2. Paste `install.packages(c("devtools", "pacman"))` into the console (bottom left hand side).
+3. Press `enter`. 
+It should look something like below.
+*Note, you might be asked to install dependencies or update packages.* 
 
-- Open RStudio
-- Paste `install.packages(c("readxl", "openxlsx", "tidyverse", "igraph", "tnet", "ggraph"))` into the console (bottom left hand side) and press `enter`. *Note, you might be asked to install dependencies or update packages*
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 2/1.png"),
+               alt = 'install', width = 700)
+```
+<br>
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/1 - Getting started/Step 2/2.png"),
+               alt = 'install-complete', width = 700)
+```
+<br>
 
-A package is like a book, you use a `library()` to check a package out of the library. AHgen will load these packages for you, or you can copy and paste the code chunk below.
+#### Dependencies
+
+AHgen uses some functions from [`base` R](https://cran.r-project.org/doc/FAQ/R-FAQ.html#R-Add_002dOn-Packages) which do not require you to install any additional packages. In particular, AHgen uses [`base`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html), [`grid`](https://stat.ethz.ch/R-manual/R-devel/library/grid/html/00Index.html), [`grDevices`](https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/00Index.html), and [`stats`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html).
+
+AHgen also relies on functions in several other pre-existing packages. These are called **dependencies**.
+
+The **most important dependency** is the [`tidyverse`](https://www.tidyverse.org/). Instead of one package, the `tidyverse` is actually a collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.
+
+**Other dependencies** include: 
+
+*For analysis*
+
+- [**`Biobase`**](https://bioconductor.org/packages/release/bioc/html/Biobase.html) and [`BiocManager`](https://www.bioconductor.org/install/) - The `Biobase` package implements base functions for `Bioconductor`, and has a helpful function called [subListExtract()](https://www.rdocumentation.org/packages/Biobase/versions/2.32.0/topics/subListExtract) to extract the same element from the sublists of a list. For example, if outputs of AHgen are in [list format](https://www.geeksforgeeks.org/r-lists/), and every AHgen output has a list element called 'vertices', the subListExtract() function can extract the list element 'vertices' from multiple lists quickly. This is useful for comparing AHgen outputs. To install `Biobase` you will first need to install the package `BiocManager`. This package serves as the primary way to ensure that the appropriate `Biobase` installation is used with respect to the version of R in use, regardless of the R and `Bioconductor` release cycles.
+- [**`data.table`**](https://cran.r-project.org/web/packages/data.table/readme/README.html) provides a high-performance version of base R’s data.frame, with syntax and feature enhancements for ease of use, convenience and programming speed.
+- [**`igraph`**](https://cran.r-project.org/web/packages/igraph/index.html) provides routines for simple graphs and network analysis.
+- [**`installr`**](https://cran.r-project.org/web/packages/installr/readme/README.html) offers a set of R functions for the installation and updating of software.
+- [**`janitor`**](https://cran.r-project.org/web/packages/janitor/readme/README.html) provides simple functions for examining and cleaning dirty data.
+
+*For visualisations*
+
+- [**`ggh4x`**](https://cran.r-project.org/web/packages/ggh4x/readme/README.html),  [**`gginnards`**](https://cran.r-project.org/web/packages/gginnards/readme/README.html), [**`ggraph`**](https://cran.r-project.org/web/packages/ggraph/readme/README.html), [**`ggrepel`**](https://cran.r-project.org/web/packages/ggrepel/readme/README.html), and [**`scales`**](https://cran.r-project.org/web/packages/scales/readme/README.html) are all [`ggplot2`](https://ggplot2.tidyverse.org/) extension packages to customise visualisations.
+- [**`plotly`**](https://cran.r-project.org/web/packages/plotly/readme/README.html) helps to create interactive web graphics via the open source JavaScript graphing library [plotly.js](https://github.com/plotly/plotly.js).
+- [**`see`**](https://cran.r-project.org/web/packages/see/) provides plotting utilities supporting packages in the [`easystats`](https://cran.r-project.org/web/packages/easystats/index.html) ecosystem  and some extra themes, geoms, and scales for [`ggplot2`](https://ggplot2.tidyverse.org/)
+- [**`sf`**](https://cran.r-project.org/web/packages/sf/index.html) provides support for simple features, a standardized way to encode spatial vector data.
+- [**`tidytext`**](https://cran.r-project.org/web/packages/tidytext/readme/README.html) provides functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
+
+Some packages are needed to borrow only a single function; other packages are heavily relied upon. For more detail on dependencies you can see `AHgen/data-raw/functionsTracker_20230707.xlsx`.
+
+#### Installation of dependencies
+
+To install BiocManager and Biobase, use the following code.
 
 ```{r, eval = FALSE}
-library(readxl)
-library(openxlsx)
-library(tidyverse)
-library(igraph)
-library(tnet)
-library(ggraph)
+# Install BiocManager and Biobase 
+# Following instructions from https://www.bioconductor.org/packages/release/bioc/html/Biobase.html
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install("Biobase")
 ```
+
+To install the rest of the dependencies, use the following code.
+
+```{r, eval = FALSE}
+pacman::p_load(tidyverse, data.table, igraph, installr, janitor, 
+               ggh4x, gginnards, ggraph, ggrepel, scales, 
+               plotly, see, sf, tidytext)
+```
+<br>
 
 ### Step 3 - Download AHgen
-<span style="color: red;">To be filled in once the github is more up to date.</span>
 
-### Step 4 - Load AHgen functions
-The functions that make up AHgen are located in the *functions* folder. You can load all of them in by running the script in *functions.R* using `source()`. Step-by-step: 
-
-- Open RStudio
-- Navigate to *File > New file > R Script*
-- Save the script in the AHgen directory (folder)
-- Copy and paste the code chunk below into your script
+To download the AHgen package itself, use the following code.
 
 ```{r, eval = FALSE}
-rm(list = ls()) # Clear environment
-cat("\014") # Clear console
-
-setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # Set working directory to script directory
-
-library(AHgen)
+# Use devtools to download the most recent version of AHgen from GitHub
+# including any packages that AHgen depends on with "dependencies = TRUE"
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
 ```
+<br>
 
-- Highlight your script and run by pressing `Ctrl+Enter`. The names of the functions will appear in the top right corner
-- Type `ls()` directly in the console to print the names of the loaded functions, shown below
+You can load the AHgen package, and see a full list of its current functions, by running the following code.
 
-```{r, include = FALSE}
+```{r}
+# Load the AHgen package
 library(AHgen)
-```
-```{r, echo = FALSE}
-ls()
+
+# List the names of AHgen functions and data
+ls("package:AHgen")
+
+# List the AHgen function names and required inputs
+lsf.str("package:AHgen")
 ```
 
 ### {-}

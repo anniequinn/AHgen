@@ -5,6 +5,8 @@ apply_geoData <- function(geoData,
                           proxyWeight = 0,
                           name, version, location, scenario) {
   
+  require(tidyverse)
+
   PO_excluded <- 
     desc_check$notDetected_exclude %>%  # Take dataframe of desc terms not detected in this location which should be excluded
     select(physicalObject) %>% unique() %>% pull(physicalObject) # Create vector of physical objects to be excluded

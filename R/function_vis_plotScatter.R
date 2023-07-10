@@ -4,13 +4,14 @@ vis_plotScatter <- function(results, benchmark = "baseline",
                             omit.zeros = TRUE, omit.inf = TRUE,
                             family) { 
   
-  # by = "location"
-  # if levels = single, & location = single, single plot
-  # if levels = c(1, 2), c(1, 2, 3) etc., & location = single, ncol = 3 facet_wrap
-  # if levels = single & location = multiple, ncol = 3 facet_wrap
-  # if levels = all [either c(1, 2, 3) or c(3, 4, 5) & locations = all & scenarios = all goes to facet_grid2
+  require(ggplot2)
+  require(ggh4x)
+  require(forcats)
+  require(tidytext)
+  require(grid)
   
-  # by = "scenario" (e.g. Edinburgh COVID weeks) flip the scenario & location?
+  # currently by = "location"
+  # potential future adaptaion: by = "scenario" (e.g. Edinburgh COVID weeks) flip the scenario & location
   
   # Size aesthetics prep
   results <- 
@@ -70,7 +71,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     results <- 
       results %>% 
       filter(scenario != benchmark) %>% 
-      mutate(scenario = fct_inorder(scenario))
+      mutate(scenario = forcats::fct_inorder(scenario))
     
     if(omit.zeros == TRUE) {results <- results %>% filter(change_value_amp != 0)}
     
@@ -89,7 +90,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     results <- 
       results %>% 
       filter(scenario != benchmark) %>% 
-      mutate(scenario = fct_inorder(scenario))
+      mutate(scenario = forcats::fct_inorder(scenario))
     
     if(omit.zeros == TRUE) {results <- results %>% filter(change_pct != 0)}
     
@@ -120,15 +121,16 @@ vis_plotScatter <- function(results, benchmark = "baseline",
       results %>%
       filter(metric == metricName, levelName %in% levels) %>%
       arrange(levelName) %>%
-      mutate(levelName = fct_inorder(levelName)) %>%
+      mutate(levelName = forcats::fct_inorder(levelName)) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols)) %>%
+      mutate(cols = forcats::fct_inorder(cols)) %>%
       arrange(levelScenario)
     
     scatterPlot <-
       results %>%
-      ggplot(aes(x = reorder_within(Node, -benchmark_value_amp, location), 
-                 y = !!sym(values))) +
+      ggplot(aes(
+        x = tidytext::reorder_within(Node, -benchmark_value_amp, location), 
+        y = !!sym(values))) +
       geom_hline(yintercept = 0, color = "gray85", linewidth = 0.4) +
       geom_point(aes(shape = scenario, color = scenario), 
                  size = results$sizes, stroke = 0.2) +
@@ -179,9 +181,9 @@ vis_plotScatter <- function(results, benchmark = "baseline",
       results %>%
       filter(metric == metricName, levelName %in% levels, location %in% locations) %>%
       arrange(levelName) %>%
-      mutate(levelName = fct_inorder(levelName)) %>%
+      mutate(levelName = forcats::fct_inorder(levelName)) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols)) %>%
+      mutate(cols = forcats::fct_inorder(cols)) %>%
       arrange(levelScenario)
     
     titleLab <- levels
@@ -189,8 +191,9 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     scatterPlot <-
       results %>%
       filter(metric == metricName, levelName %in% levels) %>%
-      ggplot(aes(x = reorder_within(Node, -benchmark_value_amp, location), 
-                 y = !!sym(values))) +
+      ggplot(aes(
+        x = tidytext::reorder_within(Node, -benchmark_value_amp, location), 
+        y = !!sym(values))) +
       geom_point(aes(shape = scenario, color = scenario), 
                  size = results$sizes, stroke = 0.2) +
       facet_wrap(~location, labeller = label_wrap_gen(width = 15), 
@@ -233,9 +236,9 @@ vis_plotScatter <- function(results, benchmark = "baseline",
       results %>%
       filter(metric == metricName, levelName %in% levels, location %in% locations) %>%
       arrange(levelName) %>%
-      mutate(levelName = fct_inorder(levelName)) %>%
+      mutate(levelName = forcats::fct_inorder(levelName)) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols)) %>%
+      mutate(cols = forcats::fct_inorder(cols)) %>%
       arrange(levelScenario)
     
     titleLab <- paste0(locations, " ", levels)
@@ -243,8 +246,9 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     scatterPlot <-
       results %>%
       filter(metric == metricName, levelName %in% levels) %>%
-      ggplot(aes(x = reorder_within(Node, -benchmark_value_amp, location), 
-                 y = !!sym(values))) +
+      ggplot(aes(
+        x = tidytext::reorder_within(Node, -benchmark_value_amp, location), 
+        y = !!sym(values))) +
       geom_point(aes(shape = scenario, color = scenario), 
                  size = 1.2, stroke = 0.4) +
       tidytext::scale_x_reordered() +

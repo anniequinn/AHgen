@@ -2,6 +2,13 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
                          change.only = FALSE, confidence.lines = FALSE, 
                          family = "Harding") {
   
+  require(ggplot2)
+  require(grDevices)
+  require(forcats)
+  require(ggrepel)
+  require(stringr)
+  require(grid)
+  
   if(change.only == FALSE){
     
     results <- 
@@ -13,7 +20,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
         confidence_rankByLevel_minusPlus == "Low" ~ "L")) %>% # add confidence rating labels
       arrange(Node) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols)) # set levels to colours as a factor
+      mutate(cols = forcats::fct_inorder(cols)) # set levels to colours as a factor
     
   }
   
@@ -41,7 +48,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
       mutate(cols = case_when(cols_unchanged == "changed" ~ cols,
                               cols_unchanged == "unchanged" ~ "#8C8C8C")) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols))
+      mutate(cols = forcats::fct_inorder(cols))
     
   }
   
@@ -143,7 +150,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
       n <- nCols_df$n[[x]]
       
       fun_color_range <- 
-        colorRampPalette(
+        grDevices::colorRampPalette(
           c("#FF0000", "#FF5300", "#66A61E", "#0098FF", "#0045FF", 
             "#0E00FF","#8A00FF", "#FF00F8","#FF0029")) 
       
@@ -170,7 +177,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
                               !is.na(colsNew) & cols_unchanged == "unchanged" ~ cols,
                               is.na(colsNew) ~ cols)) %>%
       arrange(cols) %>%
-      mutate(cols = fct_inorder(cols))
+      mutate(cols = forcats::fct_inorder(cols))
     
     results <-
       results %>%
@@ -199,7 +206,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
                       scenario == benchmark & group == "multi-benchmark"),
         box.padding = 0.1, direction = "y", hjust = "left", force = 0.2, 
         lineheight = 0.15,
-        mapping = aes(label = str_wrap(Node, 22), colour = cols, 
+        mapping = aes(label = stringr::str_wrap(Node, 22), colour = cols, 
                       family = family, fontface = "bold", hjust = 1), 
         nudge_x = -1.95, seed = 1, segment.alpha = 0.5, segment.size = 0.3, size = 10, 
         xlim = c(-Inf, Inf), ylim = c(-Inf, Inf)) +

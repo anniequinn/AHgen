@@ -1,25 +1,27 @@
 edgelist_to_igraph <- function(edgelist, vInfo) { 
   
+  require(igraph)
+  
   internal_edgelist_to_igraph <- 
     function(edgelist) { 
       
       edgelist %>% 
         select(from, to, weight) %>% 
-        graph.data.frame(directed = FALSE)
+        igraph::graph.data.frame(directed = FALSE)
       
     }
   
   internal_add_layerAttribute <- 
     function(igraph, edgelist) { 
       
-      igraph %>% set_edge_attr(name = "layer", value = edgelist$layer)
+      igraph %>% igraph::set_edge_attr(name = "layer", value = edgelist$layer)
       
     }
   
   internal_add_weightAttribute <- 
     function(igraph, edgelist) {
       
-      igraph %>% set_edge_attr(name = "weight", value = edgelist$weight)
+      igraph %>% igraph::set_edge_attr(name = "weight", value = edgelist$weight)
       
     }
   

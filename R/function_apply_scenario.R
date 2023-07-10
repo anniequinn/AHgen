@@ -4,8 +4,9 @@ apply_scenario <- function(AH_input,
                            proxyWeight = 0,
                            name, version, location, scenario) {
   
-  # Create dataframe of only the included vertices
+  require(tidyverse)
   
+  # Create dataframe of only the included vertices
   edges_to <- 
     edgelist_scenario %>% 
     select(to, weight) %>% 

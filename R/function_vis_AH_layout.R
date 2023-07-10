@@ -1,6 +1,8 @@
 vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key) { 
   
   require(ggraph)
+  require(igraph)
+  require(scales)
   
   internal_layout_horizontal <- function(edgelist, vInfo) {
   
@@ -18,12 +20,13 @@ vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key
     igraph <- edgelist %>% edgelist_to_igraph(vInfo)
     
     # Vertex levels
-    if(nrow(tmp) > 1) { levels <- c(1, V(igraph)$level+1) } else { levels <- V(igraph)$level }
+    if(nrow(tmp) > 1) { levels <- c(1, igraph::V(igraph)$level+1) } 
+    else { levels <- igraph::V(igraph)$level }
     
     # Determine horizontal version of layout based on sugiyama
     layoutSug <- 
       (igraph %>% 
-         layout_with_sugiyama(layers = levels))$layout
+         igraph::layout_with_sugiyama(layers = levels))$layout
     colnames(layoutSug) <- c("x", "y")
     
     layoutSug <- 
@@ -156,7 +159,7 @@ vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key
       bind_rows() %>% 
       arrange(level, pos) %>%
       select(level, pos, x = x2, y = y2, theta = thetaRad2) %>%
-      create_layout(edgelist, layout = .)
+      ggraph::create_layout(edgelist, layout = .)
     
   }
   
@@ -164,9 +167,10 @@ vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key
   internal_layout_generic <- function(layoutRadial) { 
     
     require(ggraph)
+    require(igraph)
     
     # Create edge function
-    findEdges <- get_edges("short", collapse = "none")
+    findEdges <- ggraph::get_edges("short", collapse = "none")
     
     # Extract edge list with layout
     edges <- 
@@ -177,7 +181,7 @@ vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key
              x = node1.x, y = node1.y, xend = node2.x, yend = node2.y) 
     
     # Create node function (vertices)
-    findNodes <- get_nodes()
+    findNodes <- ggraph::get_nodes()
     
     # Extract vertex list with layout
     vertices <- 

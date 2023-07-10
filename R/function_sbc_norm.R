@@ -10,17 +10,19 @@
 
 # create sbc function (with normalization)
 sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
+  
+  require(igraph)
     
-    df <- 
-      as_adjacency_matrix(igraph, 
-                          type = c("both"),
-                          attr = "weight", 
-                          edges = FALSE, 
-                          names = TRUE)
+  df <- 
+    igraph::as_adjacency_matrix(igraph, 
+                                type = c("both"),
+                                attr = "weight", 
+                                edges = FALSE, 
+                                names = TRUE)
     
     df[is.na(df)] <- 0
     
-    nodes <- V(igraph)$name
+    nodes <- igraph::V(igraph)$name
     
     outsbc <- 
       data.frame(id = as.character(nodes), sbc = NA, stringsAsFactors = FALSE)
@@ -35,11 +37,11 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
     
     if(undirected == TRUE) {
       
-      sp <- shortest.paths(igraph, mode = "all")
+      sp <- igraph::shortest.paths(igraph, mode = "all")
       
     } else {
       
-      sp <- shortest.paths(igraph, mode = "out")
+      sp <- igraph::shortest.paths(igraph, mode = "out")
       
     }
     
@@ -55,20 +57,20 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
       if(undirected == TRUE) {
         
         g2 <- 
-          graph_from_adjacency_matrix(df2, 
-                                      mode = "undirected", 
-                                      weighted = TRUE)
+          igraph::graph_from_adjacency_matrix(df2, 
+                                              mode = "undirected", 
+                                              weighted = TRUE)
         
-        sp2 <- shortest.paths(g2, mode = "all")
+        sp2 <- igraph::shortest.paths(g2, mode = "all")
         
       } else {
         
         g2 <- 
-          graph_from_adjacency_matrix(df2, 
-                                      mode = "directed", 
-                                      weighted = TRUE)
+          igraph::graph_from_adjacency_matrix(df2, 
+                                              mode = "directed", 
+                                              weighted = TRUE)
         
-        sp2 <- shortest.paths(g2, mode = "out")
+        sp2 <- igraph::shortest.paths(g2, mode = "out")
         
       }
       

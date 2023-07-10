@@ -1,6 +1,8 @@
 calc_SBC <- function(igraph, vInfo) {
   
   require(igraph)
+  require(tibble)
+  require(stats)
   
   options(digits = 15) # Ensure R global options can account ~15 decimal points for inverted proxyWeight 1.9999999999
   

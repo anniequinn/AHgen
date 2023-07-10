@@ -12,10 +12,10 @@ vis_AH_plotly <- function(ggplotPlot,
     # devtools::install_github("ropensci/plotly")
     
     output <- 
-      ggplotly(ggplotPlot, tooltip = "Node") %>% 
+      plotly::ggplotly(ggplotPlot, tooltip = "Node") %>% 
       layout(legend = list(orientation = "h", x = 0, y = 1))
     
-    output <- plotly_build(output)
+    output <- plotly::plotly_build(output)
     
     if(circles == TRUE) {
       

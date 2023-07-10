@@ -1,7 +1,9 @@
 igraph_to_edgelist <- function(igraph) { 
   
+  require(igraph)
+  
   igraph %>% 
-    get.data.frame %>% 
+    igraph::get.data.frame %>% 
     as_tibble() %>% 
     select(layer, from, to, everything())
   

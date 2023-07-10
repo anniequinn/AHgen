@@ -1,5 +1,9 @@
 vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
   
+  require(ggplot2)
+  require(ggh4x)
+  require(grid)
+  
   if(metricName == "EC" & type == "scenarioLevel") {
     results <- 
       results$confidence$confidence_scenarioLevel_EC %>%

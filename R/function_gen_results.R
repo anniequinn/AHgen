@@ -1,6 +1,8 @@
 gen_results <- function(igraph, vInfo, name, 
                         version = NULL, location = NULL, scenario = NULL) {
   
+  require(forcats)
+  
   resultsEC <- 
     igraph %>%
     calc_EC(vInfo) %>%
@@ -49,7 +51,7 @@ gen_results <- function(igraph, vInfo, name,
                                           "Tasks",
                                           "Processes",
                                           "Resources")),
-           metric = fct_inorder(metric))
+           metric = forcats::fct_inorder(metric))
   
   if(name == "USAH") {
     

@@ -1,7 +1,9 @@
-# Note this is written in such a way that apply_geoData is best applied before 
-# apply_stressors (or changing weight at upper levels rather than l4ORP_l5PO), 
-# not tested backward order yet
 weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
+  
+  # Note: apply_geoData is best applied before apply_stressors (or changing weight 
+  # at upper levels rather than l4ORP_l5PO); not tested backward order propagation
+  
+  require(tidyverse)
   
   # Check for ORPs which have all links weighted the proxyWeight (to imitate removal) 
   # and set all their links to GFs to the proxyWeight

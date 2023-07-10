@@ -10,6 +10,8 @@ table_rankSBC <-
     # This is due to multiple nodes having the same SBC/ranking 
     # and is reformatted with the mutate_all reformatting steps.
     
+    require(stringr)
+    
     if (singleScenario == TRUE &
         compareLocations == FALSE &
         compareScenarios == FALSE) {
@@ -21,7 +23,7 @@ table_rankSBC <-
         filter(rank_byLevel <= 37) %>%
         mutate(value_amp = (value * 100000) %>% round(0), # * 100000 is to amplify values for easier distinction by eye
                Node = paste0(Node, " (", value_amp, ")"),
-               Level = str_c(level, " - ", levelName)) %>%
+               Level = stringr::str_c(level, " - ", levelName)) %>%
         group_by(Level, rank_byLevel) %>% 
         mutate(Node = paste0(Node, collapse = ", ")) %>%
         ungroup() %>%
@@ -41,12 +43,12 @@ table_rankSBC <-
         filter(level >= 3) %>%
         filter(rank_byLevel <= 37) %>%
         mutate(Node = paste0(Node, " (", value_amp %>% round(), ")"),
-               Level = str_c(level, " - ", levelName)) %>%
+               Level = stringr::str_c(level, " - ", levelName)) %>%
         select(location, Level, Node, rank_byLevel) %>% ## if comparing scenarios instead of locations (e.g. baseline vs. flood) use "scenario" instead of "location" column
         pivot_wider(names_from = location, values_from = Node) %>% ## if comparing scenarios instead of locations (e.g. baseline vs. flood) use "scenario" instead of "location" column
-        mutate_all(~str_remove_all(as.character(.x), 'c\\(')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"\\)')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), 'c\\(')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"\\)')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"')) %>%
         mutate(rank_byLevel = rank_byLevel %>% as.numeric) %>%
         arrange(Level, rank_byLevel) %>%
         rename(`Ranked Within Level by Stable Betweenness Centrality` = rank_byLevel,
@@ -65,9 +67,9 @@ table_rankSBC <-
         mutate(Node = paste0(Node, " (", value_amp %>% round(), ")")) %>%
         select(scenario, Level, Node, rank_byLevel) %>% ## if comparing scenarios instead of locations (e.g. baseline vs. flood) use "scenario" instead of "location" column
         pivot_wider(names_from = scenario, values_from = Node) %>% ## if comparing scenarios instead of locations (e.g. baseline vs. flood) use "scenario" instead of "location" column
-        mutate_all(~str_remove_all(as.character(.x), 'c\\(')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"\\)')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), 'c\\(')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"\\)')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"')) %>%
         mutate(rank_byLevel = rank_byLevel %>% as.numeric) %>%
         arrange(Level, rank_byLevel) %>%
         rename(`Ranked Within Level by Stable Betweenness Centrality` = rank_byLevel)
@@ -81,12 +83,12 @@ table_rankSBC <-
         filter(metric == "SBC_norm") %>%
         filter(level >= 3) %>%
         mutate(value_table = paste0(Node, " (", value_amp %>% round(), ")"),
-               Level = str_c(level, " - ", levelName)) %>%
+               Level = stringr::str_c(level, " - ", levelName)) %>%
         select(location, scenario, Level, value_table, rank_byLevel) %>%
         pivot_wider(names_from = scenario, values_from = value_table) %>% 
-        mutate_all(~str_remove_all(as.character(.x), 'c\\(')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"\\)')) %>%
-        mutate_all(~str_remove_all(as.character(.x), '\"')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), 'c\\(')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"\\)')) %>%
+        mutate_all(~stringr::str_remove_all(as.character(.x), '\"')) %>%
         mutate(rank_byLevel = rank_byLevel %>% as.numeric) %>%
         filter(rank_byLevel <= 37) %>%
         arrange(location, Level, rank_byLevel) %>%

@@ -1,5 +1,6 @@
 compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   
+  require(tibble)
   require(Biobase)
   
   # Internal function to map sublists in list elements
@@ -18,7 +19,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
       }) %>%
       discard(function(x) nrow(x) == 1) %>%
       do.call(bind_rows, .) %>%
-      remove_rownames()
+      tibble::remove_rownames()
     
   }
   

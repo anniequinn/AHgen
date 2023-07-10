@@ -1,4 +1,7 @@
 check_symmetry <- function(adjMat) {
+  
+  require(stats)
+  require(data.table)
     
     Nodes <- adjMat %>% pull(Node)
     

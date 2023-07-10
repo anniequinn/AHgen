@@ -2,7 +2,6 @@
 title: "0 - Welcome to AHgen"
 author:  
  - Annie Visser-Quinn & Melissa Bedinger
-date: "`r Sys.Date()`"
 output: 
   html_document:
     toc: true

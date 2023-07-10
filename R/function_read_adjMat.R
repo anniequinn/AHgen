@@ -1,8 +1,9 @@
 read_adjMat <- function(filename, sheet = 1, rescale = FALSE) {
   
+  require(stringr)
   require(readxl)
   
-  if(!str_detect(filename, ".xlsx")) stop(".xlsx missing in filename")
+  if(!stringr::str_detect(filename, ".xlsx")) stop(".xlsx missing in filename")
   
   # Prepare column names and classes
   colNames <- readxl::read_xlsx(filename, col_types = NULL) %>% names

@@ -1,6 +1,8 @@
 export_AHgen <- function(output, type = "AH", directory = NULL, name, version = NULL, 
                          location = NULL, benchmark = NULL, scenario = NULL) {
   
+  require(xlsx)
+  
   if(type == "AH"){
     
     prefixRDS <- name

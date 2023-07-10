@@ -1,6 +1,11 @@
 vis_plotViolin <- function(results, metricName, type = "half", 
                            levels = NULL, family = "Harding") {
   
+  require(ggplot2)
+  require(ggh4x)
+  require(see)
+  require(grid)
+  
   # yaxisLab prep
   if(metricName == "EC")
   {yaxisLab_metric <- "Eigenvector Centrality"}
@@ -21,7 +26,7 @@ vis_plotViolin <- function(results, metricName, type = "half",
   
   if(type == "half"){
     
-    # !!! NOTE !!! Still haven't located the root issue
+    # !!! NOTE !!! still haven't located the root issue
     # but colsBaseline & colsFloodRiver200 needed to be swapped to create accurate visualisation
     
     violinPlot <-
