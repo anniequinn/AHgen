@@ -9,7 +9,6 @@ dplyr
 stringr
 forcats
 lubridate
-BiocManager
 BiocGenerics
 Biobase
 data.table

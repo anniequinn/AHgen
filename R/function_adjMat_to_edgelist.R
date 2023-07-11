@@ -1,5 +1,8 @@
 adjMat_to_edgelist <- function(adjMat, vInfo) {
   
+  require(igraph)
+  require(tibble)
+  
   colNames <- names(adjMat)
   index <- which(colNames %in% c("Node", "level", "levelName_full", "levelName"))
   
@@ -18,7 +21,7 @@ adjMat_to_edgelist <- function(adjMat, vInfo) {
     adjMat %>% 
     select(Node) %>% 
     cbind(mat) %>% 
-    as_tibble() %>%
+    tibble::as_tibble() %>%
     internal_melt2(measure.vars = c(2:ncol(.))) %>% 
     filter(value == 1)
   

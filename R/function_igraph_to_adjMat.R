@@ -6,8 +6,8 @@ igraph_to_adjMat <- function(igraph) {
   output <- 
     igraph %>%
     igraph::get.adjacency() %>% 
-    as.matrix %>% 
-    as.data.frame %>% 
+    as.matrix() %>% 
+    as.data.frame() %>% 
     tibble::rownames_to_column("Node") %>% 
     as_tibble()
   

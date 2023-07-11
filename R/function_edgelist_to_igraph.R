@@ -27,7 +27,7 @@ edgelist_to_igraph <- function(edgelist, vInfo) {
   
   output <- 
     edgelist %>% 
-    internal_edgelist_to_igraph %>% 
+    internal_edgelist_to_igraph() %>% 
     internal_add_layerAttribute(edgelist = edgelist) %>%
     internal_add_weightAttribute(edgelist = edgelist)
   
