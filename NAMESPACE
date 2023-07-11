@@ -4,6 +4,7 @@ exportPattern("^[[:alpha:]]+")
 #' @import grDevices
 #' @import stats
 #' @import tidyverse
+#' @import BiocManager
 #' @import Biobase
 #' @import data.table
 #' @import igraph

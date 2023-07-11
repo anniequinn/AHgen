@@ -16,6 +16,7 @@ Depends:
     grDevices,
     stats,
     tidyverse,
+    BiocManager,
     Biobase,
     data.table,
     igraph,
