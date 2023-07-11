@@ -36,7 +36,7 @@ check_symmetry <- function(adjMat) {
   
   unsymmetrical_step1
   
-  unsymmetrical_step2 <- unsymmetrical_step1 %>% vctrs::list_drop_empty
+  unsymmetrical_step2 <- unsymmetrical_step1 %>% vctrs::list_drop_empty()
   
   unsymmetrical_step3 <- 
     lapply(unsymmetrical_step2, function(x) 
