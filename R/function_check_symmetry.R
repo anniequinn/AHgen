@@ -2,14 +2,15 @@ check_symmetry <- function(adjMat) {
   
   require(stats)
   require(data.table)
+  require(vctrs)
     
     Nodes <- adjMat %>% pull(Node)
     
-    unsymmetrical <- list()
+    unsymmetrical_step1 <- list()
     
     for(x in Nodes) {
       # add new column to identify if from rowwise or columnwise in adjMat - would then need to only select duplicated(step3) without this column
-      step1 <- 
+      prep_step1 <- 
         adjMat %>% 
         select(x) %>% 
         t() %>% 
@@ -18,23 +19,42 @@ check_symmetry <- function(adjMat) {
         data.table::setDT(keep.rownames = TRUE) %>% 
         rename(Node = rn)
       
-      step2 <- 
+      prep_step2 <- 
         adjMat %>% 
         select(-level, -levelName_full, -levelName) %>% 
         filter(Node == x)
       
-      step3 <- step1 %>% rbind(step2)
+      prep_step3 <- prep_step1 %>% rbind(prep_step2)
       
       indDuplicatedVec <- 
-        duplicated(step3) | duplicated(step3, fromLast = TRUE)
+        duplicated(prep_step3) | duplicated(prep_step3, fromLast = TRUE)
       
-      unsymmetrical[[paste0("unsymmetrical ", x)]] <- step3[!indDuplicatedVec, ]
+      unsymmetrical_step1[[paste0("unsymmetrical ", x)]] <- 
+        prep_step3[!indDuplicatedVec, ]
       
     }
     
-    unsymmetrical
+    unsymmetrical_step1
     
-    unsymmetrical <- unsymmetrical %>% do.call("rbind", .)
+    unsymmetrical_step2 <- unsymmetrical_step1 %>% vctrs::list_drop_empty
+    
+    unsymmetrical_step3 <- 
+      lapply(unsymmetrical_step2, function(x) 
+        x %>% select(where(is.character) | where(~n_distinct(.) > 1)))
+    
+    unsymmetrical_step4 <- 
+      unsymmetrical_step3 %>% data.table::rbindlist(fill = TRUE) 
+    
+    nodes_unsymmetrical <- 
+      adjMat %>% 
+      select(level, Node) %>% 
+      arrange(level, Node) %>% 
+      filter(Node %in% colnames(unsymmetrical_step4) %>% 
+      pull()
+    
+    new_order <- c("Node", nodes_unsymmetrical)
+    
+    unsymmetrical <- unsymmetrical_step4 %>% select(all_of(new_order))
     
     if (nrow(unsymmetrical) < 1) {
       

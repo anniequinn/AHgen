@@ -1,5 +1,5 @@
 ---
-title: "0 - Welcome to AHgen"
+title: "Welcome to AHgen"
 author:  
  - Annie Visser-Quinn & Melissa Bedinger
 output: 
@@ -23,7 +23,6 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
-library(igraph)
 library(AHgen)
 ```
 
@@ -40,16 +39,18 @@ library(AHgen)
 
 ---
 
-Welcome! In the vignette below, you will find an introduction to Abstraction Hierarchies and AHgen.
+Welcome! In this vignette, you will be introduced to Abstraction Hierarchies and `AHgen`.
 
 ## What is an Abstraction Hierarchy?
 
 The Abstraction Hierarchy enables analysis of systems at any scale – from microwaves to transport systems to entire cities. By understanding how physical objects connect to different – yet interdependent – functions, we can improve the design of the system.
 
-*Key terms*
+### Key terms
 
-- A **network** is a collection of parts (**vertices** aka **nodes**) and connections between parts (**edges** aka **links**).
-- The **Abstraction Hierarchy** is a type of **hierarchical network**
+- A network is a collection of parts (**vertices** aka **nodes**) and connections between parts (**edges** aka **links**).
+- The Abstraction Hierarchy is a type of **hierarchical network**
+
+### Structure
 
 In the Abstraction Hierarchy:
 
@@ -57,6 +58,8 @@ In the Abstraction Hierarchy:
 - Edges connect vertices between two levels (a **layer**), to represent the functional connections between the physical and abstract parts of a system.
                             
 At the bottom of the hierarchy are the Resources (Level 5). These object types are linked to Processes (Level 4) they support, then to Tasks (Level 3) they achieve, then to Outcomes (Level 2), and finally to Purposes (Level 1). These system parts are nodes, which are linked between levels through their functionality, connecting the physical to the abstract. Moving upward through the levels the nodes are connected by asking ‘why the node exists’; moving downward levels the nodes are connected by asking ‘how a node is afforded’. These links represent the ‘means’ that a system can use to achieve defined ‘ends’, explicitly connecting the physical and abstract.
+
+### Background
 
 The Abstraction Hierarchy is a method from the discipline of human factors, as one part of the [Cognitive Work Analysis](https://doi.org/10.1201/9781315572543) framework. Originally developed to improve the design of safety-critical work systems (e.g., a nuclear power plant), this has also been applied to map and explore complex systems to inform product design, transport safety, urban resilience, and more. 
 
@@ -68,41 +71,38 @@ knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "600px
 
 <br>
 
-## What is AHgen?
+## What is `AHgen`?
 
-AHgen was created to generate, analyse, compare, and visualise Abstraction Hierarchies. Historically, applications of the Abstraction Hierarchy method aimed to visualise and inspect the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. AHgen brings the Abstraction Hierarchy into the 21st century with an open source software code in R.
+`AHgen` was created to generate, analyse, compare, and visualise Abstraction Hierarchies. Historically, applications of the Abstraction Hierarchy method aimed to visualise and inspect the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. `AHgen` brings the Abstraction Hierarchy into the 21st century with an open source software code in R.
 
-AHgen was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from [OSMtidy](https://github.com/avisserquinn/OSMtidy). Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
+`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from [OSMtidy](https://github.com/avisserquinn/OSMtidy). Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
 
-## AHgen workflow and functions
+## `AHgen` workflow and functions
 
-AHgen is extremely flexible, with lots of possible workflows. There are five families of functions: 
+`AHgen` is extremely flexible, with lots of possible workflows. There are five families of functions: 
 
 1. **Input** Reading in the Abstraction Hierarchy and accompanying data
 2. **Convert** Converting the Abstraction Hierarchy into formats compatible with network analysis in R
 3. **Weight** Weighting edges
-4. **Analyse** Applying network analysis, summarising outputs, and comparing Abstraction Hierarchies
+4. **Analyse** Applying network analysis, plus summarising, comparing, and exporting outputs
 5. **Visualise** Visualising the Abstraction Hierarchy and results
-
 ```{r, echo = FALSE}
 htmltools::img(src = knitr::image_uri("images/workflow-clean.png"), 
-               alt = 'workflow-clean', width = 700)
+               alt = 'workflow-clean', width = 600)
 ```
+There are five vignettes designed to get you on your way:
 
-There are five vignettes designed to get you on your way: <span style = "color:red;">Add links</span>
+- Vignette 1 - [Getting started](Vignette-1---Getting-started.html)
+- Vignette 2 - [Input & Convert](Vignette-2---Input-&-Convert.html)
+- Vignette 3 - [Weight](Vignette-3---Weight.html)
+- Vignette 4 - [Analyse](Vignette-4---Analyse.html)
+- Vignette 5 - [Visualise](Vignette-5---Visualise.html)
 
-- Vignette 1 - Getting started
-- Vignette 2 - Reading in data
-- Vignette 3 - Weighting edges
-- Vignette 4 - Analysis
-- Vignette 5 - Visualisation
-
-<br>
 
 ## Applications
-AHgen can be applied to Abstraction Hierarchies in any domain at any scale for various objectives.
+`AHgen` can be applied to Abstraction Hierarchies in any domain at any scale for various objectives.
 
-Six walkthrough vignettes are provided to illustrate the application of AHgen to create and explore the Urban Systems Abstraction Hierarchy (USAH).
+Six walkthrough vignettes are provided to illustrate the application of `AHgen` to create and explore the Urban Systems Abstraction Hierarchy (USAH).
 
 - Vignette 6 - Generating a template
 - Vignette 7 - Applying geospatial data
@@ -111,9 +111,10 @@ Six walkthrough vignettes are provided to illustrate the application of AHgen to
 - Vignette 10 - Comparing scenarios
 - Vignette 11 - Visualising results
 
-<br>
 
-## Further reading
+## Further information
+
+### Related reading
 
 - Bedinger, M., McClymont, K., Beevers, L., Visser-Quinn, A., & Aitken, G. (2023). [Five cities: Application of the Urban Systems Abstraction Hierarchy to characterize resilience across locations](https://doi.org/10.1016/j.cities.2023.104355). *Cities*, 139, 104335.
 - McClymont, K., Bedinger, M., Beevers, L., & Walker, G. H. (2023). [Applying the Urban Systems Abstraction Hierarchy as a Tool for Flood Resilience](https://doi.org/10.1029/2023EF003594). *Earth’s Future*, 11(5), e2023EF003594.
@@ -126,18 +127,21 @@ Six walkthrough vignettes are provided to illustrate the application of AHgen to
 - Segarra, S. & Ribeiro, A. (2014). [A stable betweenness centrality measure in networks](https://doi.org/10.1109/ICASSP.2014.6854324). *2014 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)*, Florence, Italy, p. 3859-3863.
 
 
-## Acknowledgements
-AHgen was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1).
+### Acknowledgements
+`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1).
 
 
-## Contributions & citation
-**Contributions**
+### Contributions
 
 <span style="color: red;">*Conceptualisation & development*: Melissa Bedinger *Lead developer:* Annie Visser-Quinn *What other ones do we want to put here?* </span>
 
-**Contact** If you have any questions about using or running the code, please contact [Melissa Bedinger](dr.m.bedinger@gmail.com). 
+### Contact 
 
-**Please cite** Annie Visser-Quinn and Melissa Bedinger. (2020) AHgen **v1.0.0**!UPDATE!, Edinburgh, Scotland. doi:10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
+If you have any questions about using or running the code, please contact [Melissa Bedinger](dr.m.bedinger@gmail.com). 
+
+### Citation
+
+**Please cite** Visser-Quinn, A. & Bedinger, M. (2023). AHgen **v1.0.0**. Edinburgh, Scotland. https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
 
 ## Last updated
-This vignette is associated with AHgen v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

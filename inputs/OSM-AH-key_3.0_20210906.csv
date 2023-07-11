@@ -1,0 +1,654 @@
+desc,physicalObject,OSMtidyStage,category_OSMtidy,category_mod
+Business and commerce; Accountants and auditors,Accountancy firms,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Tax advisor,Accountancy firms,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Advertising and graphic design,Advertising,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Public relations,Advertising,fromFilters,Business and commerce,Business and commerce
+Food production and horticulture; Agriculture,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Bee keeping,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Dairy,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Farming,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Greenhouses and glasshouses,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Horticulture,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Livestock,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Orchard,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Food production and horticulture; Tree and plant nurseries,Agriculture,fromFilters,Food production and horticulture,Food production and horticulture
+Outdoors and natural environment; Allotments and community gardens,Agriculture,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Governance; Ambulance station,Ambulance stations,fromFilters,Governance,Governance
+Animal; Boarding,Animal care,fromFilters,Animal,Animal
+Retail; Pet,Animal care,fromFilters,Retail,Retail
+Trades and services; Animal grooming,Animal care,fromFilters,Trades and services,Trades and services
+Animal; Shelter and welfare,Animal shelters,fromFilters,Animal,Animal
+Retail; Boutique,Apparel retail,fromFilters,Retail,Retail
+Retail; Clothing,Apparel retail,fromFilters,Retail,Retail
+Retail; Clothing accessories,Apparel retail,fromFilters,Retail,Retail
+Trades and services; Dry cleaning and laundrette,Apparel services,fromFilters,Trades and services,Trades and services
+Trades and services; Tailor,Apparel services,fromFilters,Trades and services,Trades and services
+Attractions; Aquarium,Aquariums,fromFilters,Attractions,Attractions
+Waterway; Aquaducts and viaducts,Aqueducts and viaducts,fromFilters,Waterway,Water
+Military; Barracks,Armed forces barracks,fromFilters,Military,Military
+Military; Administration,Armed forces offices,fromFilters,Military,Military
+Military; Reserves,Armed forces offices,fromFilters,Military,Military
+Military; Land,Armed forces training grounds,fromFilters,Military,Military
+Military; Parade grounds,Armed forces training grounds,fromFilters,Military,Military
+Military; Training grounds,Armed forces training grounds,fromFilters,Military,Military
+Healthcare; Hospice,Assisted living (health),fromFilters,Healthcare,Healthcare
+Social facility; Drug rehabilitation,Assisted living (health),fromFilters,Social facility,Social facility
+Social facility; Supported housing (health),Assisted living (health),fromFilters,Social facility,Social facility
+Social facility; Supported housing (social),Assisted living (social),fromFilters,Social facility,Social facility
+Amenity; ATM,ATMs,fromFilters,Amenity,Amenity
+Attractions,Attractions,fromFilters,Attractions,Attractions
+Attractions; Amusement arcade,Attractions,fromFilters,Attractions,Attractions
+Attractions; Bowling alley,Attractions,fromFilters,Attractions,Attractions
+Attractions; Escape room,Attractions,fromFilters,Attractions,Attractions
+Attractions; Go Karting centre,Attractions,fromFilters,Attractions,Attractions
+Attractions; Karaoke,Attractions,fromFilters,Attractions,Attractions
+Attractions; Miniature railway,Attractions,fromFilters,Attractions,Attractions
+Attractions; Multiplex,Attractions,fromFilters,Attractions,Attractions
+Attractions; Paintball,Attractions,fromFilters,Attractions,Attractions
+Attractions; Trampoline park,Attractions,fromFilters,Attractions,Attractions
+Attractions; Water and theme parks,Attractions,fromFilters,Attractions,Attractions
+Sports and games; Racing and motor sport,Attractions,fromFilters,Sports and games,Sports and games
+Retail; Auction house,Auction houses,fromFilters,Retail,Retail
+Vehicles; Retail,Automotive retail,fromFilters,Vehicles,Vehicles
+Business and commerce; Bank office,Bank headquarters,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Bank,Banks,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Banks and building societies,Banks,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Credit union,Banks,fromFilters,Business and commerce,Business and commerce
+Barrier,"Barriers, gates, and fences",fromFilters,Barrier,Transport infrastructure
+Barrier; Bollard,"Barriers, gates, and fences",fromFilters,Barrier,Transport infrastructure
+Barrier; Cycle,"Barriers, gates, and fences",fromFilters,Barrier,Transport infrastructure
+Barrier; Height restriction,"Barriers, gates, and fences",fromFilters,Barrier,Transport infrastructure
+Barrier; Wall,"Barriers, gates, and fences",fromFilters,Barrier,Transport infrastructure
+Attractions; Burlesque club,Bars and nightclubs,fromFilters,Attractions,Attractions
+Attractions; Caberet club,Bars and nightclubs,fromFilters,Attractions,Attractions
+Attractions; Nightclub,Bars and nightclubs,fromFilters,Attractions,Attractions
+Attractions; Pool hall,Bars and nightclubs,fromFilters,Attractions,Attractions
+Hospitality; Bar,Bars and nightclubs,fromFilters,Hospitality,Hospitality
+University; Student union,Bars and nightclubs,fromFilters,University,University
+Outdoors and natural environment; Beach,Beaches,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Retail; Beauty and cosmetics,Beauty services,fromFilters,Retail,Retail
+Trades and services; Beauty industry,Beauty services,fromFilters,Trades and services,Trades and services
+Training; Beauty school,Beauty services,fromFilters,Training,Training
+Amenity; Public trash bin,Bins,fromFilters,Amenity,Amenity
+Waste management; Communal recycling bin,Bins,fromFilters,Waste management,Waste management
+Waste management; Communal rubbish bin,Bins,fromFilters,Waste management,Waste management
+Healthcare; Blood bank,Blood banks,fromFilters,Healthcare,Healthcare
+Attractions; Botanical garden,Botanical gardens,fromFilters,Attractions,Attractions
+Transport infrastructure; Bridge,Bridges,fromFilters,Transport infrastructure,Transport infrastructure
+Telecommunications; Office,Broadband provider offices,fromFilters,Telecommunications,Telecommunications
+Business and commerce; Production company,Broadcasting,fromFilters,Business and commerce,Business and commerce
+Telecommunications; Broadcasting studio,Broadcasting,fromFilters,Telecommunications,Telecommunications
+Brownfield site,Brownfield sites,fromFilters,Brownfield site,Outdoors and natural environment
+Brownfield sites,Brownfield sites,fromValidation,Brownfield site,Outdoors and natural environment
+Transport infrastructure; Railway land,Brownfield sites,fromFilters,Transport infrastructure,Transport infrastructure
+Public transport; Bus station,Bus stations,fromFilters,Public transport,Public transport
+Public transport; Bus stop,Bus stops,fromFilters,Public transport,Public transport
+Business and commerce; Chambers,Business services,fromFilters,Business and commerce,Business and commerce
+Manufacturing; Signmaker,Business services,fromFilters,Manufacturing,Manufacturing
+Retail; Printing and copying,Business services,fromFilters,Retail,Retail
+Trades and services; Business,Business services,fromFilters,Trades and services,Trades and services
+Training; Meeting and training space,Business services,fromFilters,Training,Training
+Hospitality; Cafe,Cafes,fromFilters,Hospitality,Hospitality
+Hospitality; Cafes and coffee shops,Cafes,fromFilters,Hospitality,Hospitality
+Hospitality; Camping,Camping grounds,fromFilters,Hospitality,Hospitality
+Waterway; Canal,Canals,fromFilters,Waterway,Water
+Waterway; Canal lock,Canals,fromFilters,Waterway,Water
+Business and commerce; Employment and recruitment agencies,Career and employment support services,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Recruitment,Career and employment support services,fromFilters,Business and commerce,Business and commerce
+Social facility; Careers advice,Career and employment support services,fromFilters,Social facility,Social facility
+Social facility; Job centre,Career and employment support services,fromFilters,Social facility,Social facility
+Attractions; Betting shop,Casinos and gaming,fromFilters,Attractions,Attractions
+Attractions; Bingo hall,Casinos and gaming,fromFilters,Attractions,Attractions
+Attractions; Casinos and gaming,Casinos and gaming,fromFilters,Attractions,Attractions
+Attractions; Historic,Historic attractions,fromFilters,Attractions,Attractions
+Historic; Castle,Historic attractions,fromFilters,Historic,Historic
+Religious sites and buildings; Cemeteries and graveyards,Cemeteries,fromFilters,Religious sites and buildings,Religious sites and buildings
+Business and commerce; NGO,Charity organisations,fromFilters,Business and commerce,Business and commerce
+Regeneration programme,Charity organisations,fromFilters,Regeneration programme,Governance
+Social facility; Charitable organisation offices or facilities,Charity organisations,fromFilters,Social facility,Social facility
+Social facility; Salvation Army,Charity organisations,fromFilters,Social facility,Social facility
+Retail; Charitable organisation,Charity shops,fromFilters,Retail,Retail
+Retail; Charity shop,Charity shops,fromFilters,Retail,Retail
+Community centres; Breakfast & after school clubs and youth centres,Children's clubs,fromFilters,Community centres,Community centres
+Community centres; Social clubs,Children's clubs,fromFilters,Community centres,Community centres
+Community centres; Youth organisations,Children's clubs,fromFilters,Community centres,Community centres
+Attractions; Cinema,Cinemas,fromFilters,Attractions,Attractions
+Social facility; Citizens advice,Citizens Advice Bureaus,fromFilters,Social facility,Social facility
+Outdoors and natural environment; Commons and gardens,Common green areas,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Outdoors and natural environment; Forest and woodland,Common green areas,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Outdoors and natural environment; Village greens,Common green areas,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Community centres,Community centres,fromFilters,Community centres,Community centres
+"Community centres; Hall (Town, village or church)",Community centres,fromFilters,Community centres,Community centres
+Business and commerce; Appliances,Computer and electronics retail and services,fromFilters,Business and commerce,Business and commerce
+Retail; Audiovisual,Computer and electronics retail and services,fromFilters,Retail,Retail
+Retail; Electronics and household appliances,Computer and electronics retail and services,fromFilters,Retail,Retail
+Retail; IT and software,Computer and electronics retail and services,fromFilters,Retail,Retail
+Trades and services; Electronics repair,Computer and electronics retail and services,fromFilters,Trades and services,Trades and services
+Exhibition centres; Conference centres,Conference and exhibition centres (general),fromFilters,Exhibition centres,Attractions
+Exhibition centres; Events venue,Conference and exhibition centres (general),fromFilters,Exhibition centres,Attractions
+Exhibition centres; Ice rink,Conference and exhibition centres (general),fromFilters,Exhibition centres,Attractions
+Exhibition centres; Stadiums and arenas,Conference and exhibition centres (general),fromFilters,Exhibition centres,Attractions
+Business and commerce; Engineering,Construction and engineering,fromFilters,Business and commerce,Business and commerce
+Road and rail maintenance,Construction and engineering,fromFilters,Road and rail maintenance,Industry
+Trades and services; Builder,Construction and engineering,fromFilters,Trades and services,Trades and services
+Business and commerce; Money transfer and currency exchange,Consumer finance,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Pawnbrokers and money lenders,Consumer finance,fromFilters,Business and commerce,Business and commerce
+Buildings; Council offices,Council offices,fromFilters,Buildings,Buildings
+"Social facility; Government, financial services",Council offices,fromFilters,Social facility,Social facility
+Social facility; Housing office,Council offices,fromFilters,Social facility,Social facility
+Logistics; Courier,Couriers,fromFilters,Logistics,Logistics
+Buildings; Courthouses,Courthouses,fromFilters,Buildings,Buildings
+Business and commerce; Business centres and managed / serviced offices,Coworking office spaces,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Coworking office,Coworking office spaces,fromFilters,Business and commerce,Business and commerce
+Creative spaces; Art studios and centres,Creative spaces,fromFilters,Creative spaces,Creative spaces
+Creative spaces; Dance studios,Creative spaces,fromFilters,Creative spaces,Creative spaces
+Creative spaces; Photo studios and photographers,Creative spaces,fromFilters,Creative spaces,Creative spaces
+Creative spaces; Recording studios,Creative spaces,fromFilters,Creative spaces,Creative spaces
+Manufacturing; Glassblower,Creative spaces,fromFilters,Manufacturing,Manufacturing
+Manufacturing; Potter,Creative spaces,fromFilters,Manufacturing,Manufacturing
+Manufacturing; Sculptor,Creative spaces,fromFilters,Manufacturing,Manufacturing
+Training; Cooking,Creative spaces,fromFilters,Training,Training
+Training; Language school,Creative spaces,fromFilters,Training,Training
+Training; School of performing arts,Creative spaces,fromFilters,Training,Training
+University; Conservatoire,Creative spaces,fromFilters,University,University
+Traffic crossings; Bicycle,Crossings,fromFilters,Traffic crossings,Traffic crossings
+Traffic crossings; Controlled / signalled,Crossings,fromFilters,Traffic crossings,Traffic crossings
+Traffic crossings; Ford,Crossings,fromFilters,Traffic crossings,Traffic crossings
+Traffic crossings; Level crossing,Crossings,fromFilters,Traffic crossings,Traffic crossings
+Traffic crossings; Uncontrolled,Crossings,fromFilters,Traffic crossings,Traffic crossings
+Social facility; Day care (not children),Day centres,fromFilters,Social facility,Social facility
+Trades and services; Death care,Death-care services,fromFilters,Trades and services,Trades and services
+Healthcare; Dental,Dental and orthodontal practices,fromFilters,Healthcare,Healthcare
+Hospitality; Caterer,Dining and catering services,fromFilters,Hospitality,Hospitality
+Trades and services; Caterer,Dining and catering services,fromFilters,Trades and services,Trades and services
+Trades and services; Mobile caterer,Dining and catering services,fromFilters,Trades and services,Trades and services
+Governance; Diplomacy,Diplomatic buildings,fromFilters,Governance,Governance
+Industry; Warehouse,Distribution centres,fromFilters,Industry,Industry
+Logistics; Distribution centre,Distribution centres,fromFilters,Logistics,Logistics
+Logistics; Distribution centre (supermarket),Distribution centres,fromFilters,Logistics,Logistics
+Logistics; Warehouses and sorting offices,Distribution centres,fromFilters,Logistics,Logistics
+Training; Driving schools and test centres,Driving schools,fromFilters,Training,Training
+Food retail; Delicatessan,Eateries,fromFilters,Food retail,Food retail
+Hospitality; Eateries and restaurants,Eateries,fromFilters,Hospitality,Hospitality
+Hospitality; Pub,Eateries,fromFilters,Hospitality,Hospitality
+Utilities office; Energy,Electricity provider offices,fromFilters,Utilities office,Utilities office
+Business and commerce; Surveying company,Environmental consulting and quantity surveying firms,fromFilters,Business and commerce,Business and commerce
+Buildings; Environmental regulators and managers,Environmental regulators,fromFilters,Buildings,Buildings
+Amenity; Electric car charging point,EV charging stations,fromFilters,Amenity,Amenity
+Hospitality; Festivals and events management,Events management,fromFilters,Hospitality,Hospitality
+Retail; Tickets,Events management,fromFilters,Retail,Retail
+Manufacturing; Stonemason,Exterior building trades,fromFilters,Manufacturing,Manufacturing
+Trades and services; Exteriors,Exterior building trades,fromFilters,Trades and services,Trades and services
+Hospitality; Fast food,Fast food venues,fromFilters,Hospitality,Hospitality
+Public transport; Ferry terminal,Ferry terminals,fromFilters,Public transport,Public transport
+Business and commerce; Finances and investment,Financial advisors,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Financial advice,Financial advisors,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Financial advisor,Financial advisors,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Investment,Financial advisors,fromFilters,Business and commerce,Business and commerce
+Governance; Community fire station,Fire stations,fromFilters,Governance,Governance
+Governance; Fire station,Fire stations,fromFilters,Governance,Governance
+Attractions; Fishery and fishing club,Fishing clubs,fromFilters,Attractions,Attractions
+Social facility; Food banks and soup kitchens,Food banks,fromFilters,Social facility,Social facility
+Retail; Home furnishing and homeware,Furnishing retail,fromFilters,Retail,Retail
+Business and commerce; Interior designers,Furnishing services,fromFilters,Business and commerce,Business and commerce
+Manufacturing; Framer,Furnishing services,fromFilters,Manufacturing,Manufacturing
+Trades and services; Furniture repair,Furnishing services,fromFilters,Trades and services,Trades and services
+Trades and services; Upholstery,Furnishing services,fromFilters,Trades and services,Trades and services
+Gas network; Administrative office,Gas provider offices,fromFilters,Gas network,Gas network
+Gas network; Works,Gas storage tanks,fromFilters,Gas network,Gas network
+Gas network; Node,Gas terminals,fromFilters,Gas network,Gas network
+Gas network; Substation,Gas terminals,fromFilters,Gas network,Gas network
+Outdoors and natural environment; Grass land,Grasslands and meadows,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Outdoors and natural environment; Meadow,Grasslands and meadows,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Outdoors and natural environment; Shrub land,Grasslands and meadows,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Buildings; Headquarters,Headquarters (other),fromFilters,Buildings,Buildings
+Business and commerce; Online retailer,Headquarters (other),fromFilters,Business and commerce,Business and commerce
+Business and commerce; Retail company offices,Headquarters (other),fromFilters,Business and commerce,Business and commerce
+Business and commerce; Retail conglomerate,Headquarters (other),fromFilters,Business and commerce,Business and commerce
+Social facility; Homecare service,Healthcare (homecare),fromFilters,Social facility,Social facility
+Healthcare; Physiotherapy and massage,Healthcare (physiotherapy),fromFilters,Healthcare,Healthcare
+Healthcare; Cosmetic and plastic surgery,Healthcare (specialist),fromFilters,Healthcare,Healthcare
+Healthcare; Specialist,Healthcare (specialist),fromFilters,Healthcare,Healthcare
+Retail; Healthcare,Healthcare (specialist),fromFilters,Retail,Retail
+Public transport; Helipad,Helipads,fromFilters,Public transport,Public transport
+College,Higher education,fromFilters,College,University
+University,Higher education,fromFilters,University,University
+Amenity; Fountain (decorative),Historic points of interest,fromFilters,Amenity,Amenity
+Amenity; Scenic viewpoint,Historic points of interest,fromFilters,Amenity,Amenity
+Historic; Artefact,Historic points of interest,fromFilters,Historic,Historic
+Historic; Building,Historic points of interest,fromFilters,Historic,Historic
+Historic; Folly,Historic points of interest,fromFilters,Historic,Historic
+Historic; Fortifications,Historic points of interest,fromFilters,Historic,Historic
+Historic; Lighthouse,Historic points of interest,fromFilters,Historic,Historic
+Historic; Memorial,Historic points of interest,fromFilters,Historic,Historic
+Historic; Milestones and stone markers,Historic points of interest,fromFilters,Historic,Historic
+Historic; Mine,Historic points of interest,fromFilters,Historic,Historic
+Historic; Monuments and statues,Historic points of interest,fromFilters,Historic,Historic
+Historic; Plaque,Historic points of interest,fromFilters,Historic,Historic
+Historic; Police call box,Historic points of interest,fromFilters,Historic,Historic
+Historic; Quarry,Historic points of interest,fromFilters,Historic,Historic
+Historic; Residences,Historic points of interest,fromFilters,Historic,Historic
+Historic; Ruins and archaeological sites,Historic points of interest,fromFilters,Historic,Historic
+Historic; Ships and aircraft,Historic points of interest,fromFilters,Historic,Historic
+Historic; Tomb,Historic points of interest,fromFilters,Historic,Historic
+Historic; War memorials and battlefields,Historic points of interest,fromFilters,Historic,Historic
+Point of interest; Historic,Historic points of interest,fromFilters,Point of interest,Historic
+Religious sites and buildings; Shrines and relics,Historic points of interest,fromFilters,Religious sites and buildings,Religious sites and buildings
+Retail; Garden,Home and outdoor maintenance retail,fromFilters,Retail,Retail
+Retail; Home improvement and DIY,Home and outdoor maintenance retail,fromFilters,Retail,Retail
+Retail; Household and cleaning,Home and outdoor maintenance retail,fromFilters,Retail,Retail
+Council; Park and street care,Home and outdoor maintenance services,fromFilters,Council,Governance
+Environmental management; Pest control,Home and outdoor maintenance services,fromFilters,Environmental management,Environmental management
+Trades and services; Cleaner,Home and outdoor maintenance services,fromFilters,Trades and services,Trades and services
+Trades and services; Gardener,Home and outdoor maintenance services,fromFilters,Trades and services,Trades and services
+Trades and services; Tool and equipment hire,Home and outdoor maintenance services,fromFilters,Trades and services,Trades and services
+Wastewater; Septic system services,Home and outdoor maintenance services,fromFilters,Wastewater,Wastewater
+Social facility; Homeless shelter,Homeless shelters,fromFilters,Social facility,Social facility
+Healthcare; Hospital,Hospitals,fromFilters,Healthcare,Healthcare
+Healthcare; Hospital administration office,Hospitals,fromFilters,Healthcare,Healthcare
+Healthcare; Outpatient services,Hospitals,fromFilters,Healthcare,Healthcare
+University; Hospital,Hospitals,fromFilters,University,University
+Hospitality; Apartments and serviced apartments,Hotels,fromFilters,Hospitality,Hospitality
+Hospitality; Guest house,Hotels,fromFilters,Hospitality,Hospitality
+Hospitality; Hostel,Hotels,fromFilters,Hospitality,Hospitality
+Hospitality; Hotels and motels,Hotels,fromFilters,Hospitality,Hospitality
+Electricity generation; Generator,Independent or renewable power sources,fromFilters,Electricity generation,Electricity generation
+Electricity generation; Geothermal,Independent or renewable power sources,fromFilters,Electricity generation,Electricity generation
+Electricity generation; Intermittent renewables,Independent or renewable power sources,fromFilters,Electricity generation,Electricity generation
+Electricity generation; Small and sustainable energy sources,Independent or renewable power sources,fromFilters,Electricity generation,Electricity generation
+Business and commerce; Insurance,Insurance provider offices,fromFilters,Business and commerce,Business and commerce
+Governance; Insurance,Insurance provider offices,fromFilters,Governance,Governance
+Waste management; Integrated facility,Integrated waste facilities,fromFilters,Waste management,Waste management
+Trades and services; Carpenter,Interior building trades,fromFilters,Trades and services,Trades and services
+Trades and services; Glazing,Interior building trades,fromFilters,Trades and services,Trades and services
+Trades and services; Interiors,Interior building trades,fromFilters,Trades and services,Trades and services
+Hospitality; Internet cafe,Internet cafes,fromFilters,Hospitality,Hospitality
+Business and commerce; Technology and software,IT software and services,fromFilters,Business and commerce,Business and commerce
+Telecommunications; Data centre,IT software and services,fromFilters,Telecommunications,Telecommunications
+Water; Lentic water bodies,Lakes and ponds,fromFilters,Water,Water
+Waste management; Landfill,Landfills and endpoint waste sites,fromFilters,Waste management,Waste management
+Buildings; Learned societies,Learned societies,fromFilters,Buildings,Buildings
+Buildings; Lawyers and solicitors,Legal services,fromFilters,Buildings,Buildings
+Buildings; Legal aid,Legal services,fromFilters,Buildings,Buildings
+Buildings; Archive,Libraries and archives,fromFilters,Buildings,Buildings
+Buildings; Library,Libraries and archives,fromFilters,Buildings,Buildings
+Governance; Lifeboat station,Lifeboat stations,fromFilters,Governance,Governance
+Trades and services; Locksmiths and cobblers,Locksmiths and cobblers,fromFilters,Trades and services,Trades and services
+Manufacturing; Clothing,Manufacturing (consumer discretionary),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Vehicle,Manufacturing (consumer discretionary),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Watchmakers and jewlers,Manufacturing (consumer discretionary),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Confectioner,Manufacturing (consumer staples),fromFilters,Manufacturing,Manufacturing
+"Manufacturing; Distilling, brewing and winemaking",Manufacturing (consumer staples),fromFilters,Manufacturing,Manufacturing
+Business and commerce; Oil major,Manufacturing (energy),fromFilters,Business and commerce,Business and commerce
+Industry; Coal yard,Manufacturing (energy),fromFilters,Industry,Industry
+Industry; Gas supply,Manufacturing (energy),fromFilters,Industry,Industry
+Industry; Oil and petroleum supply,Manufacturing (energy),fromFilters,Industry,Industry
+Industry; Oil pipeline,Manufacturing (energy),fromFilters,Industry,Industry
+Industry; Refinery,Manufacturing (energy),fromFilters,Industry,Industry
+Manufacturing; Industrials,Manufacturing (industrials),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Safety and security,Manufacturing (industrials),fromFilters,Manufacturing,Manufacturing
+Industry; Materials,Manufacturing (materials),fromFilters,Industry,Industry
+Industry; Quarry,Manufacturing (materials),fromFilters,Industry,Industry
+Industry; Wood,Manufacturing (materials),fromFilters,Industry,Industry
+Manufacturing; Blacksmiths and ironmongery,Manufacturing (materials),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Chemical works,Manufacturing (materials),fromFilters,Manufacturing,Manufacturing
+Manufacturing; Packaging,Manufacturing (materials),fromFilters,Manufacturing,Manufacturing
+Attractions; Marinas,Marinas,fromFilters,Attractions,Attractions
+Healthcare; Medical laboratory,Medical laboratories,fromFilters,Healthcare,Healthcare
+Healthcare; General practice,Medical practices,fromFilters,Healthcare,Healthcare
+Healthcare; Private,Medical practices,fromFilters,Healthcare,Healthcare
+Healthcare; Walk-in clinic,Medical practices,fromFilters,Healthcare,Healthcare
+Healthcare; Mental health and counselling,Mental health services,fromFilters,Healthcare,Healthcare
+Retail; Department store,Multi-line retail,fromFilters,Retail,Retail
+Retail; Discount,Multi-line retail,fromFilters,Retail,Retail
+Attractions; Museums and art galleries,Museums and art galleries,fromFilters,Attractions,Attractions
+Attractions; Science centre,Museums and art galleries,fromFilters,Attractions,Attractions
+Amenity; Bandstand,Music and theatre venues,fromFilters,Amenity,Amenity
+Attractions; Comedy club,Music and theatre venues,fromFilters,Attractions,Attractions
+Attractions; Music or concert venue,Music and theatre venues,fromFilters,Attractions,Attractions
+Attractions; Theatre,Music and theatre venues,fromFilters,Attractions,Attractions
+Buildings; Government transport agencies,National government buildings,fromFilters,Buildings,Buildings
+Business and commerce; Defence agencies,National government buildings,fromFilters,Business and commerce,Business and commerce
+Business and commerce; QUANGO,National government buildings,fromFilters,Business and commerce,Business and commerce
+Governance; Civic,National government buildings,fromFilters,Governance,Governance
+Governance; Defence agencies,National government buildings,fromFilters,Governance,Governance
+Governance; General public,National government buildings,fromFilters,Governance,Governance
+Governance; Standards agency,National government buildings,fromFilters,Governance,Governance
+"Social facility; Government, homeless services",National government buildings,fromFilters,Social facility,Social facility
+Social facility; Immigration aid,National government buildings,fromFilters,Social facility,Social facility
+Outdoors and natural environment; Nature reserve,Nature reserves,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Buildings; Childcare,Nurseries,fromFilters,Buildings,Buildings
+Buildings; Nurseries and kindergartens,Nurseries,fromFilters,Buildings,Buildings
+School; Infant,Nurseries,fromFilters,School,School
+University; Observatory,Observatories,fromFilters,University,University
+Business and commerce; Administrative office,Offices (other),fromFilters,Business and commerce,Business and commerce
+Business and commerce; Business park,Offices (other),fromFilters,Business and commerce,Business and commerce
+Business and commerce; Company office,Offices (other),fromFilters,Business and commerce,Business and commerce
+Business and commerce; Office,Offices (other),fromFilters,Business and commerce,Business and commerce
+Industry; Industrial estate,Offices (other),fromFilters,Industry,Industry
+Retail; Off-licence,Off-licenses,fromFilters,Retail,Retail
+Healthcare; Optician,Opticians and ophthalmologists,fromFilters,Healthcare,Healthcare
+Amenity; Free library,Other communal resources,fromFilters,Amenity,Amenity
+Retail,Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Arts and crafts,Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Bookshop,Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Erotic and adult,Other discretionary goods retail,fromFilters,Retail,Retail
+"Retail; Games, music and video",Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Gifts and souvenir,Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Hobbies and skills development,Other discretionary goods retail,fromFilters,Retail,Retail
+Retail; Speciality and luxury goods,Other discretionary goods retail,fromFilters,Retail,Retail
+Attractions; Sauna,Other discretionary services,fromFilters,Attractions,Attractions
+Attractions; Sex industry,Other discretionary services,fromFilters,Attractions,Attractions
+Attractions; Stripclubs and erotic dancing,Other discretionary services,fromFilters,Attractions,Attractions
+Trades and services; Chauffeur company,Other discretionary services,fromFilters,Trades and services,Trades and services
+Trades and services; Speciality and luxury,Other discretionary services,fromFilters,Trades and services,Trades and services
+Retail; Baby care and maternity,Other staple goods retail,fromFilters,Retail,Retail
+Amenity; Bicycle parking,Parking,fromFilters,Amenity,Amenity
+Amenity; Boat mooring,Parking,fromFilters,Amenity,Amenity
+Amenity; Parking,Parking,fromFilters,Amenity,Amenity
+Amenity; Parking (entrance),Parking,fromFilters,Amenity,Amenity
+Amenity; Underground and multi-storey car parks,Parking,fromFilters,Amenity,Amenity
+Transport infrastructure; Yards and sidings,Parking,fromFilters,Transport infrastructure,Transport infrastructure
+Amenity; Dog walking park,Parks,fromFilters,Amenity,Amenity
+Amenity; Park,Parks,fromFilters,Amenity,Amenity
+Healthcare; Pharmacy,Pharmacies,fromFilters,Healthcare,Healthcare
+Amenity; Piers and boardwalks,Piers and boardwalks,fromFilters,Amenity,Amenity
+Attractions; Soft play,Playgrounds (indoor),fromFilters,Attractions,Attractions
+Sports and games; Indoor playground,Playgrounds (indoor),fromFilters,Sports and games,Sports and games
+Sports and games; Outdoor playground,Playgrounds (outdoor),fromFilters,Sports and games,Sports and games
+Buildings; Transport police,Police stations,fromFilters,Buildings,Buildings
+Governance; Overseas registration unit,Police stations,fromFilters,Governance,Governance
+Governance; Parks police,Police stations,fromFilters,Governance,Governance
+"Governance; Police agencies, offices and headquarters",Police stations,fromFilters,Governance,Governance
+Governance; Police stations,Police stations,fromFilters,Governance,Governance
+Governance; Traffic wardens,Police stations,fromFilters,Governance,Governance
+Buildings; Political offices,Political offices,fromFilters,Buildings,Buildings
+Amenity; Post box,Post boxes,fromFilters,Amenity,Amenity
+Logistics; Post office,Post offices,fromFilters,Logistics,Logistics
+Water; Pipeline,Potable water pipes,fromFilters,Water,Water
+Electricity network; Cable (underground),Power lines,fromFilters,Electricity network,Electricity network
+Electricity network; Line (overhead),Power lines,fromFilters,Electricity network,Electricity network
+Electricity network; Distribution cabinet,"Power poles, towers, and converter stations",fromFilters,Electricity network,Electricity network
+Electricity network; Pole,"Power poles, towers, and converter stations",fromFilters,Electricity network,Electricity network
+Electricity network; Tower,"Power poles, towers, and converter stations",fromFilters,Electricity network,Electricity network
+Electricity network; Transition point,"Power poles, towers, and converter stations",fromFilters,Electricity network,Electricity network
+Electricity generation,Power stations,fromFilters,Electricity generation,Electricity generation
+Electricity generation; Incinerator,Power stations,fromFilters,Electricity generation,Electricity generation
+Electricity generation; Power plant,Power stations,fromFilters,Electricity generation,Electricity generation
+Electricity network; Substation,Power stations,fromFilters,Electricity network,Electricity network
+Buildings; Prison and offenders institutes,Prisons and jails,fromFilters,Buildings,Buildings
+Amenity; Street art or art installation,Public art,fromFilters,Amenity,Amenity
+Amenity; Water point,Public drinking water points,fromFilters,Amenity,Amenity
+Amenity; Bike monitoring,Public information boards,fromFilters,Amenity,Amenity
+Amenity; Clock,Public information boards,fromFilters,Amenity,Amenity
+Amenity; Information board,Public information boards,fromFilters,Amenity,Amenity
+Amenity; Real time passenger information display,Public information boards,fromFilters,Amenity,Amenity
+Amenity; Transport timetable,Public information boards,fromFilters,Amenity,Amenity
+Point of interest; Information board,Public information boards,fromFilters,Point of interest,Historic
+Amenity; Emergency phone,Public telephones,fromFilters,Amenity,Amenity
+Amenity; Public telephone or telephone box,Public telephones,fromFilters,Amenity,Amenity
+Amenity; Public toilets,Public toilets,fromFilters,Amenity,Amenity
+Business and commerce; Publishing,Publishing offices,fromFilters,Business and commerce,Business and commerce
+Manufacturing; Bookbinder,Publishing offices,fromFilters,Manufacturing,Manufacturing
+Traffic management; Switches and signalling,Rail signalling and switches,fromFilters,Traffic management,Traffic management
+Business and commerce; Letting and estate agents,Real estate management offices,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Property development and construction,Real estate management offices,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Property management and maintenance,Real estate management offices,fromFilters,Business and commerce,Business and commerce
+Social facility; Resident's associations and housing co-operatives,Real estate management offices,fromFilters,Social facility,Social facility
+Waste management; Recycling centre,Recycling centres,fromFilters,Waste management,Waste management
+Waste management; Scrap yard and materials recovery,Recycling centres,fromFilters,Waste management,Waste management
+Governance; Registry,Registrar offices,fromFilters,Governance,Governance
+Religious sites and buildings,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Religious sites and buildings; Administrative building,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Religious sites and buildings; Chaplaincy,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Religious sites and buildings; Convents and monasteries,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Religious sites and buildings; Missionary,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Religious sites and buildings; Place of worship,Religious buildings,fromFilters,Religious sites and buildings,Religious sites and buildings
+Buildings; Removal,Removal services,fromFilters,Buildings,Buildings
+Trades and services; Home removal,Removal services,fromFilters,Trades and services,Trades and services
+Buildings; Clinical science,Research and consulting services,fromFilters,Buildings,Buildings
+Buildings; Research,Research and consulting services,fromFilters,Buildings,Buildings
+Business and commerce; Architect,Research and consulting services,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Architects and urban planners,Research and consulting services,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Consultancy,Research and consulting services,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Product development,Research and consulting services,fromFilters,Business and commerce,Business and commerce
+Business and commerce; Research and development,Research and consulting services,fromFilters,Business and commerce,Business and commerce
+Water; Reservoir,Reservoirs,fromFilters,Water,Water
+Outdoors and natural environment; Residential gardens,Residential gardens,alwaysIncluded,Outdoors and natural environment,Outdoors and natural environment
+Amenity; Garages and sheds,Residential properties,alwaysIncluded,Amenity,Amenity
+Residential,Residential properties,alwaysIncluded,Residential,Residential
+Residential; Ambassador,Residential properties,alwaysIncluded,Residential,Residential
+Residential; Apartments,Residential properties,alwaysIncluded,Residential,Residential
+Residential; Harbour Master's House,Residential properties,alwaysIncluded,Residential,Residential
+Residential; House boat,Residential properties,alwaysIncluded,Residential,Residential
+Residential; Houses,Residential properties,alwaysIncluded,Residential,Residential
+Residential; School house,Residential properties,alwaysIncluded,Residential,Residential
+Residential; Student accomodation,Residential properties,alwaysIncluded,Residential,Residential
+Water; Rivers and burns,Rivers and streams,fromFilters,Water,Water
+Amenity; Low emissions zone signage,Road traffic lights and signage,fromFilters,Amenity,Amenity
+Amenity; Milestones and stone markers,Road traffic lights and signage,fromFilters,Amenity,Amenity
+Amenity; Waymarker,Road traffic lights and signage,fromFilters,Amenity,Amenity
+Traffic management; Mirror,Road traffic lights and signage,fromFilters,Traffic management,Traffic management
+Traffic management; Navigation aids and landing lights,Road traffic lights and signage,fromFilters,Traffic management,Traffic management
+Traffic management; Signage,Road traffic lights and signage,fromFilters,Traffic management,Traffic management
+Historic; Railway,Roads (major) and railways,fromFilters,Historic,Historic
+Transport infrastructure; Funicular rail,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; High speed rail,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Monorail,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Motorway,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Primary Road,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Rail,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Rail line,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Trunk road,Roads (major) and railways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Cycle path,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Passing place,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Pathway,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Residential road,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Secondary road,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Service access,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Tertiary road,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Track,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Unclassified road,Roads (minor) and pathways,fromFilters,Transport infrastructure,Transport infrastructure
+School,Schools,fromFilters,School,School
+School; Junior,Schools,fromFilters,School,School
+School; Middle,Schools,fromFilters,School,School
+School; Primary,Schools,fromFilters,School,School
+School; Secondary,Schools,fromFilters,School,School
+School; Senior,Schools,fromFilters,School,School
+School; Sixth form college,Schools,fromFilters,School,School
+Outdoors and natural environment; Tidal range and coastline,Seas and tidal range,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Business and commerce; Safety and security,Security services,fromFilters,Business and commerce,Business and commerce
+Retail; Safety and security,Security services,fromFilters,Retail,Retail
+Trades and services; Safety and security,Security services,fromFilters,Trades and services,Trades and services
+Trades and services; Security,Security services,fromFilters,Trades and services,Trades and services
+Amenity; Self-service parcel locker,Self-storage,fromFilters,Amenity,Amenity
+Trades and services; Storage facility,Self-storage,fromFilters,Trades and services,Trades and services
+Healthcare; Sexual health and family planning,Sexual health clinics,fromFilters,Healthcare,Healthcare
+Business and commerce; Retail park,Shopping centres,fromFilters,Business and commerce,Business and commerce
+Retail; Shopping centre,Shopping centres,fromFilters,Retail,Retail
+Food retail; Bakery,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Butcher,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Cheesemonger,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Confectionery,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Convenience store,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Fish and wholesale,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Greengrocer,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Health,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Patisserie and speciality cakes,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; Speciality and luxury goods,Smaller food markets,fromFilters,Food retail,Food retail
+Food retail; World foods,Smaller food markets,fromFilters,Food retail,Food retail
+Social facility,Social work offices,fromFilters,Social facility,Social facility
+Social facility; Children's centre,Social work offices,fromFilters,Social facility,Social facility
+"Social facility; Government, social care / work",Social work offices,fromFilters,Social facility,Social facility
+Retail; Sports and outdoor,Sports and outdoor retail,fromFilters,Retail,Retail
+Attractions; Boathouse,Sports clubhouses,fromFilters,Attractions,Attractions
+Sports and games; Clubhouse,Sports clubhouses,fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse (golf),Sports clubhouses,fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse (water sports),Sports clubhouses,fromFilters,Sports and games,Sports and games
+"Gyms & sport, fitness and leisure centres",Sports facilities (indoor),fromFilters,"Gyms & sport, fitness and leisure centres",Sports and games
+Sports and games; Activity centre,Sports facilities (indoor),fromFilters,Sports and games,Sports and games
+"Sports and games; Gyms & sport, fitness and leisure centres",Sports facilities (indoor),fromFilters,Sports and games,Sports and games
+Sports and games; Indoor facility,Sports facilities (indoor),fromFilters,Sports and games,Sports and games
+Sports and games; Indoor facility (climbing),Sports facilities (indoor),fromFilters,Sports and games,Sports and games
+Sports and games; Swimming pool,Sports facilities (indoor),fromFilters,Sports and games,Sports and games
+Sports and games; Outdoor solid facility,"Sports facilities (outdoor, impermeable)",fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse and facilities,"Sports facilities (outdoor, impermeable, with club)",fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse and outdoor solid facility,"Sports facilities (outdoor, impermeable, with club)",fromFilters,Sports and games,Sports and games
+Golf; Green,"Sports facilities (outdoor, permeable)",fromFilters,Golf,Sports and games
+Golf; Practice grounds,"Sports facilities (outdoor, permeable)",fromFilters,Golf,Sports and games
+Sports and games; Fitness stations and outdoor gyms,"Sports facilities (outdoor, permeable)",fromFilters,Sports and games,Sports and games
+Sports and games; Outdoor facility,"Sports facilities (outdoor, permeable)",fromFilters,Sports and games,Sports and games
+Sports and games; Outdoor facility (golf),"Sports facilities (outdoor, permeable)",fromFilters,Sports and games,Sports and games
+Sports and games; Recreation ground,"Sports facilities (outdoor, permeable)",fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse and outdoor facility,"Sports facilities (outdoor, permeable, with club)",fromFilters,Sports and games,Sports and games
+Sports and games; Clubhouse and outdoor facility (golf),"Sports facilities (outdoor, permeable, with club)",fromFilters,Sports and games,Sports and games
+Outdoors and natural environment; Spring (water),Springs and wells,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Sports and games; Horse riding centres,Stables,fromFilters,Sports and games,Sports and games
+Sports and games; Horse stables and paddocks,Stables,fromFilters,Sports and games,Sports and games
+Water; Detention and retention basins,Stormwater basins,fromFilters,Water,Water
+Amenity; Street lamp,Street lights,fromFilters,Amenity,Amenity
+Amenity; Flood defence,Structural defences,fromFilters,Amenity,Amenity
+Water; Spillway,Structural defences,fromFilters,Water,Water
+Public transport; Subway stop,Subway stations,fromFilters,Public transport,Public transport
+Food retail; Supermarket,Supermarkets,fromFilters,Food retail,Food retail
+Retail; Market,Supermarkets,fromFilters,Retail,Retail
+Amenity; Automatic number plate reader,Surveillance cameras,fromFilters,Amenity,Amenity
+Amenity; Surveillance camera or CCTV,Surveillance cameras,fromFilters,Amenity,Amenity
+Traffic management; Traffic camera (live),Surveillance cameras,fromFilters,Traffic management,Traffic management
+Hospitality; Takeaways,Takeaways,fromFilters,Hospitality,Hospitality
+Public transport; Taxi rank,Taxi ranks,fromFilters,Public transport,Public transport
+Telecommunications; Relay station,Telecommunications towers,fromFilters,Telecommunications,Telecommunications
+Telecommunications; Tower,Telecommunications towers,fromFilters,Telecommunications,Telecommunications
+Telecommunications; Exchange,Telephone exchanges,fromFilters,Telecommunications,Telecommunications
+Telecommunications; Telephone exchanges,Telephone exchanges,fromFilters,Telecommunications,Telecommunications
+Amenity; Toll booth,Toll booths and weighbridges,fromFilters,Amenity,Amenity
+Transport infrastructure; Check points and weighbridges,Toll booths and weighbridges,fromFilters,Transport infrastructure,Transport infrastructure
+Business and commerce; Tourist information offices and tourist boards,Tourism offices,fromFilters,Business and commerce,Business and commerce
+Traffic management; Calming,Traffic calming measures,fromFilters,Traffic management,Traffic management
+Traffic management; Speed camera,Traffic calming measures,fromFilters,Traffic management,Traffic management
+Historic; Railway station or platform,Train stations (major),fromFilters,Historic,Historic
+Public transport; Rail station,Train stations (major),fromFilters,Public transport,Public transport
+Training; Occupational,Training centres,fromFilters,Training,Training
+Training; Occupational and networking,Training centres,fromFilters,Training,Training
+Training; Private tuition (children),Training centres,fromFilters,Training,Training
+Public transport; Tram stop,Tram or ferry stops,fromFilters,Public transport,Public transport
+Buildings; Lighthouse,Transport providers and control centres,fromFilters,Buildings,Buildings
+Buildings; Lighthouses,Transport providers and control centres,fromFilters,Buildings,Buildings
+Business and commerce; Transport operator offices,Transport providers and control centres,fromFilters,Business and commerce,Business and commerce
+Logistics; Administrative office,Transport providers and control centres,fromFilters,Logistics,Logistics
+Public transport; Taxi office,Transport providers and control centres,fromFilters,Public transport,Public transport
+Traffic management; Air traffic control,Transport providers and control centres,fromFilters,Traffic management,Traffic management
+Traffic management; Control centre,Transport providers and control centres,fromFilters,Traffic management,Traffic management
+Business and commerce; Travel agency,Travel agencies,fromFilters,Business and commerce,Business and commerce
+Residential; Traveller,Traveller sites,fromFilters,Residential,Residential
+Transport infrastructure; Passageways and tunnels through buildings,Tunnels,fromFilters,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Tunnel,Tunnels,fromFilters,Transport infrastructure,Transport infrastructure
+Social facility; Trade and labour unions,Union offices,fromFilters,Social facility,Social facility
+Trades and services; Electrician,Utility trades,fromFilters,Trades and services,Trades and services
+Trades and services; Plumbing and HVAC,Utility trades,fromFilters,Trades and services,Trades and services
+Trades and services; Telecoms,Utility trades,fromFilters,Trades and services,Trades and services
+Buildings; Council depot,Vehicle depots,fromFilters,Buildings,Buildings
+Buildings; Depots,Vehicle depots,fromFilters,Buildings,Buildings
+Governance; Police garage,Vehicle depots,fromFilters,Governance,Governance
+Transport infrastructure; Rail depots,Vehicle depots,fromFilters,Transport infrastructure,Transport infrastructure
+Vehicles; Depot,Vehicle depots,fromFilters,Vehicles,Vehicles
+Vehicles; Pound,Vehicle impounds,fromFilters,Vehicles,Vehicles
+Amenity; Car wash,Vehicle maintenance services,fromFilters,Amenity,Amenity
+Amenity; Fuel station,Vehicle maintenance services,fromFilters,Amenity,Amenity
+Vehicles; Maintenance and repair,Vehicle maintenance services,fromFilters,Vehicles,Vehicles
+Vehicles; Rental,Vehicle rental services,fromFilters,Vehicles,Vehicles
+Amenity; Bike rental point,Vehicle sharing points,fromFilters,Amenity,Amenity
+Vehicles; Car share,Vehicle sharing points,fromFilters,Vehicles,Vehicles
+Animal; Veterinarian,Veterinary practices,fromFilters,Animal,Animal
+University; Veterinary college,Veterinary practices,fromFilters,University,University
+Waste management; Administrative office,Waste collection service offices,fromFilters,Waste management,Waste management
+Waste management; Collection,Waste collection service offices,fromFilters,Waste management,Waste management
+Waste management; Sorting facility,Waste sorting centres,fromFilters,Waste management,Waste management
+Buildings; Pumping station,Wastewater pumping stations,fromFilters,Buildings,Buildings
+Wastewater; Sanitary dump,Wastewater tanks,fromFilters,Wastewater,Wastewater
+Wastewater; Treatment works,Wastewater treatment works,fromFilters,Wastewater,Wastewater
+Wastewater; Treatment works and facilities,Wastewater treatment works,fromFilters,Wastewater,Wastewater
+Utilities office; Water,Water provider offices,fromFilters,Utilities office,Utilities office
+Water; Storage tower,Water tanks and towers,fromFilters,Water,Water
+Water; Treatment works and facilities,Water treatment works,fromFilters,Water,Water
+Outdoors and natural environment; Wetland,Wetlands,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Outdoors and natural environment; Wetland tidal flat,Wetlands,fromFilters,Outdoors and natural environment,Outdoors and natural environment
+Industry; Builders merchant,Wholesale retail,fromFilters,Industry,Industry
+Retail; Industry bulk goods,Wholesale retail,fromFilters,Retail,Retail
+Retail; Wholesale,Wholesale retail,fromFilters,Retail,Retail
+Attractions; Zoological garden,Zoos,fromFilters,Attractions,Attractions
+Absorption tower,Absorption towers,fromValidation,Absorption tower,Environmental manaagement
+Food production and horticulture; Aquaculture,Aquaculture,fromValidation,Food production and horticulture,Food production and horticulture
+Outdoor facility; Training grounds,Armed forces training grounds,fromValidation,Outdoor facility,Sports and games
+Attractions; Visitor centre,Attractions,fromValidation,Attractions,Attractions
+Bank headquarters,Bank headquarters,fromValidation,Bank headquarters,Business and commerce
+Banks,Banks,fromValidation,Banks,Business and commerce
+Buildings; Unspecified,Buildings (other),fromValidation,Buildings,Buildings
+Private clubs,Community centres,fromValidation,Private clubs,Community centres
+Exhibition centres; Animal racing,Conference and exhibition centres (animal racing),fromValidation,Exhibition centres,Attractions
+Creative spaces; Other,Creative spaces,fromValidation,Creative spaces,Creative spaces
+Traffic crossings; Unspecified,Crossings,fromValidation,Traffic crossings,Traffic crossings
+Gas network; Pipes,Gas pipelines,fromValidation,Gas network,Gas network
+Gas provider offices,Gas provider offices,fromValidation,Gas provider offices,Utilities office
+Industry; Harbour,Harbours,fromValidation,Industry,Industry
+Historic; Unspecified,Historic points of interest,fromValidation,Historic,Historic
+Home and outdoor maintenance services,Home and outdoor maintenance services,fromValidation,Home and outdoor maintenance services,Trades and services
+Healthcare; A&E,Hospitals,fromValidation,Healthcare,Healthcare
+Telecommunications; Cable,ICT cables and wireless communication modes,fromValidation,Telecommunications,Telecommunications
+Manufacturing (consumer discretionary),Manufacturing (consumer discretionary),fromValidation,Manufacturing (consumer discretionary),Manufacturing
+Food production and horticulture; Manufacturing,Manufacturing (consumer staples),fromValidation,Food production and horticulture,Food production and horticulture
+Manufacturing; Healthcare,Manufacturing (healthcare),fromValidation,Manufacturing,Manufacturing
+Manufacturing; IT hardware,Manufacturing (IT hardware),fromValidation,Manufacturing,Manufacturing
+Mental health facility; Healthcare,Mental health services,fromValidation,Mental health facility,Healthcare
+Attractions; Auditoriums,Music and theatre venues,fromValidation,Attractions,Attractions
+Business and commerce; Unspecified,Offices (other),fromValidation,Business and commerce,Business and commerce
+Industry; Manufacturing,Offices (other),fromValidation,Industry,Industry
+Industry; Unspecified,Offices (other),fromValidation,Industry,Industry
+Governance; Parliamentary buildings,Parliamentary buildings,fromValidation,Governance,Governance
+Governance; Probation offices,Police stations,fromValidation,Governance,Governance
+Transport infrastructure; Subway line,Roads (major) and railways,fromValidation,Transport infrastructure,Transport infrastructure
+Transport infrastructure; Tram line,Roads (major) and railways,fromValidation,Transport infrastructure,Transport infrastructure
+Sports facilities (indoor),Sports facilities (indoor),fromValidation,Sports facilities (indoor),Sports and games
+Town square,Town squares,fromValidation,Town square,Amenity
+Public transport; Ferry landing,Tram or ferry stops,fromValidation,Public transport,Public transport
+"Transport infrastructure; Light & heavy rail depots, yards and sidings",Vehicle depots,fromValidation,Transport infrastructure,Transport infrastructure
+"Vehicles; Light & heavy rail depots, yards and sidings",Vehicle depots,fromValidation,Vehicles,Vehicles
+Wastewater; Pipes,Wastewater pipes,fromValidation,Wastewater,Wastewater
+Buildings; Pumping station (water),Water pumping stations,fromValidation,Buildings,Buildings
+"Airbase (Aerodrome, terminal and gates)",Air bases,fromPostProcessing,"Airbase (Aerodrome, terminal and gates)",Military
+Airbase (Infrastructure),Air bases,fromPostProcessing,Airbase (Infrastructure),Military
+"Major airport; Aerodrome, terminal and gates (Building outline)",Airports (major),fromPostProcessing,Major airport,Transport infrastructure
+Major airports (simplified),Airports (major),fromPostProcessing,Major airports (simplified),Transport infrastructure
+"Minor airport; Aerodrome, terminal and gates (Airport outline)",Airports (major),fromPostProcessing,Minor airport,Transport infrastructure
+"Transport infrastructure; Major airport apron, runways and taxiways",Airports (major),fromPostProcessing,Transport infrastructure,Transport infrastructure
+Major helipads (simplified),Airports (minor),fromPostProcessing,Major helipads (simplified),Transport infrastructure
+"Minor airport; Aerodrome, terminal and gates (Airport outline)",Airports (minor),fromPostProcessing,Minor airport,Transport infrastructure
+"Minor airport; Aerodrome, terminal and gates (Building outline)",Airports (minor),fromPostProcessing,Minor airport,Transport infrastructure
+Minor airports (simplified),Airports (minor),fromPostProcessing,Minor airports (simplified),Transport infrastructure
+"Transport infrastructure; Minor airport apron, runways and taxiways",Airports (minor),fromPostProcessing,Transport infrastructure,Transport infrastructure
+Minor helipads (simplified),Helipads,fromPostProcessing,Minor helipads (simplified),Transport infrastructure
+Sports and games; Golf,"Sports facilities (outdoor, permeable, with club)",fromPostProcessing,Sports and games,Sports and games
+Public transport; Rail station (Major),Train stations (major),fromPostProcessing,Public transport,Public transport
+Public transport; Rail station (Minor),Train stations (minor),fromPostProcessing,Public transport,Public transport
+NA,Airplanes and helicopters,alwaysIncluded,NA,NA
+NA,Bicycles,alwaysIncluded,NA,NA
+NA,Boats,alwaysIncluded,NA,NA
+NA,Buses and trams,alwaysIncluded,NA,NA
+NA,Emergency vehicles,alwaysIncluded,NA,NA
+NA,Food banks,alwaysIncluded,NA,NA
+NA,Gas pipelines,alwaysIncluded,NA,NA
+NA,Homeless shelters,alwaysIncluded,NA,NA
+NA,ICT cables and wireless communication modes,alwaysIncluded,NA,NA
+NA,Lorries,alwaysIncluded,NA,NA
+NA,Maintenance vehicles,alwaysIncluded,NA,NA
+NA,Personal devices,alwaysIncluded,NA,NA
+NA,Potable water pipes,alwaysIncluded,NA,NA
+NA,Private motor vehicles,alwaysIncluded,NA,NA
+NA,Subway trains,alwaysIncluded,NA,NA
+NA,Taxis,alwaysIncluded,NA,NA
+NA,Telecommunications towers,alwaysIncluded,NA,NA
+NA,Town squares,alwaysIncluded,NA,NA
+NA,Trains,alwaysIncluded,NA,NA
+NA,Traveller sites,alwaysIncluded,NA,NA
+NA,Wastewater pipes,alwaysIncluded,NA,NA
+NA,Wildlife,alwaysIncluded,NA,NA

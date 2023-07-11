@@ -9,6 +9,7 @@ exportPattern("^[[:alpha:]]+")
 #' @import igraph
 #' @import installr
 #' @import janitor
+#' @import vctrs
 #' @import xlsx
 #' @import ggh4x
 #' @import gginnards

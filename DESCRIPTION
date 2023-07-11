@@ -30,5 +30,6 @@ Depends:
     see,
     sf,
     tidytext,
+    vctrs,
     xlsx,
-    R (>= 2.10)
+    R (>= 4.3.1)

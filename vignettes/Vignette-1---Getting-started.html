@@ -12,7 +12,7 @@
 <meta name="author" content="Annie Visser-Quinn &amp; Melissa Bedinger" />
 
 
-<title>1 - Getting started</title>
+<title>Getting started</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1569,7 +1569,7 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">1 - Getting started</h1>
+<h1 class="title toc-ignore">Getting started</h1>
 <h4 class="author">Annie Visser-Quinn &amp; Melissa Bedinger</h4>
 
 </div>
@@ -1678,19 +1678,14 @@ and <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.ht
 <p><code>AHgen</code> also relies on functions in several other
 pre-existing packages. These are called
 <strong>dependencies</strong>.</p>
-<div id="dependencies---overall" class="section level5">
-<h5><em>Dependencies - overall</em></h5>
+<div id="dependencies" class="section level5">
+<h5><em>Dependencies</em></h5>
 <ul>
-<li>the <a href="https://www.tidyverse.org/"><strong><code>tidyverse</code></strong></a>
+<li><p>the <a href="https://www.tidyverse.org/"><strong><code>tidyverse</code></strong></a>
 is actually a <em>collection</em> of R packages designed for data
 science. All packages share an underlying design philosophy, grammar,
-and data structures.</li>
-</ul>
-</div>
-<div id="dependencies---for-analysis" class="section level5">
-<h5><em>Dependencies - for analysis</em></h5>
-<ul>
-<li><a href="https://bioconductor.org/packages/release/bioc/html/Biobase.html"><strong><code>Biobase</code></strong></a>
+and data structures.</p></li>
+<li><p><a href="https://bioconductor.org/packages/release/bioc/html/Biobase.html"><strong><code>Biobase</code></strong></a>
 and <a href="https://www.bioconductor.org/install/"><code>BiocManager</code></a>
 implements base functions for <code>Bioconductor</code>. It has a
 helpful function called <a href="https://www.rdocumentation.org/packages/Biobase/versions/2.32.0/topics/subListExtract">subListExtract()</a>
@@ -1703,43 +1698,41 @@ outputs. To install <code>Biobase</code> you will first need to install
 the package <code>BiocManager</code>. This package serves as the primary
 way to ensure that the appropriate <code>Biobase</code> installation is
 used with respect to the version of R in use, regardless of the R and
-<code>Bioconductor</code> release cycles.</li>
-<li><a href="https://cran.r-project.org/web/packages/data.table/readme/README.html"><strong><code>data.table</code></strong></a>
+<code>Bioconductor</code> release cycles.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/data.table/readme/README.html"><strong><code>data.table</code></strong></a>
 provides a high-performance version of base R’s data.frame, with syntax
 and feature enhancements for ease of use, convenience and programming
-speed.</li>
-<li><a href="https://cran.r-project.org/web/packages/igraph/index.html"><strong><code>igraph</code></strong></a>
-provides routines for simple graphs and network analysis.</li>
-<li><a href="https://cran.r-project.org/web/packages/installr/readme/README.html"><strong><code>installr</code></strong></a>
+speed.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/igraph/index.html"><strong><code>igraph</code></strong></a>
+provides routines for simple graphs and network analysis.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/installr/readme/README.html"><strong><code>installr</code></strong></a>
 offers a set of R functions for the installation and updating of
-software.</li>
-<li><a href="https://cran.r-project.org/web/packages/janitor/readme/README.html"><strong><code>janitor</code></strong></a>
-provides simple functions for examining and cleaning dirty data.</li>
-</ul>
-</div>
-<div id="dependencies---for-visualisations" class="section level5">
-<h5><em>Dependencies - for visualisations</em></h5>
-<ul>
-<li><a href="https://cran.r-project.org/web/packages/ggh4x/readme/README.html"><strong><code>ggh4x</code></strong></a>,
+software.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/janitor/readme/README.html"><strong><code>janitor</code></strong></a>
+provides simple functions for examining and cleaning dirty
+data.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/xlsx/readme/README.html"><strong><code>xlsx</code></strong></a>
+provides R functions to read, write, and format Excel files.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/ggh4x/readme/README.html"><strong><code>ggh4x</code></strong></a>,
 <a href="https://cran.r-project.org/web/packages/gginnards/readme/README.html"><strong><code>gginnards</code></strong></a>,
 <a href="https://cran.r-project.org/web/packages/ggraph/readme/README.html"><strong><code>ggraph</code></strong></a>,
 <a href="https://cran.r-project.org/web/packages/ggrepel/readme/README.html"><strong><code>ggrepel</code></strong></a>,
 and <a href="https://cran.r-project.org/web/packages/scales/readme/README.html"><strong><code>scales</code></strong></a>
 are all <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> extension
-packages to customise visualisations.</li>
-<li><a href="https://cran.r-project.org/web/packages/plotly/readme/README.html"><strong><code>plotly</code></strong></a>
+packages to customise visualisations.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/plotly/readme/README.html"><strong><code>plotly</code></strong></a>
 helps to create interactive web graphics via the open source JavaScript
-graphing library <a href="https://github.com/plotly/plotly.js">plotly.js</a>.</li>
-<li><a href="https://cran.r-project.org/web/packages/see/"><strong><code>see</code></strong></a>
+graphing library <a href="https://github.com/plotly/plotly.js">plotly.js</a>.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/see/"><strong><code>see</code></strong></a>
 provides plotting utilities supporting packages in the <a href="https://cran.r-project.org/web/packages/easystats/index.html"><code>easystats</code></a>
-ecosystem and some extra themes, geoms, and scales for <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a></li>
-<li><a href="https://cran.r-project.org/web/packages/sf/index.html"><strong><code>sf</code></strong></a>
+ecosystem and some extra themes, geoms, and scales for <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a></p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/sf/index.html"><strong><code>sf</code></strong></a>
 provides support for simple features, a standardized way to encode
-spatial vector data.</li>
-<li><a href="https://cran.r-project.org/web/packages/tidytext/readme/README.html"><strong><code>tidytext</code></strong></a>
+spatial vector data.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/tidytext/readme/README.html"><strong><code>tidytext</code></strong></a>
 provides functions and supporting data sets to allow conversion of text
 to and from tidy formats, and to switch seamlessly between tidy tools
-and existing text mining packages.</li>
+and existing text mining packages.</p></li>
 </ul>
 <p>Some packages are needed to borrow only a single function; other
 packages are heavily relied upon. For more detail on dependencies you
