@@ -45,22 +45,22 @@ check_symmetry <- function(adjMat) {
   unsymmetrical_step4 <- 
     unsymmetrical_step3 %>% data.table::rbindlist(fill = TRUE) 
   
-  nodes_unsymmetrical <- 
-    adjMat %>% 
-    select(level, Node) %>% 
-    arrange(level, Node) %>% 
-    filter(Node %in% colnames(unsymmetrical_step4)) %>% 
-    pull()
-  
-  new_order <- c("Node", nodes_unsymmetrical)
-  
-  unsymmetrical <- unsymmetrical_step4 %>% select(all_of(new_order))
-  
-  if (nrow(unsymmetrical) < 1) {
+  if (nrow(unsymmetrical_step4) < 1) {
     
     print("All edges are symmetrical. Proceed!")
     
   } else {
+    
+    nodes_unsymmetrical <- 
+      adjMat %>% 
+      select(level, Node) %>% 
+      arrange(level, Node) %>% 
+      filter(Node %in% colnames(unsymmetrical_step4)) %>% 
+      pull()
+    
+    new_order <- c("Node", nodes_unsymmetrical)
+    
+    unsymmetrical <- unsymmetrical_step4 %>% select(all_of(new_order))
     
     print("Not all edges are symmetrical. Inspect 'check' object and make corrections in adjMat input file.")
     

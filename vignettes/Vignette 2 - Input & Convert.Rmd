@@ -207,14 +207,16 @@ The `check_symmetry` function confirms that an adjacency matrix has completely s
 # Confirm adjMat has completely symmetrical edges i.e. there are no input errors
 dh_USAH = 
   read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
-check = dh_USAH %>% check_symmetry()
+
+symmetryCheck = dh_USAH %>% check_symmetry()
 
 # See what happens when a few of the edges in the adjacency matrix are unsymmetrical
-dh_USAH_unsymmetrical = 
+dh_USAH_error = 
   read_adjMat(
   "../inputs/USAH_3.0_template_baseline_error-symmetry_adjMat_20230602.xlsx")
-check = dh_USAH_unsymmetrical %>% check_symmetry()
-check
+
+symmetryCheck_error = dh_USAH_error %>% check_symmetry()
+symmetryCheck
 ```
 <details>
 
@@ -226,13 +228,15 @@ The `check_redundancy` function confirms that an adjacency matrix has no vertice
 # are connected to the same set of other vertices between two levels
 dh_USAH = 
   read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
-check = dh_USAH %>% check_redundancy()
+
+redundancyCheck = dh_USAH %>% check_redundancy()
 
 # See what happens when a few of the edges in the adjacency matrix are unsymmetrical
-dh_USAH_redundant = 
+dh_USAH_error = 
   read_adjMat(
     "../inputs/USAH_3.0_template_baseline_error-redundancy_adjMat_20230602.xlsx")
-check = dh_USAH_redundant %>% check_redundancy()
+
+redundancyCheck_error = dh_USAH_error %>% check_redundancy()
 ```
 Note that in the correct Urban Systems Abstraction Hierarchy, the difference between *Coworking office spaces* and *Offices (other)* are that:
 - *Coworking office spaces* fulfils the Process *Provides other discretionary services* while *Offices (other)* does not
@@ -258,8 +262,28 @@ key = read_csv(
   "../inputs/OSM-AH-key_3.0_20210906.csv", show_col_types = FALSE) 
 
 # Check that all the names match and return any that do not match
-checkNames = 
+nameCheck_correct = 
   check_names(adjMat_template = dh_USAH, vInfo_template = dv_USAH, key = key)
+
+
+# See what happens when there is a non-matching name
+# Read in adjacency matrix
+dh_USAH_error = 
+  read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
+
+# Read in vInfo
+dv_USAH_error = 
+  read_vInfo("../inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
+
+# Read in key to match names from one software package (OSMtidy) 
+# to names in another software package (AHgen)
+key = read_csv(
+  "../inputs/OSM-AH-key_3.0_20210906.csv", show_col_types = FALSE)
+
+# Check that all the names match and return any that do not match
+nameCheck_error = 
+  check_names(
+    adjMat_template = dh_USAH_error, vInfo_template = dv_USAH_error, key = key)
 ```
 <details>
 <br>
