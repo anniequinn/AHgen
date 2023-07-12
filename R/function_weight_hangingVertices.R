@@ -9,7 +9,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
     filter(layer == "l4ORP_l5PO") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l4ORP_l5PO_included <- 
@@ -46,7 +46,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
     filter(layer == "l3GF_4ORP") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l3GF_l4ORP_included <- 
@@ -83,7 +83,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
     filter(layer == "l2VPM_l3GF") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l2VPM_l3GF_included <- 
@@ -120,7 +120,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
     filter(layer == "l1FP_l2VPM") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l1FP_l2VPM_included <- 
@@ -154,7 +154,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
   
   if(remove == TRUE) {
 
-    edgelist <- edgelist %>% filter(weight != 0)
+    edgelist <- edgelist %>% filter(weight != 0) # If you want to remove the edges with a weight of 0 i.e. after this point, you don't need to track the vertices that have been excluded
     
   }
   

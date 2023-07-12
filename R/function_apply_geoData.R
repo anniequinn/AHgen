@@ -19,13 +19,14 @@ apply_geoData <- function(geoData,
   
   edgelist_location_step1 <- 
     edgelist_template %>% 
-    weight_edges(edgesNew, remove = FALSE)
+    weight_edges(edgesNew, remove = FALSE) # Set to remove = FALSE so that we can track nodes to be excluded in the following steps
   
   # Check for hanging vertices which have all links downward with proxyWeight (to imitate removal)
   # and iteratively set upward links with proxyWeight (to imitate removal) as relevant
   edgelist_location_step2 <- 
     weight_hangingVertices(edgelist = edgelist_location_step1,
-                           proxyWeight = proxyWeight)
+                           proxyWeight = proxyWeight,
+                           remove = FALSE) # Set to remove = FALSE so that we can track nodes to be excluded in next steps
   
   # Create dataframe of only the included vertices
   
@@ -54,8 +55,8 @@ apply_geoData <- function(geoData,
   # Create edgelist
   edgelist_location <-
     edgelist_location_step2 %>% 
-    filter(weight != 0)
-    
+    filter(weight != 0) # Now we can remove the edges we want to remove so that the number of vertices in the igraph object is what we want
+  
   # Create igraph
   igraph_location <- 
     edgelist_location %>%

@@ -6,6 +6,12 @@ apply_scenario <- function(AH_input,
   
   require(tidyverse)
   
+  # The input edgelist should include edges with a weight of 0 
+  # (using remove = FALSE in weight_edges & weight_hangingVertices)
+  # rather than completely removing theme (using remove = TRUE) 
+  
+  # This is so that we can track nodes to be excluded in the following steps
+  
   # Create dataframe of only the included vertices
   edges_to <- 
     edgelist_scenario %>% 
@@ -53,7 +59,7 @@ apply_scenario <- function(AH_input,
   # Attach scenario-specific edgelist
   AH_scenario$edgelist <- 
     edgelist_scenario %>%
-    filter(weight != 0)
+    filter(weight != 0) # Now we can remove the edges we want to remove so that the number of vertices in the igraph object is what we want
   
   # Create scenario-specific adjMat
   AH_scenario$adjMat <- 
