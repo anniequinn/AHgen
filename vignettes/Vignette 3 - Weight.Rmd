@@ -294,25 +294,25 @@ From inspecting the new weights to be introduced, we can surmise that the Resour
 Now we can introduce the new weights, and inspect what would happen if we did not apply the `weight_hangingVertices()` function. Let's try this with the manual `remove = FALSE`, as well as the default `remove = TRUE`, to see how this changes the outputs.
 ```{r}
 # Weight the original edge list with edgesNew
-de_new = weight_edges(edgelist = de, edgesNew = de_w, remove = FALSE)
+de_removed = weight_edges(edgelist = de, edgesNew = de_w, remove = TRUE)
 
 # Inspect to confirm the level 4 node has been removed
-de_new %>% filter(from == "Treat water" | to == "Treat water")
+de_removed %>% filter(from == "Treat water" | to == "Treat water")
 ```
 
 ```{r}
 # Weight the original edge list with edgesNew
-de_new = weight_edges(edgelist = de, edgesNew = de_w, remove = TRUE)
+de_zeroed = weight_edges(edgelist = de, edgesNew = de_w, remove = FALSE)
 
 # Inspect to confirm the level 4 node has been removed
-de_new %>% filter(from == "Treat water" | to == "Treat water")
+de_zeroed %>% filter(from == "Treat water" | to == "Treat water")
 ```
 In both cases we can see that the vertex *Treat water* would still be present in the Urban Systems Abstraction Hierarchy. However, it would have all upward edges to level 3, and no downward edges to level 5, making it a "hanging" vertex.
 
 To remove it, we must apply the `weight_hangingVertices()` function.
 ```{r}
 # Check for and remove hanging vertices
-de_final = weight_hangingVertices(edgelist = de_new)
+de_final = weight_hangingVertices(edgelist = de_zeroed)
 
 # Inspect to confirm the level 4 node has been removed
 de_final %>% filter(from == "Treat water" | to == "Treat water")

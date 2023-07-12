@@ -1,4 +1,4 @@
-weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
+weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
   
   require(tidyverse)
   
@@ -149,6 +149,12 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
     edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
+    
+  }
+  
+  if(remove == TRUE) {
+
+    edgelist <- edgelist %>% filter(weight != 0)
     
   }
   
