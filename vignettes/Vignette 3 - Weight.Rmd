@@ -243,7 +243,7 @@ It's that easy.
 <details><summary><span style = "color: #2196F3;">Example 6 - Change weights for specific vertices in an edge list</span></summary>
 
 
-Weightings may be determined externally and imported. Let's revisit our case where a vehicle has been degraded due to age. The *mobilityAH_edges_exampleWeights_20230629s.xlsx* spreadsheet has been provided in the *inputs* folder.
+Weightings may be determined externally and imported. Let's revisit our case where a vehicle has been degraded due to age. The *mobilityAH_edges_exampleWeights_20230629.xlsx* spreadsheet has been provided in the *inputs* folder.
 
 ```{r}
 # Read in edgesNew with new weights
@@ -288,14 +288,14 @@ de_w = read_xlsx("../inputs/USAH_3.0_template_baseline_edges_exampleWeights_2023
 
 # Inspect the edgesNew
 de_w
-
-# Weight the original edge list with edgesNew
-de_new = weight_edges(edgelist = de, edgesNew = de_w)
 ```
 From inspecting the new weights to be introduced, we can surmise that the Resources connected to *Provide dental healthcare services* are degraded, whilst all the Resources connected to *Treat water* should be removed. 
 
-Now we can inspect what would happen if we did not apply the `weight_hangingVertices()` function.
+Now we can introduce the new weights, and inspect what would happen if we did not apply the `weight_hangingVertices()` function.
 ```{r}
+# Weight the original edge list with edgesNew
+de_new = weight_edges(edgelist = de, edgesNew = de_w)
+
 # Inspect to confirm the level 4 node has been removed
 de_new %>% filter(from == "Treat water" | to == "Treat water")
 ```
