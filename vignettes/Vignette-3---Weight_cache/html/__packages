@@ -9,10 +9,10 @@ dplyr
 stringr
 forcats
 lubridate
+igraph
 BiocGenerics
 Biobase
 data.table
-igraph
 installr
 janitor
 ggh4x

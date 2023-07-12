@@ -47,6 +47,8 @@ In this vignette, you will install everything you need to get started with `AHge
 
 Each step is detailed via the tabs below.
 
+For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
 ## Install guide {.tabset}
 
 ### **Step 1 - Install R & RStudio**

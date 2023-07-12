@@ -1,8 +1,7 @@
 ---
-title: "3 - Weighting edges"
+title: "Weight"
 author: 
  - Annie Visser-Quinn & Melissa Bedinger
-date: "`r Sys.Date()`"
 output: 
   html_document:
     toc: true
@@ -11,7 +10,7 @@ output:
     theme: paper
     highlight: haddock
 vignette: >
-  %\VignetteIndexEntry{3 - Weighting edges}
+  %\VignetteIndexEntry{3 - Weight}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -39,41 +38,42 @@ library(AHgen)
 </style>
 
 ```{r include = FALSE}
-dh <- read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
-dv <- dh %>% select(level, levelName_full, levelName, Node)
-de <- dh %>% adjMat_to_edgelist(vInfo = dv)
-di <- dh %>% adjMat_to_igraph(vInfo = dv)
+dh = read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
+dv = dh %>% select(level, levelName_full, levelName, Node)
+de = dh %>% adjMat_to_edgelist(vInfo = dv)
+di = dh %>% adjMat_to_igraph(vInfo = dv)
 ```
 ---
 
-<span style="color: red;">@Melissa Why you weight. What it means in the abstraction hierarchy context.</span>
+In this vignette, you will find out about weighting networks:
 
-In this vignette we'll explore **three methods of weighting edges** in R: 
+- Section 1 - Why weight?
+- Section 2 - Weight an edge list with the `tidyverse`
+- Section 3 - Weight an igraph with `igraph`
+- Section 4 - Weight an edge list with `AHgen`
 
-- The first two are applied to the **edge list** and **igraph** directly using syntax from the `tidyverse` and `igraph` packages respectively
-- The third way utilises the **AHgen functions** `read_weightScenario()` and `weightEdges()`
+For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
+## 1. Weight an edge list with the `tidyverse`
 
-## 1. Weighting the edge list using `mutate()`
+In the `tidyverse`, there is a handy `mutate()` function. This adds a new column to a data frame or tibble, of a length equal to the number of rows.
 
-The `mutate()` function adds a new column of a length equal to the number of rows.
-
-You can check the length of the edge list using `nrow()`. Here's an example for the mobility abstraction hierarchy:
+You can check the length of the edge list using `nrow()`. Below is an example for the mobility abstraction hierarchy.
 
 ```{r}
 de %>% nrow()
 ```
 This means that any new column must be of length 20, i.e. a vector of length 20. Now click on the examples below.
 
-<details><summary><span style = "color: #2196F3;">**Show code - Example 1**</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Add random weights to an edge list</span></summary>
 
-First, let's use random sampling to create a vector of length 20. 
+First, let's use random sampling to create a vector of length 20. This will generate 20 numbers between 0 and 1, which we can use to represent hypothetical weights.
 
 ```{r include = FALSE}
 set.seed(1)
 ```
 ```{r}
-vec <- sample(x = seq(0,1,by=0.01), size = 20)
+vec = sample(x = seq(0, 1, by = 0.01), size = 20)
 
 vec %>% length
 
@@ -82,14 +82,13 @@ vec
 We can now add this vector to the edge list using `mutate()` to replace the current *weight* column.
 
 ```{r}
-de_w <- de %>% mutate(weight = vec)
+de_w = de %>% mutate(weight = vec)
 
 de_w
 ```
-
 </details>
 
-<details><summary><span style = "color: #2196F3;">**Show code - Example 2**</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 2 - Change weights for specific vertices in an edge list</span></summary>
 
 Example 1 used randomly generated weights. In practice we would assign weights with some meaning. 
 
@@ -97,19 +96,21 @@ For example, an ageing vehicle. To reflect this, we could degrade the edges conn
 
 ```{r}
 de %>%
-  mutate(weight = ifelse(from == "Vehicle components" | to == "Vehicle components", 0.75, weight)) %>%
+  mutate(weight = 
+           ifelse(from == "Vehicle components" | to == "Vehicle components",
+                  0.75, weight)) %>%
   arrange(desc(layer)) 
 ```
+
+The above code creates a new weight column, where if any row of the edgelist has the term *Vehicle components* in the `to` or `from` columns, it will be assigned a weight of 0.75; for other rows, the weight from before (a weight of 1) will still apply.
 
 This example would require prior coding knowledge to apply. The complexity would increase further if we wanted to change the weightings for multiple edges.
 
 </details>
 
 
-
-
-## 2. Weighting the igraph (using igraph syntax)
-In vignette 1 we explored how to extract data and attributes from an igraph. Here's a quick recap.
+## 2. Weight an igraph with `igraph`
+In [Vignette 2 - Input & Convert](Vignette-2---Input-&-Convert.html), we explored how to extract data and attributes from an igraph. Below is a quick recap.
 
 ```{r}
 # Extract edges
@@ -119,18 +120,18 @@ E(di)
 E(di)$weight
 ```
 
-`E(di)$weight` is effectively an object. Therefore, to change the weighting, we can simply override the weight values using `<- vectorOfValues`. 
+`E(di)$weight` is effectively an object. Therefore, to change the weighting, we can simply override the weight values using `= vectorOfValues`. 
 
 This vector of values must be the same length as the number of edges. From section 1 we know this is 20, but we can also check it using the igraph function that measures graph size, `gsize()`.
 
 The examples below introduce two ways of weighting the igraph.
 
-<details><summary><span style = "color: #2196F3;">**Show code - Example 3**</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 3 - Add random weights to an igraph</span></summary>
 
 In this example, let's override the weights using `vec`, the vector created in Example 1.
 
 ```{r}
-E(di)$weight <- vec
+E(di)$weight = vec
 E(di)$weight
 ```
 
@@ -139,10 +140,10 @@ It's as simple as that!
 </details>
 
 ```{r include = FALSE}
-di <- dh %>% adjMat_to_igraph(vInfo = dv)
+di = dh %>% adjMat_to_igraph(vInfo = dv)
 ```
 
-<details><summary><span style = "color: #2196F3;">**Show code - Example 4**</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 4 - Change weights for specific vertices in an igraph</span></summary>
 
 What if we want to change the weights of specific edges, like those connected to the *Vehicle components* vertex? We need to find out the index, that's the position, of the edge. The mobility abstraction hierarchy is small so this could easily be done by eye.
 
@@ -155,35 +156,62 @@ All we'd have to do is overwrite this 'object' with the new weights.
 Let's imagine we don't know the index of the vertex, how can we find out? We begin by finding out the edge names.
 
 ```{r} 
-edges <- E(di) [ from("Vehicle components") ]
+edges = E(di) [ from("Vehicle components") ]
 edges
 ```
 Now we need to find out the indices of these edges, we can do this using `which()` and `%in%`.
 
 ```{r}
-index <- which(E(di) %in% edges)
+index = which(E(di) %in% edges)
 index
 ```
 
 Now we can overwrite the weightings.
 
 ```{r}
-E(di)$weight[index] <- 0.75
+E(di)$weight[index] = 0.75
 E(di)$weight
 ```
 
-As in example 2, this really require some prior coding knowledge to apply. It's also more difficult to visualise as the weights and edges can't be visualised side-by-side. The complexity would increase further if we wanted to change the weightings for multiple edges.
+As in Example 2, this requires some prior coding knowledge to apply. It's also more difficult to visualise as the weights and edges can't be inspected side-by-side. The complexity would increase further if we wanted to change the weightings for multiple edges.
 </details>
 
 ```{r include = FALSE}
-di <- dh %>% adjMat_to_igraph(vInfo = dv)
+di = dh %>% adjMat_to_igraph(vInfo = dv)
 ```
 
 
-## 3. Weighting in AHgen
+## 3. Weight an edge list with `AHgen`
 
-```{r, include = FALSE}
-genExample <- function(edgelist, layerName = NULL) { 
+Through examples 1-4 we've seen how to change weightings directly. These methods were:
+
+- Cumbersome, requiring prior coding experience
+- Impractical for cases where you want to weight edges connected to more than one vertex in a real-world application
+
+`AHgen` has two functions to simplify edge weighting for Abstraction Hierarchies.
+
+### 3.1. `weight_edges()`
+
+The first function is `weight_edges()` which introduced new weights to an existing edge list. It has two input arguments: 
+
+- *edgelist* - the original edge list to be weighted
+- *edgesNew* - the edges with new weights to replace in the original edge list
+
+When applying the function:
+
+- Both edge lists must have columns named *layer*, *from* and *to*
+- The weight column in the weighted edge list must be called *weightNew*
+- The vertex names must be identical in both edge lists
+
+The weighted edge list can be generated in R, or created manually in a .csv or .xlsx file, and read into R with functions such as [`read_csv`](https://readr.tidyverse.org/reference/read_delim.html) from the `readr` package or [`read_xlsx`](https://readxl.tidyverse.org/reference/read_excel.html) from the `readxl` package.
+
+Let's explore through some examples.
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+
+```{r}
+# Function to generate random weights for a specific layer of the Abstraction Hierarchy
+gen_exampleWeights <- function(edgelist, layerName = NULL) { 
   
   set.seed(1)
   
@@ -198,95 +226,92 @@ genExample <- function(edgelist, layerName = NULL) {
   return(output)
   
 }
-  
-de_w1 <- genExample(de, layerName = "l1FP_l2VPM")
-de_w2 <- genExample(de, layerName = "l2VPM_l3GF")
-```
 
-Through examples 1-4 we've seen how to change weightings directly. These methods were:
+# Generate random weights for edges in the layer connection levels 4 and 5
+de_w = gen_exampleWeights(de, layerName = "l4ORP_l5PO")
+de_w
 
-- Cumbersome, requiring a degree of prior coding experience
-- Impractical for cases where you want to weight edges connected to more than one vertex, i.e. the real world!
-
-AHgen has two functions to simplify edge weighting which we'll explore now.
-
-
-### 3.1 weightEdges()
-
-The `weightEdges()` function has two input arguments: 
-
-- *x* The edge list to be weighted
-- *y* A weighted edge list with new weights for one or more edges in x
-
-Below is an example of a weighted edge list which captures the edges in the *l1FP_l2VPM* layer only. With the `weightEdges()` function we can apply these weightings to our edge list.
-```{r}
-de_w1
-```
-
-When applying the function:
-
-- Both edge lists must have columns named *layer*, *from* and *to*
-- The weight column in the weighted edge list must be called *weightNew*
-- The vertex names must be identical in both edge lists
-
-**Most importantly, the weighted edge list can be generated in R or read in externally from a .csv or .xlsx file.**
-
-Let's explore through some examples.
-
-<details><summary><span style = "color: #2196F3;">**Example 5**</span></summary>
- 
-Let's start with the edge list shown above.
-
-```{r}
-weightEdges(de, de_w1)
+# Introduce the new weights to the edgelist
+weight_edges(edgelist = de, edgesNew = de_w)
 ```
 
 It's that easy.
 
-Let's look at another weighted edge list.
-
-```{r}
-de_w2
-
-weightEdges(de, de_w2)
-```
 </details>
 
-<details><summary><span style = "color: #2196F3;">**Example 6**</span></summary>
 
-Weightings may be determined externally and imported. Let's revisit our case where a vehicle has been degraded due to age. The *mobilityAH_edges_exampleWeights_20230629s.xlsx* spreadsheet has been provided in the *inputs* folder. 
+<details><summary><span style = "color: #2196F3;">Example 6 - Change weights for specific vertices in an edge list</span></summary>
+
+
+Weightings may be determined externally and imported. Let's revisit our case where a vehicle has been degraded due to age. The *mobilityAH_edges_exampleWeights_20230629s.xlsx* spreadsheet has been provided in the *inputs* folder.
 
 ```{r}
-de_w <- read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+# Read in edgesNew with new weights
+de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
 de_w
 ```
 
-Now that we've got our weighted edge list we can apply the weighting using `weightEdges()` as before.
+Now we can apply the new weights using `weight_edges()` as before.
 
 ```{r}
-weightEdges(de, de_w)
+# Weight the original edge list with edgesNew
+weight_edges(edgelist = de, edgesNew = de_w)
 ```
-
-Some handy tips:
-
-- Export the edge list as a .csv to simplify editing, `de %>% write_csv("filepath.csv")`
-- Import a csv using read_csv("filepath.csv", col_types = cols())
-
 </details>
 
+### 3.2. `weight_hangingVertices()`
 
-<span style="color: red;">Paused here</span>
-## 3.2. Weighting using the indicators database
+The second function is `weight_hangingVertices()`. When introducing new weights with `weight_edges()`, the `edgesNew` can include edges with a weight of 0, therefore completely removing those edges from the original edge list. 
 
-The Urban Systems Abstraction Hierarchy indicators database provides location specific information for a range of UK cities. These indicators are converted into weightings using the function `read_indicatorsDatabase()`. Input arguments are the database filepath and the city/location name. Located in the *inputs* folder (*indicatorsDatabase_2020-05-22.xlsx*), the indicators database is available in spreadsheet format for easy navigation. The spreadsheet may be adjusted or expanded. <span style="color: purple;">Provide more information???</span>
+Abstraction Hierarchies are hierarchical networks, wherein if a vertex at level 4 has all of its downward edges to level 5 removed, the vertex at level 4 is no longer required in the network. This means that the vertex at level 4 is now a "hanging" vertex which should also be removed.
 
+The function `weight_hangingVertices()` checks for and removes "hanging" vertices by propagating a check upward layer-by-layer. It has two input arguments: 
+
+- *edgelist* - the edge list to be checked
+- *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+
+When applying the function the edge list must have columns named *layer*, *from*, *to*, and *weight*.
+
+<details><summary><span style = "color: #2196F3;">Example 6 - Remove hanging vertices from an edge list</span></summary>
 ```{r}
-# read_indicatorsDatabase("../inputs/indicatorsDatabase_2020-05-22.xlsx", "Bristol")
-# read_indicatorsDatabase("../inputs/indicatorsDatabase_2020-05-22.xlsx", "Edinburgh")
-# read_indicatorsDatabase("../inputs/indicatorsDatabase_2020-05-22.xlsx", "Glasgow")
-```
+# Read in the Urban Systems Abstraction Hierarchy adjacency matrix
+dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
 
-These weightings can be applied using `weightEdges()`.
+# Extract vInfo
+dv = dh %>% select(level, levelName_full, levelName, Node)
+
+# Convert to edgelist format
+de = dh %>% adjMat_to_edgelist(vInfo = dv)
+
+# Read in the edgesNew
+de_w = read_xlsx("../inputs/USAH_3.0_template_baseline_edges_exampleWeights_20230602.xlsx")
+
+# Inspect the edgesNew
+de_w
+
+# Weight the original edge list with edgesNew
+de_new = weight_edges(edgelist = de, edgesNew = de_w)
+```
+From inspecting the new weights to be introduced, we can surmise that the Resources connected to *Provide dental healthcare services* are degraded, whilst all the Resources connected to *Treat water* should be removed. 
+
+Now we can inspect what would happen if we did not apply the `weight_hangingVertices()` function.
+```{r}
+# Inspect to confirm the level 4 node has been removed
+de_new %>% filter(from == "Treat water" | to == "Treat water")
+```
+The vertex *Treat water* would still be present in the Urban Systems Abstraction Hierarchy. However, it would have all upward edges to level 3, and no downward edges to level 5, making it a "hanging" vertex.
+
+To remove it, we must apply the `weight_hangingVertices()` function.
+```{r}
+# Check for and remove hanging vertices
+de_final = weight_hangingVertices(edgelist = de_new)
+
+# Inspect to confirm the level 4 node has been removed
+de_final %>% filter(from == "Treat water" | to == "Treat water")
+```
+</details>
+
+After these steps are complete, the new edge list can be converted to other formats with `AHgen`.
 
 ## Last updated
-This vignette is associated with AHgen v1.0, and was last updated by Melissa Bedinger on 2023-07-03.
+This vignette is associated with AHgen v1.0.0, and was last updated by Melissa Bedinger on 2023-07-03.

@@ -46,9 +46,11 @@ In this vignette, you will find out about inputs and data in `AHgen`:
 - Section 4 - Convert to different data types
 - Section 5 - Navigate the data using the `tidyverse` and `igraph` packages
 
+For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
 ## 1. Data types
 
-### 1.1 Adjacency matrix
+### 1.1 What is an adjacency matrix?
 
 An [adjacency matrix](https://proofwiki.org/wiki/Definition:Adjacency_Matrix) is a matrix which describes a network by representing which vertices are adjacent (i.e. connected) to which other vertices. If there are N vertices in a network, there are N columns (one for each vertex) and N rows (one for each vertex) in the matrix. Each cell of the matrix includes number signifying the connection between the two vertices, representing a potential edge or link.
 
@@ -63,7 +65,7 @@ htmltools::img(src = knitr::image_uri("images/2 - Input & Convert/mobility_adjMa
 
 <br>
 
-### 1.2 Edgelist 
+### 1.2 What is an edgelist? 
 
 An [edge list](https://en.wikipedia.org/wiki/Edge_list) is a data structure which describes a network by listing each connection as a row of information. The first column describe the vertex the edge is coming 'from', the second column describes the vertex the edge is coming 'to', and if it is a weighted network the third column gives the numeric value of the 'weight'. In an undirected network such as the Abstraction Hierarchy, the 'from' and 'to' columns are merely representative of an undirected edge between two vertices rather than literally being 'from' and 'to' one vertex or another.
 
@@ -74,7 +76,7 @@ htmltools::img(src = knitr::image_uri("images/2 - Input & Convert/mobility_edges
 
 <br>
 
-### 1.3 igraph
+### 1.3 What is an igraph?
 
 An igraph is an object class from the package of the same name. The igraph data type is a special way of formatting complex networks, enabling the creation of large networks and speedy application of network analysis. 
 
@@ -185,9 +187,10 @@ read_vInfo("../inputs/microwaveAH_vInfo_20230629.xlsx")
 ```
 </details>
 
+
 <details><summary><span style = "color: #2196F3;">Show code - Example 4 - Read vInfo input (mobility)</span></summary>
 
-We saw in Example 2 that the vertex information was embedded in the adjacency matrix. This can be extracted using the `tidyverse` function `select`
+We saw in Example 2 that the vertex information was embedded in the adjacency matrix. This can be extracted using the `tidyverse` function `select`.
 
 ```{r}
 read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") %>% 
@@ -216,9 +219,10 @@ dh_USAH_error =
   "../inputs/USAH_3.0_template_baseline_error-symmetry_adjMat_20230602.xlsx")
 
 symmetryCheck_error = dh_USAH_error %>% check_symmetry()
-symmetryCheck
+symmetryCheck_error
 ```
-<details>
+</details>
+
 
 <details><summary><span style = "color: #2196F3;">Show code - Example 6 - Check redundancy</span></summary>
 
@@ -241,9 +245,11 @@ redundancyCheck_error = dh_USAH_error %>% check_redundancy()
 Note that in the correct Urban Systems Abstraction Hierarchy, the difference between *Coworking office spaces* and *Offices (other)* are that:
 - *Coworking office spaces* fulfils the Process *Provides other discretionary services* while *Offices (other)* does not
 - *Offices (other)* fulfils the Process *Provides IT services* while *Coworking office spaces* does not
-<details>
+</details>
+
 
 <details><summary><span style = "color: #2196F3;">Show code - Example 7 - Check names</span></summary>
+
 In applications of `AHgen` to the Urban Systems Abstraction Hierarchy, outputs from another software `OSMtidy` are sometimes used. `OSMtidy` outputs give a tidy dataset of geospatial data (individual points, lines, and polygons representing different buildings, parks, etc.). Each observation of geospatial data is described by a *desc* term, such as *Attractions; Soft play* and *Sports and recreation; Indoor playground*. In `AHgen`, these *desc* terms are matched to Abstraction Hierarchy Resources in an aggregated manner - in this case the Resource *Playgrounds (indoor)*.
 
 The `check_names` function confirms that *desc* name and the *Resource* name are both matched in a key. If there are any unmatched names (an additional *desc* term in the `OSMtidy` output, or an additional vertex in the Abstraction Hierarchy), `check_names` will return a dataframe of these to check. Usually this means that a new *desc* term or changed Resource name needs to be added to the key; in some cases an adjustment to the USAH has been made but a spelling error exists, and this check catches it before any issues arise in further `AHgen` analysis.
@@ -269,11 +275,13 @@ nameCheck_correct =
 # See what happens when there is a non-matching name
 # Read in adjacency matrix
 dh_USAH_error = 
-  read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
+  read_adjMat(
+    "../inputs/USAH_3.0_template_baseline_error-names_adjMat_20230602.xlsx")
 
 # Read in vInfo
 dv_USAH_error = 
-  read_vInfo("../inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
+  read_vInfo(
+    "../inputs/USAH_3.0_template_baseline_error-names_vInfo-full_20230621.xlsx")
 
 # Read in key to match names from one software package (OSMtidy) 
 # to names in another software package (AHgen)
@@ -285,8 +293,9 @@ nameCheck_error =
   check_names(
     adjMat_template = dh_USAH_error, vInfo_template = dv_USAH_error, key = key)
 ```
-<details>
-<br>
+The object `nameCheck_error` lets us know that there is one item present in the Abstraction Hierarchy Resources level, that is not present in the key: *Tardis*.
+</details>
+
 
 ## 4. Convert to different data types
 In `AHgen`, the abstraction hierarchy can be captured in three different formats:
@@ -399,7 +408,6 @@ E(di)$layer
 ```
 </details>
 
-<br>
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
