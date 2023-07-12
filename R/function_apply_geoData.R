@@ -19,7 +19,7 @@ apply_geoData <- function(geoData,
   
   edgelist_location_step1 <- 
     edgelist_template %>% 
-    weight_edges(edgesNew)
+    weight_edges(edgesNew, remove = FALSE)
   
   # Check for hanging vertices which have all links downward with proxyWeight (to imitate removal)
   # and iteratively set upward links with proxyWeight (to imitate removal) as relevant

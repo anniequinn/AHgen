@@ -272,7 +272,7 @@ The function `weight_hangingVertices()` checks for and removes "hanging" vertice
 
 When applying the function the edge list must have columns named *layer*, *from*, *to*, and *weight*.
 
-<details><summary><span style = "color: #2196F3;">Example 6 - Remove hanging vertices from an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 7 - Remove hanging vertices from an edge list</span></summary>
 ```{r}
 # Read in the Urban Systems Abstraction Hierarchy adjacency matrix
 dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
@@ -310,6 +310,7 @@ de_final = weight_hangingVertices(edgelist = de_new)
 de_final %>% filter(from == "Treat water" | to == "Treat water")
 ```
 </details>
+
 
 After these steps are complete, the new edge list can be converted to other formats with `AHgen`.
 

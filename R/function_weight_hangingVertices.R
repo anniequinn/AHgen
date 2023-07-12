@@ -35,7 +35,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weight_edges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -72,7 +72,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weight_edges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -109,7 +109,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weight_edges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -146,7 +146,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0) {
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weight_edges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     

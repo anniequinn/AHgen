@@ -1,4 +1,4 @@
-weight_edges <- function(edgelist, edgesNew) {
+weight_edges <- function(edgelist, edgesNew, remove = TRUE) {
   
   output <- 
     edgelist %>% 
@@ -7,6 +7,16 @@ weight_edges <- function(edgelist, edgesNew) {
     select(-weightNew) %>%
     arrange(layer, from, to)
   
-  return(output)
+  if(remove == TRUE) {
+    
+    output <- output %>% filter(weight != 0)
+    
+    return(output)
+    
+  } else if(remove == FALSE) {
+    
+    return(output)
+    
+  }
   
 }
