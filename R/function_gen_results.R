@@ -6,7 +6,7 @@ gen_results <- function(igraph, vInfo, name,
   resultsEC <- 
     igraph %>%
     calc_EC(vInfo) %>%
-    rename(value = centrality) %>%
+    rename(value = EC) %>%
     group_by(level) %>% 
     mutate(rank_byLevel = dense_rank(desc(value))) %>%
     ungroup() %>%

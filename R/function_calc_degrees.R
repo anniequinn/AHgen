@@ -392,7 +392,8 @@ calc_degrees <- function(igraph, vInfo) {
   dt_final <- 
     dt %>% 
     full_join(dt_nodes, by = "Node") %>%
-    inner_join(vInfo)
+    inner_join(vInfo) %>%
+    relocate(level, levelName_full, levelName, Node)
   
   return(dt_final)
   

@@ -22,6 +22,8 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
+library(readxl)
+library(kableExtra)
 library(AHgen)
 ```
 
@@ -37,26 +39,54 @@ library(AHgen)
 </style>
 ---
 
-In this vignette, you will find out about analysing Abstraction Hierarchies:
+In this vignette, you will find out about analysing Abstraction Hierarchies with core `AHgen` functions:
 
-- Section 1 - Network metrics
-- Section 2 - `calc_degrees()`
-- Section 3 - `calc_EC()`
-- Section 4 - `calc_SBC()`
-- Section 5 - `gen_results()`
-- Section 6 - `summarise_AH()`
+- Section 1 - The Abstraction Hierarchy and network metrics
+- Section 2 - `AHgen` functions for individual network metrics
+- Section 3 - `gen_results()`
+- Section 4 - `summarise_AH()`
 
 
-## 1. Network metrics
+## 1. The Abstraction Hierarchy and network metrics
 
 Network analysis is a useful tool to quantify and analyse the interactions and structure of graphs, which represent the relationships among entities such as sectors within an urban system. For more background, check out [this guide by Barabasi](http://networksciencebook.com/).
 
 There are numerous metrics which can be calculated to analyse networks. Network metrics help to describe a network at either a local level (which looks at individual elements i.e. particular nodes or edges) or a global level (which looks at the network as a whole). The current verison of `AHgen` focuses on analysing the network at a local level, using the metrics [Degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)), [Eigenvector Centrality (EC)](https://en.wikipedia.org/wiki/Eigenvector_centrality), and [Stable Betweenness Centrality (SBC)](https://doi.org/10.1109/ICASSP.2014.6854324). For more detail, and a longer list of options for network analysis metrics, check out [this review of network metrics by Morrison et al.](https://doi.org/10.1007/s41109-022-00476-w).
 
+We can use the guidelines in the table below for interpreting the network analysis results for any Abstraction Hierarchy, adapted from see [McClymont et al.](https://doi.org/10.1029/2023EF003594) and [Bedinger et al.](https://doi.org/10.1016/j.cities.2023.104355).
 
-## 2. `calc_degrees()`
+```{r, echo = FALSE}
+metricsTable = read_xlsx("../data-raw/USAH_interpretation.xlsx")
+knitr::kable(metricsTable) %>% kable_styling(font_size = 7)
+```
 
-The (node) degree is simply the number of edges that are connected to a vertex. In a hierarchical network like an Abstraction Hierarchy, multiple types of degree can be calculated. For each vertex, the following are calculated:
+To get ready for network analysis in the following sections, let's read in and convert an example Abstraction Hierarchy.
+```{r}
+# Read in adjacency matrix for the Urban Systems Abstraction Hierarchy
+dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
+
+# Extract vInfo
+dv = dh %>% select(level, levelName_full, levelName, Node)
+
+# Convert to an igraph
+di = adjMat_to_igraph(adjMat = dh, vInfo = dv)
+```
+
+
+## 2. `AHgen` functions for individual network metrics
+
+`AHgen` includes custom functions to apply three network metrics: `calc_degrees`, `calc_EC()`, `calc_SBC()`. All three functions have two input arguments: 
+
+- *igraph* - the igraph to be analysed
+- *vInfo* - the vertex information
+
+When applying the functions:
+
+- The vertex names must be identical in both the igraph and the vInfo
+
+### 2.1. `calc_degrees()`
+
+The function `calc_degrees()` calculates the node degree of each vertex, i.e. the number of edges that are connected to a vertex. In a hierarchical network like an Abstraction Hierarchy, multiple types of degree can be calculated. In `AHgen`, the following are calculated for each vertex:
 
 - the *up* degree - the number of edges to the level above the vertex
 - the *down* degree - the number of edges to the level below the vertex
@@ -64,7 +94,7 @@ The (node) degree is simply the number of edges that are connected to a vertex. 
 
 Because an Abstraction Hierarchy has five levels, the *up* and *down* degrees are also calculated for "additional" steps away from the vertex. 
 
-For example, for a Resource vertex at level 5, we first calculated the *up* degree to level 4 (*nodeDegree_up1*) which is equal to the *nodeDegree_total* due to the vertex being at the bottom of the hierarchy and having no edges downward. We can then propagate upwards to calculate:
+For example, for a Resource vertex at level 5, we first calculated the *up* degree to level 4 (*nodeDegree_up1*) which is equal to the *nodeDegree_total1* due to the vertex being at the bottom of the hierarchy and having no edges downward. We can then propagate upwards to calculate:
 
 - for the connected vertices found at level 4, the *up* degree to vertices in level 3 (*nodeDegree_up2*)
 - for the connected vertices found at level 3, the *up* degree to vertices in level 2 (*nodeDegree_up3*), and
@@ -75,57 +105,91 @@ Another example would be a Task vertex at level 3. After calculating the *up* de
 - for the connected vertices found at level 2, the *up* degree to vertices in level 1 (*nodeDegree_up2*)
 - for the connected vertices found at level 4, the *down* degree to vertices in level 5 (*nodeDegree_down2*)
 
-This is done with the function `calc_degrees()`. It has two input arguments: 
-
-- *igraph* - the igraph to be analysed
-- *vInfo* - the vertex information
-
-When applying the function:
-
-- The vertex names must be identical in both the igraph and the vInfo
-
 Below is an example of the application of `calc_degrees()`.
 
 <details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
 ```{r}
-# Read in adjacency matrix for the Urban Systems Abstraction Hierarchy
-dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
-
-# Extract vInfo
-dv = dh %>% select(level, levelName_full, levelName, Node)
-
-# Convert to an igraph
-di = adjMat_to_igraph(adjMat = dh, vInfo = dv)
-
 # Calculate the degree(s) of each vertex
 degrees = calc_degrees(igraph = di, vInfo = dv)
+
+# Inspect the system-level multi-functionality of Outcomes by inspecting their nodeDegree_down3
+degrees %>% filter(level == 2) %>% select(Node, nodeDegree_down3) %>% arrange(nodeDegree_down3)
+
+# Inspect the Processes which support all the Outcomes (i.e. those that have high system-level multi-functionality)
+nOutcomes = degrees %>% filter(level == 2) %>% nrow()
+degrees %>% filter(level == 4, nodeDegree_up2 == nOutcomes) %>% select(Node, nodeDegree_up2)
+
+# Inspect the top 10 Resources with the highest node-level multi-functionality
+degrees %>% filter(level == 5) %>% arrange(nodeDegree_up1, Node) %>% select(Node, nodeDegree_up1) %>% head()
+
+# Inspect the top 10 Processes with the highest functional redundancy
+degrees %>% filter(level == 4) %>% arrange(nodeDegree_down1, Node) %>% select(Node, nodeDegree_down1) %>% head()
+
+# Inspect the top 10 Processes with the highest functional diversity
+degrees %>% filter(level == 4) %>% arrange(desc(nodeDegree_down1), Node) %>% select(Node, nodeDegree_down1) %>% head()
 ```
 </details>
 
 
-## 3. `calc_EC()`
-<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+### 2.2. `calc_EC()`
+
+The Eigenvector Centrality (EC) is...
+
+Below is an example application of `calc_EC()`.
+
+<details><summary><span style = "color: #2196F3;">Example 2 - Degree(s)</span></summary>
+```{r}
+# Calculate the Eigenvector Centrality (EC) of each vertex
+ec = calc_EC(igraph = di, vInfo = dv)
+
+# Inspect the Purposes ranked by their Eigenvector Centrality
+ec %>% filter(level == 1) %>% select(Node, EC) %>% arrange(EC)
+
+# Inspect the Outcomes ranked by their Eigenvector Centrality
+ec %>% filter(level == 2) %>% select(Node, EC) %>% arrange(EC)
+
+# Inspect the top 10 Tasks ranked by their Eigenvector Centrality
+ec %>% filter(level == 3) %>% select(Node, EC) %>% arrange(EC) %>% head()
+```
+</details>
+
+
+### 2.3. `calc_SBC()`
+The Stable Betweenness Centrality (SBC) is...
+
+Below is an example application of `calc_SBC()`.
+
+<details><summary><span style = "color: #2196F3;">Example 3 - Stable Betweenness Centrality (SBC)</span></summary>
+```{r}
+# Calculate the Stable Betweenness Centrality (SBC) of each vertex
+sbc = calc_SBC(igraph = di, vInfo = dv)
+
+# Inspect the top 10 Resources ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 5) %>% select(Node, EC) %>% arrange(EC) %>% head()
+
+# Inspect the top 10 Processes ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 4) %>% select(Node, EC) %>% arrange(EC) %>% head()
+
+# Inspect the top 10 Tasks ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 3) %>% select(Node, EC) %>% arrange(EC) %>% head()
+```
+</details>
+
+*Note*: if you need to apply Stable Betwenness Centrality to another type of network, you can use the internal `AHgen` function `sbc_norm()`.
+
+## 3. `gen_results()`
+
+
+<details><summary><span style = "color: #2196F3;">Example 4 - Multiple metrics</span></summary>
 ```{r}
 ```
 </details>
 
 
-## 4. `calc_SBC()`
-<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
-```{r}
-```
-</details>
+## 4. `summarise_AH()`
 
 
-## 5. `gen_results()`
-<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
-```{r}
-```
-</details>
-
-
-## 6. `summarise_AH()`
-<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 5 - Summarise</span></summary>
 ```{r}
 ```
 </details>

@@ -10,8 +10,9 @@ calc_EC <- function(igraph, vInfo) {
     output %>%
     as.data.frame %>%
     tibble::rownames_to_column() %>% 
-    stats::setNames(c("Node", "centrality")) %>%
-    inner_join(vInfo)
+    stats::setNames(c("Node", "EC")) %>%
+    inner_join(vInfo) %>%
+    relocate(level, levelName_full, levelName, Node)
   
   return(output)
   

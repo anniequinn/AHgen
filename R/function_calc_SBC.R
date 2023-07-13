@@ -20,7 +20,8 @@ calc_SBC <- function(igraph, vInfo) {
     as.data.frame() %>%
     tibble::rownames_to_column() %>% 
     stats::setNames(c("Node", "SBC", "SBC_norm")) %>%
-    inner_join(vInfo)
+    inner_join(vInfo) %>%
+    relocate(level, levelName_full, levelName, Node)
   
   options(digits = 7) # Return R global options for 7 decimal points
   
