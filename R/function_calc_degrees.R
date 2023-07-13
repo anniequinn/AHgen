@@ -14,7 +14,7 @@ calc_degrees <- function(igraph, vInfo) {
   require(tibble)
   require(installr)
   
-  base <- igraph::igraph
+  base <- igraph
   
   #list of nodes with level and number
   va <- igraph::vertex.attributes(base)

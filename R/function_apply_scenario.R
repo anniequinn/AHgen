@@ -35,7 +35,7 @@ apply_scenario <- function(AH_input,
   
   edges_excluded <- 
     edges_all %>% 
-    filter(weight == proxyWeight) %>% 
+    filter(weight <= proxyWeight) %>% 
     select(-weight)
   
   all_excluded <- 

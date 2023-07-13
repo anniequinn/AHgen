@@ -1,27 +1,40 @@
 ---
-title: "Vignette Template"
-author: "Dr Annie Visser-Quinn, a.visser-quinn@hw.ac.uk"
-date: "`r Sys.Date()`"
+title: "Template"
+author: 
+ - Melissa Bedinger
 output: 
   html_document:
     toc: true
-    theme: united
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
 vignette: >
-  %\VignetteIndexEntry{Vignette 8}
+  %\VignetteIndexEntry{Template}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
 
 rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
-library(igraph)
 library(AHgen)
 ```
 
-<span style="color: red;">Synthetic</span>
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 230px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

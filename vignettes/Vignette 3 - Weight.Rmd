@@ -22,7 +22,6 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
-library(igraph)
 library(AHgen)
 ```
 
@@ -54,7 +53,11 @@ In this vignette, you will find out about weighting networks:
 
 For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
-## 1. Weight an edge list with the `tidyverse`
+## 1. Why weight?
+
+A [weighted network](https://en.wikipedia.org/wiki/Weighted_network) is a network where the links between nodes have weights assigned to them. In a number of real-world networks, not all edges in a network are equal. Edges are often assigned weights to represent differences in terms of their strength, intensity, or capacity. For example, a weight could signify the strength of social relationships, the flow of material between within an ecosystem, or the functionality (or loss of functionality) within different parts of an urban system.
+
+## 2. Weight an edge list with the `tidyverse`
 
 In the `tidyverse`, there is a handy `mutate()` function. This adds a new column to a data frame or tibble, of a length equal to the number of rows.
 
@@ -109,7 +112,7 @@ This example would require prior coding knowledge to apply. The complexity would
 </details>
 
 
-## 2. Weight an igraph with `igraph`
+## 3. Weight an igraph with `igraph`
 In [Vignette 2 - Input & Convert](Vignette-2---Input-&-Convert.html), we explored how to extract data and attributes from an igraph. Below is a quick recap.
 
 ```{r}
@@ -181,21 +184,22 @@ di = dh %>% adjMat_to_igraph(vInfo = dv)
 ```
 
 
-## 3. Weight an edge list with `AHgen`
+## 4. Weight an edge list with `AHgen`
 
 Through examples 1-4 we've seen how to change weightings directly. These methods were:
 
 - Cumbersome, requiring prior coding experience
 - Impractical for cases where you want to weight edges connected to more than one vertex in a real-world application
 
-`AHgen` has two functions to simplify edge weighting for Abstraction Hierarchies.
+`AHgen` has two functions to simplify edge weighting for Abstraction Hierarchies: `weight_edges` and `weight_hangingVertices`.
 
-### 3.1. `weight_edges()`
+### 4.1. `weight_edges()`
 
 The first function is `weight_edges()` which introduced new weights to an existing edge list. It has two input arguments: 
 
 - *edgelist* - the original edge list to be weighted
 - *edgesNew* - the edges with new weights to replace in the original edge list
+- *remove* - an option to keep edges which should be removed (i.e. a weight of 0) in the edge list, or remove them completely; by default this is set to `remove = TRUE` 
 
 When applying the function:
 
@@ -259,7 +263,7 @@ weight_edges(edgelist = de, edgesNew = de_w)
 ```
 </details>
 
-### 3.2. `weight_hangingVertices()`
+### 4.2. `weight_hangingVertices()`
 
 The second function is `weight_hangingVertices()`. When introducing new weights with `weight_edges()`, the `edgesNew` can include edges with a weight of 0, therefore completely removing those edges from the original edge list. 
 
@@ -269,6 +273,7 @@ The function `weight_hangingVertices()` checks for and removes "hanging" vertice
 
 - *edgelist* - the edge list to be checked
 - *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+- *remove* - an option to keep edges which should be removed (i.e. a weight of 0) in the edge list, or remove them completely; by default this is set to `remove = TRUE` but in some cases it is useful to set `remove = FALSE` e.g. for noting vertices which were removed in a new scenario vs. a benchmark scenario
 
 When applying the function the edge list must have columns named *layer*, *from*, *to*, and *weight*.
 
@@ -307,12 +312,12 @@ de_zeroed = weight_edges(edgelist = de, edgesNew = de_w, remove = FALSE)
 # Inspect to confirm the level 4 node has been removed
 de_zeroed %>% filter(from == "Treat water" | to == "Treat water")
 ```
-In both cases we can see that the vertex *Treat water* would still be present in the Urban Systems Abstraction Hierarchy. However, it would have all upward edges to level 3, and no downward edges to level 5, making it a "hanging" vertex.
+In both cases we can see that the vertex *Treat water* would still be present in the Urban Systems Abstraction Hierarchy. However, it would have edges only in the upward direction to level 3, and edges in the downward direction to level 5, making it a "hanging" vertex.
 
 To remove it, we must apply the `weight_hangingVertices()` function.
 ```{r}
 # Check for and remove hanging vertices
-de_final = weight_hangingVertices(edgelist = de_zeroed)
+de_final = weight_hangingVertices(edgelist = de_zeroed, remove = FALSE)
 
 # Inspect to confirm the level 4 node has been removed
 de_final %>% filter(from == "Treat water" | to == "Treat water")
@@ -322,5 +327,70 @@ de_final %>% filter(from == "Treat water" | to == "Treat water")
 
 After these steps are complete, the new edge list can be converted to other formats with `AHgen`.
 
+### 4.3. A note on using `remove = FALSE`
+
+In some cases it is useful to set `remove = FALSE`, for the purposes of making a list of vertices which should be removed in a new scenario vs. a benchmark scenario. In cases where `weight_edges(remove = FALSE)` and `weight_hangingVertices(remove = FALSE)`, it is important to then remove the edges with a weight = 0 before applying convert functions such as `edgelist_to_igraph()`. 
+
+This is because functions for network analysis - which will be covered in later vignettes - sometimes use the number of vertices in the network as an input to their calculations.
+
+Therefore if you do not remove the edges with a weight = 0 from the final edge list before applying a convert function, any vertices which should be completely removed will still count toward the number of vertices in the network, they will just not be linked to the network - and this will lead to incorrect results.
+
+<details><summary><span style = "color: #2196F3;">Example 8 - Completely remove edges with weight = 0 from an edge list</span></summary>
+First inspect the previous example where `remove = FALSE`.
+```{r}
+# Note that the number of edges in the edge list is 4505
+nrow(de_final)
+
+# Note that the number of edges in the edge list with weight = 0 is 7
+de_final %>% filter(weight == 0) %>% nrow()
+```
+Before converting to other data types, you can find out which vertices will be excluded and included, then remove any edges with weight = 0.
+```{r}
+# Example function to find excluded vertices
+find_excluded <- function(edgelist, proxyWeight = 0) {
+  
+  vertices <- list()
+  
+  edges_to <- edgelist %>% select(to, weight) %>% rename(Node = to)
+  
+  edges_from <- edgelist %>% select(from, weight) %>% rename(Node = from)
+
+  edges_all <- edges_to %>% rbind(edges_from) %>% unique()
+  
+  edges_included <- edges_all %>% filter(weight > proxyWeight) %>% select(-weight)
+  
+  edges_excluded <- edges_all %>% filter(weight <= proxyWeight) %>% select(-weight)
+  
+  vertices$excluded <- dplyr::setdiff(edges_excluded, edges_included) %>% pull(Node)
+  
+  vertices$included <- dplyr::setdiff(edges_included, edges_excluded) %>% pull(Node)
+  
+  return(vertices)
+  
+}
+
+# Find the vertices which will be excluded
+vertices = find_excluded(edgelist = de_final)
+
+# Inspect the vertices which will be excluded
+vertices$excluded
+
+# Then remove the edges with weight = 0
+de_final_removed = de_final %>% filter(weight != 0)
+
+# Note that the number of edges is now 4998
+nrow(de_final_removed)
+```
+Now we can convert the updated edge list to other data types!
+```{r}
+# Update the vInfo for the new network
+dv_final_removed = dv %>% filter(!Node %in% all_of(vertices$excluded))
+
+# Then convert to other formats e.g. igraph
+de_final_removed %>% edgelist_to_igraph(vInfo = dv_final_removed)
+```
+Note that at the top of the igraph object, it states there are 482 vertices (1 fewer than the original) and 4498 edges (7 fewer than the original).
+</details>
+
 ## Last updated
-This vignette is associated with AHgen v1.0.0, and was last updated by Melissa Bedinger on 2023-07-03.
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

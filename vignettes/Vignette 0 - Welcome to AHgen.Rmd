@@ -118,6 +118,7 @@ Six walkthrough vignettes are provided to illustrate the application of `AHgen` 
 
 - Bedinger, M., McClymont, K., Beevers, L., Visser-Quinn, A., & Aitken, G. (2023). [Five cities: Application of the Urban Systems Abstraction Hierarchy to characterize resilience across locations](https://doi.org/10.1016/j.cities.2023.104355). *Cities*, 139, 104335.
 - McClymont, K., Bedinger, M., Beevers, L., & Walker, G. H. (2023). [Applying the Urban Systems Abstraction Hierarchy as a Tool for Flood Resilience](https://doi.org/10.1029/2023EF003594). *Earth’s Future*, 11(5), e2023EF003594.
+- Morrison, D., Bedinger, M., (2022). [Exploring the *raison d’etre* behind metric selection in network analysis: a systematic review](https://doi.org/10.1007/s41109-022-00476-w). *Applied Network Science*, 7, 50.
 - Beevers, L., Bedinger, M., McClymont, K., Morrison, D., Aitken, G., & Visser-Quinn, A. (2022). [Modelling systemic COVID-19 impacts in cities](https://doi.org/10.1038/s42949-022-00060-2). *npj Urban Sustainability*, 2, 17.
 - Beevers, L., McClymont, K., & Bedinger, M. (2022). [A hazard-agnostic model for unpacking systemic impacts in urban systems](https://doi.org/10.1080/10286608.2022.2083112). *Civil Engineering and Environmental Systems*, 39(3), p. 224-241.
 - McClymont, K., Bedinger, M., Beevers, L., & Walker, G. (2022). [Understanding urban resilience with the Urban Systems Abstraction Hierarchy](https://doi.org/10.1016/j.scs.2022.103729). *Sustainable Cities and Society*, 80, 103729.

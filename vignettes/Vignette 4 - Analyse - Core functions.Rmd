@@ -1,0 +1,136 @@
+---
+title: "Analyse - Core functions"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{4 - Analyse - Core functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(igraph)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 230px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+---
+
+In this vignette, you will find out about analysing Abstraction Hierarchies:
+
+- Section 1 - Network metrics
+- Section 2 - `calc_degrees()`
+- Section 3 - `calc_EC()`
+- Section 4 - `calc_SBC()`
+- Section 5 - `gen_results()`
+- Section 6 - `summarise_AH()`
+
+
+## 1. Network metrics
+
+Network analysis is a useful tool to quantify and analyse the interactions and structure of graphs, which represent the relationships among entities such as sectors within an urban system. For more background, check out [this guide by Barabasi](http://networksciencebook.com/).
+
+There are numerous metrics which can be calculated to analyse networks. Network metrics help to describe a network at either a local level (which looks at individual elements i.e. particular nodes or edges) or a global level (which looks at the network as a whole). The current verison of `AHgen` focuses on analysing the network at a local level, using the metrics [Degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)), [Eigenvector Centrality (EC)](https://en.wikipedia.org/wiki/Eigenvector_centrality), and [Stable Betweenness Centrality (SBC)](https://doi.org/10.1109/ICASSP.2014.6854324). For more detail, and a longer list of options for network analysis metrics, check out [this review of network metrics by Morrison et al.](https://doi.org/10.1007/s41109-022-00476-w).
+
+
+## 2. `calc_degrees()`
+
+The (node) degree is simply the number of edges that are connected to a vertex. In a hierarchical network like an Abstraction Hierarchy, multiple types of degree can be calculated. For each vertex, the following are calculated:
+
+- the *up* degree - the number of edges to the level above the vertex
+- the *down* degree - the number of edges to the level below the vertex
+- the *total* degree - the sum of the *up* and *down* degrees
+
+Because an Abstraction Hierarchy has five levels, the *up* and *down* degrees are also calculated for "additional" steps away from the vertex. 
+
+For example, for a Resource vertex at level 5, we first calculated the *up* degree to level 4 (*nodeDegree_up1*) which is equal to the *nodeDegree_total* due to the vertex being at the bottom of the hierarchy and having no edges downward. We can then propagate upwards to calculate:
+
+- for the connected vertices found at level 4, the *up* degree to vertices in level 3 (*nodeDegree_up2*)
+- for the connected vertices found at level 3, the *up* degree to vertices in level 2 (*nodeDegree_up3*), and
+- for the connected vertices found at level 2, the *up* degree to vertices in level 1 (*nodeDegree_up4*)
+
+Another example would be a Task vertex at level 3. After calculating the *up* degree to level 2 (*nodeDegree_up1*) and the *down* degree to level 4 (*nodeDegree_down1*), we can then propagate in either direction to also calculate:
+
+- for the connected vertices found at level 2, the *up* degree to vertices in level 1 (*nodeDegree_up2*)
+- for the connected vertices found at level 4, the *down* degree to vertices in level 5 (*nodeDegree_down2*)
+
+This is done with the function `calc_degrees()`. It has two input arguments: 
+
+- *igraph* - the igraph to be analysed
+- *vInfo* - the vertex information
+
+When applying the function:
+
+- The vertex names must be identical in both the igraph and the vInfo
+
+Below is an example of the application of `calc_degrees()`.
+
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+# Read in adjacency matrix for the Urban Systems Abstraction Hierarchy
+dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
+
+# Extract vInfo
+dv = dh %>% select(level, levelName_full, levelName, Node)
+
+# Convert to an igraph
+di = adjMat_to_igraph(adjMat = dh, vInfo = dv)
+
+# Calculate the degree(s) of each vertex
+degrees = calc_degrees(igraph = di, vInfo = dv)
+```
+</details>
+
+
+## 3. `calc_EC()`
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+```
+</details>
+
+
+## 4. `calc_SBC()`
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+```
+</details>
+
+
+## 5. `gen_results()`
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+```
+</details>
+
+
+## 6. `summarise_AH()`
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+```
+</details>
+
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
