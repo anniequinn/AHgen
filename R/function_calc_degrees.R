@@ -68,7 +68,7 @@ calc_degrees <- function(igraph, vInfo) {
     
     temp <- 
       dir %>% 
-      igraph::get.data.frame %>% 
+      get.data.frame %>% 
       as_tibble() %>% 
       filter(from == Node)
     
@@ -79,7 +79,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(from == temp$to[x])
         
@@ -100,7 +100,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(from == r[x])
         
@@ -124,7 +124,7 @@ calc_degrees <- function(igraph, vInfo) {
     
     temp <- 
       dir %>% 
-      igraph::get.data.frame %>% 
+      get.data.frame %>% 
       as_tibble() %>% 
       filter(to == Node)
     
@@ -134,7 +134,7 @@ calc_degrees <- function(igraph, vInfo) {
       lapply(1:t, function(x){
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(to == temp$from[x])
         
@@ -155,7 +155,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>%
+          get.data.frame %>%
           as_tibble() %>% 
           filter(to == r[x])
         
@@ -215,7 +215,7 @@ calc_degrees <- function(igraph, vInfo) {
     
     temp <- 
       dir %>% 
-      igraph::get.data.frame %>% 
+      get.data.frame %>% 
       as_tibble() %>% 
       filter(from == node)
     
@@ -226,7 +226,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(from == temp$to[x])
         
@@ -248,7 +248,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(from == r[x])
         
@@ -271,7 +271,7 @@ calc_degrees <- function(igraph, vInfo) {
           
           f <- 
             dir %>% 
-            igraph::get.data.frame %>% 
+            get.data.frame %>% 
             as_tibble() %>% 
             filter(from == r3[x])
           
@@ -307,7 +307,7 @@ calc_degrees <- function(igraph, vInfo) {
     
     temp <- 
       dir %>% 
-      igraph::get.data.frame %>% 
+      get.data.frame %>% 
       as_tibble() %>% 
       filter(to == node)
     
@@ -318,7 +318,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>% 
+          get.data.frame %>% 
           as_tibble() %>% 
           filter(to == temp$from[x])
         
@@ -340,7 +340,7 @@ calc_degrees <- function(igraph, vInfo) {
         
         f <- 
           dir %>% 
-          igraph::get.data.frame %>%
+          get.data.frame %>%
           as_tibble() %>% 
           filter(to == r[x])
         
@@ -363,7 +363,7 @@ calc_degrees <- function(igraph, vInfo) {
           
           f <- 
             dir %>% 
-            igraph::get.data.frame %>% 
+            get.data.frame %>% 
             as_tibble() %>% 
             filter(to == r3[x])
           

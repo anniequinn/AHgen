@@ -22,7 +22,6 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
-library(igraph)
 library(AHgen)
 ```
 
