@@ -35,6 +35,8 @@ gen_AH <- function(vInfo_full = NULL,
   if(is.null(vExcluded)) {
     
     vExcluded <- list()
+    
+  }
   
   AH <-
     list("vInfo" = vInfo_full, # Attach any additional info for vertices e.g. colours, subnetworks
