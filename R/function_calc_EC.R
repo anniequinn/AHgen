@@ -4,7 +4,7 @@ calc_EC <- function(igraph, vInfo) {
   require(tibble)
   require(stats)
   
-  output <- (igraph %>% igraph::eigen_centrality(directed = TRUE))$vector
+  output <- (igraph %>% igraph::eigen_centrality(directed = FALSE))$vector
   
   output <- 
     output %>%

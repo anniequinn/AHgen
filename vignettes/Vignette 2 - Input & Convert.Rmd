@@ -408,6 +408,7 @@ E(di)$layer
 ```
 </details>
 
+Next in [Vignette 3 - Weight](Vignette-3---Weight.html), you will find out about weighting networks.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

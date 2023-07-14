@@ -1,0 +1,68 @@
+---
+title: "Analyse - Additional functions"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{5 - Analyse - Additional functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 230px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+---
+
+In this vignette, you will find out about analysing Abstraction Hierarchies with additional `AHgen` functions, building on the core functions from Vignette 4:
+
+- `apply_geoData()`
+
+- `apply_scenario()`
+
+- `calc_sensitivity()`
+- `apply_sensitivity()`
+- `summarise_confidence()`
+
+- `compare_AH()`
+
+- `export_AH()`
+
+
+
+
+- Section 1 - The Abstraction Hierarchy and network metrics
+- Section 2 - `AHgen` functions for individual network metrics
+- Section 3 - `gen_results()`
+- Section 4 - `summarise_AH()`
+
+
+
+
+Next in [Vignette 6 - Visualise](Vignette-6---visualise.html), you will see how...
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

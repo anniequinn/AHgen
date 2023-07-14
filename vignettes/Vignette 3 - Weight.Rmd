@@ -392,5 +392,7 @@ de_final_removed %>% edgelist_to_igraph(vInfo = dv_final_removed)
 Note that at the top of the igraph object, it states there are 482 vertices (1 fewer than the original) and 4498 edges (7 fewer than the original).
 </details>
 
+Next in [Vignette 4 - Analyse - Core functions](Vignette-4---Analyse---Core-functions.html), you will find out about analysing Abstraction Hierarchies with core `AHgen` functions.
+
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

@@ -45,19 +45,26 @@ In this vignette, you will find out about analysing Abstraction Hierarchies with
 - Section 2 - `AHgen` functions for individual network metrics
 - Section 3 - `gen_results()`
 - Section 4 - `summarise_AH()`
+- Section 5 - `gen_AH()`
 
 
 ## 1. The Abstraction Hierarchy and network metrics
 
 Network analysis is a useful tool to quantify and analyse the interactions and structure of graphs, which represent the relationships among entities such as sectors within an urban system. For more background, check out [this guide by Barabasi](http://networksciencebook.com/).
 
-There are numerous metrics which can be calculated to analyse networks. Network metrics help to describe a network at either a local level (which looks at individual elements i.e. particular nodes or edges) or a global level (which looks at the network as a whole). The current verison of `AHgen` focuses on analysing the network at a local level, using the metrics [Degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)), [Eigenvector Centrality (EC)](https://en.wikipedia.org/wiki/Eigenvector_centrality), and [Stable Betweenness Centrality (SBC)](https://doi.org/10.1109/ICASSP.2014.6854324). For more detail, and a longer list of options for network analysis metrics, check out [this review of network metrics by Morrison et al.](https://doi.org/10.1007/s41109-022-00476-w).
+There are numerous metrics which can be calculated to analyse networks. Network metrics help to describe a network at either a local level (which looks at individual elements i.e. particular nodes or edges) or a global level (which looks at the network as a whole). The current verison of `AHgen` focuses on analysing the network at a local level, using the metrics:
 
-We can use the guidelines in the table below for interpreting the network analysis results for any Abstraction Hierarchy, adapted from see [McClymont et al.](https://doi.org/10.1029/2023EF003594) and [Bedinger et al.](https://doi.org/10.1016/j.cities.2023.104355).
+- [Degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)) is the number of edges connected to a vertex.
+- [Eigenvector Centrality (EC)](https://en.wikipedia.org/wiki/Eigenvector_centrality) is a measure of the influence of a node in a network. Relative scores are assigned to all nodes in the network based on the concept that connections to high-scoring nodes contribute more to the score of the node in question than equal connections to low-scoring nodes.
+- [Stable Betweenness Centrality (SBC)](https://doi.org/10.1109/ICASSP.2014.6854324) is a variation of Betweenness Centrality, which is a measure of centrality in a network based on shortest paths. For every pair of vertices in a network, there exists at least one shortest path between the vertices such that either the number of edges that the path passes through (for unweighted graphs) or the sum of the weights of the edges (for weighted graphs) is minimized. The Betweenness Centrality for each vertex is the number of these shortest paths that pass through the vertex. Traditional Betweenness Centrality was found by Segarra & Ribeiro to be unstable; hence they created a "Stable" version of Betweenness Centrality which is "invariant to small perturbations in the edge weights".
+
+For more detail and a longer list of options for network analysis metrics, check out [this review of network metrics by Morrison et al.](https://doi.org/10.1007/s41109-022-00476-w).
+
+We can use the guidelines in the table below for interpreting the network analysis results for any Abstraction Hierarchy, adapted from see [McClymont et al.](https://doi.org/10.1029/2023EF003594) and [Bedinger et al.](https://doi.org/10.1016/j.cities.2023.104355). Due to the hierarchical nature of the Abstraction Hierarchy results should only be compared within a level, i.e. a result for a Resource should only be compared to results for other Resources.
 
 ```{r, echo = FALSE}
 metricsTable = read_xlsx("../data-raw/USAH_interpretation.xlsx")
-knitr::kable(metricsTable) %>% kable_styling(font_size = 7)
+knitr::kable(metricsTable) %>% kable_styling(font_size = 8)
 ```
 
 To get ready for network analysis in the following sections, let's read in and convert an example Abstraction Hierarchy.
@@ -70,12 +77,15 @@ dv = dh %>% select(level, levelName_full, levelName, Node)
 
 # Convert to an igraph
 di = adjMat_to_igraph(adjMat = dh, vInfo = dv)
+
+# Convert to an edgelist
+de = adjMat_to_edgelist(adjMat = dh, vInfo = dv)
 ```
 
 
 ## 2. `AHgen` functions for individual network metrics
 
-`AHgen` includes custom functions to apply three network metrics: `calc_degrees`, `calc_EC()`, `calc_SBC()`. All three functions have two input arguments: 
+`AHgen` includes functions to apply three individual network metrics: `calc_degrees`, `calc_EC()`, `calc_SBC()`. All three functions have two input arguments: 
 
 - *igraph* - the igraph to be analysed
 - *vInfo* - the vertex information
@@ -113,49 +123,58 @@ Below is an example of the application of `calc_degrees()`.
 degrees = calc_degrees(igraph = di, vInfo = dv)
 
 # Inspect the system-level multi-functionality of Outcomes by inspecting their nodeDegree_down3
-degrees %>% filter(level == 2) %>% select(Node, nodeDegree_down3) %>% arrange(nodeDegree_down3)
+degrees %>% filter(level == 2) %>% select(Node, nodeDegree_down3) %>% arrange(desc(nodeDegree_down3))
 
 # Inspect the Processes which support all the Outcomes (i.e. those that have high system-level multi-functionality)
 nOutcomes = degrees %>% filter(level == 2) %>% nrow()
 degrees %>% filter(level == 4, nodeDegree_up2 == nOutcomes) %>% select(Node, nodeDegree_up2)
 
 # Inspect the top 10 Resources with the highest node-level multi-functionality
-degrees %>% filter(level == 5) %>% arrange(nodeDegree_up1, Node) %>% select(Node, nodeDegree_up1) %>% head()
+degrees %>% filter(level == 5) %>% arrange(desc(nodeDegree_up1), Node) %>% select(Node, nodeDegree_up1) %>% head()
 
 # Inspect the top 10 Processes with the highest functional redundancy
-degrees %>% filter(level == 4) %>% arrange(nodeDegree_down1, Node) %>% select(Node, nodeDegree_down1) %>% head()
+degrees %>% filter(level == 4) %>% arrange(desc(nodeDegree_down1), Node) %>% select(Node, nodeDegree_down1) %>% head()
 
 # Inspect the top 10 Processes with the highest functional diversity
-degrees %>% filter(level == 4) %>% arrange(desc(nodeDegree_down1), Node) %>% select(Node, nodeDegree_down1) %>% head()
+degrees %>% filter(level == 4) %>% arrange(nodeDegree_down1, Node) %>% select(Node, nodeDegree_down1) %>% head()
 ```
 </details>
 
 
 ### 2.2. `calc_EC()`
 
-The Eigenvector Centrality (EC) is...
+The function `calc_EC()` uses `igraph`'s `eigen_centrality`. As Abstraction Hierarchies are bidirectional they can be treated as undirected or directed with similar results, with the default set to `directed = FALSE`.
 
 Below is an example application of `calc_EC()`.
 
-<details><summary><span style = "color: #2196F3;">Example 2 - Degree(s)</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 2 - Eigenvector Centrality</span></summary>
 ```{r}
 # Calculate the Eigenvector Centrality (EC) of each vertex
 ec = calc_EC(igraph = di, vInfo = dv)
 
 # Inspect the Purposes ranked by their Eigenvector Centrality
-ec %>% filter(level == 1) %>% select(Node, EC) %>% arrange(EC)
+ec %>% filter(level == 1) %>% select(Node, EC) %>% arrange(desc(EC))
 
 # Inspect the Outcomes ranked by their Eigenvector Centrality
-ec %>% filter(level == 2) %>% select(Node, EC) %>% arrange(EC)
+ec %>% filter(level == 2) %>% select(Node, EC) %>% arrange(desc(EC))
 
 # Inspect the top 10 Tasks ranked by their Eigenvector Centrality
-ec %>% filter(level == 3) %>% select(Node, EC) %>% arrange(EC) %>% head()
+ec %>% filter(level == 3) %>% select(Node, EC) %>% arrange(desc(EC)) %>% head()
 ```
 </details>
 
 
 ### 2.3. `calc_SBC()`
-The Stable Betweenness Centrality (SBC) is...
+
+The function `calc_SBC()` uses an internal `AHgen` function `sbc_norm`. 
+
+`sbc_norm` was developed to calculate [Segarra & Ribeiro's Stable Betweenness Centrality](https://doi.org/10.1109/ICASSP.2014.6854324) as an R function to do this was not already available. It has three input arguments:
+
+- *igraph* - the igraph to be analysed
+- *undirected* - whether the network is to be treated as directed or undirected; by default this is set to `undirected = TRUE`
+- *normalize* - whether to calculate Stable Betweenness Centrality (SBC) only, or to also calculate a version of it that is normalized by the number of nodes in the network (SBC_norm); by default this is set to `normalize = TRUE`
+
+If you need to apply Stable Betwenness Centrality to another type of network (e.g. a social network), you can use `sbc_norm()` and change these inputs as needed.
 
 Below is an example application of `calc_SBC()`.
 
@@ -165,35 +184,100 @@ Below is an example application of `calc_SBC()`.
 sbc = calc_SBC(igraph = di, vInfo = dv)
 
 # Inspect the top 10 Resources ranked by their Stable Betweenness Centrality
-sbc %>% filter(level == 5) %>% select(Node, EC) %>% arrange(EC) %>% head()
+sbc %>% filter(level == 5) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
 
 # Inspect the top 10 Processes ranked by their Stable Betweenness Centrality
-sbc %>% filter(level == 4) %>% select(Node, EC) %>% arrange(EC) %>% head()
+sbc %>% filter(level == 4) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
 
 # Inspect the top 10 Tasks ranked by their Stable Betweenness Centrality
-sbc %>% filter(level == 3) %>% select(Node, EC) %>% arrange(EC) %>% head()
+sbc %>% filter(level == 3) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
 ```
 </details>
 
-*Note*: if you need to apply Stable Betwenness Centrality to another type of network, you can use the internal `AHgen` function `sbc_norm()`.
 
 ## 3. `gen_results()`
 
+`AH_gen` has a handy function to generate, consolidate, and tidy the results for all of the individual network metrics, called `gen_results()`. The function has six input arguments: 
+
+- *igraph* - the igraph to be analysed
+- *vInfo* - the vertex information
+- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+When applying the functions:
+
+- The vertex names must be identical in both the igraph and the vInfo
+
+Below is an example application of `gen_results()`.
 
 <details><summary><span style = "color: #2196F3;">Example 4 - Multiple metrics</span></summary>
 ```{r}
+# Generate results
+results = 
+  gen_results(igraph = di, vInfo = dv, 
+              name = "USAH", version = "3.0", location = "template", scenario = "baseline")
+
+# Inspect the metrics that have been calculated for this results file
+results$metric %>% unique()
 ```
 </details>
 
 
 ## 4. `summarise_AH()`
 
+`AH_gen` has a handy function to generate, consolidate, and tidy the results for all of the individual network metrics, called `gen_results()`. The function has six input arguments: 
+
+- *vIncluded* - the vertices in the Abstraction Hierarchy to be summarised; a variation of vInfo
+- *edgelist* - the edge list of the Abstraction Hierarchy to be summarised
+- *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+
+Below is an example application of `summarise_AH()`.
 
 <details><summary><span style = "color: #2196F3;">Example 5 - Summarise</span></summary>
 ```{r}
+# Generate a summary of the Abstraction Hierarchy
+summary = summarise_AH(vIncluded = dv, edgelist = de)
+
+# Inspect the summary of vertices
+summary$vertices
+
+# Inspect the summary of edges
+summary$edges
 ```
 </details>
 
+
+## 6. `gen_AH()`
+
+The function `gen_AH` uses multiple core functions to create a single standardised `AHgen` output. This creates a list of elements:
+
+- *vInfo_full* - the full vertex information for all vertices relevant to this Abstraction Hierarchy; in addition to the basic information in vIncluded, it is sometimes useful to include other characteristics e.g. definitions for each vertex, or colour specifications for visualisations
+- *vIncluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices included in this version of the Abstraction Hierarchy
+- *vExcluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices excluded in this version of the Abstraction Hierarchy, as compared to some baseline or benchmark
+- *adjMat* - the adjacency matrix
+- *edgelist* - the edge list
+- *igraph* - the igraph
+- *results* - the network analysis results
+- *summary* - the summary of vertices and edges in the Abstraction Hierarchy
+
+It has seven input arguments:
+
+- *vInfo_full* - the full vertex information for all vertices relevant to this Abstraction Hierarchy; in addition to the basic information in vIncluded, it is sometimes useful to include other characteristics e.g. definitions for each vertex, or colour specifications for visualisations
+- *vIncluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices included in this version of the Abstraction Hierarchy
+- *vExcluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices excluded in this version of the Abstraction Hierarchy, as compared to some baseline or benchmark
+- *adjMat* - the adjacency matrix to be analysed and converted into other formats
+- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+```{r}
+
+```
+
+Next in [Vignette 5 - Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html), you will see how these core functions can be brought together and applied.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

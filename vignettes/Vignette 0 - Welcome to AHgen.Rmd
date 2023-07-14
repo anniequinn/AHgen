@@ -95,8 +95,9 @@ There are five vignettes designed to get you on your way:
 - Vignette 1 - [Getting started](Vignette-1---Getting-started.html)
 - Vignette 2 - [Input & Convert](Vignette-2---Input-&-Convert.html)
 - Vignette 3 - [Weight](Vignette-3---Weight.html)
-- Vignette 4 - [Analyse](Vignette-4---Analyse.html)
-- Vignette 5 - [Visualise](Vignette-5---Visualise.html)
+- Vignette 4 - [Analyse - Core functions](Vignette-4---Analyse---Core-functions.html)
+- Vignette 5 - [Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html)
+- Vignette 6 - [Visualise](Vignette-6---Visualise.html)
 
 
 ## Applications
@@ -104,12 +105,12 @@ There are five vignettes designed to get you on your way:
 
 Six walkthrough vignettes are provided to illustrate the application of `AHgen` to create and explore the Urban Systems Abstraction Hierarchy (USAH).
 
-- Vignette 6 - Generating a template
-- Vignette 7 - Applying geospatial data
-- Vignette 8 - Introducing floods
-- Vignette 9 - Introducing other hazards
-- Vignette 10 - Comparing scenarios
-- Vignette 11 - Visualising results
+- Vignette 7 - Generating a template
+- Vignette 8 - Applying geospatial data
+- Vignette 9 - Introducing floods
+- Vignette 10 - Introducing other hazards
+- Vignette 11 - Comparing scenarios
+- Vignette 12 - Visualising results
 
 
 ## Further information

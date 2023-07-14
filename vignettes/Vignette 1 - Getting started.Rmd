@@ -216,5 +216,7 @@ lsf.str("package:AHgen")
 ```
 <br>
 
+Next in [Vignette 2 - Input & Convert](Vignette-2---Input-&-Convert.html), you will find out about inputs and data in `AHgen`.
+
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
