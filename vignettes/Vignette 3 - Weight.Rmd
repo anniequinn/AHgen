@@ -191,28 +191,76 @@ Through examples 1-4 we've seen how to change weightings directly. These methods
 - Cumbersome, requiring prior coding experience
 - Impractical for cases where you want to weight edges connected to more than one vertex in a real-world application
 
-`AHgen` has two functions to simplify edge weighting for Abstraction Hierarchies: `weight_edges` and `weight_hangingVertices`.
+`AHgen` has four functions to simplify edge weighting for Abstraction Hierarchies: `check_duplicates()`, `check_diff()`, `weight_edges`, and `weight_hangingVertices`.
 
-### 4.1. `weight_edges()`
+### 4.1. `check_duplicates()`
 
-The first function is `weight_edges()` which introduced new weights to an existing edge list. It has two input arguments: 
+The function `check_duplicates()` checks whether an edge list has any duplicate edges. If reading in an external edge list in .xlsx format, this checks for edges which have been accidentally added twice due to user error. This confirms whether there are any potential conflicts to sort out before introducing the new edge weights.
+
+It has one input argument:
+
+- *edgelist* - the edge list to be checked for duplicates
+
+When applying the function
+
+- the *edgelist* must include columns named *from* and *to*.
+
+If any conflicts exist, inspect the duplicate edges, and correct the input file as needed before re-loading, re-checking, and proceeding.
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+```{r}
+# Load new edge list
+
+# Check for duplicates
+
+# See what happens if there are any duplicates
+
+```
+</details>
+
+### 4.2. `check_diff()`
+
+The `check_diff()` function checks whether new edges to be introduced to an existing edge list has edges which don't match. If differences exist, this could introduce an edge which is entirely new to the network rather than simply changing the weight. This function confirms there are no outdated or inconsistent aspects of the network, both in terms of linkages and vertex names.
+
+# If any, inspect the edgesNew that do not match and correct input file 
+# then re-import before proceeding
+
+It has two input arguments:
+
+- *edgelist* - the existing edge list
+- *edgesNew* - the updated edges to be introduced, to modify the existing edge list
+
+When applying the function:
+
+- Both the *edgelist* and *edgesNew* must include columns named *from* and *to*.
+
+If any conflicts exist, inspect the different edges, and correct the *edgesNew* file as needed before re-loading, re-checking, and proceeding.
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+```{r}
+
+```
+</details>
+
+### 4.3. `weight_edges()`
+
+The function `weight_edges()` introduces new weights to an existing edge list. It has three input arguments: 
 
 - *edgelist* - the original edge list to be weighted
-- *edgesNew* - the edges with new weights to replace in the original edge list
+- *edgesNew* - the updated edges to be introduced, to modify the existing edge list
 - *remove* - an option to keep edges which should be removed (i.e. a weight of 0) in the edge list, or remove them completely; by default this is set to `remove = TRUE` 
 
 When applying the function:
 
-- Both edge lists must have columns named *layer*, *from* and *to*
-- The weight column in the weighted edge list must be called *weightNew*
-- The vertex names must be identical in both edge lists
+- Both edge lists must have columns named *layer*, *from* and *to*.
+- The weight column in the weighted edge list must be called *weightNew*.
+- The vertex names must be identical in both edge lists.
 
 The weighted edge list can be generated in R, or created manually in a .csv or .xlsx file, and read into R with functions such as [`read_csv`](https://readr.tidyverse.org/reference/read_delim.html) from the `readr` package or [`read_xlsx`](https://readxl.tidyverse.org/reference/read_excel.html) from the `readxl` package.
 
 Let's explore through some examples.
 
 <details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
-
 ```{r}
 # Function to generate random weights for a specific layer of the Abstraction Hierarchy
 gen_exampleWeights <- function(edgelist, layerName = NULL) { 
@@ -263,7 +311,7 @@ weight_edges(edgelist = de, edgesNew = de_w)
 ```
 </details>
 
-### 4.2. `weight_hangingVertices()`
+### 4.4. `weight_hangingVertices()`
 
 The second function is `weight_hangingVertices()`. When introducing new weights with `weight_edges()`, the `edgesNew` can include edges with a weight of 0, therefore completely removing those edges from the original edge list. 
 
@@ -275,7 +323,9 @@ The function `weight_hangingVertices()` checks for and removes "hanging" vertice
 - *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
 - *remove* - an option to keep edges which should be removed (i.e. a weight of 0) in the edge list, or remove them completely; by default this is set to `remove = TRUE` but in some cases it is useful to set `remove = FALSE` e.g. for noting vertices which were removed in a new scenario vs. a benchmark scenario
 
-When applying the function the edge list must have columns named *layer*, *from*, *to*, and *weight*.
+When applying the function:
+
+- the *edgelist* must have columns named *layer*, *from*, *to*, and *weight*.
 
 <details><summary><span style = "color: #2196F3;">Example 7 - Remove hanging vertices from an edge list</span></summary>
 ```{r}
@@ -327,7 +377,7 @@ de_final %>% filter(from == "Treat water" | to == "Treat water")
 
 After these steps are complete, the new edge list can be converted to other formats with `AHgen`.
 
-### 4.3. A note on using `remove = FALSE`
+### 4.5. A note on using `remove = FALSE`
 
 In some cases it is useful to set `remove = FALSE`, for the purposes of making a list of vertices which should be removed in a new scenario vs. a benchmark scenario. In cases where `weight_edges(remove = FALSE)` and `weight_hangingVertices(remove = FALSE)`, it is important to then remove the edges with a weight = 0 before applying convert functions such as `edgelist_to_igraph()`. 
 
