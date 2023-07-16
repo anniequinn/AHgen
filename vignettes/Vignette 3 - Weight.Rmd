@@ -227,7 +227,7 @@ check_duplicates(edges = de_w_errorDuplicates)
 
 ### 4.2. `check_diff()`
 
-The `check_diff()` function checks whether new edges to be introduced to an existing edge list has edges which don't match. If differences exist, this could introduce an edge which is entirely new to the network rather than simply changing the weight. This function confirms there are no outdated or inconsistent aspects of the network, both in terms of linkages and vertex names.
+The `check_diff()` function checks whether new edges to be introduced to an existing edge list has edges which don't match, and if so, returns the non-matching edges. If differences exist, this could introduce an edge which is entirely new to the network rather than simply changing the weight. This function confirms there are no outdated or inconsistent aspects of the network, both in terms of linkages and vertex names.
 
 If any differences exist, inspect these edges, and correct the input file as needed before re-loading, re-checking, and proceeding.
 
