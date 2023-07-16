@@ -83,8 +83,6 @@ USAH_scenario =
     AH_input = USAH_location_baseline, ## Specify USAH_input you want to modify
     edgelist_scenario = edgelist_location_flood, ## Specify edge list for new scenario
     name = "USAH", version = "3.0", location = location, scenario = scenario)
-
-
 ```
 </details>
 

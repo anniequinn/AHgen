@@ -216,7 +216,7 @@ When applying the function:
 
 Below is an example application of `gen_results()`.
 
-<details><summary><span style = "color: #2196F3;">Example 4 - Multiple metrics</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 4 - Generate results for multiple metrics at once</span></summary>
 ```{r}
 # Generate results
 results = 
@@ -240,7 +240,7 @@ results$metric %>% unique()
 
 Below is an example application of `summarise_AH()`.
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Summarise</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 5 - Summarise an Abstraction Hierarchy</span></summary>
 ```{r}
 # Generate a summary of the Abstraction Hierarchy
 summary = summarise_AH(vIncluded = dv, edgelist = de)
@@ -280,7 +280,7 @@ It has eight input arguments:
 
 Below is an example application of `gen_AHgen()`.
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Generate standard AHgen output</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 6 - Generate standard `AHgen` output</span></summary>
 ```{r}
 # Generate standard AHgen output for Urban Systems Abstraction Hierarchy baseline template
 USAH_template_baseline = 
@@ -318,9 +318,33 @@ USAH_template_baseline$summary
 
 ## 6. `export_AHgen()`
 
+The function `export_AHgen()` exports outputs of AHgen. 
 
+It has input arguments:
+
+- *output* - the R object to be exported
+- *type* - one of six types of output:
+
+-- *AH* or *USAH* - a standard `AHgen` output with eight list elements (as in Example 5 above), for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+-- *AH_compared* or *USAH_compared* - a comparison of `AHgen` outputs, for Abstraction Hierarchies in general or the more specific Urban Systems Abstraction Hierarchies
+-- *AH_edges* or *USAH_edges* - edges which have been generated for a new scenario, for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+
+- *directory* - the directory to which the output will be exported; by default this is set to `directory = NULL` such that the output will be exported to the same directory as the R script you are using
+- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL
+
+
+<details><summary><span style = "color: #2196F3;">Example 7 - Export `AHgen` outputs</span></summary>
 ```{r}
+# Export the USAH_template_baseline
+export_AHgen(
+  output = USAH_template_baseline,
+  type = "USAH", version = "3.0", location = "template", scenario = "baseline")
 ```
+</details>
+
 
 Next in [Vignette 5 - Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html), you will see how these core functions can be brought together and applied.
 

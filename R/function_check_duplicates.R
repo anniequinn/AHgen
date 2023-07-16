@@ -1,6 +1,6 @@
-check_duplicates <- function(edgelist) {
+check_duplicates <- function(edges) {
   
-  edges <- edgelist %>% select(from, to)
+  edges <- edges %>% select(from, to)
   
   ind <- duplicated(edges[,1:2])
   

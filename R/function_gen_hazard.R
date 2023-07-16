@@ -1,7 +1,7 @@
 # Generate edgesNew based on proportion of physical objects still functional 
 # as represented in a countCompared OSMtidy output
-gen_edgesNew <- function(vInfo_template_full, edgelist, 
-                         countCompared, hazard = NA, proxyWeight = 0) {
+gen_hazard <- function(vInfo_template_full, edgelist, 
+                       countCompared, hazard = NA, proxyWeight = 0) {
   
   # Create vector of physical objects affected
   objectsAffected <-

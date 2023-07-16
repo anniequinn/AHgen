@@ -195,28 +195,35 @@ Through examples 1-4 we've seen how to change weightings directly. These methods
 
 ### 4.1. `check_duplicates()`
 
-The function `check_duplicates()` checks whether an edge list has any duplicate edges. If reading in an external edge list in .xlsx format, this checks for edges which have been accidentally added twice due to user error. This confirms whether there are any potential conflicts to sort out before introducing the new edge weights.
+The function `check_duplicates()` checks whether a group of edges has any duplicates. If reading in an external .xlsx file, this checks for edges which have been accidentally added twice due to user error. This confirms whether there are any potential conflicts to sort out before introducing the new edge weights, and can also be applied to a finalised edge list to confirm there are no duplicates.
 
 It has one input argument:
 
-- *edgelist* - the edge list to be checked for duplicates
+- *edges* - the edges to be checked for duplicates
 
-When applying the function
+When applying the function:
 
-- the *edgelist* must include columns named *from* and *to*.
+- the *edges* must include columns named *from* and *to*.
 
 If any conflicts exist, inspect the duplicate edges, and correct the input file as needed before re-loading, re-checking, and proceeding.
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 5 - Check new edges for duplicates</span></summary>
 ```{r}
-# Load new edge list
+# Read in new edges
+de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+de_w
 
 # Check for duplicates
+check_duplicates(edges = de_w)
 
 # See what happens if there are any duplicates
-
+de_w_errorDuplicates = 
+  read_xlsx("../inputs/mobilityAH_edges_exampleWeights_error-duplicates_20230629.xlsx")
+de_w_errorDuplicates
+check_duplicates(edges = de_w_errorDuplicates)
 ```
 </details>
+
 
 ### 4.2. `check_diff()`
 
@@ -236,11 +243,34 @@ When applying the function:
 
 If any conflicts exist, inspect the different edges, and correct the *edgesNew* file as needed before re-loading, re-checking, and proceeding.
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 6 - Check differences between two groups of edges</span></summary>
 ```{r}
+# Read in the mobility adjacency matrix
+dh = read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
 
+# Extract vInfo
+dv = dh %>% select(level, levelName_full, levelName, Node)
+
+# Convert to edgelist format
+de = dh %>% adjMat_to_edgelist(vInfo = dv)
+
+# Read in new edges
+de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+de_w
+
+# Check for duplicates
+check_diff(edgelist = de, edges = de_w)
+
+# See what happens if there are any differences
+de_w_errorDiff = 
+  read_xlsx("../inputs/mobilityAH_edges_exampleWeights_error-diff_20230629.xlsx")
+de_w_errorDiff
+check_diff(edgelist = de, edges = de_w_errorDiff)
 ```
+Note that in the second check of *de_w_errorDiff*, there are two differences found. The first is due to a spelling error ("Vehicle capcity" rather than "Vehicle capacity"). The second is due to the introduction of a new Resource which did not exist in the original edge list ("Driver").
+
 </details>
+
 
 ### 4.3. `weight_edges()`
 
@@ -260,7 +290,7 @@ The weighted edge list can be generated in R, or created manually in a .csv or .
 
 Let's explore through some examples.
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Add random weights to an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 7 - Add random weights to an edge list</span></summary>
 ```{r}
 # Function to generate random weights for a specific layer of the Abstraction Hierarchy
 gen_exampleWeights <- function(edgelist, layerName = NULL) { 
@@ -283,7 +313,7 @@ gen_exampleWeights <- function(edgelist, layerName = NULL) {
 de_w = gen_exampleWeights(de, layerName = "l4ORP_l5PO")
 de_w
 
-# Introduce the new weights to the edgelist
+# Introduce the new weights to the edge list
 weight_edges(edgelist = de, edgesNew = de_w)
 ```
 
@@ -292,7 +322,7 @@ It's that easy.
 </details>
 
 
-<details><summary><span style = "color: #2196F3;">Example 6 - Change weights for specific vertices in an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 8 - Change weights for specific vertices in an edge list</span></summary>
 
 
 Weightings may be determined externally and imported. Let's revisit our case where a vehicle has been degraded due to age. The *mobilityAH_edges_exampleWeights_20230629.xlsx* spreadsheet has been provided in the *inputs* folder.
@@ -327,7 +357,7 @@ When applying the function:
 
 - the *edgelist* must have columns named *layer*, *from*, *to*, and *weight*.
 
-<details><summary><span style = "color: #2196F3;">Example 7 - Remove hanging vertices from an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 9 - Remove hanging vertices from an edge list</span></summary>
 ```{r}
 # Read in the Urban Systems Abstraction Hierarchy adjacency matrix
 dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
@@ -385,7 +415,7 @@ This is because functions for network analysis - which will be covered in later 
 
 Therefore if you do not remove the edges with a weight = 0 from the final edge list before applying a convert function, any vertices which should be completely removed will still count toward the number of vertices in the network, they will just not be linked to the network - and this will lead to incorrect results.
 
-<details><summary><span style = "color: #2196F3;">Example 8 - Completely remove edges with weight = 0 from an edge list</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 10 - Completely remove edges with weight = 0 from an edge list</span></summary>
 First inspect the previous example where `remove = FALSE`.
 ```{r}
 # Note that the number of edges in the edge list is 4505

@@ -1,9 +1,9 @@
-apply_geoData <- function(geoData, 
-                          desc_check,
-                          vInfo_template, 
-                          edgelist_template, 
-                          proxyWeight = 0,
-                          name, version, location, scenario) {
+apply_location <- function(geoData, 
+                           desc_check,
+                           vInfo_template, 
+                           edgelist_template, 
+                           proxyWeight = 0,
+                           name, version, location, scenario) {
   
   require(tidyverse)
 

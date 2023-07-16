@@ -271,7 +271,6 @@ key = read_csv(
 nameCheck_correct = 
   check_names(adjMat_template = dh_USAH, vInfo_template = dv_USAH, key = key)
 
-
 # See what happens when there is a non-matching name
 # Read in adjacency matrix
 dh_USAH_error = 
