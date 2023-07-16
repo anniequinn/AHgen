@@ -48,6 +48,7 @@ In this vignette, you will find out about analysing Abstraction Hierarchies with
 - Section 5 - `gen_AH()`
 - Section 6 - `export_AHgen()`
 
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 ## 1. The Abstraction Hierarchy and network metrics
 
@@ -65,7 +66,7 @@ We can use the guidelines in the table below for interpreting the network analys
 
 ```{r, echo = FALSE}
 metricsTable = read_xlsx("../data-raw/USAH_interpretation.xlsx")
-knitr::kable(metricsTable) %>% kable_styling(font_size = 10)
+knitr::kable(metricsTable) %>% kable_styling(font_size = 11)
 ```
 
 To get ready for network analysis in the following sections, let's read in and convert an example Abstraction Hierarchy.
@@ -129,18 +130,31 @@ degrees = calc_degrees(igraph = di, vInfo = dv)
 # Inspect the system-level multi-functionality of Outcomes by inspecting their nodeDegree_down3
 degrees %>% filter(level == 2) %>% select(Node, nodeDegree_down3) %>% arrange(desc(nodeDegree_down3))
 
-# Inspect the Processes which support all the Outcomes (i.e. those that have high system-level multi-functionality)
+# Inspect the Processes which support all the Outcomes
+# i.e. those that have high system-level multi-functionality
 nOutcomes = degrees %>% filter(level == 2) %>% nrow()
 degrees %>% filter(level == 4, nodeDegree_up2 == nOutcomes) %>% select(Node, nodeDegree_up2)
 
 # Inspect the top 6 Resources with the highest node-level multi-functionality
-degrees %>% filter(level == 5) %>% arrange(desc(nodeDegree_up1), Node) %>% select(Node, nodeDegree_up1) %>% head()
+degrees %>% 
+  filter(level == 5) %>% 
+  arrange(desc(nodeDegree_up1), Node) %>% 
+  select(Node, nodeDegree_up1) %>% 
+  head()
 
 # Inspect the top 6 Processes with the highest functional redundancy
-degrees %>% filter(level == 4) %>% arrange(desc(nodeDegree_down1), Node) %>% select(Node, nodeDegree_down1) %>% head()
+degrees %>% 
+  filter(level == 4) %>% 
+  arrange(desc(nodeDegree_down1), Node) %>% 
+  select(Node, nodeDegree_down1) %>% 
+  head()
 
 # Inspect the top 6 Processes with the highest functional diversity
-degrees %>% filter(level == 4) %>% arrange(nodeDegree_down1, Node) %>% select(Node, nodeDegree_down1) %>% head()
+degrees %>% 
+  filter(level == 4) %>% 
+  arrange(nodeDegree_down1, Node) %>% 
+  select(Node, nodeDegree_down1) %>% 
+  head()
 ```
 </details>
 
@@ -278,7 +292,7 @@ It has eight input arguments:
 - *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
 - *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
 
-Below is an example application of `gen_AHgen()`.
+Below is an example application of `gen_AH()`.
 
 <details><summary><span style = "color: #2196F3;">Example 6 - Generate standard `AHgen` output</span></summary>
 ```{r}
@@ -320,24 +334,25 @@ USAH_template_baseline$summary
 
 The function `export_AHgen()` exports outputs of AHgen. 
 
-It has input arguments:
+It has seven input arguments:
 
 - *output* - the R object to be exported
 - *type* - one of six types of output:
-
--- *AH* or *USAH* - a standard `AHgen` output with eight list elements (as in Example 5 above), for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
--- *AH_compared* or *USAH_compared* - a comparison of `AHgen` outputs, for Abstraction Hierarchies in general or the more specific Urban Systems Abstraction Hierarchies
--- *AH_edges* or *USAH_edges* - edges which have been generated for a new scenario, for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+    - *AH* or *USAH* - a standard `AHgen` output with eight list elements (as in Example 5 above), for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+    - *AH_compared* or *USAH_compared* - a comparison of `AHgen` outputs, for Abstraction Hierarchies in general or the more specific Urban Systems Abstraction Hierarchies
+    - *AH_edges* or *USAH_edges* - edges which have been generated for a new scenario, for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
 
 - *directory* - the directory to which the output will be exported; by default this is set to `directory = NULL` such that the output will be exported to the same directory as the R script you are using
 - *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
 - *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
 - *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL
+- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+Standard `AHgen` outputs (`type = "AH"`, `type = "AH_compared"`, `type = "USAH"`, and `type = "USAH_compared"`) will be exported as a .RDS file with all eight list elements, plus a .xlsx file of results. Edges outputs (`type = "AH_edges"` and `type = "USAH_edges"`) will be exported as a .RDS file and a .xlsx file. In all cases, a message will be printed in the console to confirm the output has been exported with the directory and file name.
 
 
 <details><summary><span style = "color: #2196F3;">Example 7 - Export `AHgen` outputs</span></summary>
-```{r}
+```{r, eval = FALSE}
 # Export the USAH_template_baseline
 export_AHgen(
   output = USAH_template_baseline,
@@ -346,6 +361,7 @@ export_AHgen(
 </details>
 
 
+## Next
 Next in [Vignette 5 - Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html), you will see how these core functions can be brought together and applied.
 
 ## Last updated

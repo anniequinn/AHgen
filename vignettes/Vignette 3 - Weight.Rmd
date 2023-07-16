@@ -51,7 +51,7 @@ In this vignette, you will find out about weighting networks:
 - Section 3 - Weight an igraph with `igraph`
 - Section 4 - Weight an edge list with `AHgen`
 
-For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 ## 1. Why weight?
 
@@ -229,8 +229,7 @@ check_duplicates(edges = de_w_errorDuplicates)
 
 The `check_diff()` function checks whether new edges to be introduced to an existing edge list has edges which don't match. If differences exist, this could introduce an edge which is entirely new to the network rather than simply changing the weight. This function confirms there are no outdated or inconsistent aspects of the network, both in terms of linkages and vertex names.
 
-# If any, inspect the edgesNew that do not match and correct input file 
-# then re-import before proceeding
+If any differences exist, inspect these edges, and correct the input file as needed before re-loading, re-checking, and proceeding.
 
 It has two input arguments:
 
@@ -472,6 +471,8 @@ de_final_removed %>% edgelist_to_igraph(vInfo = dv_final_removed)
 Note that at the top of the igraph object, it states there are 482 vertices (1 fewer than the original) and 4498 edges (7 fewer than the original).
 </details>
 
+
+## Next
 Next in [Vignette 4 - Analyse - Core functions](Vignette-4---Analyse---Core-functions.html), you will find out about analysing Abstraction Hierarchies with core `AHgen` functions.
 
 ## Last updated

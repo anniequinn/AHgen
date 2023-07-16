@@ -6,11 +6,11 @@ check_duplicates <- function(edges) {
   
   dup <- edges[ind,]
   
-  if(isTRUE(nrow(dup)) == 0) {
+  if(nrow(dup) == 0) {
     
     print("There are no duplicate edges. Proceed!")
     
-  } else if(isTRUE(nrow(dup)) != 0) {
+  } else if(nrow(dup) > 0) {
     
     return(dup)
     

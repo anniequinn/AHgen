@@ -63,7 +63,7 @@ At the bottom of the hierarchy are the Resources (Level 5). These object types a
 
 The Abstraction Hierarchy is a method from the discipline of human factors, as one part of the [Cognitive Work Analysis](https://doi.org/10.1201/9781315572543) framework. Originally developed to improve the design of safety-critical work systems (e.g., a nuclear power plant), this has also been applied to map and explore complex systems to inform product design, transport safety, urban resilience, and more. 
 
-Below is an interactive version of an Abstraction Hierarchy for a generic UK city: the Urban Systems Abstraction Hierarchy (USAH), which you can also find at https://mbedinger.shinyapps.io/AHexploreR.
+Below is an interactive version of an Abstraction Hierarchy for a generic UK city: the Urban Systems Abstraction Hierarchy (USAH).
 
 ```{r, echo = FALSE}
 knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "600px")
@@ -127,23 +127,16 @@ Six walkthrough vignettes are provided to illustrate the application of `AHgen` 
 - Bedinger, M., Beevers, L., Walker, G. H., Visser-Quinn, A., & McClymont, K. (2020). [Urban systems: Mapping interdependencies and outcomes to support systems thinking](http://dx.doi.org/10.1029/2019EF001389). Earth’s Future, 8(3), e2019EF001389.
 - Beevers, L., Walker, G., & Strathie, A. (2016). [A systems approach to flood vulnerability](https://doi.org/10.1080/10286608.2016.1202931). *Civil Engineering and Environmental Systems*, 33(3), p. 199-213.
 - Segarra, S. & Ribeiro, A. (2014). [A stable betweenness centrality measure in networks](https://doi.org/10.1109/ICASSP.2014.6854324). *2014 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)*, Florence, Italy, p. 3859-3863.
-
+- Visser-Quinn, A., Morrison, D., & Bedinger, M. (2023). [AHexploreR v3.0](https://mbedinger.shinyapps.io/AHexploreR).
 
 ### Acknowledgements
 `AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1).
 
-
-### Contributions
-
-<span style="color: red;">*Conceptualisation & development*: Melissa Bedinger *Lead developer:* Annie Visser-Quinn *What other ones do we want to put here?* </span>
-
 ### Contact 
-
 If you have any questions about using or running the code, please contact [Melissa Bedinger](dr.m.bedinger@gmail.com). 
 
 ### Citation
-
-**Please cite** Visser-Quinn, A. & Bedinger, M. (2023). AHgen **v1.0.0**. Edinburgh, Scotland. https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
+Visser-Quinn, A., Bedinger, M., Aitken, G., & Songchon, C. (2023). AHgen **v1.0.0**. Edinburgh, Scotland. https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
