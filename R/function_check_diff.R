@@ -6,11 +6,11 @@ check_diff <- function(edgesNew, edgelist) {
   
   diff <- setdiff(step1, step2)
   
-  if(nrow(diff) == 0) {
+  if(isTRUE(nrow(diff) == 0)) {
     
     print("All edges match. Proceed!")
     
-  } else if(nrow(diff) > 0) {
+  } else {
     
     return(diff)
     

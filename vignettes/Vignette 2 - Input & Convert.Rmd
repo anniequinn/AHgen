@@ -46,7 +46,7 @@ In this vignette, you will find out about inputs and data in `AHgen`:
 - Section 4 - Convert to different data types
 - Section 5 - Navigate the data using the `tidyverse` and `igraph` packages
 
-For other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 ## 1. Data types
 
@@ -407,6 +407,8 @@ E(di)$layer
 ```
 </details>
 
+
+## Next
 Next in [Vignette 3 - Weight](Vignette-3---Weight.html), you will find out about weighting networks.
 
 ## Last updated
