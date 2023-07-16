@@ -4,13 +4,13 @@ check_diff <- function(edgesNew, edgelist) {
   
   step2 <- edgelist %>% select(from, to)
   
-  diff <- setdiff(step1, step2)
+  diff <- dplyr::setdiff(step1, step2)
   
-  if(isTRUE(nrow(diff) == 0)) {
+  if(nrow(diff) == 0) {
     
     print("All edges match. Proceed!")
     
-  } else {
+  } else if(nrow(diff) > 0) {
     
     return(diff)
     
