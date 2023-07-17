@@ -31,25 +31,25 @@ check_desc <- function(geoData, key) {
   PO_detected_vec <- # Create a vector of physical object names that were detected in this location
     objects_location %>%
     filter(OSMtidyDetected == "TRUE") %>% # Filter only detected desc terms
-    select(physicalObject) %>% unique() %>% pull(physicalObject) # Create a vector of the associated physical object names
+    select(resource) %>% unique() %>% pull(resource) # Create a vector of the associated physical object names
   
   PO_notDetected <- # Create a tibble of physical object types not detected in this location
     desc_notDetected %>% # Take the dataframe of desc terms not detected in this location
-    filter(!physicalObject %in% PO_detected_vec) %>% # Remove the rows pertaining to physical objects that have some other desc term that has detected them
-    arrange(physicalObject) # Order rows alphabetically
+    filter(!resource %in% PO_detected_vec) %>% # Remove the rows pertaining to physical objects that have some other desc term that has detected them
+    arrange(resource) # Order rows alphabetically
   
   desc_notDetected_alwaysInclude_vec <-
     PO_notDetected %>% # Take the dataframe of physical objects not detected in this location
-    filter(OSMtidyStage == "alwaysIncluded") %>% # Find the rows for physical objects which according to the key should always be included
-    select(physicalObject) %>% unique() %>% pull(physicalObject) # Create a vector of physical object names that were not detected in this location but according to the key should always be included
+    filter(stage_OSMtidy == "alwaysIncluded") %>% # Find the rows for physical objects which according to the key should always be included
+    select(resource) %>% unique() %>% pull(resource) # Create a vector of physical object names that were not detected in this location but according to the key should always be included
   
   PO_notDetected_excluded <-
     PO_notDetected %>%  # Take the dataframe of physical objects not detected in this location
-    filter(!physicalObject %in% desc_notDetected_alwaysInclude_vec) # Create a dataframe of all descs for physical object names which were not detected in this location and should be excluded
+    filter(!resource %in% desc_notDetected_alwaysInclude_vec) # Create a dataframe of all descs for physical object names which were not detected in this location and should be excluded
   
   PO_notDetected_alwaysIncluded <-
     PO_notDetected %>% # Take the dataframe of physical objects not detected in this location
-    filter(physicalObject %in% desc_notDetected_alwaysInclude_vec) # Create a dataframe of all descs for physical object names which were not detected in this location but according to the key should always be included
+    filter(resource %in% desc_notDetected_alwaysInclude_vec) # Create a dataframe of all descs for physical object names which were not detected in this location but according to the key should always be included
   
   output <- 
     list(PO_notDetected_excluded, PO_notDetected_alwaysIncluded, objects_location) # Create an output listing the not detected physical objects which should be excluded; not detected physical objects which should not be excluded; and the full breakdown of whether desc terms were detected in this location

@@ -1,5 +1,4 @@
-apply_location <- function(geoData, 
-                           desc_check,
+apply_location <- function(desc_check,
                            vInfo_template, 
                            edgelist_template, 
                            proxyWeight = 0,
@@ -9,7 +8,7 @@ apply_location <- function(geoData,
 
   PO_excluded <- 
     desc_check$notDetected_exclude %>%  # Take dataframe of desc terms not detected in this location which should be excluded
-    select(physicalObject) %>% unique() %>% pull(physicalObject) # Create vector of physical objects to be excluded
+    select(resource) %>% unique() %>% pull(resource) # Create vector of physical objects to be excluded
   
   edgesNew <-
     edgelist_template %>%
@@ -75,12 +74,16 @@ apply_location <- function(geoData,
          "adjMat" = adjMat_location, # Create location-specific adjacency matrix
          "edgelist" = edgelist_location, # Attach location-specific edgelist
          "igraph" = igraph_location, # Attach location-specific igraph
-         "results" = gen_results(
-           igraph = igraph_location, vInfo = vInfo_tmp, name = name, 
-           version = version, location = location, scenario = scenario), # Create location-specific results
-         "summary" = summarise_AH(vIncluded = vInfo_location, # Create summary of vertices by level
-                                  edgelist = edgelist_location, # Create summary of edges by layer
-                                  proxyWeight = proxyWeight)) # Specify proxyWeight
+         "results" = 
+           gen_results(
+             igraph = igraph_location, 
+             vInfo = vInfo_tmp, 
+             name = name, version = version, location = location, scenario = scenario), # Create location-specific results
+         "summary" = 
+           summarise_AH(
+             vIncluded = vInfo_location, # Create summary of vertices by level
+             edgelist = edgelist_location, # Create summary of edges by layer
+             proxyWeight = proxyWeight)) # Specify proxyWeight
   
   return(outputList)
   

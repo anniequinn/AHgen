@@ -5,9 +5,9 @@ gen_hazard <- function(vInfo_template_full, edgelist,
   
   # Create vector of physical objects affected
   objectsAffected <-
-    countCompared$compare_byPhysicalObject %>% 
+    countCompared$compare_byresource %>% 
     filter(!is.na(total_prop)) %>% # Filter out results for objects that were not detected in the second scenario
-    pull(physicalObject)
+    pull(resource)
   
   if (hazard == "drought") {
     

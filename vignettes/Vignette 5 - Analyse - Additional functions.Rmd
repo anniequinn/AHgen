@@ -39,18 +39,184 @@ library(AHgen)
 
 In this vignette, you will find out about analysing Abstraction Hierarchies with additional `AHgen` functions, building on the core functions from [Vignette 4](Vignette-4---Analyse---Core-functions.html):
 
-- Section 1 - `apply_scenario()`
-- Section 3
-- `gen_newEdges()`
-- `apply_geoData()`
+- Section 1 - Geospatial analysis
+- Section 2 - Scenario analysis
+- Section 3 - Sensitivity analysis
+- Section 4 - Comparing Abstraction Hierarchies with `compare_AH()`
 
-- `calc_sensitivity()`
-- `apply_sensitivity()`
-- `summarise_confidence()`
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
-- `compare_AH()`
+## 1. Geospatial analysis
 
-- `export_AH()`
+`AHgen` was originally developed to support analysis of the Urban Systems Abstraction Hierarchy (USAH). A main aim was to create a generic template Abstraction Hierarchy for a UK city, which would be generalisable such that it could be easily modified to reflect specific locations. 
+
+To modify the template USAH in a data-driven manner, the supporting package `OSMtidy` was developed to extract and tidy geospatial data from Open Street Map. `OSMtidy` outputs give a tidy dataset of geospatial data (individual points, lines, and polygons representing different buildings, parks, etc.). Each observation of geospatial data is described by a *desc* term, such as *Attractions; Soft play* and *Sports and recreation; Indoor playground*. In `AHgen`, these *desc* terms are matched to USAH Resources - in this case the Resource *Playgrounds (indoor)*. This is done in an aggregated manner as there are currently 653 *desc* terms and 254 USAH Resources. This process supports an analyst to identify which Resources to filter out from the "master" template version of the USAH, to reflect a specific location.
+
+The `AHgen` functions `check_desc()` and `apply_location()` translate `OSMtidy` outputs into `AHgen` outputs for a specific location.
+
+### 1.1. `check_desc()`
+
+The function `check_desc()` identifies which *desc* terms were present in the Open Street Map data from an `OSMtidy` output, using a key.
+
+This function has two input arguments:
+
+- *geoData* - the `OSMtidy` output, a geospatial dataset
+- *key* - the key matching `OSMtidy` *desc* terms to USAH Resources
+
+When applying the function:
+
+- The *geoData* must include a column named *desc*.
+- The *key* must include columns named *resource* and *stage_OSMtidy*.
+
+Below is an example application of `check_desc()`.
+
+<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms</span></summary>
+```{r}
+# Read in OSMtidy output
+geoData = read_rds("../inputs/OSMtidy_Bristol_20210826.RDS")
+
+# Read in OSMtidy-AHgen key for allocating OSMtidy desc terms to USAH Resources
+key = read_csv("../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
+
+# Check which desc terms were detected in the Open Street Map data
+desc_check = check_desc(geoData = geoData, key = key)
+
+# Inspect a full record of how the key was applied to the OSMtidy output for all 653 desc terms
+desc_check$keyApplication
+```
+Note that if the input geoData is of simple feature class, this can take a while due to reformatting the *geometry* column to character class, so that it can be filtered.
+```{r}
+# Inspect the USAH Resources that were *not detected* in Open Street Map data 
+# but are specified by the key to *always be included*
+checkAlwaysInclude = desc_check$notDetected_alwaysInclude
+```
+Note that these USAH Resources are manually set to "alwaysInclude" in the column *stage_OSMtidy* of the *key* .xlsx file, likely due to being present within a city-scale boundary, but being often-missed or absent in Open Street Map data.
+
+Now you can inspect Resources which would be excluded based on the Open Street Map data alone, and manually check that this is correct before proceeding.
+```{r}
+# Inspect USAH Resources that were *not detected* in Open Street Map data and *will be excluded* without a manual intervention by the analyst
+checkExclude = desc_check$notDetected_exclude
+checkExclude_objects = checkExclude %>% select(resource) %>% unique()
+```
+At this stage the analyst must manually Google each unique USAH Resource & the location name from checkExclude, referring to the shapefile applied to generate the OSMtidy output to ensure any found in the manual searches are inside or outside of the boundary of analysis. This manual check is important to ensure a Resource is not just missing in the Open Street Map data
+
+Then, based on the manual Google check, the analyst must manually create a vector of USAH Resource names that should be included but are currently set to be excluded for this location - as below.
+```{r}
+# Create vector of USAH Resources to manually include for Bristol
+manualInclude_vec_Bristol <- 
+  c("Animal shelters", # Multiple
+    "Botanical gardens", # University of Bristol Botanic Garden
+    "Broadband provider offices", # Virgin Media
+    "Diplomatic buildings", # Indian Visa and Consular Centre
+    "Electricity provider offices", # Multiple e.g. Bristol Energy
+    "Ferry terminals", # Bristol Cruise Terminal
+    "Fishing clubs", # Bathampton Angline, Lido, etc.
+    "Gas provider offices", # Multiple e.g. Bristol Energy
+    "Internet cafes", # At the Well etc.
+    "Manufacturing (IT hardware)", # Cubik Innovation performs in-house manufacturing
+    "Playgrounds (indoor)", # Jungle Mania etc.
+    "Sexual health clinics", # Unity Sexual Health @ Central clinic
+    "Springs and wells", # St. Edith's Well
+    "Vehicle impounds", # Western Distribution Centre: https://www.bristol.gov.uk/parking/if-your-vehicle-has-been-towed-away
+    "Water provider offices") # e.g. Bristol Water
+
+# Create a dataframe of rows 
+# to be removed from desc_check$notDetected_exclude
+# and then added to desc_check$notDetected_alwaysInclude for this location
+manualInclude =
+  desc_check$notDetected_exclude %>%
+  filter(resource %in% manualInclude_vec_Bristol) %>% ## Specify which manualInclude_vec to use
+  mutate(includedBy = "manualCheck")
+
+# Remove from desc_check$notDetected_exclude
+desc_check$notDetected_exclude =
+  desc_check$notDetected_exclude %>%
+  filter(!resource %in% manualInclude_vec_Bristol) ## Specify which manualInclude_vec to use
+desc_check$notDetected_exclude
+
+# Add to desc_check$notDetected_alwaysInclude
+desc_check$notDetected_alwaysInclude = 
+  desc_check$notDetected_alwaysInclude %>%
+  mutate(includedBy = "automatedKey") %>%
+  rbind(manualInclude)
+desc_check$notDetected_alwaysInclude
+
+# Inspect again to ensure this has worked and see the final list of exclusions
+checkAlwaysInclude = desc_check$notDetected_alwaysInclude
+checkExclude = desc_check$notDetected_exclude
+```
+</details>
+
+
+### 1.2. `apply_location()`
+
+The function `apply_location()` applies the *desc_check* to the template baseline version of the Urban Systems Abstraction Hierarchy, to generate a standard `AHgen` output.
+
+It has eight input arguments:
+
+- *desc_check* - the dataset of which USAH Resources to exclude and include for a specific location
+- *vInfo_template* - the vertex information for the template baseline USAH
+- *edgelist_template* -  the edge list for the template baseline USAH, to be modified for a specific location
+- *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "baseline"; by default this is set to `scenario = NULL`
+
+When applying the function:
+
+- *desc_check* must have an element called *notDetected_exclude* with a column named *resource*.
+- *vInfo_template* must have a column named *Node*.
+- *edgelist_template* must have columns named *layer*, *from*, and *to*.
+
+Below is an example application of `apply_location()`.
+
+<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms</span></summary>
+```{r}
+# Read in AHgen output for baseline template USAH
+USAH_template_baseline = 
+  read_rds("data/template/3.0/USAH_3.0_template_baseline_20230715.RDS")
+
+# Inspect baseline template USAH vInfo
+USAH_template_baseline$vInfo
+
+# Inspect baseline template USAH edge list
+USAH_template_baseline$edgelist
+
+# Generate baseline Bristol USAH
+USAH_Bristol_baseline = 
+  apply_location(
+    desc_check = desc_check,
+    vInfo_template = USAH_template_baseline$vIncluded,
+    edgelist_template = USAH_template_baseline$edgelist,
+    name = "USAH", version = "3.0", location = "Bristol", scenario = "baseline")
+
+# Inspect elements
+USAH_Bristol_baseline$desc_check
+USAH_Bristol_baseline$vIncluded
+USAH_Bristol_baseline$vExcluded
+USAH_Bristol_baseline$adjMat
+USAH_Bristol_baseline$edgelist
+USAH_Bristol_baseline$igraph
+USAH_Bristol_baseline$results
+USAH_Bristol_baseline$summary
+```
+</details>
+
+
+## 2. Scenario analysis
+### 2.1. `gen_hazard()`
+
+### 2.2. `apply_scenario()`
+
+## 3. Sensitivity analysis
+### 3.1. `calc_sensitivity()`
+### 3.2. `apply_sensitivity()`
+### 3.3. `summarise_confidence()`
+
+## 4. Comparing Abstraction Hierarchies with `compare_AH()`
+
+
 
 
 ## 1. `apply_scenario`
@@ -87,10 +253,8 @@ USAH_scenario =
 </details>
 
 
-## 2. 
-
-
-Next in [Vignette 6 - Visualise](Vignette-6---visualise.html), you will see how...
+## Next
+Next in [Vignette 6 - Visualise](Vignette-6---visualise.html), you will see how to visualise Abstraction Hierarchies and network analysis results.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

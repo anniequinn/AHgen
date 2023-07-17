@@ -12,9 +12,9 @@ check_names <- function(adjMat_template, vInfo_template_full, key) {
   
   step3 <- 
     key %>% 
-    select(physicalObject) %>% 
+    select(resource) %>% 
     unique() %>% 
-    rename(Node = physicalObject) %>% 
+    rename(Node = resource) %>% 
     mutate(level = 5, key = "TRUE")
   
   step4 <-

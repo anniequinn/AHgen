@@ -113,7 +113,7 @@ Here we focus on the two functions, `read_adjMat()` and `read_vInfo()`, which re
 
 - An **adjacency matrix** capturing the edges between the levels of the abstraction hierarchy.
 - **Vertex information** describing the level and level name associated with each vertex.
-These inputs should be in the .xlsx format, i.e. an Excel spreadsheet.
+These inputs should be in the .xlsx or .csv format, i.e. an Excel spreadsheet.
 
 
 ### 2.1 Adjacency matrix
@@ -265,7 +265,7 @@ dv_USAH =
 # Read in key to match names from one software package (OSMtidy) 
 # to names in another software package (AHgen)
 key = read_csv(
-  "../inputs/OSM-AH-key_3.0_20210906.csv", show_col_types = FALSE) 
+  "../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE) 
 
 # Check that all the names match and return any that do not match
 nameCheck_correct = 
@@ -285,7 +285,7 @@ dv_USAH_error =
 # Read in key to match names from one software package (OSMtidy) 
 # to names in another software package (AHgen)
 key = read_csv(
-  "../inputs/OSM-AH-key_3.0_20210906.csv", show_col_types = FALSE)
+  "../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
 
 # Check that all the names match and return any that do not match
 nameCheck_error = 
