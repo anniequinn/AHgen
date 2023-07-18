@@ -29,7 +29,7 @@ apply_sensitivity <- function(AH_input,
     output[[nameOriginal]] <- AH_input
     
     # Decrease any affected edge weights by x% (e.g. 10%)
-    edgelist_minus = 
+    edgelist_minus <- 
       calc_sensitivity(edges = AH_input$edgelist, sign = "minus", pct = pct)
     
     # Generate minus scenario output
@@ -52,7 +52,7 @@ apply_sensitivity <- function(AH_input,
     }
     
     # Increase any affected edge weights by x% (e.g. 10%)
-    edgelist_plus = 
+    edgelist_plus <- 
       calc_sensitivity(edges = AH_input$edgelist, sign = "plus", pct = pct)
     
     # Generate plus scenario output
@@ -186,9 +186,7 @@ apply_sensitivity <- function(AH_input,
                       levels = c("High", "Medium", "Low")))
     
     if(name == "USAH") {
-      
-      rm(name)
-      
+
       output$results <-
         output$results %>%
         select(name, version, location, scenario, 
@@ -200,8 +198,6 @@ apply_sensitivity <- function(AH_input,
                rank_byLevel_minus, rank_byLevel_plus)
       
     } else {
-      
-      rm(name)
       
       output$results <-
         output$results %>%
