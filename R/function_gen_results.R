@@ -57,7 +57,10 @@ gen_results <- function(igraph, vInfo, name,
     
     output <-
       output %>%
-      select(name, version, location, scenario, 
+      mutate(name_version = paste0(name, "_", version), 
+             location = location,
+             scenario = scenario)
+      select(name_version, location, scenario, 
              level, levelName_full, levelName,
              Node, metric, value, contains("rank"))
     
@@ -67,8 +70,8 @@ gen_results <- function(igraph, vInfo, name,
     
     output <-
       output %>%
-      mutate(name = name) %>%
-      select(name, 
+      mutate(name_version = name) %>%
+      select(name_version, 
              level, levelName_full, levelName, 
              Node, metric, value, contains("rank"))
     

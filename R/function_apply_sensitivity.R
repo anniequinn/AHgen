@@ -189,7 +189,7 @@ apply_sensitivity <- function(AH_input,
 
       output$results <-
         output$results %>%
-        select(name, version, location, scenario, 
+        select(name_version, location, scenario, 
                level, levelName_full, levelName,
                Node, metric, value, value_minus, value_plus,
                rank_byLevel, confidence_rankByLevel_minusPlus, 
@@ -201,7 +201,7 @@ apply_sensitivity <- function(AH_input,
       
       output$results <-
         output$results %>%
-        select(name, level, levelName_full, levelName,
+        select(name_version, level, levelName_full, levelName,
                Node, metric, value, value_minus, value_plus,
                rank_byLevel, confidence_rankByLevel_minusPlus, 
                confidence_rankByLevel_minus, confidence_rankByLevel_plus, 
