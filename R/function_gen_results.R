@@ -64,7 +64,7 @@ gen_results <- function(igraph,
       mutate(name = AH_name,
              version = AH_version,
              location = AH_location,
-             scenario = AH_scenario)
+             scenario = AH_scenario) %>%
       select(name, version, location, scenario, 
              level, levelName_full, levelName,
              Node, metric, value, contains("rank"))
