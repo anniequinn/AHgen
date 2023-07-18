@@ -73,7 +73,7 @@ Below is an example application of `check_desc()`.
 <details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms</span></summary>
 ```{r}
 # Read in OSMtidy output
-geoData = read_rds("../inputs/OSMtidy_Bristol_20210826.RDS")
+geoData = read_rds("../inputs/OSMtidy_Bristol_data_20210826.RDS")
 
 # Read in OSMtidy-AHgen key for allocating OSMtidy desc terms to USAH Resources
 key = read_csv("../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
@@ -96,7 +96,7 @@ Now you can inspect Resources which would be excluded based on the Open Street M
 ```{r}
 # Inspect USAH Resources that were *not detected* in Open Street Map data and *will be excluded* without a manual intervention by the analyst
 checkExclude = desc_check$notDetected_exclude
-checkExclude_objects = checkExclude %>% select(resource) %>% unique()
+checkExclude %>% select(resource) %>% unique()
 ```
 At this stage the analyst must manually Google each unique USAH Resource & the location name from checkExclude, referring to the shapefile applied to generate the OSMtidy output to ensure any found in the manual searches are inside or outside of the boundary of analysis. This manual check is important to ensure a Resource is not just missing in the Open Street Map data
 
@@ -143,7 +143,9 @@ desc_check$notDetected_alwaysInclude
 
 # Inspect again to ensure this has worked and see the final list of exclusions
 checkAlwaysInclude = desc_check$notDetected_alwaysInclude
+checkAlwaysInclude %>% select(resource) %>% unique()
 checkExclude = desc_check$notDetected_exclude
+checkExclude %>% select(resource) %>% unique()
 ```
 </details>
 
@@ -191,14 +193,28 @@ USAH_Bristol_baseline =
     edgelist_template = USAH_template_baseline$edgelist,
     name = "USAH", version = "3.0", location = "Bristol", scenario = "baseline")
 
-# Inspect elements
+# Inspect the record of the full desc_check
 USAH_Bristol_baseline$desc_check
+
+# Inspect the included vertices
 USAH_Bristol_baseline$vIncluded
+
+# Inspect the excluded vertices
 USAH_Bristol_baseline$vExcluded
+
+# Inspect the adjacency matrix
 USAH_Bristol_baseline$adjMat
+
+# Inspect the edge list
 USAH_Bristol_baseline$edgelist
+
+# Inspect the igraph
 USAH_Bristol_baseline$igraph
+
+# Inspect the results
 USAH_Bristol_baseline$results
+
+# Inspect the summary of vertices and edges
 USAH_Bristol_baseline$summary
 ```
 </details>
@@ -206,6 +222,14 @@ USAH_Bristol_baseline$summary
 
 ## 2. Scenario analysis
 ### 2.1. `gen_hazard()`
+
+The function `gen_hazard()` applies an output from the `OSMtidy` function `compare_OSMtidy()`, to generate new weights for USAH edges. 
+
+`compare_OSMtidy()` calculates the proportion of Resources that remain functional after a hazard, based on a baseline count and a scenario count. For example, if a location's baseline count finds that there are 10 of the Resource *Religious buildings*, and a location's scenario count finds that there are 4 of the Resource *Religious buildings* within a 1 in 100-year flood extent, then the capacity of all *Religious buildings* in the area is assumed to be 60% of its baseline capacity. 
+
+Thus the `gen_hazard()` function would generate edges connected the Resource *Religious buildings* with a new weight = 0.6.
+
+The `gen_hazard()` function has 
 
 ### 2.2. `apply_scenario()`
 
