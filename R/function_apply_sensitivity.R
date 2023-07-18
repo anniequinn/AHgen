@@ -33,20 +33,46 @@ apply_sensitivity <- function(AH_input,
       calc_sensitivity(edges = AH_input$edgelist, sign = "minus", pct = pct)
     
     # Generate minus scenario output
-    output[[nameMinus]] <-   
-      apply_scenario(AH_input = AH_input, 
-                     edgelist_scenario = edgelist_minus,
-                     name = nameMinus)
+
+    if(name == "USAH") {
+      
+      output[[nameMinus]] <-   
+        apply_scenario(AH_input = AH_input, 
+                       edgelist_scenario = edgelist_minus,
+                       name = name, 
+                       version = version, location = location, scenario = scenario)
+      
+    } else {
+      
+      output[[nameMinus]] <-   
+        apply_scenario(AH_input = AH_input, 
+                       edgelist_scenario = edgelist_minus,
+                       name = nameMinus)
+      
+    }
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus = 
       calc_sensitivity(edges = AH_input$edgelist, sign = "plus", pct = pct)
     
     # Generate plus scenario output
-    output[[namePlus]] <-   
-      apply_scenario(AH_input = AH_input, 
-                     edgelist_scenario = edgelist_plus,
-                     name = namePlus)
+    
+    if(name == "USAH") {
+      
+      output[[namePlus]] <-   
+        apply_scenario(AH_input = AH_input, 
+                       edgelist_scenario = edgelist_plus,
+                       name = name, 
+                       version = version, location = location, scenario = scenario)
+      
+    } else {
+      
+      output[[namePlus]] <-   
+        apply_scenario(AH_input = AH_input, 
+                       edgelist_scenario = edgelist_plus,
+                       name = namePlus)
+      
+    }
     
     # Pull out key parts of AH_input for easy feeding into compareAH
     
@@ -72,18 +98,20 @@ apply_sensitivity <- function(AH_input,
     # medium = 5 (rank changes of 2-5 positions), 
     # therefore low > 5 (rank changes of > 5 positions)
     
+    if(name == "USAH") {group <- "scenario"} else {group <- "name"}
+    
     confidence_step1 <-
       output[[1]]$results %>%
       select(Node, metric, rank_byLevel)
     
     confidence_step2 <-
       output[[2]]$results %>%
-      select(scenario, Node, metric, value, rank_byLevel) %>%
+      select(group, Node, metric, value, rank_byLevel) %>%
       rename(value_minus = value, rank_byLevel_minus = rank_byLevel)
     
     confidence_step3 <-
       output[[3]]$results %>%
-      select(scenario, Node, metric, value, rank_byLevel) %>%
+      select(group, Node, metric, value, rank_byLevel) %>%
       rename(value_plus = value, rank_byLevel_plus = rank_byLevel)
     
     confidence_minus <-
@@ -97,7 +125,7 @@ apply_sensitivity <- function(AH_input,
                  abs(change_rankByLevel_minus) > high &
                    abs(change_rankByLevel_minus) <= medium ~ "Medium",
                  abs(change_rankByLevel_minus) > medium ~ "Low")) %>%
-      select(-rank_byLevel, -scenario)
+      select(-rank_byLevel, -group)
     
     confidence_plus <-
       confidence_step1 %>%
@@ -110,7 +138,7 @@ apply_sensitivity <- function(AH_input,
                  abs(change_rankByLevel_plus) > high &
                    abs(change_rankByLevel_plus) <= medium ~ "Medium",
                  abs(change_rankByLevel_plus) > medium ~ "Low")) %>%
-      select(-rank_byLevel, -scenario)
+      select(-rank_byLevel, -group)
     
     output$results <-
       output[[1]]$results %>% 
