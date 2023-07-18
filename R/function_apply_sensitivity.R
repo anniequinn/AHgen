@@ -187,6 +187,8 @@ apply_sensitivity <- function(AH_input,
     
     if(name == "USAH") {
       
+      rm(name)
+      
       output$results <-
         output$results %>%
         select(name, version, location, scenario, 
@@ -198,6 +200,8 @@ apply_sensitivity <- function(AH_input,
                rank_byLevel_minus, rank_byLevel_plus)
       
     } else {
+      
+      rm(name)
       
       output$results <-
         output$results %>%
