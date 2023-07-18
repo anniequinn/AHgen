@@ -2,7 +2,8 @@
 apply_scenario <- function(AH_input, 
                            edgelist_scenario,
                            proxyWeight = 0,
-                           name, version, location, scenario) {
+                           name, 
+                           version = NULL, location = NULL, scenario = NULL) {
   
   require(tidyverse)
   

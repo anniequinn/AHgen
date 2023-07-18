@@ -1,8 +1,8 @@
 # Generate edgesNew based on proportion of Resources i.e. Physical objects still functional 
 # as represented in a countCompared OSMtidy output
-gen_hazard <- function(vInfo_template_full, 
-                       edgelist, 
+gen_hazard <- function(edgelist, 
                        countCompared, 
+                       vInfo_full = NA,
                        hazard = NA, 
                        proxyWeight = 0) {
   
@@ -16,7 +16,7 @@ gen_hazard <- function(vInfo_template_full,
     
     # Create check for affected Resources by hazard type (drought)
     resourcesNotAffected_drought <-
-      vInfo_template_full %>% 
+      vInfo_full %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_drought == FALSE) %>%
       pull(Node)
@@ -31,7 +31,7 @@ gen_hazard <- function(vInfo_template_full,
     
     # Create check for affected Resources by hazard type (flood)
     resourcesNotAffected_flood <-
-      vInfo_template_full %>% 
+      vInfo_full %>% 
       filter(level == 5) %>% 
       filter(subnetwork_hazard_flood == FALSE) %>%
       pull(Node)

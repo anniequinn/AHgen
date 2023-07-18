@@ -1,35 +1,52 @@
-apply_sensitivity <- 
-  function(AH_input, name, version, location, baseline, scenario, 
-           pct = 0.1, high = 0, medium = 1) {
+apply_sensitivity <- function(AH_input, 
+                              name, 
+                              version = NULL, location = NULL, scenario = NULL, 
+                              pct = 0.1, high = 0, medium = 1) {
     
     output <- list()
     
-    output[[paste0(name, "_", version, "_", location, "_", scenario)]] <- 
-      AH_input
+    if(name == "USAH") {
+      
+      nameOriginal <- 
+        paste0(name, "_", version, "_", location, "_", scenario)
+      
+      nameMinus <- 
+        paste0(name, "_", version, "_", location, "_", scenario, "_minus", pct*100, "pct")
+      
+      namePlus <-
+        paste0(name, "_", version, "_", location, "_", scenario, "_plus", pct*100, "pct")
+        
+    } else {
+      
+      nameOriginal <- name
+      
+      nameMinus <- paste0(name, "_minus", pct*100, "pct")
+      
+      namePlus <- paste0(name, "_plus", pct*100, "pct")
+      
+    }
+    
+    output[[nameOriginal]] <- AH_input
     
     # Decrease any affected edge weights by x% (e.g. 10%)
     edgelist_minus = 
-      calc_sensitivity(AH_input = AH_input, sign = "minus", pct = pct)
+      calc_sensitivity(edges = AH_input$edgelist, sign = "minus", pct = pct)
     
     # Generate minus scenario output
-    output[[paste0(
-      name, "_", version, "_", location, "_", scenario, "_minus", pct*100, "pct")]] <-   
+    output[[nameMinus]] <-   
       apply_scenario(AH_input = AH_input, 
                      edgelist_scenario = edgelist_minus,
-                     name = name, version = version, location = location,
-                     scenario = paste0(scenario, "-minus", pct*100, "pct"))
+                     name = nameMinus)
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus = 
-      calc_sensitivity(AH_input = AH_input, sign = "plus", pct = pct)
+      calc_sensitivity(edges = AH_input$edgelist, sign = "plus", pct = pct)
     
     # Generate plus scenario output
-    output[[paste0(
-      name, "_", version, "_", location, "_", scenario, "_plus", pct*100, "pct")]] <-   
+    output[[namePlus]] <-   
       apply_scenario(AH_input = AH_input, 
                      edgelist_scenario = edgelist_plus,
-                     name = name, version = version, location = location, 
-                     scenario = paste0(scenario, "-plus", pct*100, "pct"))
+                     name = namePlus)
     
     # Pull out key parts of AH_input for easy feeding into compareAH
     
@@ -72,23 +89,27 @@ apply_sensitivity <-
     confidence_minus <-
       confidence_step1 %>%
       full_join(confidence_step2) %>%
-      mutate(change_rankByLevel_minus = rank_byLevel - rank_byLevel_minus) %>%
-      mutate(confidence_rankByLevel_minus = case_when(
-        abs(change_rankByLevel_minus) <= high ~ "High",
-        abs(change_rankByLevel_minus) > high &
-          abs(change_rankByLevel_minus) <= medium ~ "Medium",
-        abs(change_rankByLevel_minus) > medium ~ "Low")) %>%
+      mutate(change_rankByLevel_minus = 
+               rank_byLevel - rank_byLevel_minus) %>%
+      mutate(confidence_rankByLevel_minus = 
+               case_when(
+                 abs(change_rankByLevel_minus) <= high ~ "High",
+                 abs(change_rankByLevel_minus) > high &
+                   abs(change_rankByLevel_minus) <= medium ~ "Medium",
+                 abs(change_rankByLevel_minus) > medium ~ "Low")) %>%
       select(-rank_byLevel, -scenario)
     
     confidence_plus <-
       confidence_step1 %>%
       full_join(confidence_step3) %>%
-      mutate(change_rankByLevel_plus = rank_byLevel - rank_byLevel_plus) %>%
-      mutate(confidence_rankByLevel_plus = case_when(
-        abs(change_rankByLevel_plus) <= high ~ "High",
-        abs(change_rankByLevel_plus) > high &
-          abs(change_rankByLevel_plus) <= medium ~ "Medium",
-        abs(change_rankByLevel_plus) > medium ~ "Low")) %>%
+      mutate(change_rankByLevel_plus = 
+               rank_byLevel - rank_byLevel_plus) %>%
+      mutate(confidence_rankByLevel_plus = 
+               case_when(
+                 abs(change_rankByLevel_plus) <= high ~ "High",
+                 abs(change_rankByLevel_plus) > high &
+                   abs(change_rankByLevel_plus) <= medium ~ "Medium",
+                 abs(change_rankByLevel_plus) > medium ~ "Low")) %>%
       select(-rank_byLevel, -scenario)
     
     output$results <-
@@ -124,14 +145,33 @@ apply_sensitivity <-
                       levels = c("High", "Medium", "Low")),
              confidence_rankByLevel_minusPlus = 
                factor(confidence_rankByLevel_minusPlus,
-                      levels = c("High", "Medium", "Low"))) %>%
-      select(version, location, scenario, level, levelName_full, levelName,
-             Node, metric, value, value_minus, value_plus,
-             rank_byLevel, confidence_rankByLevel_minusPlus, 
-             confidence_rankByLevel_minus, confidence_rankByLevel_plus, 
-             change_rankByLevel_minus, change_rankByLevel_plus, 
-             rank_byLevel_minus, rank_byLevel_plus)
+                      levels = c("High", "Medium", "Low")))
+    
+    if(name == "USAH") {
       
+      output$results <-
+        output$results %>%
+        select(name, version, location, scenario, 
+               level, levelName_full, levelName,
+               Node, metric, value, value_minus, value_plus,
+               rank_byLevel, confidence_rankByLevel_minusPlus, 
+               confidence_rankByLevel_minus, confidence_rankByLevel_plus, 
+               change_rankByLevel_minus, change_rankByLevel_plus, 
+               rank_byLevel_minus, rank_byLevel_plus)
+      
+    } else {
+      
+      output$results <-
+        output$results %>%
+        select(name, level, levelName_full, levelName,
+               Node, metric, value, value_minus, value_plus,
+               rank_byLevel, confidence_rankByLevel_minusPlus, 
+               confidence_rankByLevel_minus, confidence_rankByLevel_plus, 
+               change_rankByLevel_minus, change_rankByLevel_plus, 
+               rank_byLevel_minus, rank_byLevel_plus)
+      
+    }
+
     return(output)
     
   }

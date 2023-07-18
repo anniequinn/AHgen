@@ -70,7 +70,7 @@ When applying the function:
 
 Below is an example application of `check_desc()`.
 
-<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms to include and exclude</span></summary>
 ```{r}
 # Read in OSMtidy output
 geoData = read_rds("../inputs/OSMtidy_Bristol_data_20210826.RDS")
@@ -173,7 +173,7 @@ When applying the function:
 
 Below is an example application of `apply_location()`.
 
-<details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms</span></summary>
+<details><summary><span style = "color: #2196F3;">Show code - Example 2 - Generate a standard `AHgen` output for a USAH of a specific location</span></summary>
 ```{r}
 # Read in AHgen output for baseline template USAH
 USAH_template_baseline = 
@@ -229,21 +229,111 @@ The function `gen_hazard()` applies an output from the `OSMtidy` function `compa
 
 Thus the `gen_hazard()` function would generate edges connected the Resource *Religious buildings* with a new weight = 0.6.
 
-The `gen_hazard()` function has 
+The `gen_hazard()` function has five input arguments:
+
+- *edgelist* - the edge list to be modified, usually the edge list for a specific location
+- *countCompared* - an `OSMtidy` output comparing the count for a new scenario (e.g. Bristol flood) against a benchmark scenario (e.g. Bristol baseline)
+- *vInfo_full* - the full vertex information for all vertices relevant to this Abstraction Hierarchy; in addition to the basic information in vIncluded, it is sometimes useful to include other characteristics e.g. definitions for each vertex, or colour specifications for visualisations; by default this is set to `vInfo_full = NA`
+- *hazard* - the name of the hazard, which is used to call a specific column of *vInfo_full* which holds information about which vertices are affected or not affected by a specific hazard; by default this is set to `hazard = NA`
+- *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+
+When applying the function:
+
+- The *edgelist* must contain columns named *to* and *weight*.
+- The *countCompared* must contain a list element named *compareBy_physicalObject* which contains columns named *physicalObject* and *total_prop*.
+- If used, the *hazard* must be named "flood" or "drought".
+- If used, the *vInfo_full* must contain columns named *level*, *subnetwork_hazard_flood*, and *subnetwork_hazard_drought*.
+
+Below is an example application of `gen_hazard()`.
+
+<details><summary><span style = "color: #2196F3;">Show code - Example 3 - Generate new edges representing a hazard</span></summary>
+```{r}
+# Read in the OSMtidy count for the Bristol baseline
+count_Bristol_baseline = 
+  read_rds("../inputs/OSMtidy_count_3.0_Bristol_baseline_20210906.RDS") 
+
+# Read in the OSMtidy count for the Bristol flood scenario
+count_Bristol_flood = 
+  read_rds("../inputs/OSMtidy_count_3.0_Bristol_floodRiver-100_20221212-112538.RDS")
+
+# Compare OSMtidy outputs for a baseline location and flood scenario
+# to find the proportion of physical objects that remain functional
+countCompared = 
+  compareOSMtidy(
+    baselineName = "USAH_3.0_Bristol_baseline",
+    countOSMtidy_baseline = count_Bristol_baseline,
+    scenarioName = "USAH_3.0_Bristol_floodRiver-100",
+    countOSMtidy_scenario = count_Bristol_flood)
+  
+# Generate edgesFlood
+edgesFlood = 
+  gen_hazard(
+    vInfo_template_full = USAH_template_baseline$vInfo,
+    edgelist = USAH_Bristol_baseline$edgelist,
+    hazard = "flood",
+    countCompared = countCompared)
+```
+In the *edgesFlood* to be introduced, any Resources to be completely removed should also be manually checked with a Google search, as in section 1.1.
+```{r}
+# Manual checks
+
+# REMOVAL SERVICES TO CHECK IN THE BRISTOL FLOOD EXTENT:
+# https://www.google.com/maps/search/bristol+removal+services/@51.4581366,-2.6416926,11.92z
+
+# 29 REMOVAL SERVICES ARE NOT IN THE BRISTOL FLOOD EXTENT:
+# Lovely Jubbly Removals, 29 Turtlegate Ave, Bristol BS13 8NN
+# DL Removals, 540 Hareclive Rd, Bristol BS13 0LX
+# Million Target Ltd, 49, Bristol BS13 9QT
+# Langdon Removals Ltd, Block 12, Cater Business Park, Bristol BS13 7TT
+# Bristol Man with a Van, 43 Headley Park Ave, Bristol BS13 7NR
+# Abbah Removals, 50 Wrington Cres, Bristol BS13 7EP
+# JC Man and Van Services, S Liberty Ln, Bristol BS3 2SU
+# Bristol Removals, 2a Greville Rd, Southville, Bristol BS3 1LL
+# Manley Van Removals, 8 Ilminster Ave, Bristol BS4 1LT
+# Rock Steady Removals, 22 Newquay Rd, Bristol BS4 1EA
+# KP Transport, 8 Greenwood Rd, Knowle, Bristol BS4 2SX
+# Abacus Removals, 821 Bath Rd, Brislington, Bristol BS4 5NL
+# Van Move It, 123 Raleigh Rd, Southville, Bristol BS3 1QU
+# Kwik Move, Unit 3, Bonville Trading Estate, Bonville Rd, Brislington, Bristol BS4 5QU
+# The Little Removals Company, Alpha Rd, Southville, Bristol BS3 1DH
+# Excalibur Removals, Ridings Farm, Bridgwater Rd, Dundry, Bristol BS41 8JP
+# Bristol Van Removals Ltd, Industrial Park, Unit 3 Netham Rd, Bristol BS5 9PQ
+# Smartmove Removals Bristol, Wainbrook House, 1 Hudds Vale Rd, Bristol BS5 7HY
+# SWFL Removals and Courier Service, Easton Business Centre, Felix Rd, Easton, Bristol BS5 0HE
+# Man with Van Removals Bristol, 34 Cobourg Rd, Montpelier, Bristol BS6 5HX
+# Big Van Man Removals, 21 Gordon Ave, Whitehall, Bristol BS5 7DY
+# AJM Removals, 569 Fishponds Rd, Bristol BS16 3AF
+# Macro Removals, 77 Gloucester Rd, Staple Hill, Bristol BS16 4SL
+# Knights of Removals, White Lodge Rd, Bristol BS16 5ND
+# Painless Removals, Henleaze House, Henleaze, Bristol BS9 4PN
+# Bristol Man and Van, Hambrook Business Park, The Strm, Hambrook, Bristol BS16 1RQ
+# We Like 2 Move It, 31 Wrington Cl, Little Stoke, Bristol BS34 6EU
+# Wilkinson Removal & Storage, Unit 1b Grange Court Farm Units, Winterbourne, Bristol BS36 1RY
+# Get Moved, 34 Mogg St, St Werburgh's, Bristol BS2 9UB
+
+# 3 REMOVAL SERVICES ARE IN THE BRISTOL FLOOD EXTENT:
+# Easymove Removals, Albert Cres, Bristol BS2 0SU
+# Move On Removals and Storage, 27-29 Baldwin St, Bristol BS1 1LT
+# On the Dot Removals Bristol, 21 Horley Rd, St Werburgh's, Bristol BS2 9TL
+
+# THUS 29/32 REMOVAL SERVICES ARE STILL FUNCTIONAL, FOR AN EDGE WEIGHT OF 0.90625
+
+# Manually adjust the weighting of Removal services
+edgesFlood = 
+  edgesFlood %>%
+  mutate(weightNew = ifelse(to == 'Removal services', 0.90625, weightNew))
+```
+Note that if you would like to export a record of these edges, you can do so with `export_AHgen()`.
+```{r}
+edgesFlood %>% 
+  export_AHgen(
+    type = "USAH_edges",
+    name = "USAH", version = "3.0", location = "Bristol", scenario = "floodRiver-100")
+```
+</details>
+
 
 ### 2.2. `apply_scenario()`
-
-## 3. Sensitivity analysis
-### 3.1. `calc_sensitivity()`
-### 3.2. `apply_sensitivity()`
-### 3.3. `summarise_confidence()`
-
-## 4. Comparing Abstraction Hierarchies with `compare_AH()`
-
-
-
-
-## 1. `apply_scenario`
 
 The function `apply_scenario()` generates a new Abstraction Hierarchy by adjusting an existing Abstraction Hierarchy based on a new edge list. It has seven input arguments:
 
@@ -261,20 +351,56 @@ When applying the function:
 - The *edgelist_scenario* must have columns named *layer*, *from*, *to*, and *weight*.
 - The *AH_input* must be a list which includes an element named *vIncluded* and an element named *vExcluded*.
 
-<details><summary><span style = "color: #2196F3;">Example 1 - Apply a new edge list to modify an existing Abstraction Hierarchy</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 4 - Apply a new edge list to modify an existing Abstraction Hierarchy</span></summary>
 ```{r}
-# Read in AHgen output to be modified
+# Generate new edge list from edgesFlood
+edgelist_Bristol_flood = 
+  USAH_Bristol_baseline$edgelist %>%
+  weight_edges(edgesNew = edgesFlood, remove = FALSE) %>%
+  weight_hangingVertices(remove = FALSE)
 
-# Read in new edge list
-
-# Apply a new scenario
-USAH_scenario = 
+# Generate a standard AHgen output for the Bristol flood scenario
+USAH_Bristol_flood = 
   apply_scenario(    
-    AH_input = USAH_location_baseline, ## Specify USAH_input you want to modify
-    edgelist_scenario = edgelist_location_flood, ## Specify edge list for new scenario
-    name = "USAH", version = "3.0", location = location, scenario = scenario)
+    AH_input = USAH_Bristol_baseline,
+    edgelist_scenario = edgelist_Bristol_flood,
+    name = "USAH", version = "3.0", location = "Bristol", scenario = "flood")
 ```
 </details>
+
+
+## 3. Sensitivity analysis
+
+### 3.1. `calc_sensitivity()`
+
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Calculate sensitivity analysis</span></summary>
+```{r}
+
+```
+</details>
+
+### 3.2. `apply_sensitivity()`
+
+
+<details><summary><span style = "color: #2196F3;">Example 6 - Apply sensitivity analysis to a incorporate in a standard `AHgen` output</span></summary>
+```{r}
+
+```
+</details>
+
+
+### 3.3. `summarise_confidence()`
+
+
+<details><summary><span style = "color: #2196F3;">Example 7 - Summarise confidence of sensitivity analysis results</span></summary>
+```{r}
+
+```
+</details>
+
+
+## 4. Comparing Abstraction Hierarchies with `compare_AH()`
 
 
 ## Next
