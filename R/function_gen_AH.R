@@ -2,10 +2,10 @@ gen_AH <- function(vInfo_full = NULL,
                    vIncluded, 
                    vExcluded = NULL,
                    adjMat,
-                   name,
-                   version = NULL, 
-                   location = NULL, 
-                   scenario = NULL){
+                   AH_name,
+                   AH_version = NULL, 
+                   AH_location = NULL, 
+                   AH_scenario = NULL){
   
   # Create edgelist
   edgelist <- adjMat %>% adjMat_to_edgelist(vInfo = vIncluded)
@@ -49,7 +49,10 @@ gen_AH <- function(vInfo_full = NULL,
            gen_results(
              igraph = igraph, 
              vInfo = vIncluded, 
-             name = name, version = version, location = location, scenario = scenario),
+             AH_name = AH_name, 
+             AH_version = AH_version, 
+             AH_location = AH_location, 
+             AH_scenario = AH_scenario),
          "summary" = # Create and attach a summary
            summarise_AH(
              vIncluded = vIncluded, # Create summary of vertices by level

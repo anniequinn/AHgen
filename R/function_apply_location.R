@@ -2,7 +2,10 @@ apply_location <- function(desc_check,
                            vInfo_template, 
                            edgelist_template, 
                            proxyWeight = 0,
-                           name, version, location, scenario) {
+                           AH_name, 
+                           AH_version, 
+                           AH_location, 
+                           AH_scenario) {
   
   require(tidyverse)
 
@@ -78,7 +81,10 @@ apply_location <- function(desc_check,
            gen_results(
              igraph = igraph_location, 
              vInfo = vInfo_tmp, 
-             name = name, version = version, location = location, scenario = scenario), # Create location-specific results
+             AH_name = AH_name, 
+             AH_version = AH_version, 
+             AH_location = AH_location, 
+             AH_scenario = AH_scenario), # Create location-specific results
          "summary" = 
            summarise_AH(
              vIncluded = vInfo_location, # Create summary of vertices by level

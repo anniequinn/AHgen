@@ -1,5 +1,9 @@
-gen_results <- function(igraph, vInfo, name, 
-                        version = NULL, location = NULL, scenario = NULL) {
+gen_results <- function(igraph, 
+                        vInfo, 
+                        AH_name, 
+                        AH_version = NULL, 
+                        AH_location = NULL, 
+                        AH_scenario = NULL) {
   
   require(forcats)
   
@@ -53,14 +57,15 @@ gen_results <- function(igraph, vInfo, name,
                                           "Resources")),
            metric = forcats::fct_inorder(metric))
   
-  if(name == "USAH") {
+  if(AH_name == "USAH") {
     
     output <-
       output %>%
-      mutate(name_version = paste0(name, "_", version), 
-             location = location,
-             scenario = scenario)
-      select(name_version, location, scenario, 
+      mutate(name = AH_name,
+             version = AH_version,
+             location = AH_location,
+             scenario = AH_scenario)
+      select(name, version, location, scenario, 
              level, levelName_full, levelName,
              Node, metric, value, contains("rank"))
     
@@ -70,8 +75,8 @@ gen_results <- function(igraph, vInfo, name,
     
     output <-
       output %>%
-      mutate(name_version = name) %>%
-      select(name_version, 
+      mutate(name = AH_name) %>%
+      select(name, 
              level, levelName_full, levelName, 
              Node, metric, value, contains("rank"))
     

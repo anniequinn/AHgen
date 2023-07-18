@@ -1,28 +1,34 @@
 apply_sensitivity <- function(AH_input, 
-                              name, 
-                              version = NULL, location = NULL, scenario = NULL, 
-                              pct = 0.1, high = 0, medium = 1) {
+                              AH_name, 
+                              AH_version = NULL, 
+                              AH_location = NULL, 
+                              AH_scenario = NULL, 
+                              pct = 0.1, 
+                              high = 0, 
+                              medium = 1) {
     
     output <- list()
     
-    if(name == "USAH") {
+    if(AH_name == "USAH") {
       
       nameOriginal <- 
-        paste0(name, "_", version, "_", location, "_", scenario)
+        paste0(AH_name, "_", AH_version, "_", AH_location, "_", AH_scenario)
       
       nameMinus <- 
-        paste0(name, "_", version, "_", location, "_", scenario, "_minus", pct*100, "pct")
+        paste0(AH_name, "_", AH_version, "_", AH_location, "_", AH_scenario, 
+               "_minus", pct*100, "pct")
       
       namePlus <-
-        paste0(name, "_", version, "_", location, "_", scenario, "_plus", pct*100, "pct")
+        paste0(AH_name, "_", AH_version, "_", AH_location, "_", AH_scenario, 
+               "_plus", pct*100, "pct")
         
     } else {
       
-      nameOriginal <- name
+      nameOriginal <- AH_name
       
-      nameMinus <- paste0(name, "_minus", pct*100, "pct")
+      nameMinus <- paste0(AH_name, "_minus", pct*100, "pct")
       
-      namePlus <- paste0(name, "_plus", pct*100, "pct")
+      namePlus <- paste0(AH_name, "_plus", pct*100, "pct")
       
     }
     
@@ -39,15 +45,17 @@ apply_sensitivity <- function(AH_input,
       output[[nameMinus]] <-   
         apply_scenario(AH_input = AH_input, 
                        edgelist_scenario = edgelist_minus,
-                       name = name, 
-                       version = version, location = location, scenario = scenario)
+                       AH_name = AH_name, 
+                       AH_version = AH_version, 
+                       AH_location = AH_location, 
+                       AH_scenario = AH_scenario)
       
     } else {
       
       output[[nameMinus]] <-   
         apply_scenario(AH_input = AH_input, 
                        edgelist_scenario = edgelist_minus,
-                       name = nameMinus)
+                       AH_name = nameMinus)
       
     }
     
@@ -62,15 +70,17 @@ apply_sensitivity <- function(AH_input,
       output[[namePlus]] <-   
         apply_scenario(AH_input = AH_input, 
                        edgelist_scenario = edgelist_plus,
-                       name = name, 
-                       version = version, location = location, scenario = scenario)
+                       AH_name = AH_name, 
+                       AH_version = AH_version, 
+                       AH_location = AH_location, 
+                       AH_scenario = AH_scenario)
       
     } else {
       
       output[[namePlus]] <-   
         apply_scenario(AH_input = AH_input, 
                        edgelist_scenario = edgelist_plus,
-                       name = namePlus)
+                       AH_name = namePlus)
       
     }
     
@@ -189,7 +199,7 @@ apply_sensitivity <- function(AH_input,
 
       output$results <-
         output$results %>%
-        select(name_version, location, scenario, 
+        select(name, version, location, scenario, 
                level, levelName_full, levelName,
                Node, metric, value, value_minus, value_plus,
                rank_byLevel, confidence_rankByLevel_minusPlus, 
@@ -201,7 +211,8 @@ apply_sensitivity <- function(AH_input,
       
       output$results <-
         output$results %>%
-        select(name_version, level, levelName_full, levelName,
+        select(name, 
+               level, levelName_full, levelName,
                Node, metric, value, value_minus, value_plus,
                rank_byLevel, confidence_rankByLevel_minusPlus, 
                confidence_rankByLevel_minus, confidence_rankByLevel_plus, 

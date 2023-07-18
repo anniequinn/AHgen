@@ -2,8 +2,10 @@
 apply_scenario <- function(AH_input, 
                            edgelist_scenario,
                            proxyWeight = 0,
-                           name, 
-                           version = NULL, location = NULL, scenario = NULL) {
+                           AH_name, 
+                           AH_version = NULL, 
+                           AH_location = NULL, 
+                           AH_scenario = NULL) {
   
   require(tidyverse)
   
@@ -74,8 +76,12 @@ apply_scenario <- function(AH_input,
   
   # Create scenario-specific results based on weighted vertex betweenness centrality
   AH_scenario$results <- 
-    gen_results(igraph = AH_scenario$igraph, vInfo = AH_scenario$vIncluded, 
-                name = name, version = version, location = location, scenario = scenario)
+    gen_results(igraph = AH_scenario$igraph, 
+                vInfo = AH_scenario$vIncluded, 
+                AH_name = AH_name, 
+                AH_version = AH_version, 
+                AH_location = AH_location, 
+                AH_scenario = AH_scenario)
   
   # Create scenario-specific summary of network
   AH_scenario$summary <- 

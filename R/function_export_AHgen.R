@@ -1,13 +1,19 @@
-export_AHgen <- function(output, type = "AH", directory = NULL, name, version = NULL, 
-                         location = NULL, benchmark = NULL, scenario = NULL) {
+export_AHgen <- function(output, 
+                         type = "AH", 
+                         directory = NULL, 
+                         AH_name, 
+                         AH_version = NULL, 
+                         AH_location = NULL, 
+                         AH_benchmark = NULL, 
+                         AH_scenario = NULL) {
   
   require(xlsx)
   
   if(type == "AH"){
     
-    prefixRDS <- name
+    prefixRDS <- AH_name
     
-    prefixXLSX <- paste0(name, "_results")
+    prefixXLSX <- paste0(AH_name, "_results")
     
     outputXLSX <- output$results
     
@@ -15,9 +21,9 @@ export_AHgen <- function(output, type = "AH", directory = NULL, name, version = 
   
   if(type == "AH_compared"){
     
-    prefixRDS <- name
+    prefixRDS <- AH_name
     
-    prefixXLSX <- paste0("comparison_", name, "_results")
+    prefixXLSX <- paste0("comparison_", AH_name, "_results")
     
     outputXLSX <- output$results
     
@@ -26,10 +32,11 @@ export_AHgen <- function(output, type = "AH", directory = NULL, name, version = 
   if(type == "USAH"){
     
     prefixRDS <- 
-      paste0(directory, "USAH_", version, "_", location, "_", scenario)
+      paste0(directory, "USAH_", AH_version, "_", AH_location, "_", AH_scenario)
     
     prefixXLSX <- 
-      paste0(directory, "USAH_", version, "_", location, "_", scenario, "_results")
+      paste0(directory, 
+             "USAH_", AH_version, "_", AH_location, "_", AH_scenario, "_results")
     
     outputXLSX <- output$results
     
@@ -38,10 +45,12 @@ export_AHgen <- function(output, type = "AH", directory = NULL, name, version = 
   if(type == "USAH_compared"){
     
     prefixRDS <- 
-      paste0(directory, "comparison_", "USAH_", version, "_", benchmark, "_", scenario)
+      paste0(directory, "comparison_", 
+             "USAH_", AH_version, "_", AH_benchmark, "_", AH_scenario)
     
     prefixXLSX <- 
-      paste0(directory, "comparison_", "USAH_", version, "_", benchmark, "_", scenario, "_results")
+      paste0(directory, "comparison_", 
+             "USAH_", AH_version, "_", AH_benchmark, "_", AH_scenario, "_results")
     
     outputXLSX <- output$results
 
@@ -49,7 +58,7 @@ export_AHgen <- function(output, type = "AH", directory = NULL, name, version = 
   
   if(type == "AH_edges"){
     
-    prefixRDS <- paste0("edges_", name)
+    prefixRDS <- paste0("edges_", AH_name)
     
     prefixXLSX <- prefixRDS
     
@@ -60,7 +69,8 @@ export_AHgen <- function(output, type = "AH", directory = NULL, name, version = 
   if(type == "USAH_edges"){
     
     prefixRDS <- 
-      paste0(directory, "edges_USAH_", version, "_", location, "_", scenario)
+      paste0(directory, 
+             "edges_USAH_", AH_version, "_", AH_location, "_", AH_scenario)
     
     prefixXLSX <- prefixRDS
     
