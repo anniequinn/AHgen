@@ -98,7 +98,17 @@ apply_sensitivity <- function(AH_input,
     # medium = 5 (rank changes of 2-5 positions), 
     # therefore low > 5 (rank changes of > 5 positions)
     
-    if(name == "USAH") {group <- "scenario"} else {group <- "name"}
+    if(name == "USAH") {
+      
+      group <- "scenario"
+      
+    } else {
+      
+      output[[1]]$results <- output[[1]]$results %>% mutate(group = "original")
+      output[[2]]$results <- output[[2]]$results %>% mutate(group = "minus")
+      output[[3]]$results <- output[[3]]$results %>% mutate(group = "plus")
+      
+    }
     
     confidence_step1 <-
       output[[1]]$results %>%
