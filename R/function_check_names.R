@@ -17,24 +17,24 @@ check_names <- function(adjMat_template, vInfo_template_full, key) {
     rename(Node = resource) %>% 
     mutate(level = 5, key = "TRUE")
   
-  step4 <-
+  output <-
     step1 %>% 
     full_join(step2, by = "Node") %>% 
     full_join(step3, by = c("Node", "level"))
   
-  step5 <- step4 %>% filter(is.na(adjMat) | is.na(vInfo_full))
+  check_step1 <- output %>% filter(is.na(adjMat) | is.na(vInfo_full))
   
-  step6 <- step4 %>% filter(level == 5, is.na(key))
+  check_step2 <- output %>% filter(level == 5, is.na(key))
   
-  step7 <- step5 %>% rbind(step6)
+  check_step3 <- check_step1 %>% rbind(check_step2)
   
-  if(nrow(step7 > 0)) {
+  if(nrow(check_step3 > 0)) {
     
     print("Some Node names do not match. Please inspect and revise input data.")
     
-    print(step7)
+    print(check_step3)
     
-    return(step4)
+    return(output)
     
   } else {
     

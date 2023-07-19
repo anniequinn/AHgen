@@ -69,8 +69,8 @@ apply_location <- function(desc_check,
     edgelist_location %>%
     edgelist_to_adjMat(vInfo_tmp)
   
-  # Create outputList
-  outputList <- 
+  # Create output
+  output <- 
     list("desc_check" = desc_check, # Attach desc_check list detailing which desc were detected in this location
          "vIncluded" = vInfo_location, # Attach dataframe of included vertices
          "vExcluded" = dplyr::setdiff(vInfo_template, vInfo_location), # Create and attach dataframe of excluded vertices
@@ -91,6 +91,6 @@ apply_location <- function(desc_check,
              edgelist = edgelist_location, # Create summary of edges by layer
              proxyWeight = proxyWeight)) # Specify proxyWeight
   
-  return(outputList)
+  return(output)
   
 }

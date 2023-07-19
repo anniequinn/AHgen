@@ -160,10 +160,10 @@ It has eight input arguments:
 - *vInfo_template* - the vertex information for the template baseline USAH
 - *edgelist_template* -  the edge list for the template baseline USAH, to be modified for a specific location
 - *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
-- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
-- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
-- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "baseline"; by default this is set to `scenario = NULL`
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "baseline"; by default this is set to `scenario = NULL`
 
 When applying the function:
 
@@ -191,7 +191,10 @@ USAH_Bristol_baseline =
     desc_check = desc_check,
     vInfo_template = USAH_template_baseline$vIncluded,
     edgelist_template = USAH_template_baseline$edgelist,
-    name = "USAH", version = "3.0", location = "Bristol", scenario = "baseline")
+    AH_name = "USAH", 
+    AH_version = "3.0", 
+    AH_location = "Bristol", 
+    AH_scenario = "baseline")
 
 # Inspect the record of the full desc_check
 USAH_Bristol_baseline$desc_check
@@ -328,7 +331,9 @@ Note that if you would like to export a record of these edges, you can do so wit
 edgesFlood %>% 
   export_AHgen(
     type = "USAH_edges",
-    name = "USAH", version = "3.0", location = "Bristol", scenario = "floodRiver-100")
+    AH_version = "3.0", 
+    AH_location = "Bristol", 
+    AH_scenario = "floodRiver-100")
 ```
 </details>
 
@@ -340,10 +345,10 @@ The function `apply_scenario()` generates a new Abstraction Hierarchy by adjusti
 - *AH_input* - a standard `AHgen` output with eight list elements describing the vertices, network, and results
 - *edgelist_scenario* - the new edge list of the Abstraction Hierarchy
 - *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
-- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
-- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
-- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
 
 When applying the function:
 
@@ -364,7 +369,10 @@ USAH_Bristol_flood =
   apply_scenario(    
     AH_input = USAH_Bristol_baseline,
     edgelist_scenario = edgelist_Bristol_flood,
-    name = "USAH", version = "3.0", location = "Bristol", scenario = "flood")
+    AH_name = "USAH", 
+    AH_version = "3.0", 
+    AH_location = "Bristol", 
+    AH_scenario = "flood")
 ```
 </details>
 

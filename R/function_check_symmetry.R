@@ -60,11 +60,11 @@ check_symmetry <- function(adjMat) {
     
     new_order <- c("Node", nodes_unsymmetrical)
     
-    unsymmetrical <- unsymmetrical_step4 %>% select(all_of(new_order))
+    output <- unsymmetrical_step4 %>% select(all_of(new_order))
     
     print("Not all edges are symmetrical. Inspect 'check' object and make corrections in adjMat input file.")
     
-    return(unsymmetrical)
+    return(output)
     
   }
   

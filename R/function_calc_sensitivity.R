@@ -4,23 +4,23 @@ calc_sensitivity <- function(edges, sign, pct) {
   
   if(sign == "plus") {
     
-    edgesNew = 
+    edgesNew <- 
       edges %>% 
       mutate(weight = ifelse(weight != 1, (weight * (1 + pct)), weight))
     
   } else if(sign == "minus") {
     
-    edgesNew = 
+    edgesNew <- 
       edges %>% 
       mutate(weight = ifelse(weight != 1, (weight * (1 - pct)), weight))
   }
   
-  edgesNew =
+  output <-
     edgesNew %>%
     mutate(weight = ifelse(weight > 1, 1, weight)) %>%
     mutate(weight = ifelse(weight < 0, 0, weight)) %>%
     weight_hangingVertices(remove = FALSE) # For vertices with downward weights all = 0, make upward weights = 0
   
-  return(edgesNew)
+  return(output)
   
 }

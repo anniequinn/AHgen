@@ -219,10 +219,10 @@ sbc %>% filter(level == 3) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head
 
 - *igraph* - the igraph to be analysed
 - *vInfo* - the vertex information
-- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
-- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
-- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
 
 When applying the function:
 
@@ -236,7 +236,10 @@ Below is an example application of `gen_results()`.
 results = 
   gen_results(igraph = di, 
               vInfo = dv, 
-              name = "USAH", version = "3.0", location = "template", scenario = "baseline")
+              AH_name = "USAH", 
+              AH_version = "3.0", 
+              AH_location = "template", 
+              AH_scenario = "baseline")
 
 # Inspect the metrics that have been calculated for this results file
 results$metric %>% unique()
@@ -287,10 +290,10 @@ It has eight input arguments:
 - *vIncluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices included in this version of the Abstraction Hierarchy
 - *vExcluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices excluded in this version of the Abstraction Hierarchy, as compared to some baseline or benchmark
 - *adjMat* - the adjacency matrix to be analysed and converted into other formats
-- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
-- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
-- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
 
 Below is an example application of `gen_AH()`.
 
@@ -301,7 +304,10 @@ USAH_template_baseline =
   gen_AH(vInfo = vInfo_full, 
          vIncluded = dv,
          adjMat = dh,
-         name = "USAH", version = "3.0", location = "template", scenario = "baseline")
+         AH_name = "USAH", 
+         AH_version = "3.0", 
+         AH_location = "template", 
+         AH_scenario = "baseline")
 
 # Inspect vInfo element
 USAH_template_baseline$vInfo
@@ -343,10 +349,10 @@ It has seven input arguments:
     - *AH_edges* or *USAH_edges* - edges which have been generated for a new scenario, for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
 
 - *directory* - the directory to which the output will be exported; by default this is set to `directory = NULL` such that the output will be exported to the same directory as the R script you are using
-- *name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
-- *version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
-- *location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
-- *scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
 
 Standard `AHgen` outputs (`type = "AH"`, `type = "AH_compared"`, `type = "USAH"`, and `type = "USAH_compared"`) will be exported as a .RDS file with all eight list elements, plus a .xlsx file of results. Edges outputs (`type = "AH_edges"` and `type = "USAH_edges"`) will be exported as a .RDS file and a .xlsx file. In all cases, a message will be printed in the console to confirm the output has been exported with the directory and file name.
 
@@ -356,7 +362,10 @@ Standard `AHgen` outputs (`type = "AH"`, `type = "AH_compared"`, `type = "USAH"`
 # Export the USAH_template_baseline
 export_AHgen(
   output = USAH_template_baseline,
-  type = "USAH", version = "3.0", location = "template", scenario = "baseline")
+  type = "USAH", 
+  AH_version = "3.0", 
+  AH_location = "template", 
+  AH_scenario = "baseline")
 ```
 </details>
 

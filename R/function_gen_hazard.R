@@ -53,12 +53,12 @@ gen_hazard <- function(edgelist,
     select(to, weightNew)
   
   # Join dataframes
-  edgesNew <-
+  output <-
     edgelist %>%
     filter(to %in% resourcesAffected) %>% # Filter edgelist_input to only Resources affected
     left_join(resourcesAffected_weights, by = "to") %>% # Join
     select(-weight) # Remove weight column now superseded by weightNew
   
-  return(edgesNew)
+  return(output)
   
 }

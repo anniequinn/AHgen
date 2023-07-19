@@ -4,7 +4,7 @@
 # Created by: Channin Songchon (cs127@hw.ac.uk) & Gordon Aitken (ga41@hw.ac.uk)
 # Created: 2021-06-28
 
-# Last revised: 2023-07-04
+# Last revised: 2023-07-19
 # Last revised by: Melissa Bedinger (dr.m.bedinger@gmail.com)
 # =========================================================================
 
@@ -24,14 +24,14 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
     
     nodes <- igraph::V(igraph)$name
     
-    outsbc <- 
+    output <- 
       data.frame(id = as.character(nodes), sbc = NA, stringsAsFactors = FALSE)
     
-    outsbc$id <- gsub(".", " ", outsbc$id, fixed = TRUE)
+    output$id <- gsub(".", " ", output$id, fixed = TRUE)
     
-    rownames(outsbc) <- outsbc$id
+    rownames(output) <- output$id
     
-    outsbc$id <- NULL
+    output$id <- NULL
     
     #Shortest path length
     
@@ -46,7 +46,7 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
     }
     
     #delete 1 vertex, calculate path length
-    for (i in 1:nrow(outsbc)) {
+    for (i in 1:nrow(output)) {
       
       df2 <- df
       
@@ -80,7 +80,7 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
       
       sumval <- sum(diff, na.rm = TRUE)
       
-      outsbc$sbc[i] <- sumval
+      output$sbc[i] <- sumval
       
     }
     
@@ -90,15 +90,15 @@ sbc_norm <- function(igraph, undirected = TRUE, normalize = TRUE) {
       # Currently only used method compatible with igraph: https://igraph.org/r/doc/betweenness.html
       # Bnorm = 2*SBC/(n*n-3*n+2)
       # Ignored scaling as this created interpretation problems for max SBC node (e.g. for USAH, usually Public health showed no % change as was always scaled to 1)
-      B <- outsbc$sbc 
+      B <- output$sbc 
       n <- igraph::gorder(igraph) %>% as.numeric() # returns numeric number of vertices, instead of full list of vertices
       Bnorm <- 2*B/(n*n-3*n+2)
-      outsbc$sbcNorm <- Bnorm
+      output$sbcNorm <- Bnorm
       
-      outsbc
+      output
       
     }
     
-    return(outsbc)
+    return(output)
     
 }

@@ -4,15 +4,15 @@ check_duplicates <- function(edges) {
   
   ind <- duplicated(edges[,1:2])
   
-  dup <- edges[ind,]
+  output <- edges[ind,]
   
-  if(nrow(dup) == 0) {
+  if(nrow(output) == 0) {
     
     print("There are no duplicate edges. Proceed!")
     
-  } else if(nrow(dup) > 0) {
+  } else if(nrow(output) > 0) {
     
-    return(dup)
+    return(output)
     
   }
   

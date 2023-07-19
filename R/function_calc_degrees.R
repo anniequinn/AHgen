@@ -4,7 +4,7 @@
 # Created by: Gordon Aitken (ga41@hw.ac.uk)
 # Created: 2021-07-05
 
-# Last revised: 2023-07-07
+# Last revised: 2023-07-19
 # Last revised by: Melissa Bedinger (dr.m.bedinger@gmail.com)
 # =========================================================================
 
@@ -389,12 +389,12 @@ calc_degrees <- function(igraph, vInfo) {
   
   ### COMBINE ###
   
-  dt_final <- 
+  output <- 
     dt %>% 
     full_join(dt_nodes, by = "Node") %>%
     inner_join(vInfo) %>%
     relocate(level, levelName_full, levelName, Node)
   
-  return(dt_final)
+  return(output)
   
 }

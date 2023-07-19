@@ -156,6 +156,7 @@ weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
 
     edgelist <- edgelist %>% filter(weight != 0) # If you want to remove the edges with a weight of 0 i.e. after this point, you don't need to track the vertices that have been excluded
     
+    return(edgelist)
   }
   
 }

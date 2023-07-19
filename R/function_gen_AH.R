@@ -38,7 +38,7 @@ gen_AH <- function(vInfo_full = NULL,
     
   }
   
-  AH <-
+  output <-
     list("vInfo" = vInfo_full, # Attach any additional info for vertices e.g. colours, subnetworks
          "vIncluded" = vIncluded, # Attach dataframe of included vertices (in most cases this will be all vertices)
          "vExcluded" = vExcluded, # Attach dataframe of excluded vertices (in most cases this will be no verticies i.e. an empty list for comparison to other scenarios)
@@ -58,6 +58,6 @@ gen_AH <- function(vInfo_full = NULL,
              vIncluded = vIncluded, # Create summary of vertices by level
              edgelist = edgelist)) # Create summary of edges by layer
   
-  return(AH)
+  return(output)
   
 }

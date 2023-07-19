@@ -24,24 +24,24 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   }
   
   # Create list output to attach comparisons to
-  scenarios_compared <- list()
+  output <- list()
   
   # Pull out only the $summary$vertices list elements from  and reformat
-  scenarios_compared$vertices <- 
+  output$vertices <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("summary") %>%
     Biobase::subListExtract("vertices") %>%
     internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Pull out only the $summary$edges list elements from  and reformat
-  scenarios_compared$edges <- 
+  output$edges <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("summary") %>%
     Biobase::subListExtract("edges") %>%
     internal_mapSubLists(scenarioNames = scenarioNames)
   
   # Pull out only the $vExcluded list elements from scenarios_toCompare and reformat
-  scenarios_compared$vExcluded <- 
+  output$vExcluded <- 
     scenarios_toCompare %>% 
     Biobase::subListExtract("vExcluded") %>% 
     internal_mapSubLists(scenarioNames = scenarioNames)
@@ -84,7 +84,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   if (any(sapply(scenarios_toCompare, function(x) any(names(x$results) == "confidence_rankByLevel_minusPlus"))))
     
   {
-    scenarios_compared$results <-
+    output$results <-
       results_step2 %>%
       select(
         scenarioName, version, location, scenario, date, # scenario identifiers
@@ -96,12 +96,12 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         confidence_rankByLevel_plus, rank_byLevel_plus, # sensitivity rank for detail on confidence (plus) 
         value_minus, value_plus) # sensitivity values for detail on confidence
     
-    scenarios_compared$confidence <-
-      summarise_confidence(results = scenarios_compared$results)
+    output$confidence <-
+      summarise_confidence(results = output$results)
     
   } else {
     
-    scenarios_compared$results <-
+    output$results <-
       results_step2 %>%
       select(
         scenarioName, version, location, scenario, date, # scenario identifiers
@@ -112,6 +112,6 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     
   }
     
-  return(scenarios_compared)
+  return(output)
 
 }
