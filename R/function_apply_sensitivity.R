@@ -40,7 +40,7 @@ apply_sensitivity <- function(AH_input,
     
     # Generate minus scenario output
 
-    if(name == "USAH") {
+    if(AH_name == "USAH") {
       
       output[[nameMinus]] <-   
         apply_scenario(AH_input = AH_input, 
@@ -65,7 +65,7 @@ apply_sensitivity <- function(AH_input,
     
     # Generate plus scenario output
     
-    if(name == "USAH") {
+    if(AH_name == "USAH") {
       
       output[[namePlus]] <-   
         apply_scenario(AH_input = AH_input, 
@@ -108,7 +108,7 @@ apply_sensitivity <- function(AH_input,
     # medium = 5 (rank changes of 2-5 positions), 
     # therefore low > 5 (rank changes of > 5 positions)
     
-    if(name == "USAH") {
+    if(AH_name == "USAH") {
       
       group <- "scenario"
       
@@ -195,7 +195,7 @@ apply_sensitivity <- function(AH_input,
                factor(confidence_rankByLevel_minusPlus,
                       levels = c("High", "Medium", "Low")))
     
-    if(name == "USAH") {
+    if(AH_name == "USAH") {
 
       output$results <-
         output$results %>%
