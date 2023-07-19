@@ -1,11 +1,11 @@
 apply_sensitivity <- function(AH_input, 
+                              pct = 0.1, 
+                              high = 0, 
+                              medium = 1,
                               AH_name, 
                               AH_version = NULL, 
                               AH_location = NULL, 
-                              AH_scenario = NULL, 
-                              pct = 0.1, 
-                              high = 0, 
-                              medium = 1) {
+                              AH_scenario = NULL) {
     
     output <- list()
     
@@ -36,7 +36,7 @@ apply_sensitivity <- function(AH_input,
     
     # Decrease any affected edge weights by x% (e.g. 10%)
     edgelist_minus <- 
-      calc_sensitivity(edges = AH_input$edgelist, sign = "minus", pct = pct)
+      weight_sensitivity(edges = AH_input$edgelist, sign = "minus", pct = pct)
     
     # Generate minus scenario output
 
@@ -61,7 +61,7 @@ apply_sensitivity <- function(AH_input,
     
     # Increase any affected edge weights by x% (e.g. 10%)
     edgelist_plus <- 
-      calc_sensitivity(edges = AH_input$edgelist, sign = "plus", pct = pct)
+      weight_sensitivity(edges = AH_input$edgelist, sign = "plus", pct = pct)
     
     # Generate plus scenario output
     

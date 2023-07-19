@@ -42,7 +42,7 @@ In this vignette, you will find out about analysing Abstraction Hierarchies with
 - Section 1 - Geospatial analysis
 - Section 2 - Scenario analysis
 - Section 3 - Sensitivity analysis
-- Section 4 - Comparing Abstraction Hierarchies with `compare_AH()`
+- Section 4 - Comparing Abstraction Hierarchies
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
@@ -224,15 +224,15 @@ USAH_Bristol_baseline$summary
 
 
 ## 2. Scenario analysis
-### 2.1. `gen_hazard()`
+### 2.1. `weight_hazard()`
 
-The function `gen_hazard()` applies an output from the `OSMtidy` function `compare_OSMtidy()`, to generate new weights for USAH edges. 
+The function `weight_hazard()` applies an output from the `OSMtidy` function `compare_OSMtidy()`, to generate new weights for USAH edges. 
 
 `compare_OSMtidy()` calculates the proportion of Resources that remain functional after a hazard, based on a baseline count and a scenario count. For example, if a location's baseline count finds that there are 10 of the Resource *Religious buildings*, and a location's scenario count finds that there are 4 of the Resource *Religious buildings* within a 1 in 100-year flood extent, then the capacity of all *Religious buildings* in the area is assumed to be 60% of its baseline capacity. 
 
-Thus the `gen_hazard()` function would generate edges connected the Resource *Religious buildings* with a new weight = 0.6.
+Thus the `weight_hazard()` function would generate edges connected the Resource *Religious buildings* with a new weight = 0.6.
 
-The `gen_hazard()` function has five input arguments:
+The `weight_hazard()` function has five input arguments:
 
 - *edgelist* - the edge list to be modified, usually the edge list for a specific location
 - *countCompared* - an `OSMtidy` output comparing the count for a new scenario (e.g. Bristol flood) against a benchmark scenario (e.g. Bristol baseline)
@@ -247,7 +247,7 @@ When applying the function:
 - If used, the *hazard* must be named "flood" or "drought".
 - If used, the *vInfo_full* must contain columns named *level*, *subnetwork_hazard_flood*, and *subnetwork_hazard_drought*.
 
-Below is an example application of `gen_hazard()`.
+Below is an example application of `weight_hazard()`.
 
 <details><summary><span style = "color: #2196F3;">Show code - Example 3 - Generate new edges representing a hazard</span></summary>
 ```{r}
@@ -270,13 +270,13 @@ countCompared =
   
 # Generate edgesFlood
 edgesFlood = 
-  gen_hazard(
+  weight_hazard(
     vInfo_template_full = USAH_template_baseline$vInfo,
     edgelist = USAH_Bristol_baseline$edgelist,
     hazard = "flood",
     countCompared = countCompared)
 ```
-In the *edgesFlood* to be introduced, any Resources to be completely removed should also be manually checked with a Google search, as in section 1.1.
+In the *edgesFlood* to be introduced, any Resources to be completely removed should also be manually checked with a Google search, as in section 1.1. This type of manual check is the reason that weight_hazard returns a group of weighted edges, rather than going the next step to introduce them to an existing edge list and produce a new edge list as an output.
 ```{r}
 # Manual checks
 
@@ -354,7 +354,7 @@ When applying the function:
 
 - The *edgelist_scenario* must have used the `weight_edges()` and `weight_hangingVertices()` functions with `remove = FALSE`, or else any edges that are to be excluded from the original Abstraction Hierarchy should have a weight = 0. This enables a record of included and excluded vertices to be noted before removing edges with a weight = 0 and applying network analysis.
 - The *edgelist_scenario* must have columns named *layer*, *from*, *to*, and *weight*.
-- The *AH_input* must be a list which includes an element named *vIncluded* and an element named *vExcluded*.
+- The *AH_input* must be a list which includes an element named *vIncluded* with a column named *Node*, and an element named *vExcluded* with columns which match *vIncluded*.
 
 <details><summary><span style = "color: #2196F3;">Example 4 - Apply a new edge list to modify an existing Abstraction Hierarchy</span></summary>
 ```{r}
@@ -379,44 +379,114 @@ USAH_Bristol_flood =
 
 ## 3. Sensitivity analysis
 
-### 3.1. `calc_sensitivity()`
+### 3.1. `weight_sensitivity()`
 
-The function `calc_sensitivity()` finds any edges which are not fully functional (weight = 1) and adjusts their weight by x%. 
+The function `weight_sensitivity()` finds any edges which are not fully functional (weight = 1) and adjusts their weight by x%. 
 
 It has three input arguments:
 
-- *AH_input*
-- *
+- *edges* - the edges to be modified
+- *pct* - the percentage by which to adjust the edge weights, e.g. 0.1 which would adjust edge weights by 10%
+- *sign* - the direction by which to adjust the edge weights, "minus" or "plus"
 
-Note that `calc_sensitivity()` sets any negative values to a minimum threshold of weight = 0 and any positive values > 1 to a maximum threshold of weight = 1.
+When applying the function:
 
-<details><summary><span style = "color: #2196F3;">Example 5 - Calculate sensitivity analysis</span></summary>
+- The *edges* must include columns named *layer*, *from*, *to*, and *weight*.
+
+Note that `weight_sensitivity()` sets any negative values to a minimum threshold of weight = 0 and any positive values > 1 to a maximum threshold of weight = 1.
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Apply new weights to edges for a sensitivity analysis</span></summary>
 ```{r}
+# Inspect the edge list for the Bristol flood scenario
+edgelist_Bristol_flood
 
+# Adjust the weights of edges affected by the Bristol flood by -10%
+weight_sensitivity(
+  edges = edgelist_Bristol_flood,
+  pct = 0.1,
+  sign = "minus")
 ```
 </details>
+
 
 ### 3.2. `apply_sensitivity()`
 
+The function `apply_sensitivity()` generates a standard `AHgen` output incorporating a sensitivity analysis. 
+
+It has eight input arguments:
+
+- *AH_input* - a standard `AHgen` output with eight list elements describing the vertices, network, and results
+- *pct* - the percentage by which to adjust the edge weights, e.g. 0.1 which would adjust edge weights by +/-10%
+- *high* - the rank change between the input centrality result, and the sensitivity analysis centrality result, which will be treated as "high confidence"; by default this is set to `high = 0`; i.e. if the sensitivity analysis causes a change in Eigenvector Centrality rank of 0 positions, the original rank position would be treated as "medium confidence"
+- *medium* - the rank change between the input centrality result, and the sensitivity analysis centrality result, which will be treated as "medium confidence"; by default this is set to `medium = 1` i.e. if the sensitivity analysis causes a change in Eigenvector Centrality rank of 1 position, the original rank position would be treated as "medium confidence"
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+When applying the function:
+
+- the *AH_input* must include list elements named *vIncluded*, *vExcluded*, *edgelist*, *results*, *summary$vertices*, and *summary$edges*.
+- The *edgelist* must include columns named *layer*, *from*, *to*, and *weight*.
+- The *vIncluded* must include a column named *Node*.
+- The *vExcluded* must include columns which match *vIncluded*.
 
 <details><summary><span style = "color: #2196F3;">Example 6 - Apply sensitivity analysis to a incorporate in a standard `AHgen` output</span></summary>
 ```{r}
-
+# Generate sensitivity analysis
+USAH_scenario_sensitivity = 
+  apply_sensitivity(
+    AH_input = USAH_Bristol_flood, 
+    AH_name = "USAH", 
+    AH_version = "3.0", 
+    AH_location = "Bristol", 
+    AH_scenario = "flood")
 ```
 </details>
 
 
-### 3.3. `summarise_confidence()`
+## 4. Comparing Abstraction Hierarchies
 
+### 4.1. `compare_AH()`
 
-<details><summary><span style = "color: #2196F3;">Example 7 - Summarise confidence of sensitivity analysis results</span></summary>
+The function `compare_AH()` compares a scenario (or multiple scenarios) against a benchmark Urban Systems Abstraction Hierarchy. 
+
+It has input arguments:
+
+- *AH_benchmark*
+- *scenarios_toCompare*
+- *scenarioNames*
+
+When applying the function:
+
+- 
+
+<details><summary><span style = "color: #2196F3;">Example 7 - Compare Abstraction Hierarchies</span></summary>
 ```{r}
 
 ```
 </details>
 
 
-## 4. Comparing Abstraction Hierarchies with `compare_AH()`
+### 4.2. `summarise_confidence()`
+
+The function `summarise_confidence()`...
+
+It has one input argument:
+
+- *results* - the network analysis results
+
+When applying the function:
+
+- *results* must incorporate a sensitivity analysis via the function `apply_sensitivity()` i.e. must include columns named *scenarioName*, *location*, *scenario*, *levelName*, *metric*, and *confidence_rankByLevel_minusPlus*.
+
+Below is an example application of `summarise_confidence()`.
+
+<details><summary><span style = "color: #2196F3;">Example 8 - Summarise confidence of sensitivity analysis results</span></summary>
+```{r}
+
+```
+</details>
 
 
 ## Next

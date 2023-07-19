@@ -1,6 +1,6 @@
 # Find & adjust any affected edges by x%
 # Note that this sets any negative values to minimum 0 and any values > 1 to maximum 1
-calc_sensitivity <- function(edges, sign, pct) {
+weight_sensitivity <- function(edges, sign, pct) {
   
   if(sign == "plus") {
     
