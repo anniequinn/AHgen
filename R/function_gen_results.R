@@ -64,18 +64,22 @@ gen_results <- function(igraph,
       mutate(name = AH_name,
              version = AH_version,
              location = AH_location,
-             scenario = AH_scenario) %>%
+             scenario = AH_scenario)
+    
+    output <-
+      output %>%
       select(name, version, location, scenario, 
              level, levelName_full, levelName,
              Node, metric, value, contains("rank"))
     
-  }
-  
-  if(name != "USAH") {
+  } else {
     
     output <-
       output %>%
-      mutate(name = AH_name) %>%
+      mutate(name = AH_name)
+    
+    output <-
+      output %>%
       select(name, 
              level, levelName_full, levelName, 
              Node, metric, value, contains("rank"))

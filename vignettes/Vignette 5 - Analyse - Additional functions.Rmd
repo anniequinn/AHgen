@@ -373,6 +373,14 @@ USAH_Bristol_flood =
 
 ### 3.1. `calc_sensitivity()`
 
+The function `calc_sensitivity()` finds any edges which are not fully functional (weight = 1) and adjusts their weight by x%. 
+
+It has three input arguments:
+
+- *AH_input*
+- *
+
+Note that `calc_sensitivity()` sets any negative values to a minimum threshold of weight = 0 and any positive values > 1 to a maximum threshold of weight = 1.
 
 <details><summary><span style = "color: #2196F3;">Example 5 - Calculate sensitivity analysis</span></summary>
 ```{r}
