@@ -25,7 +25,7 @@ compare_AH <- function(type = "USAH",
         x %>%
           as.data.frame() %>%
           mutate(scenario_dummy = scenarioName) %>%
-          separate(scenario_dummy, any_of(idCols), sep = "_")
+          separate(scenario_dummy, idCols, sep = "_")
       }) %>%
       do.call(bind_rows, .) %>%
       remove_rownames()
