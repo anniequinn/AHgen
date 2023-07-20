@@ -272,7 +272,7 @@ countCompared =
 # Generate edgesFlood
 edgesFlood = 
   weight_hazard(
-    vInfo_template_full = USAH_template_baseline$vInfo,
+    vInfo_full = USAH_template_baseline$vInfo,
     edgelist = USAH_Bristol_baseline$edgelist,
     hazard = "flood",
     countCompared = countCompared)
@@ -328,7 +328,7 @@ edgesFlood =
   mutate(weightNew = ifelse(to == 'Removal services', 0.90625, weightNew))
 ```
 Note that if you would like to export a record of these edges, you can do so with `export_AHgen()`.
-```{r}
+```{r, eval = FALSE}
 edgesFlood %>% 
   export_AHgen(
     type = "USAH_edges",
