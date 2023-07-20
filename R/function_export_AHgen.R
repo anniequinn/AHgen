@@ -5,7 +5,8 @@ export_AHgen <- function(output,
                          AH_version = NULL, 
                          AH_location = NULL, 
                          AH_benchmark = NULL, 
-                         AH_scenario = NULL) {
+                         AH_scenario = NULL,
+                         xl = TRUE) {
   
   require(xlsx)
   
@@ -84,7 +85,7 @@ export_AHgen <- function(output,
   message(paste0("Files saved as: "))
   message(paste0("\n\t", filenameRDS))
   
-  if(nrow(outputXLSX) <= 100000) {
+  if((nrow(outputXLSX) <= 100000) & (xl == TRUE)) {
     
     filenameXLSX <- filenameTimestamp(prefix = prefixXLSX, extension = ".xlsx")
     
