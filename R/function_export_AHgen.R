@@ -84,10 +84,14 @@ export_AHgen <- function(output,
   message(paste0("Files saved as: "))
   message(paste0("\n\t", filenameRDS))
   
-  filenameXLSX <- filenameTimestamp(prefix = prefixXLSX, extension = ".xlsx")
-  
-  outputXLSX %>% xlsx::write.xlsx(filenameXLSX)
-  message(paste0("Files saved as: "))
-  message(paste0("\n\t", filenameXLSX))
+  if(nrow(outputXLSX) <= 100000) {
+    
+    filenameXLSX <- filenameTimestamp(prefix = prefixXLSX, extension = ".xlsx")
+    
+    outputXLSX %>% xlsx::write.xlsx(filenameXLSX)
+    message(paste0("Files saved as: "))
+    message(paste0("\n\t", filenameXLSX))
+    
+  }
   
 }
