@@ -1,7 +1,11 @@
-vis_plotScatter <- function(results, benchmark = "baseline", 
-                            metricName, type, 
-                            levels = NULL, locations = NULL, 
-                            omit.zeros = TRUE, omit.inf = TRUE,
+vis_plotScatter <- function(results, 
+                            AH_benchmark = "baseline", 
+                            metricName, 
+                            type, 
+                            levels = NULL, 
+                            locations = NULL, 
+                            omit.zeros = TRUE, 
+                            omit.inf = TRUE,
                             family) { 
   
   require(ggplot2)
@@ -17,33 +21,33 @@ vis_plotScatter <- function(results, benchmark = "baseline",
   results <- 
     results %>%
     mutate(levelScenario = 
-             case_when(level == 1 & scenario == benchmark ~ 1,
-                       level == 1 & scenario != benchmark ~ 2,
-                       level == 2 & scenario == benchmark ~ 3,
-                       level == 2 & scenario != benchmark ~ 4,
-                       level == 3 & scenario == benchmark ~ 5,
-                       level == 3 & scenario != benchmark ~ 6,
-                       level == 4 & scenario == benchmark ~ 7,
-                       level == 4 & scenario != benchmark ~ 8,
-                       level == 5 & scenario == benchmark ~ 9,
-                       level == 5 & scenario != benchmark ~ 10)) %>%
+             case_when(level == 1 & scenario == AH_benchmark ~ 1,
+                       level == 1 & scenario != AH_benchmark ~ 2,
+                       level == 2 & scenario == AH_benchmark ~ 3,
+                       level == 2 & scenario != AH_benchmark ~ 4,
+                       level == 3 & scenario == AH_benchmark ~ 5,
+                       level == 3 & scenario != AH_benchmark ~ 6,
+                       level == 4 & scenario == AH_benchmark ~ 7,
+                       level == 4 & scenario != AH_benchmark ~ 8,
+                       level == 5 & scenario == AH_benchmark ~ 9,
+                       level == 5 & scenario != AH_benchmark ~ 10)) %>%
     mutate(sizes = 
-             case_when(level == 1 & scenario == benchmark ~ 0.95,
-                       level == 1 & scenario != benchmark ~ 0.9,
-                       level == 2 & scenario == benchmark ~ 0.7,
-                       level == 2 & scenario != benchmark ~ 0.75,
-                       level == 3 & scenario == benchmark ~ 0.6,
-                       level == 3 & scenario != benchmark ~ 0.65,
-                       level == 4 & scenario == benchmark ~ 0.3,
-                       level == 4 & scenario != benchmark ~ 0.35,
-                       level == 5 & scenario == benchmark ~ 0.3,
-                       level == 5 & scenario != benchmark ~ 0.35))
+             case_when(level == 1 & scenario == AH_benchmark ~ 0.95,
+                       level == 1 & scenario != AH_benchmark ~ 0.9,
+                       level == 2 & scenario == AH_benchmark ~ 0.7,
+                       level == 2 & scenario != AH_benchmark ~ 0.75,
+                       level == 3 & scenario == AH_benchmark ~ 0.6,
+                       level == 3 & scenario != AH_benchmark ~ 0.65,
+                       level == 4 & scenario == AH_benchmark ~ 0.3,
+                       level == 4 & scenario != AH_benchmark ~ 0.35,
+                       level == 5 & scenario == AH_benchmark ~ 0.3,
+                       level == 5 & scenario != AH_benchmark ~ 0.35))
   
   # Shape aesthetics prep
   shapeBaseline <- 21
   n <- 
     results %>% 
-    filter(scenario != benchmark) %>% select(scenario) %>% unique() %>% nrow()
+    filter(scenario != AH_benchmark) %>% select(scenario) %>% unique() %>% nrow()
   shapeScenarios <- rep(19, n)
   
   # yaxisLab prep
@@ -70,7 +74,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     
     results <- 
       results %>% 
-      filter(scenario != benchmark) %>% 
+      filter(scenario != AH_benchmark) %>% 
       mutate(scenario = forcats::fct_inorder(scenario))
     
     if(omit.zeros == TRUE) {results <- results %>% filter(change_value_amp != 0)}
@@ -89,7 +93,7 @@ vis_plotScatter <- function(results, benchmark = "baseline",
     
     results <- 
       results %>% 
-      filter(scenario != benchmark) %>% 
+      filter(scenario != AH_benchmark) %>% 
       mutate(scenario = forcats::fct_inorder(scenario))
     
     if(omit.zeros == TRUE) {results <- results %>% filter(change_pct != 0)}

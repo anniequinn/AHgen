@@ -1,4 +1,4 @@
-compare_AH <- function(type = "USAH", 
+compare_AH <- function(type = "AH", 
                        AH_benchmark, 
                        scenarios_toCompare, 
                        scenarioNames) {

@@ -1,4 +1,4 @@
-vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
+vis_plotRank <- function(results, metricName, levels, AH_benchmark = "baseline",
                          change.only = FALSE, confidence.lines = FALSE, 
                          family = "Harding") {
   
@@ -36,7 +36,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
     
     results_tmp <-
       results %>%
-      filter(scenario != benchmark) %>%
+      filter(scenario != AH_benchmark) %>%
       mutate(cols_unchanged = 
                case_when(change_rankByLevel == 0 ~ "unchanged",
                          change_rankByLevel != 0 ~ "changed")) %>%
@@ -56,7 +56,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
     
     results_tmp <-
       results %>%
-      filter(scenario != benchmark) %>%
+      filter(scenario != AH_benchmark) %>%
       mutate(
         linetypes = case_when(
           confidence_rankByLevel_minusPlus == "High" ~ "solid",
@@ -86,11 +86,11 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
       plotBase +
       geom_line(aes(color = cols, linetype = linetypes), alpha = 0.8, linewidth = 0.4) +
       geom_point(aes(color = cols), size = 0.4, show.legend = TRUE) +
-      geom_text(data = subset(results, scenario == benchmark),
+      geom_text(data = subset(results, scenario == AH_benchmark),
                 mapping = aes(label = Node, color = cols, family = family, 
                               fontface = "bold", hjust = 1), 
                 nudge_x = -0.05, size = 9) +
-      geom_text(data = subset(results, scenario != benchmark),
+      geom_text(data = subset(results, scenario != AH_benchmark),
                 mapping = aes(label = confidenceLab, 
                               color = cols, family = family, hjust = "left"), 
                 nudge_x = 0.1, size = 9) +
@@ -132,14 +132,14 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
     nCols_df <-
       results %>%
       filter(metric == metricName, levelName %in% levels, 
-             scenario == benchmark, rank_byLevel <= rankLimit) %>%
+             scenario == AH_benchmark, rank_byLevel <= rankLimit) %>%
       group_by(location) %>%
       count()
     
     colsDefault_step1 <- 
       results %>%
       filter(metric == metricName, levelName %in% levels, 
-             scenario == benchmark, rank_byLevel <= rankLimit) %>%
+             scenario == AH_benchmark, rank_byLevel <= rankLimit) %>%
       select(location, Node) %>%
       arrange(location, Node)
     
@@ -181,7 +181,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
     
     results <-
       results %>%
-      filter(scenario == benchmark) %>%
+      filter(scenario == AH_benchmark) %>%
       group_by(location, rank_byLevel) %>% 
       filter(n() > 1) %>% 
       ungroup(location, rank_byLevel) %>%
@@ -203,7 +203,7 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
       geom_point(aes(colour = cols), size = 0.4, show.legend = TRUE) +
       ggrepel::geom_text_repel(
         data = subset(results, 
-                      scenario == benchmark & group == "multi-benchmark"),
+                      scenario == AH_benchmark & group == "multi-benchmark"),
         box.padding = 0.1, direction = "y", hjust = "left", force = 0.2, 
         lineheight = 0.15,
         mapping = aes(label = stringr::str_wrap(Node, 22), colour = cols, 
@@ -212,12 +212,12 @@ vis_plotRank <- function(results, metricName, levels, benchmark = "baseline",
         xlim = c(-Inf, Inf), ylim = c(-Inf, Inf)) +
       geom_text(
         data = subset(results, 
-                      scenario == benchmark & group == "single-benchmark"),
+                      scenario == AH_benchmark & group == "single-benchmark"),
         mapping = aes(label = Node, colour = cols, family = family, 
                       fontface = "bold", hjust = 1), 
         nudge_x = -0.05, size = 11) +
       geom_text(
-        data = subset(results, scenario != benchmark),
+        data = subset(results, scenario != AH_benchmark),
         mapping = aes(label = confidenceLab, 
                       color = cols, family = family, hjust = "left"), 
         nudge_x = 0.1, size = 9) +

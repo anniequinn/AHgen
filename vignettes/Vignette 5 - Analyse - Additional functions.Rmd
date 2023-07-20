@@ -42,7 +42,7 @@ In this vignette, you will find out about analysing Abstraction Hierarchies with
 - Section 1 - Geospatial analysis
 - Section 2 - Scenario analysis
 - Section 3 - Sensitivity analysis
-- Section 4 - Comparing Abstraction Hierarchies
+- Section 4 - Comparing Abstraction Hierarchies with `compare_AH()`
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
@@ -445,32 +445,9 @@ USAH_scenario_sensitivity =
 </details>
 
 
-## 4. Comparing Abstraction Hierarchies
+### 3.3. `summarise_confidence()`
 
-### 4.1. `compare_AH()`
-
-The function `compare_AH()` compares a scenario (or multiple scenarios) against a benchmark Urban Systems Abstraction Hierarchy. 
-
-It has input arguments:
-
-- *AH_benchmark*
-- *scenarios_toCompare*
-- *scenarioNames*
-
-When applying the function:
-
-- 
-
-<details><summary><span style = "color: #2196F3;">Example 7 - Compare Abstraction Hierarchies</span></summary>
-```{r}
-
-```
-</details>
-
-
-### 4.2. `summarise_confidence()`
-
-The function `summarise_confidence()`...
+The function `summarise_confidence()` summarises confidence ratings for rank positions by both Eigenvector Centrality (EC) and Stable Betweenness Centrality (SBC) across scenarios and levels of the Abstraction Hierarchy. This supports a quick comparison of the percentage of High, Medium, and Low confidence rankings.
 
 It has one input argument:
 
@@ -482,9 +459,104 @@ When applying the function:
 
 Below is an example application of `summarise_confidence()`.
 
-<details><summary><span style = "color: #2196F3;">Example 8 - Summarise confidence of sensitivity analysis results</span></summary>
+<details><summary><span style = "color: #2196F3;">Example 7 - Summarise confidence of sensitivity analysis results</span></summary>
 ```{r}
+# Generate summary of confidence ratings
+confidence = summarise_confidence(USAH_scenario_sensitivity$results)
 
+# Inspect the list elements of the summary
+confidence$confidence_scenarioLevel_EC
+confidence$confidence_scenarioLevel_SBCnorm
+confidence$confidence_level_EC
+confidence$confidence_level_SBCnorm
+confidence$confidence_scenario_EC
+confidence$confidence_scenario_SBCnorm
+confidence$confidence_overall_EC
+confidence$confidence_overall_SBCnorm
+```
+</details>
+
+
+## 4. Comparing Abstraction Hierarchies with `compare_AH()`
+
+The function `compare_AH()` compares a scenario (or multiple scenarios) against a benchmark Urban Systems Abstraction Hierarchy. 
+
+It has three input arguments:
+
+- *type* - one of two types of Abstraction Hierarchy, *AH* or *USAH*; by default this is set to `type = "AH"`
+- *AH_benchmark* - a standard `AHgen` output to be used as the benchmark Abstraction Hierarchy to compare other scenarios against
+- *scenarios_toCompare* - a list of standard `AHgen` outputs for each scenario being compared
+- *scenarioNames* - a vector of names corresponding to each scenario being compared
+
+When applying the function:
+
+- If `type = "AH"`, the file names of all inputs must be in the format of "name_date.RDS".
+- If `type = "AH"`, the file names of all inputs must be in the format of "name_version_location_scenario_date.RDS".
+- All inputs must include list elements named *summary$vertices*, *summary$edges*, *vExcluded*, and *results*, each formatted in the standard `AHgen` output structure.
+
+<details><summary><span style = "color: #2196F3;">Example 8 - Compare Abstraction Hierarchies</span></summary>
+```{r}
+# Read in the AH_benchmark you want to use as a point of comparison
+USAH_benchmark =
+  read_rds("../inputs/toCompare/USAH_3.0_Bristol_baseline_20230719-110748.RDS")
+
+# Create a designated folder (e.g. "toCompare") 
+# where you've copied all individual scenario outputs you are comparing to the benchmark
+
+# Read in all the file names from the designated folder
+scenarioFilenames = 
+  list.files(
+    path = "../inputs/toCompare", 
+    pattern = ".*USAH_.*\\.RDS", 
+    full.names = TRUE)
+
+# Read in all scenario files to a list of lists
+scenarios_toCompare = 
+  lapply(scenarioFilenames, function (x) readRDS(x))
+
+# Create vector for file names without path and extension
+scenarioNames = 
+  list.files(
+    path = "../inputs/toCompare", 
+    pattern = ".*USAH_.*\\.RDS") %>% 
+  tools::file_path_sans_ext()
+
+# Set names of allScenarios list elements to reflect correct scenario
+names(scenarios_toCompare) = scenarioNames
+
+# Compare the Abstraction Hierarchies
+allScenarios_compared = 
+  compare_AH(type = "USAH",
+             AH_benchmark = USAH_benchmark, 
+             scenarios_toCompare = scenarios_toCompare, 
+             scenarioNames = scenarioNames)
+
+# Inspect the compared vertices
+allScenarios_compared$vertices
+
+# Inspect the compared edges
+allScenarios_compared$edges
+
+# Inspect the compared vExcluded
+allScenarios_compared$vExcluded
+
+# Inspect the compared results
+allScenarios_compared$results
+
+# Inspect the compared confidence ratings
+# if a sensitivity analysis has been applied to any of the input scenarios
+allScenarios_compared$confidence
+```
+Note that you can then export this comparison, and it may be easier to do this as a .RDS file only (with `xl = FALSE`) as additionally writing the results to a .xlsx file may require a great deal of computer memory.
+```{r, eval = FALSE}
+allScenarios_compared %>% 
+  export_AHgen(
+    type = "USAH_compared",
+    directory = "../outputs/compared/",
+    AH_version = "3.0", 
+    AH_benchmark = "Bristol-baseline", 
+    AH_scenario = "Bristol-floodRiver-100",
+    xl = FALSE)
 ```
 </details>
 
