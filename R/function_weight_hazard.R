@@ -1,10 +1,10 @@
 # Generate edgesNew based on proportion of Resources i.e. Physical objects still functional 
 # as represented in a countCompared OSMtidy output
-gen_hazard <- function(edgelist, 
-                       countCompared, 
-                       vInfo_full = NA,
-                       hazard = NA, 
-                       proxyWeight = 0) {
+weight_hazard <- function(edgelist, 
+                          countCompared, 
+                          vInfo_full = NA,
+                          hazard = NA, 
+                          proxyWeight = 0) {
   
   # Create vector of physical objects affected
   resourcesAffected <-

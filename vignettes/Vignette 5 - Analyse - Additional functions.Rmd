@@ -22,6 +22,7 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
+library(OSMtidy)
 library(AHgen)
 ```
 
@@ -73,7 +74,7 @@ Below is an example application of `check_desc()`.
 <details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms to include and exclude</span></summary>
 ```{r}
 # Read in OSMtidy output
-geoData = read_rds("../inputs/OSMtidy_Bristol_data_20210826.RDS")
+geoData = read_rds("../inputs/OSMtidy_Bristol_20210826.RDS")
 
 # Read in OSMtidy-AHgen key for allocating OSMtidy desc terms to USAH Resources
 key = read_csv("../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
@@ -177,7 +178,7 @@ Below is an example application of `apply_location()`.
 ```{r}
 # Read in AHgen output for baseline template USAH
 USAH_template_baseline = 
-  read_rds("data/template/3.0/USAH_3.0_template_baseline_20230715.RDS")
+  read_rds("../inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
 
 # Inspect baseline template USAH vInfo
 USAH_template_baseline$vInfo
