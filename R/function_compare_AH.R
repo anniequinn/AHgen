@@ -1,7 +1,20 @@
-compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
+compare_AH <- function(type = "USAH", 
+                       AH_benchmark, 
+                       scenarios_toCompare, 
+                       scenarioNames) {
   
   require(tibble)
   require(Biobase)
+  
+  if(type == "USAH") {
+    
+    idCols <- c("name", "version", "location", "scenario", "date")
+
+  } else {
+    
+    idCols <- c("name", "date")
+    
+  }
   
   # Internal function to map sublists in list elements
   internal_mapSubLists <- function(input, scenarioNames) {
@@ -12,9 +25,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
         x %>%
           as.data.frame() %>%
           mutate(scenario_dummy = scenarioName) %>%
-          separate(scenario_dummy, 
-                   c("name", "version", "location", "scenario", "date"), 
-                   sep = "_")
+          separate(scenario_dummy, any_of(idCols), sep = "_")
       }) %>%
       do.call(bind_rows, .) %>%
       remove_rownames()
@@ -65,7 +76,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
   
   results_step2 <-
     AH_benchmark$results %>%
-    select(-version, -location, -scenario) %>%
+    select(-any_of(idCols)) %>%
     rename(benchmark_value = value, benchmark_rankByLevel = rank_byLevel) %>%
     full_join(results_step1, 
               by = c("level", "levelName_full", "levelName", "Node", "metric")) %>%
@@ -85,7 +96,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     output$results <-
       results_step2 %>%
       select(
-        scenarioName, name, version, location, scenario, date, # scenario identifiers
+        scenarioName, any_of(idCols), # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
         metric, benchmark_value, benchmark_value_amp, benchmark_rankByLevel, # baseline / benchmark results
         value, value_amp, change_value_amp, change_pct, # scenario value change
@@ -102,7 +113,7 @@ compare_AH <- function(AH_benchmark, scenarios_toCompare, scenarioNames) {
     output$results <-
       results_step2 %>%
       select(
-        scenarioName, name, version, location, scenario, date, # scenario identifiers
+        scenarioName, any_of(idCols), # scenario identifiers
         level, levelName_full, levelName, Node, # basic identifiers
         metric, benchmark_value, benchmark_value_amp, benchmark_rankByLevel, # baseline / benchmark results
         value, value_amp, change_value_amp, change_pct, # scenario value change
