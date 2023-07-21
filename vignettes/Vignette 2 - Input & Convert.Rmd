@@ -352,7 +352,7 @@ Click below for examples for each data type.
 <details><summary><span style = "color: #2196F3;">Show code - Example 11 - Inspect adjacency matrix</span></summary>
 ```{r}
 # Select vertices by name
-dh %>% select(`Provide efficient and accessible mobility`)
+dh %>% select(Node, `Provide efficient and accessible mobility`)
 
 # Select vertices which match a pattern
 dh %>% select(Node, contains("safe"))

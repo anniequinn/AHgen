@@ -86,15 +86,16 @@ desc_check = check_desc(geoData = geoData, key = key)
 desc_check$keyApplication
 ```
 Note that if the input geoData is of simple feature class, this can take a while due to reformatting the *geometry* column to character class, so that it can be filtered.
-```{r}
+```{r, print.rows = 35}
 # Inspect the USAH Resources that were *not detected* in Open Street Map data 
 # but are specified by the key to *always be included*
 checkAlwaysInclude = desc_check$notDetected_alwaysInclude
+checkAlwaysInclude %>% select(resource) %>% unique()
 ```
 Note that these USAH Resources are manually set to "alwaysInclude" in the column *stage_OSMtidy* of the *key* .xlsx file, likely due to being present within a city-scale boundary, but being often-missed or absent in Open Street Map data.
 
 Now you can inspect Resources which would be excluded based on the Open Street Map data alone, and manually check that this is correct before proceeding.
-```{r}
+```{r, print.rows = 35}
 # Inspect USAH Resources that were *not detected* in Open Street Map data and *will be excluded* without a manual intervention by the analyst
 checkExclude = desc_check$notDetected_exclude
 checkExclude %>% select(resource) %>% unique()
@@ -102,9 +103,9 @@ checkExclude %>% select(resource) %>% unique()
 At this stage the analyst must manually Google each unique USAH Resource & the location name from checkExclude, referring to the shapefile applied to generate the OSMtidy output to ensure any found in the manual searches are inside or outside of the boundary of analysis. This manual check is important to ensure a Resource is not just missing in the Open Street Map data
 
 Then, based on the manual Google check, the analyst must manually create a vector of USAH Resource names that should be included but are currently set to be excluded for this location - as below.
-```{r}
+```{r, cols.print = 45}
 # Create vector of USAH Resources to manually include for Bristol
-manualInclude_vec_Bristol <- 
+manualInclude_vec_Bristol = 
   c("Animal shelters", # Multiple
     "Botanical gardens", # University of Bristol Botanic Garden
     "Broadband provider offices", # Virgin Media
@@ -129,6 +130,8 @@ manualInclude =
   filter(resource %in% manualInclude_vec_Bristol) %>% ## Specify which manualInclude_vec to use
   mutate(includedBy = "manualCheck")
 
+manualInclude
+
 # Remove from desc_check$notDetected_exclude
 desc_check$notDetected_exclude =
   desc_check$notDetected_exclude %>%
@@ -140,11 +143,13 @@ desc_check$notDetected_alwaysInclude =
   desc_check$notDetected_alwaysInclude %>%
   mutate(includedBy = "automatedKey") %>%
   rbind(manualInclude)
+
 desc_check$notDetected_alwaysInclude
 
 # Inspect again to ensure this has worked and see the final list of exclusions
 checkAlwaysInclude = desc_check$notDetected_alwaysInclude
 checkAlwaysInclude %>% select(resource) %>% unique()
+
 checkExclude = desc_check$notDetected_exclude
 checkExclude %>% select(resource) %>% unique()
 ```
@@ -268,6 +273,8 @@ countCompared =
     countOSMtidy_baseline = count_Bristol_baseline,
     scenarioName = "USAH_3.0_Bristol_floodRiver-100",
     countOSMtidy_scenario = count_Bristol_flood)
+
+countCompared
   
 # Generate edgesFlood
 edgesFlood = 
@@ -276,6 +283,8 @@ edgesFlood =
     edgelist = USAH_Bristol_baseline$edgelist,
     hazard = "flood",
     countCompared = countCompared)
+
+edgesFlood
 ```
 In the *edgesFlood* to be introduced, any Resources to be completely removed should also be manually checked with a Google search, as in section 1.1. This type of manual check is the reason that weight_hazard returns a group of weighted edges, rather than going the next step to introduce them to an existing edge list and produce a new edge list as an output.
 ```{r}
@@ -325,7 +334,9 @@ In the *edgesFlood* to be introduced, any Resources to be completely removed sho
 # Manually adjust the weighting of Removal services
 edgesFlood = 
   edgesFlood %>%
-  mutate(weightNew = ifelse(to == 'Removal services', 0.90625, weightNew))
+  mutate(weightNew = ifelse(to == "Removal services", 0.90625, weightNew))
+
+edgesFlood %>% filter(to == "Removal services")
 ```
 Note that if you would like to export a record of these edges, you can do so with `export_AHgen()`.
 ```{r, eval = FALSE}
@@ -365,6 +376,8 @@ edgelist_Bristol_flood =
   weight_edges(edgesNew = edgesFlood, remove = FALSE) %>%
   weight_hangingVertices(remove = FALSE)
 
+edgelist_Bristol_flood
+
 # Generate a standard AHgen output for the Bristol flood scenario
 USAH_Bristol_flood = 
   apply_scenario(    
@@ -374,6 +387,9 @@ USAH_Bristol_flood =
     AH_version = "3.0", 
     AH_location = "Bristol", 
     AH_scenario = "flood")
+
+# Inspect output
+USAH_Bristol_flood
 ```
 </details>
 
@@ -398,14 +414,18 @@ Note that `weight_sensitivity()` sets any negative values to a minimum threshold
 
 <details><summary><span style = "color: #2196F3;">Example 5 - Apply new weights to edges for a sensitivity analysis</span></summary>
 ```{r}
-# Inspect the edge list for the Bristol flood scenario
-edgelist_Bristol_flood
+# Inspect edges in the Bristol flood scenario which have been impacted
+edgelist_Bristol_flood %>% filter(weight < 1)
 
 # Adjust the weights of edges affected by the Bristol flood by -10%
-weight_sensitivity(
-  edges = edgelist_Bristol_flood,
-  pct = 0.1,
-  sign = "minus")
+edges_sensitivity = 
+  weight_sensitivity(
+    edges = edgelist_Bristol_flood,
+    pct = 0.1,
+    sign = "minus")
+
+# Inspect how weight_sensitivity() has impacted the edges
+edges_sensitivity %>% filter(weight < 1)
 ```
 </details>
 
@@ -442,6 +462,9 @@ USAH_scenario_sensitivity =
     AH_version = "3.0", 
     AH_location = "Bristol", 
     AH_scenario = "flood")
+
+# Inspect the output
+USAH_scenario_sensitivity
 ```
 </details>
 
@@ -461,7 +484,7 @@ When applying the function:
 Below is an example application of `summarise_confidence()`.
 
 <details><summary><span style = "color: #2196F3;">Example 7 - Summarise confidence of sensitivity analysis results</span></summary>
-```{r}
+```{r, cols.print = 10}
 # Generate summary of confidence ratings
 confidence = summarise_confidence(USAH_scenario_sensitivity$results)
 
