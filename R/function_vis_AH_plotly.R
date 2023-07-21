@@ -17,7 +17,7 @@ vis_AH_plotly <- function(ggplotPlot,
     
     output <- 
       plotly::ggplotly(ggplotPlot, tooltip = "Node") %>% 
-      layout(legend = list(orientation = "h", x = 0, y = 1))
+      layout(legend = list(orientation = "v", x = 1, y = 1))
     
     output <- plotly::plotly_build(output)
     
