@@ -1,6 +1,7 @@
-vis_AH_ggplot <- function(layout, key = NULL, 
-                          vecOpacity = c(1,1,1,1), 
-                          vecSize = c(5,4,3.5,3,2.5)) {
+vis_AH_ggplot <- function(layout, 
+                          key = NULL, 
+                          vecOpacity = c(1, 1, 1, 1), 
+                          vecSize = c(5, 4, 3.5, 3, 2.5)) {
   
   require(ggplot2)
   require(gginnards)

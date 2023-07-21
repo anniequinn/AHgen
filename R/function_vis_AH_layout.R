@@ -1,4 +1,8 @@
-vis_AH_layout <- function(edgelist, vInfo, minSpacing = 0, maxSpacing = 100, key) { 
+vis_AH_layout <- function(edgelist, 
+                          vInfo, 
+                          minSpacing = 0, 
+                          maxSpacing = 100, 
+                          key) { 
   
   require(ggraph)
   require(igraph)
