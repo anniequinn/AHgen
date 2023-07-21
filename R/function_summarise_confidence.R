@@ -15,14 +15,14 @@ summarise_confidence <- function(results) {
   output$confidence_scenarioLevel_EC = 
     results %>%
     filter(!is.na(confidence_rankByLevel_minusPlus)) %>%
-    group_by(any_of(idCols_scenarioLevel), confidence_rankByLevel_minusPlus) %>%
+    group_by(across(c(any_of(idCols_scenarioLevel), "confidence_rankByLevel_minusPlus"))) %>%
     count(confidence_rankByLevel_minusPlus, .drop = FALSE) %>%
     ungroup() %>%
     filter(levelName == "Purposes" | 
              levelName == "Outcomes" | 
              levelName == "Tasks") %>%
     filter(metric == "EC") %>%
-    group_by(any_of(idCols_scenarioLevel)) %>%
+    group_by(across(any_of(idCols_scenarioLevel))) %>%
     mutate(n_scenarioLevel = sum(n)) %>%
     ungroup() %>%
     mutate(ratio_scenarioLevel = paste0(n, " / ", n_scenarioLevel),
@@ -35,14 +35,14 @@ summarise_confidence <- function(results) {
   output$confidence_scenarioLevel_SBCnorm = 
     results %>%
     filter(!is.na(confidence_rankByLevel_minusPlus)) %>%
-    group_by(any_of(idCols_scenarioLevel), confidence_rankByLevel_minusPlus) %>%
+    group_by(across(c(any_of(idCols_scenarioLevel), "confidence_rankByLevel_minusPlus"))) %>%
     count(confidence_rankByLevel_minusPlus, .drop = FALSE) %>%
     ungroup() %>%
     filter(levelName == "Tasks" | 
              levelName == "Processes" | 
              levelName == "Resources") %>%
     filter(metric == "SBC_norm") %>%
-    group_by(any_of(idCols_scenarioLevel)) %>%
+    group_by(across(any_of(idCols_scenarioLevel))) %>%
     mutate(n_scenarioLevel = sum(n)) %>%
     ungroup() %>%
     mutate(ratio_scenarioLevel = paste0(n, " / ", n_scenarioLevel),
@@ -96,11 +96,11 @@ summarise_confidence <- function(results) {
     results %>%
     filter(level <= 3) %>%
     filter(!is.na(confidence_rankByLevel_minusPlus)) %>%
-    group_by(any_of(idCols_scenario), confidence_rankByLevel_minusPlus) %>%
+    group_by(across(c(any_of(idCols_scenario), "confidence_rankByLevel_minusPlus"))) %>%
     count(confidence_rankByLevel_minusPlus, .drop = FALSE) %>%
     ungroup() %>%
     filter(metric == "EC") %>%
-    group_by(any_of(idCols_scenario)) %>%
+    group_by(across(any_of(idCols_scenario))) %>%
     mutate(n_scenario = sum(n)) %>%
     ungroup() %>%
     mutate(ratio_scenario = paste0(n, " / ", n_scenario),
@@ -114,11 +114,11 @@ summarise_confidence <- function(results) {
     results %>%
     filter(level >= 3) %>%
     filter(!is.na(confidence_rankByLevel_minusPlus)) %>%
-    group_by(any_of(idCols_scenario), confidence_rankByLevel_minusPlus) %>%
+    group_by(across(c(any_of(idCols_scenario), "confidence_rankByLevel_minusPlus"))) %>%
     count(confidence_rankByLevel_minusPlus, .drop = FALSE) %>%
     ungroup() %>%
     filter(metric == "SBC_norm") %>%
-    group_by(any_of(idCols_scenario)) %>%
+    group_by(across(any_of(idCols_scenario))) %>%
     mutate(n_scenario = sum(n)) %>%
     ungroup() %>%
     mutate(ratio_scenario = paste0(n, " / ", n_scenario),
