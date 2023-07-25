@@ -7,6 +7,8 @@ tables_AHgen <- function(vSummary,
                          compareLocations = FALSE, 
                          compareScenarios = FALSE) {
   
+  require(stats)
+  
   tbl_vertices = 
     table_vertices(
       vSummary = vSummary, 
@@ -103,6 +105,19 @@ tables_AHgen <- function(vSummary,
          tbl_degrees_resources, 
          tbl_EC, 
          tbl_SBC)
+  
+  names(output) <- 
+    c("vertices", 
+      "edges", 
+      "vExcluded", 
+      "degree_all", 
+      "degrees_purposes", 
+      "degrees_outcomes", 
+      "degrees_tasks",
+      "degrees_processes",
+      "degrees_resources",
+      "EC",
+      "SBC")
   
   return(output)
   
