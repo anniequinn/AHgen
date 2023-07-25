@@ -1,7 +1,7 @@
 ---
-title: "Application Part 1 - Template"
+title: "Application - Generate template"
 author: 
- - Melissa Bedinger
+ - Annie Visser-Quinn & Melissa Bedinger
 output: 
   html_document:
     toc: true
@@ -10,11 +10,11 @@ output:
     theme: paper
     highlight: haddock
 vignette: >
-  %\VignetteIndexEntry{Vignette 7 - Application Part 1 - Template}
+  %\VignetteIndexEntry{Vignette 7A - Application - Generate template}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
 
@@ -24,7 +24,6 @@ library(knitr)
 library(tidyverse)
 library(AHgen)
 ```
----
 
 <style>
 #TOC {
@@ -41,15 +40,18 @@ library(AHgen)
 
 In this vignette, you will go through the steps of generating a template Urban Systems Abstraction Hierarchy in `AHgen`:
 
-- Section 1 - Visualising the Abstraction Hierarchy
-- Section 2 - Visualising and exploring results
+    0.1. - Prepare the environment
+    1.0. - Read in the data
+    2.0. - Check the data
+    3.0. - Generate the Urban Systems Abstraction Hierarchy template
+    4.0. - Export
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 
 ## 0.1. Prepare the environment
 
-```{r}
+```{r, eval = FALSE}
 # Clear the RStudio environment
 rm(list = ls()); cat("/014"); gc(verbose = TRUE)
 
@@ -76,7 +78,7 @@ pacman::p_load(tidyverse, readxl, installr, janitor, vctrs, AHgen)
 ```
 
 
-## 1.0. Read in data
+## 1.0. Read in the data
 
 ```{r}
 # Set name, version, location, and scenario
@@ -92,18 +94,98 @@ directory = "outputs/"
 adjMat_template = 
   read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
 
+adjMat_template
+
 # Create template USAH vInfo (basic)
 vInfo_template = 
   adjMat_template %>% select(level, levelName_full, levelName, Node)
+
+vInfo_template
 
 # Read in template USAH vInfo (full)
 vInfo_template_full = 
   read_xlsx("inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
 
+vInfo_template_full
+
 # Read in OSMtidy-AHgen key for allocating OSMtidy descs to AHgen objects
 key = 
   read_csv("inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
+
+key
 ```
+
+
+## 2.0. Check the data
+
+```{r}
+# Confirm adjMat has completely symmetrical edges i.e. there are no input errors
+adjMat_template %>% check_symmetry()
+# If any edges are unsymmetrical check these
+# checkSymmetry = adjMat_template %>% check_symmetry()
+
+# Confirm adjMat has no vertices with redundant sets of edges i.e. no vertices
+# are connected to the same set of other vertices between two levels
+adjMat_template %>% check_redundancy()
+
+# Check node names from different data inputs are compatible
+check_names(adjMat_template, vInfo_template_full, key)
+# If some node names do not match
+# checkNames = check_names(adjMat_template, vInfo_template_full, key)
+# checkNames %>% write.csv("checkNames.csv")
+```
+
+
+## 3.0. Generate the Urban Systems Abstraction Hierarchy template
+
+```{r}
+# Generate standard AHgen output for USAH baseline template
+USAH_template_baseline = 
+  gen_AH(vInfo = vInfo_template_full, 
+         vIncluded = vInfo_template,
+         adjMat = adjMat_template,
+         AH_name = AH_name, 
+         AH_version = AH_version, 
+         AH_location = AH_location, 
+         AH_scenario = AH_scenario)
+
+# Inspect elements
+USAH_template_baseline$vInfo
+USAH_template_baseline$vIncluded
+USAH_template_baseline$vExcluded
+USAH_template_baseline$adjMat
+USAH_template_baseline$edgelist
+USAH_template_baseline$igraph
+USAH_template_baseline$results
+USAH_template_baseline$summary
+```
+
+
+## 4.0. Export
+
+```{r, eval = FALSE}
+# Write output to RDS file
+USAH_template_baseline %>% 
+  export_AHgen(
+    type = "USAH",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = AH_scenario)
+
+# If subnetwork assignment has been updated, write out to xlsx for future use
+# USAH_template_baseline$vInfo %>% 
+#   write.xlsx(
+#     filenameTimestamp(
+#       prefix = paste0(directory,
+#                       name, "_", version, "_", location, "_", scenario, 
+#                       "_vInfo-full"),
+#   extension = ".xlsx"))
+```
+
+
+## Next
+Next in [Vignette 7B - Application - Apply OSMtidy data](Vignette-7B---Application---Apply-OSMtidy-data.html), you will go through the steps of applying `OSMtidy` data to generate a location-specific Urban Systems Abstraction Hierarchy in `AHgen`.
 
 
 ## Last updated

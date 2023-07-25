@@ -643,7 +643,7 @@ exportExcel(
 
 
 ## Next
-Next in [Vignette 7](Vignette-7), you will find out about... in `AHgen`.
+Next in [Vignette 7A - Application - Generate template](Vignette-7A---Application---Generate-template), you will go through the steps of generating a template Urban Systems Abstraction Hierarchy in `AHgen`.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

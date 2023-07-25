@@ -1,0 +1,281 @@
+---
+title: "Application - Introduce flood"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{Vignette 7C - Application - Introduce flood}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 230px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
+---
+
+In this vignette, you will go through the steps of applying `OSMtidy` data to generate a location-specific Urban Systems Abstraction Hierarchy in `AHgen`:
+
+    0.1. - Prepare the environment
+    1.0. - Read in the data
+    2.0. - Generate new edges to represent the flood hazard
+    3.0. - Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
+    4.0. - Add sensitivity analysis
+    5.0. - Export
+
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
+
+## 0.1. Prepare the environment
+
+```{r, eval = FALSE}
+# Clear the RStudio environment
+rm(list = ls()); cat("/014"); gc(verbose = TRUE)
+
+# CTRL + SHIFT + F10 will detach any loaded packages and restart R
+
+# Set the working directory to the folder where this script is saved
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
+
+# If you are doing this for the first time
+# install the package pacman which checks to see if a package is installed, and if not it attempts to install the package from CRAN and/or any other repository in the pacman repository list
+# and install the package devtools which will allow you to download a package straight from GitHub i.e. if they are not yet on CRAN and/or the pacman repository list
+# install.packages("devtools")
+# install.packages("pacman")
+
+# Ensure latest version of OSMtidy & AHgen are installed
+devtools::install_github("avisserquinn/OSMtidy@dev", dependencies = TRUE)
+devtools::install_github("avisserquinn/AHgen@dev", dependencies = TRUE)
+
+# If package has 'non-zero exit status', try re-installing devtools & rlang
+# install.packages("devtools")
+# install.packages("rlang")
+
+# Load required packages
+pacman::p_load(tidyverse, installr, janitor, OSMtidy, AHgen)
+```
+
+
+## 1.0. Read in the data
+
+```{r}
+# Set name, version, location, baseline, and scenario names
+AH_name = "USAH"
+AH_version = "3.0"
+AH_location = "Bristol"
+AH_baseline = "baseline"
+AH_scenario = "floodRiver-100"
+
+# Set directory for outputs
+directory = "outputs/"
+
+# Read in USAH_template_baseline
+USAH_template_baseline = 
+  read_rds("inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
+
+USAH_template_baseline
+
+# Read in the USAH_input you want to start with e.g. USAH_location_baseline
+USAH_location_baseline = 
+  read_rds("inputs/USAH_3.0_Bristol_baseline_20230719-110748.RDS")
+
+# Extract input edgelist
+edgelist_location_baseline = USAH_location_baseline$edgelist
+
+# Read in the OSMtidy count for the baseline
+count_location_baseline = 
+  read_rds("inputs/OSMtidy_count_3.0_Bristol_baseline_20210906.RDS") ## Specify 
+
+# Read in the OSMtidy count for the flood scenario
+count_location_flood = 
+  read_rds("inputs/OSMtidy_count_3.0_Bristol_floodRiver-100_20221212-112538.RDS")
+```
+
+
+## 2.0. Generate new edges to represent the flood hazard
+
+```{r}
+# Compare OSMtidy outputs for a baseline location and flood scenario
+# to find the proportion of physical objects that remain functional
+countCompared = 
+  compareOSMtidy(
+    baselineName = 
+      paste0(AH_name, "_", AH_version, "_", AH_location, "_", AH_baseline),
+    countOSMtidy_baseline = count_location_baseline,
+    scenarioName = 
+      paste0(AH_name, "_", AH_version, "_", AH_location, "_", AH_scenario), 
+    countOSMtidy_scenario = count_location_flood)
+  
+# Create edgesFlood
+edgesFlood = 
+  gen_hazard(
+    vInfo_full = USAH_template_baseline$vInfo,
+    edgelist = edgelist_location_baseline,
+    hazard = "flood", 
+    countCompared = countCompared)
+
+# Make any manual adjustments
+# e.g. Removal centres edge weight in Bristol 1-100 flood scenario
+
+## Bristol 1-100 flood scenario Removal Services to check
+## https://www.google.com/maps/search/bristol+removal+services/@51.4581366,-2.6416926,11.92z
+
+## 29 removal services are NOT in 1-100 Bristol flood extent
+# Lovely Jubbly Removals, 29 Turtlegate Ave, Bristol BS13 8NN, not in 1-100 flood extent
+# DL Removals, 540 Hareclive Rd, Bristol BS13 0LX, not in 1-100 flood extent
+# Million Target Ltd, 49, Bristol BS13 9QT, not in 1-100 flood extent
+# Langdon Removals Ltd, Block 12, Cater Business Park, Bristol BS13 7TT, not in 1-100 flood extent
+# Bristol Man with a Van, 43 Headley Park Ave, Bristol BS13 7NR, not in 1-100 flood extent
+# Abbah Removals, 50 Wrington Cres, Bristol BS13 7EP, not in 1-100 flood extent
+# JC Man and Van Services, S Liberty Ln, Bristol BS3 2SU, not in 1-100 flood extent
+# Bristol Removals, 2a Greville Rd, Southville, Bristol BS3 1LL, not in 1-100 flood extent
+# Manley Van Removals, 8 Ilminster Ave, Bristol BS4 1LT, not in 1-100 flood extent
+# Rock Steady Removals, 22 Newquay Rd, Bristol BS4 1EA, not in 1-100 flood extent
+# KP Transport, 8 Greenwood Rd, Knowle, Bristol BS4 2SX, not in 1-100 flood extent
+# Abacus Removals, 821 Bath Rd, Brislington, Bristol BS4 5NL, not in 1-100 flood extent
+# Van Move It, 123 Raleigh Rd, Southville, Bristol BS3 1QU, not in 1-100 flood extent
+# Kwik Move, Unit 3, Bonville Trading Estate, Bonville Rd, Brislington, Bristol BS4 5QU, not in 1-100 flood extent
+# The Little Removals Company, Alpha Rd, Southville, Bristol BS3 1DH, not in 1-100 flood extent (only just)
+# Excalibur Removals, Ridings Farm, Bridgwater Rd, Dundry, Bristol BS41 8JP, not in 1-100 flood extent
+# Bristol Van Removals Ltd, Industrial Park, Unit 3 Netham Rd, Bristol BS5 9PQ, not in 1-100 flood extent
+# Smartmove Removals Bristol, Wainbrook House, 1 Hudds Vale Rd, Bristol BS5 7HY, not in 1-100 flood extent
+# SWFL Removals and Courier Service, Easton Business Centre, Felix Rd, Easton, Bristol BS5 0HE, not in 1-100 flood extent
+# Man with Van Removals Bristol, 34 Cobourg Rd, Montpelier, Bristol BS6 5HX, not in 1-100 flood extent
+# Big Van Man Removals, 21 Gordon Ave, Whitehall, Bristol BS5 7DY, not in 1-100 flood extent
+# AJM Removals, 569 Fishponds Rd, Bristol BS16 3AF, not in 1-100 flood extent
+# Macro Removals, 77 Gloucester Rd, Staple Hill, Bristol BS16 4SL, not in 1-100 flood extent
+# Knights of Removals, White Lodge Rd, Bristol BS16 5ND, not in 1-100 flood extent
+# Painless Removals, Henleaze House, Henleaze, Bristol BS9 4PN, not in 1-100 flood extent
+# Bristol Man and Van, Hambrook Business Park, The Strm, Hambrook, Bristol BS16 1RQ, not in 1-100 flood extent
+# We Like 2 Move It, 31 Wrington Cl, Little Stoke, Bristol BS34 6EU, not in 1-100 flood extent
+# Wilkinson Removal & Storage, Unit 1b Grange Court Farm Units, Winterbourne, Bristol BS36 1RY, not in 1-100 flood extent
+# Get Moved, 34 Mogg St, St Werburgh's, Bristol BS2 9UB, not in 1-100 flood extent (just)
+
+## 3 removal services ARE in 1-100 Bristol flood extent
+# Easymove Removals, Albert Cres, Bristol BS2 0SU, IS in 1-100 flood extent
+# Move On Removals and Storage, 27-29 Baldwin St, Bristol BS1 1LT, right on the line - treated as IN 1-100 flood extent
+# On the Dot Removals Bristol, 21 Horley Rd, St Werburgh's, Bristol BS2 9TL, IS in 1-100 flood extent
+
+## 29/32 Removal services still functional, for a link weight of 0.90625
+
+# Manual adjustments - Bristol 1-100 flood scenario
+edgesFlood = 
+  edgesFlood %>%
+  mutate(weightNew = ifelse(to == 'Removal services', 0.90625, weightNew))
+
+# Introduce edgesNew to create edgelist_location_flood
+# Note that remove = FALSE is required so that we can track vExcluded
+# before removing the edges with weight = 0 and converting to an igraph for analysis
+edgelist_location_flood = 
+  USAH_location_baseline$edgelist %>%
+  weight_edges(edgesNew = edgesFlood, remove = FALSE) %>%
+  weight_hangingVertices(remove = FALSE)
+```
+
+
+## 3.0. Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
+
+```{r}
+# Generate output for USAH_scenario
+USAH_scenario = 
+  apply_scenario(    
+    AH_input = USAH_location_baseline,
+    edgelist_scenario = edgelist_location_flood,
+    AH_name = AH_name, 
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = AH_scenario)
+
+# Inspect elements
+USAH_scenario$vIncluded
+USAH_scenario$vExcluded
+USAH_scenario$adjMat
+USAH_scenario$edgelist
+USAH_scenario$igraph
+USAH_scenario$results
+USAH_scenario$summary
+```
+
+
+## 4.0. Add sensitivity analysis
+
+```{r}
+# Generate sensitivity analysis
+USAH_scenario_sensitivity = 
+  apply_sensitivity(
+    AH_input = USAH_scenario, 
+    AH_name = AH_name, 
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = AH_scenario)
+
+# Inspect elements
+USAH_scenario_sensitivity[[1]]
+USAH_scenario_sensitivity[[2]]
+USAH_scenario_sensitivity[[3]]
+USAH_scenario_sensitivity$summary$vertices
+USAH_scenario_sensitivity$summary$edges
+USAH_scenario_sensitivity$vExcluded
+USAH_scenario_sensitivity$results
+```
+
+
+## 5.0. Export
+
+```{r, eval = FALSE}
+USAH_scenario_sensitivity %>% 
+  export_AHgen(
+    type = "USAH",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = AH_scenario)
+
+edgesFlood %>% 
+  export_AHgen(
+    type = "USAH_edges",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = AH_scenario)
+
+countCompared %>% 
+  export_countCompared(
+    directory = directory, 
+    version = version, 
+    location = location, 
+    baseline = baseline, 
+    scenario = scenario)
+```
+
+
+## Next
+Next in [Vignette 7D - Application - Introduce other hazards](Vignette-7D---Application---Introduce-other-hazards.html), you will go through the steps of applying other hazards to an Urban Systems Abstraction Hierarchy template in `AHgen`.
+
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
