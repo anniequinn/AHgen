@@ -98,7 +98,7 @@ table_rankDegree <- function(results,
       select(Level, Node, metric_viz, value) %>%
       pivot_wider(names_from = metric_viz, values_from = value)
     
-  } else if(level == "Processes") {
+  } else if(levels == "Processes") {
     
     output <-
       results %>%
