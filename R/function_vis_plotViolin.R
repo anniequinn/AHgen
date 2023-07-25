@@ -1,5 +1,8 @@
-vis_plotViolin <- function(results, metricName, type = "half", 
-                           levels = NULL, family = "Harding") {
+vis_plotViolin <- function(results, 
+                           metricName, 
+                           type = "half", 
+                           levels = NULL, 
+                           family = "Harding") {
   
   require(ggplot2)
   require(ggh4x)

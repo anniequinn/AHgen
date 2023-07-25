@@ -1,4 +1,7 @@
-vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
+vis_plotConfidence <- function(results, 
+                               metricName, 
+                               type, 
+                               family = "Harding") {
   
   require(ggplot2)
   require(ggh4x)
@@ -11,6 +14,7 @@ vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
     titleLab <- "Confidence Ratings for Eigenvector Centrality Rank"
     subtitleLab <- "by Location-Scenario and Level"
   }
+  
   if(metricName == "SBC_norm" & type == "scenarioLevel") {
     results <- 
       results$confidence$confidence_scenarioLevel_SBCnorm %>%
@@ -18,6 +22,7 @@ vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
     titleLab <- "Confidence Ratings for Stable Betweenness Centrality Rank"
     subtitleLab <- "by Location-Scenario and Level"
   }
+  
   if(metricName == "EC" & type == "scenario"){
     results <- 
       results$confidence$confidence_scenario_EC %>%
@@ -25,6 +30,7 @@ vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
     titleLab <- "Confidence Ratings for Eigenvector Centrality Rank"
     subtitleLab <- "by Location-Scenario (across Purposes, Outcomes, & Tasks)"
   }
+  
   if(metricName == "SBC_norm" & type == "scenario"){
     results <- 
       results$confidence$confidence_scenario_SBCnorm %>%
@@ -32,21 +38,25 @@ vis_plotConfidence <- function(results, metricName, type, family = "Harding") {
     titleLab <- "Confidence Ratings for Stable Betweenness Centrality Rank"
     subtitleLab <- "by Location-Scenario (across Tasks, Processes, & Resources)"
   }
+  
   if(metricName == "EC" & type == "level"){
     results <- results$confidence$confidence_level_EC
     titleLab <- "Confidence Ratings for Eigenvector Centrality Rank"
     subtitleLab <- "by Level (across all Location-Scenarios)"
   }
+  
   if(metricName == "SBC_norm" & type == "level"){
     results <- results$confidence$confidence_level_SBCnorm
     titleLab <- "Confidence Ratings for Stable Betweenness Centrality Rank"
     subtitleLab <- "by Level (across all Location-Scenarios)"
   }
+  
   if(metricName == "EC" & type == "overall"){
     results <- results$confidence$confidence_overall_EC
     titleLab <- "Confidence Ratings for Eigenvector Centrality Rank"
     subtitleLab <- "Overall (across Purposes, Outcomes, & Tasks)"
   }
+  
   if(metricName == "SBC_norm" & type == "overall"){
     results <- results$confidence$confidence_overall_SBCnorm
     titleLab <- "Confidence Ratings for Stable Betweenness Centrality Rank"

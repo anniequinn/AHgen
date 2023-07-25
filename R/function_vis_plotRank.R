@@ -1,5 +1,9 @@
-vis_plotRank <- function(results, metricName, levels, AH_benchmark = "baseline",
-                         change.only = FALSE, confidence.lines = FALSE, 
+vis_plotRank <- function(results, 
+                         metricName, 
+                         AH_benchmark = "baseline",
+                         levels = "Tasks",
+                         change.only = FALSE, 
+                         confidence.lines = FALSE, 
                          family = "Harding") {
   
   require(ggplot2)

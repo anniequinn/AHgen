@@ -127,24 +127,331 @@ plot_plotly =
 
 plot_plotly
 ```
-
 Using the building blocks above, it is possible to create an interactive version of an Abstraction Hierarchy. Below you can explore the AHexploreR, an application of this for a generic UK city (the Urban Systems Abstraction Hierarchy, or USAH). 
-
 ```{r, echo = FALSE}
-knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "800px")
+knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "700px")
 ```
+
+You can find all underlying code for the AHexploreR, to adapt for your own interactive Abstraction Hierarchy, [on GitHub here](https://github.com/avisserquinn/AHexploreR).
 
 
 ## 2. Visualising the results
 
-This section covers pre-set output styles to visualise and explore the results of network analysis on Abstraction Hierarchies. These are fairly bespoke styles which can be adapted for your own purposes.
+This section covers pre-set output styles to visualise and explore the results of network analysis on Abstraction Hierarchies.
 
 ### 2.1. Plots
 
+`AHgen` plot styles are bespoke and provided as examples. They have been created thus far during the analysis of Urban Systems Abstraction Hierarchies, and can be adapted for your own purposes.
+
+In the below plots, we use a few custom aesthetics, i.e. specific fonts and colours. *Harding* is a font family which loosely matches Nature journals. You can search online for and download a .ttf file for your chosen font, and load it in R using the [`showtext`](https://cran.rstudio.com/web/packages/showtext/vignettes/introduction.html) package.
+
+```{r}
+font_add(family = "Harding", regular = "../inputs/HardingText-Regular-Web.ttf")
+showtext_auto()
+```
+
+Colours can be loaded directly from `AHgen`, e.g. example data `colsFloodRiver_df` or `colsFloodRiver`. Or you can use your own custom colours!
+
+```{r}
+# Cutsom colours for distinguishing between Abstraction Hierarchy levels
+colsLevels_df
+
+colsPurposes
+colsOutcomes
+colsTasks
+colsProcesses
+colsResources
+
+
+# Custom colours for comparing 1 in 100-year and 1 in 200-year floods to a baseline Urban Systems Abstraction Hierarchy
+colsFloodRiver_df
+
+colsBaseline
+colsFloodRiver
+colsFloodRiver100
+colsFloodRiver200
+
+
+# Custom colours for distinguishing between different categories of Outcomes and Tasks in the Urban Systems Abstraction Hierarchy
+cols100RC_df
+
+colsOutcomes_100RC
+colsOutcomes_ES
+colsOutcomes_HW
+colsOutcomes_IE
+colsOutcomes_LS
+
+colsTasks_100RC
+colsTasks_ES
+colsTasks_HW
+colsTasks_IE
+colsTasks_LS
+```
+
+Plots from these functions may not display accurately in the Plots window of RStudio, but you can export and inspect them with `ggsave()` as below.
+```{r, eval = FALSE}
+ggsave(
+  filenameTimestamp(prefix = "violinHalf_ECvals", 
+                    extension = ".png"),
+  plot = violinHalf_ECvals, 
+  width = 4, height = 3, dpi = 600)
+```
+
+
+#### 2.1.1. Violin plots with `vis_plotViolin()`
+
+The function `vis_plotViolin()` generates violin plots showing the distribution of results values, comparing new scenarios against a benchmark. 
+
+It has five input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *metricName* - the metric for which results will be displayed, e.g. "EC" or "SBC_norm"
+- *type* - whether the benchmark results and scenario results are displayed side-by-side (`type = "half"`) or as overlapping wholes (`type = "overlap"`); by default this is set to `type = "half"`)
+- *levels* - the levels of the Abstraction Hierarchy for which results will be displayed; by default this is set to `levels = NULL` such that within the function the selection of levels displayed is automated depending on the metric being visualised
+- *family* - the font family to visualise; by default this is set to `family = "Harding"`
+
+```{r}
+# Read in comparison of scenarios
+allScenarios_compared =
+  read_rds(
+    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+
+# Reformat scenario column to rename into a more visually friendly format
+# assign the new scenario names to ordered levels
+# and add the custom colours
+results = 
+  allScenarios_compared$results %>%
+  mutate(scenario = recode(scenario,
+                           'floodRiver-100' = '1 in 100-year flood',
+                           'floodRiver-200' = '1 in 200-year flood')) %>%
+  mutate(scenario = factor(scenario, 
+                           levels = c("baseline", 
+                                      "1 in 100-year flood", 
+                                      "1 in 200-year flood"))) %>%
+  full_join(colsFloodRiver_df)
+
+# Half violin plot for Eigenvector Centrality results
+violinHalf_ECvals = 
+  vis_plotViolin(
+    results = results, 
+    metricName = "EC", 
+    family = "Harding")
+violinHalf_ECvals
+
+# Overlap violin plot for Stable Betweenness Centrality results
+violinOverlap_SBCvals = 
+  vis_plotViolin(
+    results = results, 
+    metricName = "SBC_norm", 
+    type = "overlap", 
+    family = "Harding")
+violinOverlap_SBCvals
+```
+
+To adapt the underlying code for your own purposes, inspect the function with `print()`.
+```{r}
+print(vis_plotViolin)
+```
+
+
+#### 2.1.2. Scatter plots with `vis_plotScatter()`
+
+The function `vis_plotScatter()` generates scatter plots showing the distribution of either results values, change from benchmark values, or percentage change from benchmark values.
+
+It has nine input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *metricName* - the metric for which results will be displayed, e.g. "EC" or "SBC_norm"
+- *AH_benchmark* - the benchmark scenario to compare other scenarios to; by default this is set to `AH_benchmark = "baseline"`
+- *type* - the type of results to be displayed; options are `type = "values"`, `type = "valuesChange"`, or `type = "percentChange"`
+- *levels* - the levels of the Abstraction Hierarchy for which results will be displayed; by default this is set to `levels = NULL` such that within the function the selection of levels displayed is automated depending on the metric being visualised
+- *locations* - ; by default this is set to `locations = NULL`
+- *omit.zeros* - ; by default this is set to `omit.zeros = TRUE`
+- *omit.inf* - ; by default this is set to `omit.inf = TRUE`
+- *family* - the font family to visualise; by default this is set to `family = "Harding"`
+
+```{r}
+# Read in comparison of scenarios
+allScenarios_compared =
+  read_rds(
+    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+
+# Reformat scenario column to rename into a more visually friendly format
+# assign the new scenario names to ordered levels
+# and add the custom colours
+results = 
+  allScenarios_compared$results %>%
+  mutate(scenario = recode(scenario,
+                           'floodRiver-100' = '1 in 100-year flood',
+                           'floodRiver-200' = '1 in 200-year flood')) %>%
+  mutate(scenario = factor(scenario, 
+                           levels = c("baseline", 
+                                      "1 in 100-year flood", 
+                                      "1 in 200-year flood"))) %>%
+  full_join(colsFloodRiver_df)
+
+
+# Scatter plot of Eigenvector Centrality values
+scatter_all_ECvals = 
+  vis_plotScatter(
+    results = results, 
+    metricName = "EC", 
+    type = "values")
+scatter_all_ECvals
+
+# Scatter plot of Eigenvector Centrality values change for specific levels and locations
+scatter_variation_ECvalsChange = 
+  vis_plotScatter(
+    results = results,
+    levels = c("Outcomes", "Tasks"), 
+    locations = c("Edinburgh", "Glasgow"),
+    metricName = "EC", 
+    type = "valuesChange")
+scatter_variation_ECvalsChange
+
+# Scatter plot of Stable Betweenness Centrality percent change
+scatter_all_SBCpctChange = 
+  vis_plotScatter(
+    results = results, 
+    metricName = "SBC_norm", 
+    type = "percentChange")
+scatter_all_SBCpctChange
+```
+
+#### 2.1.3. Rank change plots with `vis_plotRank()`
+
+The function `vis_plotRank()` generates line charts showing changing rank by level results across scenarios. 
+
+It has seven input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *metricName* - the metric for which results will be displayed, e.g. "EC" or "SBC_norm"
+- *AH_benchmark* - the benchmark scenario to compare other scenarios to; by default this is set to `AH_benchmark = "baseline"`
+- *levels* - the levels of the Abstraction Hierarchy for which results will be displayed; by default this is set to `levels = NULL` such that within the function the selection of levels displayed is automated depending on the metric being visualised
+- *change.only* - a specification to use colours only for vertices with a changed rank; by default this is set to `change.only = FALSE`
+- *confidence.lines* - a specification to use line types (e.g. dotted and dashed) to signify confidence ratings of rank changes; by default this is set to `confidence.lines = FALSE`
+- *family* - the font family to visualise; by default this is set to `family = "Harding"`
+
+```{r}
+# Read in comparison of scenarios
+allScenarios_compared =
+  read_rds(
+    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+
+# Reformat scenario column to rename into a more visually friendly format
+# assign the new scenario names to ordered levels
+# and add the custom colours
+results = 
+  allScenarios_compared$results %>%
+  mutate(scenario = recode(scenario,
+                           'floodRiver-100' = '1 in 100-year flood',
+                           'floodRiver-200' = '1 in 200-year flood')) %>%
+  mutate(scenario = factor(scenario, 
+                           levels = c("baseline", 
+                                      "1 in 100-year flood", 
+                                      "1 in 200-year flood"))) %>%
+  full_join(cols100RC_df)
+
+# Line rank plot of top Resources and rank changes by Stable Betweenness Centrality
+rank_outcomes_ECvals = 
+  vis_plotRank(
+    results = results, 
+    metricName = "EC", 
+    levels = "Outcomes", 
+    change.only = TRUE)
+rank_outcomes_ECvals
+
+# Line rank plot of top Resources and rank changes by Stable Betweenness Centrality
+rank_resources_SBCvals = 
+  vis_plotRank(
+    results = results, 
+    metricName = "SBC_norm", 
+    levels = "Resources", 
+    change.only = TRUE)
+rank_resources_SBCvals
+```
+Note that for Stable Betweenness Centrality ranks - unlike Eigenvector Centrality ranks - multiple vertices can be positioned at the same rank. This is due to having the same number of "shortest paths". For this reason SBC rank is also more prone to low confidence ratings, however these confidence ratings are still displayed for completeness.
+
+
+#### 2.1.4. Summarising confidence ratings for rank changes with `vis_plotConfidence()`
+
+The function `vis_plotConfidence()` generates bar charts summarising confidence ratings for rank by level results.
+
+It has input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *metricName* - the metric for which results will be displayed, e.g. "EC" or "SBC_norm"
+- *type* - the type of results to be displayed; options are `type = "scenarioLevel"`, `type = "scenario"`, `type = "level"`, or `type = "overall"`
+- *family* - the font family to visualise; by default this is set to `family = "Harding"`
+
+Note that for Eigenvector Centrality, `type = "scenario"` and `type = "overall"` capture results only for the Purposes, Outcomes, and Tasks levels of the Abstraction Hierarchy. Likewise for Stable Betweenness Centrality, this captures results only for the Tasks, Processes, and Resources levels of the Abstraction Hierarchy.
+```{r}
+# Confidence ratings for rank by level by Eigenvector Centrality
+# broken down by scenario and level
+confidence_EC_scenarioLevel = 
+  vis_plotConfidence(
+    results = allScenarios_compared, 
+    metricName = "EC", 
+    type = "scenarioLevel")
+
+# Confidence ratings for rank by level by Stable Betweenness Centrality
+# broken down by scenario and level
+confidence_SBC_scenarioLevel = 
+  vis_plotConfidence(
+    results = allScenarios_compared, 
+    metricName = "SBC_norm", 
+    type = "scenarioLevel")
+
+# Confidence ratings for rank by level by Stable Betweenness Centrality
+# broken down by scenario
+confidence_EC_scenario = 
+  vis_plotConfidence(
+    results = allScenarios_compared, 
+    metricName = "EC", 
+    type = "scenario")
+
+# Confidence ratings for rank by level by Stable Betweenness Centrality
+# broken down by level
+confidence_EC_level = 
+  vis_plotConfidence(
+    results = allScenarios_compared, 
+    metricName = "EC", 
+    type = "level")
+
+# Confidence ratings for rank by level by Stable Betweenness Centrality
+# overall
+confidence_EC_overall = 
+  vis_plotConfidence(
+    results = allScenarios_compared, 
+    metricName = "EC", 
+    type = "overall")
+```
 
 ### 2.2. Tables
 
-It is sometimes useful to summarise results in a table format for reports and academic papers. `AHgen` has several preset functions for this.
+It is sometimes useful to summarise results in a table format which can be exported as an Excel sheet, for reports and academic papers. `AHgen` has several preset functions for this.
+
+#### 2.1. Summary tables for number of vertices and edges
+
+The function `table_vertices()` creates a summary table of Abstraction Hierarchy vertices; likewise the function `table_edges()` creates a summary table of Abstraction Hierarchy edges.
+
+They have four input arguments:
+
+- *vSummary* or *eSummary*, respectively - 
+- *singleScenario* - whether the *vSummary* or *eSummary* include a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vSummary* or *eSummary* include multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vSummary* or *eSummary* include multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+
+```{r}
+
+
+```
+
+#### 2.2.
+
+#### 2.3.
+
+#### 2.4.
 
 
 ## Next

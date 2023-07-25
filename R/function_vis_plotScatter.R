@@ -1,12 +1,12 @@
 vis_plotScatter <- function(results, 
-                            AH_benchmark = "baseline", 
                             metricName, 
+                            AH_benchmark = "baseline", 
                             type, 
                             levels = NULL, 
                             locations = NULL, 
                             omit.zeros = TRUE, 
                             omit.inf = TRUE,
-                            family) { 
+                            family = "Harding") { 
   
   require(ggplot2)
   require(ggh4x)

@@ -1,4 +1,5 @@
-table_vExcluded <- function(vExcluded_benchmark, vExcluded_input,
+table_vExcluded <- function(vExcluded_benchmark, 
+                            vExcluded_input,
                             singleScenario = TRUE,
                             compareLocations = FALSE,
                             compareScenarios = FALSE) {
