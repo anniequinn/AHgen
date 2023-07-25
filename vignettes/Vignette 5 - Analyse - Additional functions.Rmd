@@ -74,10 +74,10 @@ Below is an example application of `check_desc()`.
 <details><summary><span style = "color: #2196F3;">Show code - Example 1 - Check `OSMtidy` desc terms to include and exclude</span></summary>
 ```{r}
 # Read in OSMtidy output
-geoData = read_rds("../inputs/OSMtidy_Bristol_20210826.RDS")
+geoData = read_rds("inputs/OSMtidy_Bristol_20210826.RDS")
 
 # Read in OSMtidy-AHgen key for allocating OSMtidy desc terms to USAH Resources
-key = read_csv("../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
+key = read_csv("inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
 
 # Check which desc terms were detected in the Open Street Map data
 desc_check = check_desc(geoData = geoData, key = key)
@@ -183,7 +183,7 @@ Below is an example application of `apply_location()`.
 ```{r}
 # Read in AHgen output for baseline template USAH
 USAH_template_baseline = 
-  read_rds("../inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
+  read_rds("inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
 
 # Inspect baseline template USAH vInfo
 USAH_template_baseline$vInfo
@@ -259,11 +259,11 @@ Below is an example application of `weight_hazard()`.
 ```{r}
 # Read in the OSMtidy count for the Bristol baseline
 count_Bristol_baseline = 
-  read_rds("../inputs/OSMtidy_count_3.0_Bristol_baseline_20210906.RDS") 
+  read_rds("inputs/OSMtidy_count_3.0_Bristol_baseline_20210906.RDS") 
 
 # Read in the OSMtidy count for the Bristol flood scenario
 count_Bristol_flood = 
-  read_rds("../inputs/OSMtidy_count_3.0_Bristol_floodRiver-100_20221212-112538.RDS")
+  read_rds("inputs/OSMtidy_count_3.0_Bristol_floodRiver-100_20221212-112538.RDS")
 
 # Compare OSMtidy outputs for a baseline location and flood scenario
 # to find the proportion of physical objects that remain functional
@@ -522,7 +522,7 @@ When applying the function:
 ```{r}
 # Read in the AH_benchmark you want to use as a point of comparison
 USAH_benchmark =
-  read_rds("../inputs/toCompare/USAH_3.0_Bristol_baseline_20230719-110748.RDS")
+  read_rds("inputs/toCompare/USAH_3.0_Bristol_baseline_20230719-110748.RDS")
 
 # Create a designated folder (e.g. "toCompare") 
 # where you've copied all individual scenario outputs you are comparing to the benchmark
@@ -530,7 +530,7 @@ USAH_benchmark =
 # Read in all the file names from the designated folder
 scenarioFilenames = 
   list.files(
-    path = "../inputs/toCompare", 
+    path = "inputs/toCompare", 
     pattern = ".*USAH_.*\\.RDS", 
     full.names = TRUE)
 
@@ -541,7 +541,7 @@ scenarios_toCompare =
 # Create vector for file names without path and extension
 scenarioNames = 
   list.files(
-    path = "../inputs/toCompare", 
+    path = "inputs/toCompare", 
     pattern = ".*USAH_.*\\.RDS") %>% 
   tools::file_path_sans_ext()
 

@@ -6,7 +6,7 @@ output:
   html_document:
     toc: true
     toc_float: true
-    toc_depth: 3
+    toc_depth: 4
     theme: paper
     highlight: haddock
 vignette: >
@@ -23,7 +23,9 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
+library(showtext)
 library(AHgen)
+library(OSMtidy)
 ```
 
 <style>
@@ -51,13 +53,13 @@ To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0
 
 This section will cover pre-set visualisations for the Abstraction Hierarchy itself.
 ```{r include = FALSE}
-dh <- read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
+dh <- read_adjMat("inputs/mobilityAH_adjMat_20230629.xlsx") 
 dv <- dh %>% select(level, levelName_full, levelName, Node)
 de <- dh %>% adjMat_to_edgelist(vInfo = dv)
 di <- dh %>% adjMat_to_igraph(vInfo = dv)
 di_w <- 
   weight_edges(de, 
-               read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")) %>%
+               read_xlsx("inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")) %>%
   edgelist_to_igraph(vInfo = dv)
 ```
 First we need to create a key to specify the positioning of vertices, in `AHgen` called a visKey. This could also be done in a .xlsx file externally and imported into R.
@@ -146,7 +148,7 @@ This section covers pre-set output styles to visualise and explore the results o
 In the below plots, we use a few custom aesthetics, i.e. specific fonts and colours. *Harding* is a font family which loosely matches Nature journals. You can search online for and download a .ttf file for your chosen font, and load it in R using the [`showtext`](https://cran.rstudio.com/web/packages/showtext/vignettes/introduction.html) package.
 
 ```{r}
-font_add(family = "Harding", regular = "../inputs/HardingText-Regular-Web.ttf")
+font_add(family = "Harding", regular = "inputs/HardingText-Regular-Web.ttf")
 showtext_auto()
 ```
 
@@ -214,7 +216,7 @@ It has five input arguments:
 # Read in comparison of scenarios
 allScenarios_compared =
   read_rds(
-    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+    "inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
 
 # Reformat scenario column to rename into a more visually friendly format
 # assign the new scenario names to ordered levels
@@ -274,7 +276,7 @@ It has nine input arguments:
 # Read in comparison of scenarios
 allScenarios_compared =
   read_rds(
-    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+    "inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
 
 # Reformat scenario column to rename into a more visually friendly format
 # assign the new scenario names to ordered levels
@@ -336,7 +338,7 @@ It has seven input arguments:
 # Read in comparison of scenarios
 allScenarios_compared =
   read_rds(
-    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+    "inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
 
 # Reformat scenario column to rename into a more visually friendly format
 # assign the new scenario names to ordered levels
@@ -394,6 +396,8 @@ confidence_EC_scenarioLevel =
     metricName = "EC", 
     type = "scenarioLevel")
 
+confidence_EC_scenarioLevel
+
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by scenario and level
 confidence_SBC_scenarioLevel = 
@@ -401,6 +405,8 @@ confidence_SBC_scenarioLevel =
     results = allScenarios_compared, 
     metricName = "SBC_norm", 
     type = "scenarioLevel")
+
+confidence_SBC_scenarioLevel
 
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by scenario
@@ -410,6 +416,8 @@ confidence_EC_scenario =
     metricName = "EC", 
     type = "scenario")
 
+confidence_EC_scenario
+
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by level
 confidence_EC_level = 
@@ -418,6 +426,8 @@ confidence_EC_level =
     metricName = "EC", 
     type = "level")
 
+confidence_EC_level
+
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # overall
 confidence_EC_overall = 
@@ -425,13 +435,18 @@ confidence_EC_overall =
     results = allScenarios_compared, 
     metricName = "EC", 
     type = "overall")
+
+confidence_EC_overall
 ```
+
+
 
 ### 2.2. Tables
 
 It is sometimes useful to summarise results in a table format which can be exported as an Excel sheet, for reports and academic papers. `AHgen` has several preset functions for this.
 
-#### 2.1. Summary tables for number of vertices and edges
+
+#### 2.2.1. Summary tables for number of vertices and edges
 
 The function `table_vertices()` creates a summary table of Abstraction Hierarchy vertices; likewise the function `table_edges()` creates a summary table of Abstraction Hierarchy edges.
 
@@ -447,17 +462,7 @@ The table provides both the number of vertices (or edges) in each level (or laye
 # Read in comparison of scenarios
 allScenarios_compared =
   read_rds(
-    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
-
-# Create summary table of vertices
-# for a single scenario
-tbl_vertices_single = 
-  table_vertices(
-    vSummary = 
-      allScenarios_compared$vertices %>% 
-      filter(location == "Bristol", scenario == "baseline"))
-
-tbl_vertices_single
+    "inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
 
 # Create summary table of vertices
 # comparing location-scenario combinations
@@ -482,7 +487,9 @@ tbl_edges_multi =
 tbl_edges_multi
 ```
 
-#### 2.2. Summary table for excluded vertices
+
+
+#### 2.2.2. Summary table for excluded vertices
 
 It has five input arguments:
 
@@ -504,7 +511,8 @@ tbl_vExcluded
 ```
 
 
-#### 2.3. Summary table for Degree results
+
+#### 2.2.3. Summary table for Degree results
 
 The functions `table_degrees()` generates a table of degree network analysis results for Abstraction Hierarchies.
 
@@ -542,7 +550,8 @@ tbl_degrees_resources
 ```
 
 
-#### 2.4. Summary table for Eigenvector Centrality results
+
+#### 2.2.4. Summary table for Eigenvector Centrality results
 
 The functions `table_rankEC()` generates a table of Eigenvector Centrality network analysis results for Abstraction Hierarchies.
 
@@ -562,7 +571,9 @@ tbl_EC =
     compareScenarios = TRUE)
 ```
 
-#### 2.5. Summary table for Stable Betweenness Centrality results
+
+
+#### 2.2.5. Summary table for Stable Betweenness Centrality results
 
 The functions `table_rankSBC()` generates a table of Stable Betweenness Centrality network analysis results for Abstraction Hierarchies.
 
@@ -585,7 +596,8 @@ tbl_SBC
 ```
 
 
-#### 2.6. `tables_AHgen()`
+
+#### 2.2.6. `tables_AHgen()`
 
 For a quick application of `AHgen`'s `table_*()` functions, you can use `tables_AHgen()`.
 

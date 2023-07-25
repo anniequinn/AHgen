@@ -65,20 +65,20 @@ For more detail and a longer list of options for network analysis metrics, check
 We can use the guidelines in the table below for interpreting the network analysis results for any Abstraction Hierarchy, adapted from see [McClymont et al.](https://doi.org/10.1029/2023EF003594) and [Bedinger et al](https://doi.org/10.1016/j.cities.2023.104355). Due to the hierarchical nature of the Abstraction Hierarchy results should only be compared within a level, i.e. a result for a Resource should only be compared to results for other Resources.
 
 ```{r, echo = FALSE}
-metricsTable = read_xlsx("../data-raw/USAH_interpretation.xlsx")
+metricsTable = read_xlsx("images/4 - Analyse - Core functions/USAH_interpretation.xlsx")
 knitr::kable(metricsTable) %>% kable_styling(font_size = 11)
 ```
 
 To get ready for network analysis in the following sections, let's read in and convert an example Abstraction Hierarchy.
 ```{r}
 # Read in adjacency matrix for the Urban Systems Abstraction Hierarchy
-dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
+dh = read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
 
 # Extract vInfo
 dv = dh %>% select(level, levelName_full, levelName, Node)
 
 # Read in vInfo_full
-vInfo_full = read_xlsx("../inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
+vInfo_full = read_xlsx("inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
 
 # Convert to an igraph
 di = adjMat_to_igraph(adjMat = dh, vInfo = dv)

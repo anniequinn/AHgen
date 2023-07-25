@@ -83,7 +83,7 @@ An igraph is an object class from the package of the same name. The igraph data 
 The code output below is an *igraph of an abstraction hierarchy*.
 
 ```{r echo = FALSE}
-dh = read_adjMat("../inputs/microwaveAH_adjMat_20230629.xlsx") 
+dh = read_adjMat("inputs/microwaveAH_adjMat_20230629.xlsx") 
 dv = dh %>% select(level, levelName_full, levelName, Node)
 di = dh %>% adjMat_to_igraph(vInfo = dv)
 di
@@ -137,13 +137,13 @@ The classic human factors example of cooking food in a microwave. The Excel file
 5. The diagonal cannot be linked i.e. a vertex cannot link to itself.
 
 ```{r }
-read_adjMat("../inputs/microwaveAH_adjMat_20230629.xlsx")
+read_adjMat("inputs/microwaveAH_adjMat_20230629.xlsx")
 ```
 
 Notice that the empty cells from the Excel file are filled with zeroes by `AHgen`. This means these vertices are not linked, i.e. they have no weight. We might want to rescale the linked, or weighted edges, to 0.5. To do this, change the `rescale` argument to `TRUE`.
 
 ```{r}
-read_adjMat("../inputs/microwaveAH_adjMat_20230629.xlsx", rescale = TRUE)
+read_adjMat("inputs/microwaveAH_adjMat_20230629.xlsx", rescale = TRUE)
 ```
 </details>
 
@@ -158,16 +158,16 @@ We now consider a second example abstraction hierarchy, *mobilityAH_adjMat_20230
 4. The **edges** between vertices are again denoted by cells with a value of **1**. This time, **non-edges** are denoted by **0** cells.
 5. But there are three extra columns of vertex information, **level**, **levelName_full**, and **levelName**. If these columns had different names they would be read in as vertices!
 
-With only one sheet, the first sheet is the adjacency matrix, and if we don't want to rescale the data, then only one input argument is required `"../inputs/mobilityAH_adjMat_20230629.xlsx"`.
+With only one sheet, the first sheet is the adjacency matrix, and if we don't want to rescale the data, then only one input argument is required `"inputs/mobilityAH_adjMat_20230629.xlsx"`.
 
 ```{r}
-read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx")
+read_adjMat("inputs/mobilityAH_adjMat_20230629.xlsx")
 ```
 
 The code chunk below shows what happens if there is a mismatch in column names. Check out the file *mobilityAH_error_adjMat_20230629.xlsx* to see if you can spot the problem.
 
 ```{r, error = TRUE}
-read_adjMat("../inputs/mobilityAH_error_adjMat_20230629.xlsx")
+read_adjMat("inputs/mobilityAH_error_adjMat_20230629.xlsx")
 ```
 </details>
 
@@ -183,7 +183,7 @@ The vertex information can be read in using the function `read_vInfo()`. This fu
 For the microwave AH, the vertex information is in the second sheet. Each row describes a single vertex in terms of level, level name (full), level name, and vertex name. To avoid errors, these columns must be named **level**, **levelName_full**, **levelName** and **Node**. 
 
 ```{r}
-read_vInfo("../inputs/microwaveAH_vInfo_20230629.xlsx")
+read_vInfo("inputs/microwaveAH_vInfo_20230629.xlsx")
 ```
 </details>
 
@@ -193,7 +193,7 @@ read_vInfo("../inputs/microwaveAH_vInfo_20230629.xlsx")
 We saw in Example 2 that the vertex information was embedded in the adjacency matrix. This can be extracted using the `tidyverse` function `select`.
 
 ```{r}
-read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") %>% 
+read_adjMat("inputs/mobilityAH_adjMat_20230629.xlsx") %>% 
   select(level, levelName_full, levelName, Node)
 ```
 </details>
@@ -209,14 +209,14 @@ The `check_symmetry` function confirms that an adjacency matrix has completely s
 ```{r}
 # Confirm adjMat has completely symmetrical edges i.e. there are no input errors
 dh_USAH = 
-  read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
+  read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
 
 symmetryCheck = dh_USAH %>% check_symmetry()
 
 # See what happens when a few of the edges in the adjacency matrix are unsymmetrical
 dh_USAH_error = 
   read_adjMat(
-  "../inputs/USAH_3.0_template_baseline_error-symmetry_adjMat_20230602.xlsx")
+  "inputs/USAH_3.0_template_baseline_error-symmetry_adjMat_20230602.xlsx")
 
 symmetryCheck_error = dh_USAH_error %>% check_symmetry()
 symmetryCheck_error
@@ -231,14 +231,14 @@ The `check_redundancy` function confirms that an adjacency matrix has no vertice
 # Confirm adjMat has no vertices with redundant sets of edges i.e. no vertices
 # are connected to the same set of other vertices between two levels
 dh_USAH = 
-  read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
+  read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
 
 redundancyCheck = dh_USAH %>% check_redundancy()
 
 # See what happens when a few of the edges in the adjacency matrix are unsymmetrical
 dh_USAH_error = 
   read_adjMat(
-    "../inputs/USAH_3.0_template_baseline_error-redundancy_adjMat_20230602.xlsx")
+    "inputs/USAH_3.0_template_baseline_error-redundancy_adjMat_20230602.xlsx")
 
 redundancyCheck_error = dh_USAH_error %>% check_redundancy()
 ```
@@ -256,16 +256,16 @@ The `check_names` function confirms that *desc* name and the *Resource* name are
 ```{r}
 # Read in adjacency matrix
 dh_USAH = 
-  read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
+  read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx")
 
 # Read in vInfo
 dv_USAH = 
-  read_vInfo("../inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
+  read_vInfo("inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
 
 # Read in key to match names from one software package (OSMtidy) 
 # to names in another software package (AHgen)
 key = read_csv(
-  "../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE) 
+  "inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE) 
 
 # Check that all the names match and return any that do not match
 nameCheck_correct = 
@@ -275,17 +275,17 @@ nameCheck_correct =
 # Read in adjacency matrix
 dh_USAH_error = 
   read_adjMat(
-    "../inputs/USAH_3.0_template_baseline_error-names_adjMat_20230602.xlsx")
+    "inputs/USAH_3.0_template_baseline_error-names_adjMat_20230602.xlsx")
 
 # Read in vInfo
 dv_USAH_error = 
   read_vInfo(
-    "../inputs/USAH_3.0_template_baseline_error-names_vInfo-full_20230621.xlsx")
+    "inputs/USAH_3.0_template_baseline_error-names_vInfo-full_20230621.xlsx")
 
 # Read in key to match names from one software package (OSMtidy) 
 # to names in another software package (AHgen)
 key = read_csv(
-  "../inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
+  "inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
 
 # Check that all the names match and return any that do not match
 nameCheck_error = 
@@ -312,7 +312,7 @@ To change format, `AHgen` has a family of six conversion functions:
 Before introducing the examples, we need to save the adjacency matrix and vertex information as objects in the environment. We do this using the `<-` or `=` operators.
 
 ```{r}
-dh = read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
+dh = read_adjMat("inputs/mobilityAH_adjMat_20230629.xlsx") 
 dv = dh %>% select(level, levelName_full, levelName, Node)
 ```
 

@@ -37,7 +37,7 @@ library(AHgen)
 </style>
 
 ```{r include = FALSE}
-dh = read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
+dh = read_adjMat("inputs//mobilityAH_adjMat_20230629.xlsx") 
 dv = dh %>% select(level, levelName_full, levelName, Node)
 de = dh %>% adjMat_to_edgelist(vInfo = dv)
 di = dh %>% adjMat_to_igraph(vInfo = dv)
@@ -210,7 +210,7 @@ If any conflicts exist, inspect the duplicate edges, and correct the input file 
 <details><summary><span style = "color: #2196F3;">Example 5 - Check new edges for duplicates</span></summary>
 ```{r}
 # Read in new edges
-de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+de_w = read_xlsx("inputs//mobilityAH_edges_exampleWeights_20230629.xlsx")
 de_w
 
 # Check for duplicates
@@ -218,7 +218,7 @@ check_duplicates(edges = de_w)
 
 # See what happens if there are any duplicates
 de_w_errorDuplicates = 
-  read_xlsx("../inputs/mobilityAH_edges_exampleWeights_error-duplicates_20230629.xlsx")
+  read_xlsx("inputs//mobilityAH_edges_exampleWeights_error-duplicates_20230629.xlsx")
 de_w_errorDuplicates
 check_duplicates(edges = de_w_errorDuplicates)
 ```
@@ -245,7 +245,7 @@ If any conflicts exist, inspect the different edges, and correct the *edgesNew* 
 <details><summary><span style = "color: #2196F3;">Example 6 - Check differences between two groups of edges</span></summary>
 ```{r}
 # Read in the mobility adjacency matrix
-dh = read_adjMat("../inputs/mobilityAH_adjMat_20230629.xlsx") 
+dh = read_adjMat("inputs//mobilityAH_adjMat_20230629.xlsx") 
 
 # Extract vInfo
 dv = dh %>% select(level, levelName_full, levelName, Node)
@@ -254,7 +254,7 @@ dv = dh %>% select(level, levelName_full, levelName, Node)
 de = dh %>% adjMat_to_edgelist(vInfo = dv)
 
 # Read in new edges
-de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+de_w = read_xlsx("inputs//mobilityAH_edges_exampleWeights_20230629.xlsx")
 de_w
 
 # Check for duplicates
@@ -262,7 +262,7 @@ check_diff(edgelist = de, edges = de_w)
 
 # See what happens if there are any differences
 de_w_errorDiff = 
-  read_xlsx("../inputs/mobilityAH_edges_exampleWeights_error-diff_20230629.xlsx")
+  read_xlsx("inputs//mobilityAH_edges_exampleWeights_error-diff_20230629.xlsx")
 de_w_errorDiff
 check_diff(edgelist = de, edges = de_w_errorDiff)
 ```
@@ -328,7 +328,7 @@ Weightings may be determined externally and imported. Let's revisit our case whe
 
 ```{r}
 # Read in edgesNew with new weights
-de_w = read_xlsx("../inputs/mobilityAH_edges_exampleWeights_20230629.xlsx")
+de_w = read_xlsx("inputs//mobilityAH_edges_exampleWeights_20230629.xlsx")
 de_w
 ```
 
@@ -359,7 +359,7 @@ When applying the function:
 <details><summary><span style = "color: #2196F3;">Example 9 - Remove hanging vertices from an edge list</span></summary>
 ```{r}
 # Read in the Urban Systems Abstraction Hierarchy adjacency matrix
-dh = read_adjMat("../inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
+dh = read_adjMat("inputs//USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
 
 # Extract vInfo
 dv = dh %>% select(level, levelName_full, levelName, Node)
@@ -368,7 +368,7 @@ dv = dh %>% select(level, levelName_full, levelName, Node)
 de = dh %>% adjMat_to_edgelist(vInfo = dv)
 
 # Read in the edgesNew
-de_w = read_xlsx("../inputs/USAH_3.0_template_baseline_edges_exampleWeights_20230602.xlsx")
+de_w = read_xlsx("inputs//USAH_3.0_template_baseline_edges_exampleWeights_20230602.xlsx")
 
 # Inspect the edgesNew
 de_w
