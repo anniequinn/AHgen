@@ -437,21 +437,197 @@ The function `table_vertices()` creates a summary table of Abstraction Hierarchy
 
 They have four input arguments:
 
-- *vSummary* or *eSummary*, respectively - 
+- *vSummary* or *eSummary*, respectively - the summary of vertices or edges, in standard `AHgen` output
+- *singleScenario* - whether the *vSummary* or *eSummary* include a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vSummary* or *eSummary* include multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vSummary* or *eSummary* include multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+
+The table provides both the number of vertices (or edges) in each level (or layer), as well as the percentage as compared to the total number of vertices or edges in that Abstraction Hierarchy as a whole.
+```{r}
+# Read in comparison of scenarios
+allScenarios_compared =
+  read_rds(
+    "../inputs/comparison_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200_20230720-174337.RDS")
+
+# Create summary table of vertices
+# for a single scenario
+tbl_vertices_single = 
+  table_vertices(
+    vSummary = 
+      allScenarios_compared$vertices %>% 
+      filter(location == "Bristol", scenario == "baseline"))
+
+tbl_vertices_single
+
+# Create summary table of vertices
+# comparing location-scenario combinations
+tbl_vertices_multi = 
+  table_vertices(
+    vSummary = allScenarios_compared$vertices, 
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_vertices_multi
+
+# Create summary table of edges
+# comparing location-scenario combinations
+tbl_edges_multi = 
+  table_edges(
+    eSummary = allScenarios_compared$edges, 
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_edges_multi
+```
+
+#### 2.2. Summary table for excluded vertices
+
+It has five input arguments:
+
+- *vExcluded_benchmark* - the excluded vertices from the benchmark scenario to be compared against, in standard `AHgen` output format
+- *vExcluded_input* - the excluded vertices from the new scenarios to compare, in standard `AHgen` output format
+- *singleScenario* - whether the *vExcluded* includes a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vExcluded* includes multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vExcluded* includes multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+```{r}
+tbl_vExcluded = 
+  table_vExcluded(
+    vExcluded_benchmark = "NA", 
+    vExcluded_input = allScenarios_compared$vExcluded, 
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_vExcluded
+```
+
+
+#### 2.3. Summary table for Degree results
+
+The functions `table_degrees()` generates a table of degree network analysis results for Abstraction Hierarchies.
+
+It has five input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *levels* - the levels of the Abstraction Hierarchy for which results will be displayed; by default this is set to `levels = "all"`
+- *singleScenario* - whether the *vExcluded* includes a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vExcluded* includes multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vExcluded* includes multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+
+```{r}
+# Table of degree results for all Abstraction Hierarchy levels
+# comparing across multiple locations and scenarios
+tbl_degree_all = 
+  table_rankDegree(
+    results = allScenarios_compared$results, 
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_degree_all
+
+# Table of degree results for Resources level
+# comparing across multiple locations and scenarios
+tbl_degrees_resources = 
+  table_rankDegree(
+    results = allScenarios_compared$results, 
+    levels = "Resources", 
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_degrees_resources
+```
+
+
+#### 2.4. Summary table for Eigenvector Centrality results
+
+The functions `table_rankEC()` generates a table of Eigenvector Centrality network analysis results for Abstraction Hierarchies.
+
+It has four input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *singleScenario* - whether the *vExcluded* includes a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vExcluded* includes multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vExcluded* includes multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+
+```{r}
+tbl_EC = 
+  table_rankEC(
+    results = allScenarios_compared$results,
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+```
+
+#### 2.5. Summary table for Stable Betweenness Centrality results
+
+The functions `table_rankSBC()` generates a table of Stable Betweenness Centrality network analysis results for Abstraction Hierarchies.
+
+It has four input arguments:
+
+- *results* - the results to be displayed, in standard `AHgen` output format
+- *singleScenario* - whether the *vExcluded* includes a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
+- *compareLocations* - whether the *vExcluded* includes multiple locations to be compared; by default this is set to `compareLocations = FALSE`
+- *compareScenarios* - whether the *vExcluded* includes multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
+
+```{r}
+tbl_SBC = 
+  table_rankSBC(
+    results = allScenarios_compared$results,
+    singleScenario = FALSE, 
+    compareLocations = TRUE, 
+    compareScenarios = TRUE)
+
+tbl_SBC
+```
+
+
+#### 2.6. `tables_AHgen()`
+
+For a quick application of `AHgen`'s `table_*()` functions, you can use `tables_AHgen()`.
+
+It has eight input arguments: 
+
+- *vSummary* - the summary of vertices, in standard `AHgen` output
+- *eSummary* - the summary of edges, in standard `AHgen` output
+- *vExcluded_benchmark* - the excluded vertices from the benchmark scenario to be compared against, in standard `AHgen` output format
+- *vExcluded_input* - the excluded vertices from the new scenarios to compare, in standard `AHgen` output format
+- *results* - the results to be displayed, in standard `AHgen` output format
 - *singleScenario* - whether the *vSummary* or *eSummary* include a single scenario or multiple scenarios; by default this is set to `singleScenario = TRUE`
 - *compareLocations* - whether the *vSummary* or *eSummary* include multiple locations to be compared; by default this is set to `compareLocations = FALSE`
 - *compareScenarios* - whether the *vSummary* or *eSummary* include multiple scenarios to be compared; by default this is set to *compareScenarios = FALSE`
 
 ```{r}
+tables_all = 
+    tables_AHgen(
+      vSummary = allScenarios_compared$vertices,
+      eSummary = allScenarios_compared$edges,
+      vExcluded_benchmark = "NA", 
+      vExcluded_input = allScenarios_compared$vExcluded, 
+      results = allScenarios_compared$results,
+      singleScenario = FALSE, 
+      compareLocations = TRUE, 
+      compareScenarios = TRUE)
 
-
+tables_all
 ```
 
-#### 2.2.
+Each list element will be treated as an Excel sheet, if you can export it as below using `OSMtidy`'s `exportExcel()` function.
 
-#### 2.3.
+```{r, eval = FALSE}
+# Load OSMtidy to use the exportExcel function
+p_load(OSMtidy)
 
-#### 2.4.
+# Export
+exportExcel(
+  inputList = tables_all, 
+  filenameTimestamp(
+    prefix = "tables_USAH_3.0_fiveCities-baseline_fiveCities-floodRiver-100-200",
+    extension = ".xlsx"))
+```
 
 
 ## Next

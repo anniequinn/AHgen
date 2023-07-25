@@ -1,4 +1,5 @@
-table_rankDegree <- function(results, levels = "all", 
+table_rankDegree <- function(results, 
+                             levels = "all", 
                              singleScenario = TRUE, 
                              compareLocations = FALSE,
                              compareScenarios = FALSE) {
