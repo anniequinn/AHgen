@@ -1,5 +1,5 @@
 ---
-title: "Application - Introduce flood"
+title: "Application - Introduce other hazards"
 author: 
  - Annie Visser-Quinn & Melissa Bedinger
 output: 
@@ -10,7 +10,7 @@ output:
     theme: paper
     highlight: haddock
 vignette: >
-  %\VignetteIndexEntry{Vignette 7C - Application - Introduce flood}
+  %\VignetteIndexEntry{Vignette 7D - Application - Introduce other hazards}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -38,7 +38,7 @@ library(AHgen)
 
 ---
 
-In this vignette, you will go through the steps of applying a flood extent to a location-specific Urban Systems Abstraction Hierarchy in `AHgen`:
+In this vignette, you will go through the steps of applying other hazards to an Urban Systems Abstraction Hierarchy template in `AHgen`:
 
     0.1. - Prepare the environment
     1.0. - Read in the data
@@ -254,27 +254,11 @@ USAH_scenario_sensitivity %>%
     AH_version = AH_version, 
     AH_location = AH_location, 
     AH_scenario = AH_scenario)
-
-edgesFlood %>% 
-  export_AHgen(
-    type = "USAH_edges",
-    directory = directory,
-    AH_version = AH_version, 
-    AH_location = AH_location, 
-    AH_scenario = AH_scenario)
-
-countCompared %>% 
-  export_countCompared(
-    directory = directory, 
-    version = version, 
-    location = location, 
-    baseline = baseline, 
-    scenario = scenario)
 ```
 
 
 ## Next
-Next in [Vignette 7D - Application - Introduce other hazards](Vignette-7D---Application---Introduce-other-hazards.html), you will go through the steps of applying other hazards to an Urban Systems Abstraction Hierarchy template in `AHgen`.
+Next in [Vignette 7E - Application - Compare scenarios](Vignette-7E---Application---Compare-scenarios.html), you will go through the steps of comparing Urban Systems Abstraction Hierarchies in `AHgen`.
 
 
 ## Last updated
