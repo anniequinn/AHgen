@@ -92,8 +92,8 @@ tables_AHgen <- function(vSummary,
       compareScenarios = compareScenarios)
   
   output <- 
-    list(tbl_degrees_vertices,
-         tbl_degrees_edges,
+    list(tbl_vertices,
+         tbl_edges,
          tbl_vExcluded,
          tbl_degree_all,
          tbl_degrees_purposes,
