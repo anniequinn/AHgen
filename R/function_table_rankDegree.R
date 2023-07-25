@@ -61,7 +61,7 @@ table_rankDegree <- function(results,
   } else if(levels == "Outcomes") {
     
     output <-
-      AH_input$results %>%
+      results %>%
       filter(metric %in% 
                c("nodeDegree_up1", "nodeDegree_down1", 
                  "nodeDegree_down2", "nodeDegree_down3")) %>%
@@ -81,7 +81,7 @@ table_rankDegree <- function(results,
   } else if(levels == "Tasks") {
     
     output <-
-      AH_input$results %>%
+      results %>%
       filter(metric %in% 
                c("nodeDegree_up2", "nodeDegree_up1", 
                  "nodeDegree_down1", "nodeDegree_down2")) %>%
@@ -101,7 +101,7 @@ table_rankDegree <- function(results,
   } else if(level == "Processes") {
     
     output <-
-      AH_input$results %>%
+      results %>%
       filter(metric %in% 
                c("nodeDegree_up3", "nodeDegree_up2", 
                  "nodeDegree_up1", "nodeDegree_down1")) %>%
