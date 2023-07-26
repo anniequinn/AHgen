@@ -27,7 +27,7 @@ There are six vignettes designed to get you on your way:
 
 - Vignette 0 - [Welcome to AHgen](https://avisserquinn.github.io/AHgen/vignettes/Vignette-0---Welcome-to-AHgen.html)
 - Vignette 1 - [Getting started](https://avisserquinn.github.io/AHgen/vignettes/Vignette-1---Getting-started.html)
-- Vignette 2 - [Input & Convert](https://avisserquinn.github.io/AHgen/vignettes/Vignette-2---Input-&-Convert.html)
+- Vignette 2 - [Input & Convert](https://avisserquinn.github.io/AHgen/vignettes/Vignette-2---Input---Convert.html)
 - Vignette 3 - [Weight](https://avisserquinn.github.io/AHgen/vignettes/Vignette-3---Weight.html)
 - Vignette 4 - [Analyse - Core functions](https://avisserquinn.github.io/AHgen/vignettes/Vignette-4---Analyse---Core-functions.html)
 - Vignette 5 - [Analyse - Additional functions](https://avisserquinn.github.io/AHgen/vignettes/Vignette-5---Analyse---Additional-functions.html)

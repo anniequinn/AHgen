@@ -93,7 +93,7 @@ htmltools::img(src = knitr::image_uri("images/workflow-clean.png"),
 There are six vignettes designed to get you on your way:
 
 - Vignette 1 - [Getting started](Vignette-1---Getting-started.html)
-- Vignette 2 - [Input & Convert](Vignette-2---Input-&-Convert.html)
+- Vignette 2 - [Input & Convert](Vignette-2---Input---Convert.html)
 - Vignette 3 - [Weight](Vignette-3---Weight.html)
 - Vignette 4 - [Analyse - Core functions](Vignette-4---Analyse---Core-functions.html)
 - Vignette 5 - [Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html)
