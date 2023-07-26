@@ -2,8 +2,6 @@
 
 <img align="left" src="vignettes/images/hex.png" height = "10%" width = "10%"> 
 
-Welcome to `AHgen`!
-
 ## What is `AHgen`?
 
 `AHgen` was created to generate, analyse, compare, and visualise Abstraction Hierarchies. Historically, applications of the Abstraction Hierarchy method aimed to visualise and inspect the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. `AHgen` brings the Abstraction Hierarchy into the 21st century with an open source software code in R.
@@ -20,11 +18,10 @@ Welcome to `AHgen`!
 4. **Analyse** Applying network analysis, plus summarising, comparing, and exporting outputs
 5. **Visualise** Visualising the Abstraction Hierarchy and results
 
-&nbsp;
-
 <p align="center">
-<img src="vignettes/images/workflow-clean.png" height = "50%" width = "50%">
+<img src="vignettes/images/workflow-clean.png" height = "80%" width = "80%">
 </p
+
 
 There are six vignettes designed to get you on your way:
 
