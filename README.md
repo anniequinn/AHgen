@@ -1,12 +1,12 @@
-# AHgen
+# `AHgen`
 
-<img align="left" src="vignettes/images/hex.png" height = "15%" width = "15%"> 
+<img align="left" src="vignettes/images/hex.png" height = "10%" width = "10%"> 
 
 ## What is `AHgen`?
 
 `AHgen` was created to generate, analyse, compare, and visualise Abstraction Hierarchies. Historically, applications of the Abstraction Hierarchy method aimed to visualise and inspect the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. `AHgen` brings the Abstraction Hierarchy into the 21st century with an open source software code in R.
 
-`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from [OSMtidy](https://github.com/avisserquinn/OSMtidy). Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
+`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from [`OSMtidy`](https://github.com/avisserquinn/OSMtidy). Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
 
 ## `AHgen` workflow and functions
 
