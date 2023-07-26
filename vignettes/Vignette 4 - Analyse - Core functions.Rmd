@@ -30,7 +30,7 @@ library(AHgen)
 <style>
 #TOC {
   background: url("images/hex.png");
-  background-size: 230px;
+  background-size: 220px;
   background-position-x: center;
   background-position-y: top;
   padding-top: 280px !important;

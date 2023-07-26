@@ -1,0 +1,201 @@
+---
+title: "Application - <br>Compare scenarios"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{Vignette 7E - Application - Compare scenarios}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 220px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
+---
+
+In this vignette, you will go through the steps of comparing Urban Systems Abstraction Hierarchies in `AHgen`:
+
+1. Prepare the environment
+2. Compare scenarios to a single benchmark
+3. Compare scenarios to respective (multiple) benchmarks
+4. Export
+
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
+
+## 1. Prepare the environment
+```{r, eval = FALSE}
+# Clear the RStudio environment
+rm(list = ls()); cat("/014"); gc(verbose = TRUE)
+
+# CTRL + SHIFT + F10 will detach any loaded packages and restart R
+
+# Set the working directory to the folder where this script is saved
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
+
+# If you are doing this for the first time
+
+# install the package pacman which checks to see if a package is installed
+# and if not it attempts to install the package from CRAN 
+# and/or any other repository in the pacman repository list
+
+# and install the package devtools which will allow you to download a package straight from GitHub 
+# i.e. if they are not yet on CRAN and/or the pacman repository list
+
+install.packages("devtools")
+install.packages("pacman")
+
+# Ensure latest version of AHgen is installed
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
+
+# If package has 'non-zero exit status', try re-installing devtools & rlang
+install.packages("devtools")
+install.packages("rlang")
+
+# Load required packages
+pacman::p_load(tidyverse, installr, janitor, AHgen)
+```
+
+
+## 2. Compare scenarios to a single benchmark
+
+If you want to compare a single new scenario to a single benchmark, you can adapt the code below.
+```{r}
+# Read in the AH_benchmark you want to use as a point of comparison
+USAH_benchmark =
+  read_rds("inputs/toCompare/USAH_3.0_Bristol_baseline_20230719-110748.RDS")
+
+# Create a designated folder (e.g. "toCompare") 
+# where you've copied all individual scenario outputs you are comparing to the benchmark
+
+# Read in all the file names from the designated folder
+scenarioFilenames = 
+  list.files(
+    path = "inputs/toCompare", 
+    pattern = ".*USAH_.*\\.RDS", 
+    full.names = TRUE)
+
+# Read in all scenario files to a list of lists
+scenarios_toCompare = 
+  lapply(scenarioFilenames, function (x) readRDS(x))
+
+# Create vector for file names without path and extension
+scenarioNames = 
+  list.files(
+    path = "inputs/toCompare", 
+    pattern = ".*USAH_.*\\.RDS") %>% 
+  tools::file_path_sans_ext()
+
+# Set names of allScenarios list elements to reflect correct scenario
+names(scenarios_toCompare) = scenarioNames
+
+# Compare the Abstraction Hierarchies
+Bristol_floodRiver_compared = 
+  compare_AH(type = "USAH",
+             AH_benchmark = USAH_benchmark, 
+             scenarios_toCompare = scenarios_toCompare, 
+             scenarioNames = scenarioNames)
+
+# Inspect the compared vertices
+Bristol_floodRiver_compared$vertices
+
+# Inspect the compared edges
+Bristol_floodRiver_compared$edges
+
+# Inspect the compared vExcluded
+Bristol_floodRiver_compared$vExcluded
+
+# Inspect the compared results
+Bristol_floodRiver_compared$results
+
+# Inspect the compared confidence ratings
+# if a sensitivity analysis has been applied to any of the input scenarios
+Bristol_floodRiver_compared$confidence
+```
+
+
+## 3. Compare scenarios to respective (multiple) benchmarks
+
+If you have compiled several comparisons similar to Section 2, you can also combine results to compare multiple scenarios to their respective (multiple) benchmarks, as below.
+
+```{r}
+# Read in the data
+# individual comparisons of a flood scenario to a benchmark scenario for five different locations
+Bristol =   
+  read_rds(
+    "inputs/comparison_USAH_3.0_Bristol-baseline_Bristol-floodRiver-100_20230720-173152.RDS")
+
+Edinburgh = 
+  read_rds(
+    "inputs/comparison_USAH_3.0_Edinburgh-baseline_Edinburgh-floodRiver-200_20230720-173512.RDS")
+
+Glasgow = 
+  read_rds(
+    "inputs/comparison_USAH_3.0_Glasgow-baseline_Glasgow-floodRiver-200_20230720-173627.RDS")
+
+LondonCentral = 
+  read_rds(
+    "inputs/comparison_USAH_3.0_London-Central-baseline_London-Central-floodRiver-100_20230720-173814.RDS")
+
+Manchester = 
+  read_rds(
+    "inputs/comparison_USAH_3.0_Manchester-baseline_Manchester-floodRiver-100_20230720-173929.RDS")
+
+
+# Combine the five comparisons
+fiveCities_floodRiver_combined = 
+  Bristol %>%
+  purrr::map2(Edinburgh, rbind) %>%
+  purrr::map2(Glasgow, rbind) %>%
+  purrr::map2(LondonCentral, rbind) %>%
+  purrr::map2(Manchester, rbind)
+
+# Generate a new summary of confidence ratings
+fiveCities_floodRiver_combined$confidence =
+  fiveCities_floodRiver_combined$results %>%
+  summarise_confidence()
+
+# Inspect the compared vertices
+fiveCities_floodRiver_combined$vertices
+
+# Inspect the compared edges
+fiveCities_floodRiver_combined$edges
+
+# Inspect the compared vExcluded
+fiveCities_floodRiver_combined$vExcluded
+
+# Inspect the compared results
+fiveCities_floodRiver_combined$results
+
+# Inspect the compared confidence ratings
+fiveCities_floodRiver_combined$confidence
+```
+
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

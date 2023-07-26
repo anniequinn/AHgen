@@ -1,5 +1,5 @@
 ---
-title: "Application - Generate template"
+title: "Application - <br>Generate template Urban Systems Abstraction Hierarchy"
 author: 
  - Annie Visser-Quinn & Melissa Bedinger
 output: 
@@ -10,7 +10,7 @@ output:
     theme: paper
     highlight: haddock
 vignette: >
-  %\VignetteIndexEntry{Vignette 7A - Application - Generate template}
+  %\VignetteIndexEntry{Vignette 7A - Application - Generate template Urban Systems Abstraction Hierarchy}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,7 +28,7 @@ library(AHgen)
 <style>
 #TOC {
   background: url("images/hex.png");
-  background-size: 230px;
+  background-size: 220px;
   background-position-x: center;
   background-position-y: top;
   padding-top: 280px !important;
@@ -40,16 +40,16 @@ library(AHgen)
 
 In this vignette, you will go through the steps of generating a template Urban Systems Abstraction Hierarchy in `AHgen`:
 
-    0.1. - Prepare the environment
-    1.0. - Read in the data
-    2.0. - Check the data
-    3.0. - Generate the Urban Systems Abstraction Hierarchy template
-    4.0. - Export
+1. Prepare the environment
+2. Read in the data
+3. Check the data
+4. Generate the template Urban Systems Abstraction Hierarchy
+5. Export
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 
-## 0.1. Prepare the environment
+## 1. Prepare the environment
 
 ```{r, eval = FALSE}
 # Clear the RStudio environment
@@ -61,24 +61,30 @@ rm(list = ls()); cat("/014"); gc(verbose = TRUE)
 setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
 
 # If you are doing this for the first time
-# install the package pacman which checks to see if a package is installed, and if not it attempts to install the package from CRAN and/or any other repository in the pacman repository list
-# and install the package devtools which will allow you to download a package straight from GitHub i.e. if they are not yet on CRAN and/or the pacman repository list
-# install.packages("devtools")
-# install.packages("pacman")
+
+# install the package pacman which checks to see if a package is installed
+# and if not it attempts to install the package from CRAN 
+# and/or any other repository in the pacman repository list
+
+# and install the package devtools which will allow you to download a package straight from GitHub 
+# i.e. if they are not yet on CRAN and/or the pacman repository list
+
+install.packages("devtools")
+install.packages("pacman")
 
 # Ensure latest version of AHgen is installed
-devtools::install_github("avisserquinn/AHgen@dev", dependencies = TRUE)
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
 
 # If package has 'non-zero exit status', try re-installing devtools & rlang
-# install.packages("devtools")
-# install.packages("rlang")
+install.packages("devtools")
+install.packages("rlang")
 
 # Load required packages
 pacman::p_load(tidyverse, readxl, installr, janitor, vctrs, AHgen)
 ```
 
 
-## 1.0. Read in the data
+## 2. Read in the data
 
 ```{r}
 # Set name, version, location, and scenario
@@ -116,7 +122,7 @@ key
 ```
 
 
-## 2.0. Check the data
+## 3. Check the data
 
 ```{r}
 # Confirm adjMat has completely symmetrical edges i.e. there are no input errors
@@ -136,7 +142,7 @@ check_names(adjMat_template, vInfo_template_full, key)
 ```
 
 
-## 3.0. Generate the Urban Systems Abstraction Hierarchy template
+## 4. Generate the Urban Systems Abstraction Hierarchy template
 
 ```{r}
 # Generate standard AHgen output for USAH baseline template
@@ -161,7 +167,7 @@ USAH_template_baseline$summary
 ```
 
 
-## 4.0. Export
+## 5. Export
 
 ```{r, eval = FALSE}
 # Write output to RDS file
@@ -173,14 +179,14 @@ USAH_template_baseline %>%
     AH_location = AH_location, 
     AH_scenario = AH_scenario)
 
-# If subnetwork assignment has been updated, write out to xlsx for future use
-# USAH_template_baseline$vInfo %>% 
-#   write.xlsx(
-#     filenameTimestamp(
-#       prefix = paste0(directory,
-#                       name, "_", version, "_", location, "_", scenario, 
-#                       "_vInfo-full"),
-#   extension = ".xlsx"))
+# If subnetwork assignment has been updated, write out to .xlsx for future use
+USAH_template_baseline$vInfo %>% 
+ write.xlsx(
+   filenameTimestamp(
+     prefix = paste0(directory,
+                     name, "_", version, "_", location, "_", scenario, 
+                    "_vInfo-full"),
+ extension = ".xlsx"))
 ```
 
 

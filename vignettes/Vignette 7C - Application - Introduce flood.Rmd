@@ -1,5 +1,5 @@
 ---
-title: "Application - Introduce flood"
+title: "Application - <br>Introduce flood"
 author: 
  - Annie Visser-Quinn & Melissa Bedinger
 output: 
@@ -22,13 +22,14 @@ rm(list = ls()); cat("\014")
 
 library(knitr)
 library(tidyverse)
+library(OSMtidy)
 library(AHgen)
 ```
 
 <style>
 #TOC {
   background: url("images/hex.png");
-  background-size: 230px;
+  background-size: 220px;
   background-position-x: center;
   background-position-y: top;
   padding-top: 280px !important;
@@ -40,17 +41,17 @@ library(AHgen)
 
 In this vignette, you will go through the steps of applying a flood extent to a location-specific Urban Systems Abstraction Hierarchy in `AHgen`:
 
-    0.1. - Prepare the environment
-    1.0. - Read in the data
-    2.0. - Generate new edges to represent the flood hazard
-    3.0. - Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
-    4.0. - Add sensitivity analysis
-    5.0. - Export
+1. Prepare the environment
+2. Read in the data
+3. Generate new edges to represent the flood hazard
+4. Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
+5. Add sensitivity analysis
+6. Export
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 
-## 0.1. Prepare the environment
+## 1. Prepare the environment
 
 ```{r, eval = FALSE}
 # Clear the RStudio environment
@@ -62,25 +63,30 @@ rm(list = ls()); cat("/014"); gc(verbose = TRUE)
 setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
 
 # If you are doing this for the first time
-# install the package pacman which checks to see if a package is installed, and if not it attempts to install the package from CRAN and/or any other repository in the pacman repository list
-# and install the package devtools which will allow you to download a package straight from GitHub i.e. if they are not yet on CRAN and/or the pacman repository list
-# install.packages("devtools")
-# install.packages("pacman")
 
-# Ensure latest version of OSMtidy & AHgen are installed
-devtools::install_github("avisserquinn/OSMtidy@dev", dependencies = TRUE)
-devtools::install_github("avisserquinn/AHgen@dev", dependencies = TRUE)
+# install the package pacman which checks to see if a package is installed
+# and if not it attempts to install the package from CRAN 
+# and/or any other repository in the pacman repository list
+
+# and install the package devtools which will allow you to download a package straight from GitHub 
+# i.e. if they are not yet on CRAN and/or the pacman repository list
+
+install.packages("devtools")
+install.packages("pacman")
+
+# Ensure latest version of AHgen is installed
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
 
 # If package has 'non-zero exit status', try re-installing devtools & rlang
-# install.packages("devtools")
-# install.packages("rlang")
+install.packages("devtools")
+install.packages("rlang")
 
 # Load required packages
 pacman::p_load(tidyverse, installr, janitor, OSMtidy, AHgen)
 ```
 
 
-## 1.0. Read in the data
+## 2. Read in the data
 
 ```{r}
 # Set name, version, location, baseline, and scenario names
@@ -116,7 +122,7 @@ count_location_flood =
 ```
 
 
-## 2.0. Generate new edges to represent the flood hazard
+## 3. Generate new edges to represent the flood hazard
 
 ```{r}
 # Compare OSMtidy outputs for a baseline location and flood scenario
@@ -132,60 +138,59 @@ countCompared =
   
 # Create edgesFlood
 edgesFlood = 
-  gen_hazard(
+  weight_hazard(
     vInfo_full = USAH_template_baseline$vInfo,
     edgelist = edgelist_location_baseline,
     hazard = "flood", 
     countCompared = countCompared)
 
-# Make any manual adjustments
-# e.g. Removal centres edge weight in Bristol 1-100 flood scenario
+# Manual checks
 
-## Bristol 1-100 flood scenario Removal Services to check
-## https://www.google.com/maps/search/bristol+removal+services/@51.4581366,-2.6416926,11.92z
+# REMOVAL SERVICES TO CHECK IN THE BRISTOL FLOOD EXTENT:
+# https://www.google.com/maps/search/bristol+removal+services/@51.4581366,-2.6416926,11.92z
 
-## 29 removal services are NOT in 1-100 Bristol flood extent
-# Lovely Jubbly Removals, 29 Turtlegate Ave, Bristol BS13 8NN, not in 1-100 flood extent
-# DL Removals, 540 Hareclive Rd, Bristol BS13 0LX, not in 1-100 flood extent
-# Million Target Ltd, 49, Bristol BS13 9QT, not in 1-100 flood extent
-# Langdon Removals Ltd, Block 12, Cater Business Park, Bristol BS13 7TT, not in 1-100 flood extent
-# Bristol Man with a Van, 43 Headley Park Ave, Bristol BS13 7NR, not in 1-100 flood extent
-# Abbah Removals, 50 Wrington Cres, Bristol BS13 7EP, not in 1-100 flood extent
-# JC Man and Van Services, S Liberty Ln, Bristol BS3 2SU, not in 1-100 flood extent
-# Bristol Removals, 2a Greville Rd, Southville, Bristol BS3 1LL, not in 1-100 flood extent
-# Manley Van Removals, 8 Ilminster Ave, Bristol BS4 1LT, not in 1-100 flood extent
-# Rock Steady Removals, 22 Newquay Rd, Bristol BS4 1EA, not in 1-100 flood extent
-# KP Transport, 8 Greenwood Rd, Knowle, Bristol BS4 2SX, not in 1-100 flood extent
-# Abacus Removals, 821 Bath Rd, Brislington, Bristol BS4 5NL, not in 1-100 flood extent
-# Van Move It, 123 Raleigh Rd, Southville, Bristol BS3 1QU, not in 1-100 flood extent
-# Kwik Move, Unit 3, Bonville Trading Estate, Bonville Rd, Brislington, Bristol BS4 5QU, not in 1-100 flood extent
-# The Little Removals Company, Alpha Rd, Southville, Bristol BS3 1DH, not in 1-100 flood extent (only just)
-# Excalibur Removals, Ridings Farm, Bridgwater Rd, Dundry, Bristol BS41 8JP, not in 1-100 flood extent
-# Bristol Van Removals Ltd, Industrial Park, Unit 3 Netham Rd, Bristol BS5 9PQ, not in 1-100 flood extent
-# Smartmove Removals Bristol, Wainbrook House, 1 Hudds Vale Rd, Bristol BS5 7HY, not in 1-100 flood extent
-# SWFL Removals and Courier Service, Easton Business Centre, Felix Rd, Easton, Bristol BS5 0HE, not in 1-100 flood extent
-# Man with Van Removals Bristol, 34 Cobourg Rd, Montpelier, Bristol BS6 5HX, not in 1-100 flood extent
-# Big Van Man Removals, 21 Gordon Ave, Whitehall, Bristol BS5 7DY, not in 1-100 flood extent
-# AJM Removals, 569 Fishponds Rd, Bristol BS16 3AF, not in 1-100 flood extent
-# Macro Removals, 77 Gloucester Rd, Staple Hill, Bristol BS16 4SL, not in 1-100 flood extent
-# Knights of Removals, White Lodge Rd, Bristol BS16 5ND, not in 1-100 flood extent
-# Painless Removals, Henleaze House, Henleaze, Bristol BS9 4PN, not in 1-100 flood extent
-# Bristol Man and Van, Hambrook Business Park, The Strm, Hambrook, Bristol BS16 1RQ, not in 1-100 flood extent
-# We Like 2 Move It, 31 Wrington Cl, Little Stoke, Bristol BS34 6EU, not in 1-100 flood extent
-# Wilkinson Removal & Storage, Unit 1b Grange Court Farm Units, Winterbourne, Bristol BS36 1RY, not in 1-100 flood extent
-# Get Moved, 34 Mogg St, St Werburgh's, Bristol BS2 9UB, not in 1-100 flood extent (just)
+# 29 REMOVAL SERVICES ARE NOT IN THE BRISTOL FLOOD EXTENT:
+# Lovely Jubbly Removals, 29 Turtlegate Ave, Bristol BS13 8NN
+# DL Removals, 540 Hareclive Rd, Bristol BS13 0LX
+# Million Target Ltd, 49, Bristol BS13 9QT
+# Langdon Removals Ltd, Block 12, Cater Business Park, Bristol BS13 7TT
+# Bristol Man with a Van, 43 Headley Park Ave, Bristol BS13 7NR
+# Abbah Removals, 50 Wrington Cres, Bristol BS13 7EP
+# JC Man and Van Services, S Liberty Ln, Bristol BS3 2SU
+# Bristol Removals, 2a Greville Rd, Southville, Bristol BS3 1LL
+# Manley Van Removals, 8 Ilminster Ave, Bristol BS4 1LT
+# Rock Steady Removals, 22 Newquay Rd, Bristol BS4 1EA
+# KP Transport, 8 Greenwood Rd, Knowle, Bristol BS4 2SX
+# Abacus Removals, 821 Bath Rd, Brislington, Bristol BS4 5NL
+# Van Move It, 123 Raleigh Rd, Southville, Bristol BS3 1QU
+# Kwik Move, Unit 3, Bonville Trading Estate, Bonville Rd, Brislington, Bristol BS4 5QU
+# The Little Removals Company, Alpha Rd, Southville, Bristol BS3 1DH
+# Excalibur Removals, Ridings Farm, Bridgwater Rd, Dundry, Bristol BS41 8JP
+# Bristol Van Removals Ltd, Industrial Park, Unit 3 Netham Rd, Bristol BS5 9PQ
+# Smartmove Removals Bristol, Wainbrook House, 1 Hudds Vale Rd, Bristol BS5 7HY
+# SWFL Removals and Courier Service, Easton Business Centre, Felix Rd, Easton, Bristol BS5 0HE
+# Man with Van Removals Bristol, 34 Cobourg Rd, Montpelier, Bristol BS6 5HX
+# Big Van Man Removals, 21 Gordon Ave, Whitehall, Bristol BS5 7DY
+# AJM Removals, 569 Fishponds Rd, Bristol BS16 3AF
+# Macro Removals, 77 Gloucester Rd, Staple Hill, Bristol BS16 4SL
+# Knights of Removals, White Lodge Rd, Bristol BS16 5ND
+# Painless Removals, Henleaze House, Henleaze, Bristol BS9 4PN
+# Bristol Man and Van, Hambrook Business Park, The Strm, Hambrook, Bristol BS16 1RQ
+# We Like 2 Move It, 31 Wrington Cl, Little Stoke, Bristol BS34 6EU
+# Wilkinson Removal & Storage, Unit 1b Grange Court Farm Units, Winterbourne, Bristol BS36 1RY
+# Get Moved, 34 Mogg St, St Werburgh's, Bristol BS2 9UB
 
-## 3 removal services ARE in 1-100 Bristol flood extent
-# Easymove Removals, Albert Cres, Bristol BS2 0SU, IS in 1-100 flood extent
-# Move On Removals and Storage, 27-29 Baldwin St, Bristol BS1 1LT, right on the line - treated as IN 1-100 flood extent
-# On the Dot Removals Bristol, 21 Horley Rd, St Werburgh's, Bristol BS2 9TL, IS in 1-100 flood extent
+# 3 REMOVAL SERVICES ARE IN THE BRISTOL FLOOD EXTENT:
+# Easymove Removals, Albert Cres, Bristol BS2 0SU
+# Move On Removals and Storage, 27-29 Baldwin St, Bristol BS1 1LT
+# On the Dot Removals Bristol, 21 Horley Rd, St Werburgh's, Bristol BS2 9TL
 
-## 29/32 Removal services still functional, for a link weight of 0.90625
+# THUS 29/32 REMOVAL SERVICES ARE STILL FUNCTIONAL, FOR AN EDGE WEIGHT OF 0.90625
 
-# Manual adjustments - Bristol 1-100 flood scenario
+# Manually adjust the weighting of Removal services
 edgesFlood = 
   edgesFlood %>%
-  mutate(weightNew = ifelse(to == 'Removal services', 0.90625, weightNew))
+  mutate(weightNew = ifelse(to == "Removal services", 0.90625, weightNew))
 
 # Introduce edgesNew to create edgelist_location_flood
 # Note that remove = FALSE is required so that we can track vExcluded
@@ -197,7 +202,7 @@ edgelist_location_flood =
 ```
 
 
-## 3.0. Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
+## 4. Generate Urban Systems Abstraction Hierarchy for Bristol flood scenario
 
 ```{r}
 # Generate output for USAH_scenario
@@ -221,7 +226,7 @@ USAH_scenario$summary
 ```
 
 
-## 4.0. Add sensitivity analysis
+## 5. Add sensitivity analysis
 
 ```{r}
 # Generate sensitivity analysis
@@ -244,7 +249,7 @@ USAH_scenario_sensitivity$results
 ```
 
 
-## 5.0. Export
+## 6. Export
 
 ```{r, eval = FALSE}
 USAH_scenario_sensitivity %>% 

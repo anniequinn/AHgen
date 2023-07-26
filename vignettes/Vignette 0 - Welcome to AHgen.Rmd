@@ -90,7 +90,7 @@ knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "600px
 htmltools::img(src = knitr::image_uri("images/workflow-clean.png"), 
                alt = 'workflow-clean', width = 600)
 ```
-There are five vignettes designed to get you on your way:
+There are six vignettes designed to get you on your way:
 
 - Vignette 1 - [Getting started](Vignette-1---Getting-started.html)
 - Vignette 2 - [Input & Convert](Vignette-2---Input-&-Convert.html)
@@ -103,14 +103,13 @@ There are five vignettes designed to get you on your way:
 ## Applications
 `AHgen` can be applied to Abstraction Hierarchies in any domain at any scale for various objectives.
 
-Six walkthrough vignettes are provided to illustrate the application of `AHgen` to create and explore the Urban Systems Abstraction Hierarchy (USAH).
+Five walkthrough vignettes are provided to illustrate the application of `AHgen` to create and explore the Urban Systems Abstraction Hierarchy (USAH).
 
-- Vignette 7 - Generating a template
-- Vignette 8 - Applying geospatial data
-- Vignette 9 - Introducing floods
-- Vignette 10 - Introducing other hazards
-- Vignette 11 - Comparing scenarios
-- Vignette 12 - Visualising results
+- Vignette 7A - [Application - Generate template Urban Systems Abstraction Hierarchy](Vignette-7A---Application---Generate-template-Urban-Systems-Abstraction-Hierarchy.html)
+- Vignette 7B - [Application - Apply OSMtidy data](Vignette-7B---Application---Apply-OSMtidy-data.html)
+- Vignette 7C - [Application - Introduce flood](Vignette-7C---Application---Introduce-flood.html)
+- Vignette 7D - [Application - Introduce other hazards](Vignette-7D---Application---Introduce-other-hazards.html)
+- Vignette 7E - [Application - Compare scenarios](Vignette-7E---Application---Compare-scenarios.html)
 
 
 ## Further information

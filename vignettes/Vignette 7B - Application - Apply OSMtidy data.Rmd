@@ -1,5 +1,5 @@
 ---
-title: "Application - Apply OSMtidy data"
+title: "Application - <br>Apply OSMtidy data"
 author: 
  - Annie Visser-Quinn & Melissa Bedinger
 output: 
@@ -28,7 +28,7 @@ library(AHgen)
 <style>
 #TOC {
   background: url("images/hex.png");
-  background-size: 230px;
+  background-size: 220px;
   background-position-x: center;
   background-position-y: top;
   padding-top: 280px !important;
@@ -40,16 +40,16 @@ library(AHgen)
 
 In this vignette, you will go through the steps of applying `OSMtidy` data to generate a location-specific Urban Systems Abstraction Hierarchy in `AHgen`:
 
-    0.1. - Prepare the environment
-    1.0. - Read in the data
-    2.0. - Check and edit the Resources to be excluded
-    3.0. - Generate location-specific Urban Systems Abstraction Hierarchy
-    4.0. - Export
+1. Prepare the environment
+2. Read in the data
+3. Check and edit the Resources to be excluded
+4. Generate location-specific Urban Systems Abstraction Hierarchy
+5. Export
 
 To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
 
 
-## 0.1. Prepare the environment
+## 1. Prepare the environment
 
 ```{r, eval = FALSE}
 # Clear the RStudio environment
@@ -61,24 +61,30 @@ rm(list = ls()); cat("/014"); gc(verbose = TRUE)
 setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
 
 # If you are doing this for the first time
-# install the package pacman which checks to see if a package is installed, and if not it attempts to install the package from CRAN and/or any other repository in the pacman repository list
-# and install the package devtools which will allow you to download a package straight from GitHub i.e. if they are not yet on CRAN and/or the pacman repository list
-# install.packages("devtools")
-# install.packages("pacman")
 
-# Ensure latest version of AHgen is installed
-devtools::install_github("avisserquinn/AHgen@dev", dependencies = TRUE)
+# install the package pacman which checks to see if a package is installed
+# and if not it attempts to install the package from CRAN 
+# and/or any other repository in the pacman repository list
+
+# and install the package devtools which will allow you to download a package straight from GitHub 
+# i.e. if they are not yet on CRAN and/or the pacman repository list
+
+install.packages("devtools")
+install.packages("pacman")
+
+# Ensure latest versions of AHgen is installed
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
 
 # If package has 'non-zero exit status', try re-installing devtools & rlang
-# install.packages("devtools")
-# install.packages("rlang")
+install.packages("devtools")
+install.packages("rlang")
 
 # Load required packages
 pacman::p_load(tidyverse, sf, installr, janitor, AHgen)
 ```
 
 
-## 1.0. Read in the data
+## 2. Read in the data
 
 ```{r}
 # Set system name, version, location, and scenario
@@ -92,25 +98,17 @@ directory = "outputs/"
 
 # Read in USAH_template_baseline
 USAH_template_baseline = 
-  read_rds("inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
-
-USAH_template_baseline
+  readRDS("inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
 
 # Read in OSMtidy output for location
-geoData = 
-  read_rds("inputs/OSMtidy_Bristol_20210826.RDS")
-
-geoData
+geoData = readRDS("inputs/OSMtidy_Bristol_20210826.RDS")
 
 # Read in OSMtidy-AHgen key for allocating OSMtidy descs to AHgen objects
-key = 
-  read_csv("inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
-
-key
+key = read_csv("inputs/OSM-AH-key_3.0_20230717.csv", show_col_types = FALSE)
 ```
 
 
-## 2.0. Check and edit the Resources to be excluded
+## 3. Check and edit the Resources to be excluded
 
 ```{r}
 # Check which desc terms were detected in the OSM data
@@ -130,9 +128,9 @@ checkExclude = desc_check$notDetected_exclude
 # to ensure this is not just missing in the Open Street Map data
 checkExclude %>% select(resource) %>% unique() 
 
-# Create a vector of physical object names that should be included
+# Create a vector of Resource names that should be included
 # but are currently set to be excluded for this location
-manualInclude_vec_Bristol <- 
+manualInclude_vec_Bristol = 
   c("Animal shelters", # Multiple
     "Botanical gardens", # University of Bristol Botanic Garden
     "Broadband provider offices", # Virgin Media
@@ -149,18 +147,18 @@ manualInclude_vec_Bristol <-
     "Vehicle impounds", # Western Distribution Centre: https://www.bristol.gov.uk/parking/if-your-vehicle-has-been-towed-away
     "Water provider offices") # e.g. Bristol Water
 
-
 # Create a dataframe of rows to be removed from desc_check$notDetected_exclude
 # and added to desc_check$notDetected_alwaysInclude
 manualInclude =
   desc_check$notDetected_exclude %>%
-  filter(resource %in% manualInclude_vec_Manchester) %>% ## Specify which manualInclude_vec to use
+  filter(resource %in% manualInclude_vec_Bristol) %>%
   mutate(includedBy = "manualCheck")
 
 # Remove from desc_check$notDetected_exclude
 desc_check$notDetected_exclude =
   desc_check$notDetected_exclude %>%
-  filter(!resource %in% manualInclude_vec_Manchester) ## Specify which manualInclude_vec to use
+  filter(!resource %in% manualInclude_vec_Bristol)
+
 desc_check$notDetected_exclude
 
 # Add to desc_check$notDetected_alwaysInclude
@@ -168,18 +166,12 @@ desc_check$notDetected_alwaysInclude =
   desc_check$notDetected_alwaysInclude %>%
   mutate(includedBy = "automatedKey") %>%
   rbind(manualInclude)
+
 desc_check$notDetected_alwaysInclude
-
-# Inspect to ensure this has worked
-checkAlwaysInclude = desc_check$notDetected_alwaysInclude
-checkAlwaysInclude %>% select(resource) %>% unique()
-
-checkExclude = desc_check$notDetected_exclude
-checkExclude %>% select(resource) %>% unique()
 ```
 
 
-## 3.0. Generate location-specific Urban Systems Abstraction Hierarchy
+## 4. Generate location-specific Urban Systems Abstraction Hierarchy
 
 ```{r}
 # Apply OSMtidy data to USAH
@@ -205,7 +197,7 @@ USAH_location$summary
 ```
 
 
-## 4.0. Export
+## 5. Export
 
 ```{r, eval = FALSE}
 # Write output to RDS file

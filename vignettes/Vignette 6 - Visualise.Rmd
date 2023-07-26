@@ -24,8 +24,8 @@ rm(list = ls()); cat("\014")
 library(knitr)
 library(tidyverse)
 library(showtext)
-library(AHgen)
 library(OSMtidy)
+library(AHgen)
 ```
 
 <style>
@@ -130,6 +130,7 @@ plot_plotly =
 plot_plotly
 ```
 Using the building blocks above, it is possible to create an interactive version of an Abstraction Hierarchy. Below you can explore the AHexploreR, an application of this for a generic UK city (the Urban Systems Abstraction Hierarchy, or USAH). 
+
 ```{r, echo = FALSE}
 knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "700px")
 ```
@@ -199,6 +200,12 @@ ggsave(
   width = 4, height = 3, dpi = 600)
 ```
 
+To adapt the underlying code for your own purposes, inspect any `AHgen` function with `print()`.
+```{r}
+print(vis_plotViolin)
+```
+<br>
+
 
 #### 2.1.1. Violin plots with `vis_plotViolin()`
 
@@ -231,15 +238,23 @@ results =
                                       "1 in 100-year flood", 
                                       "1 in 200-year flood"))) %>%
   full_join(colsFloodRiver_df)
+```
 
+```{r, eval = FALSE}
 # Half violin plot for Eigenvector Centrality results
 violinHalf_ECvals = 
   vis_plotViolin(
     results = results, 
     metricName = "EC", 
     family = "Harding")
-violinHalf_ECvals
+```
 
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_violinHalf_ECvals_20230725-151302.png"), 
+               alt = 'violinHalf_ECvals', width = 700)
+```
+
+```{r, eval = FALSE}
 # Overlap violin plot for Stable Betweenness Centrality results
 violinOverlap_SBCvals = 
   vis_plotViolin(
@@ -247,13 +262,13 @@ violinOverlap_SBCvals =
     metricName = "SBC_norm", 
     type = "overlap", 
     family = "Harding")
-violinOverlap_SBCvals
 ```
 
-To adapt the underlying code for your own purposes, inspect the function with `print()`.
-```{r}
-print(vis_plotViolin)
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_violinOverlap_SBCvals_20230725-151312.png"), 
+               alt = 'violinOverlap_SBCvals', width = 700)
 ```
+
 
 
 #### 2.1.2. Scatter plots with `vis_plotScatter()`
@@ -291,34 +306,67 @@ results =
                                       "1 in 100-year flood", 
                                       "1 in 200-year flood"))) %>%
   full_join(colsFloodRiver_df)
+```
 
-
+```{r, eval = FALSE}
 # Scatter plot of Eigenvector Centrality values
 scatter_all_ECvals = 
   vis_plotScatter(
     results = results, 
     metricName = "EC", 
     type = "values")
-scatter_all_ECvals
+```
 
-# Scatter plot of Eigenvector Centrality values change for specific levels and locations
-scatter_variation_ECvalsChange = 
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_scatter_all_ECvals_20230725-151422.png"), 
+               alt = 'scatter_all_ECvals', width = 800)
+```
+
+```{r, eval = FALSE}
+# Scatter plot of Eigenvector Centrality values for specific levels and locations
+scatter_variation_ECvals = 
   vis_plotScatter(
     results = results,
     levels = c("Outcomes", "Tasks"), 
     locations = c("Edinburgh", "Glasgow"),
     metricName = "EC", 
-    type = "valuesChange")
-scatter_variation_ECvalsChange
+    type = "values")
+```
 
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_scatter_variation2_ECvals_20230725-151455.png"), 
+               alt = 'scatter_variation_ECvals', width = 700)
+```
+
+```{r, eval = FALSE}
+# Scatter plot of Eigenvector Centrality values change
+scatter_variation_ECvals = 
+  vis_plotScatter(
+    results = results, 
+    metricName = "EC", 
+    type = "valuesChange")
+```
+
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_scatter_all_ECvalsChange_20230725-151425.png"), 
+               alt = 'scatter_variation_ECvalsChange', width = 800)
+```
+
+```{r, eval = FALSE}
 # Scatter plot of Stable Betweenness Centrality percent change
 scatter_all_SBCpctChange = 
   vis_plotScatter(
     results = results, 
     metricName = "SBC_norm", 
     type = "percentChange")
-scatter_all_SBCpctChange
 ```
+
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_scatter_all_SBCpctChange_20230725-151438.png"), 
+               alt = 'scatter_all_SBCpctChange', width = 800)
+```
+<br>
+
 
 #### 2.1.3. Rank change plots with `vis_plotRank()`
 
@@ -353,16 +401,24 @@ results =
                                       "1 in 100-year flood", 
                                       "1 in 200-year flood"))) %>%
   full_join(cols100RC_df)
+```
 
-# Line rank plot of top Resources and rank changes by Stable Betweenness Centrality
+```{r, eval = FALSE}
+# Line rank plot of Outcomes and rank changes by Eigenvector Centrality
 rank_outcomes_ECvals = 
   vis_plotRank(
     results = results, 
     metricName = "EC", 
     levels = "Outcomes", 
     change.only = TRUE)
-rank_outcomes_ECvals
+```
 
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_rank_outcomes_ECvals_20230725-151551.png"), 
+               alt = 'rank_outcomes_ECvals', width = 800)
+```
+
+```{r, eval = FALSE}
 # Line rank plot of top Resources and rank changes by Stable Betweenness Centrality
 rank_resources_SBCvals = 
   vis_plotRank(
@@ -370,9 +426,15 @@ rank_resources_SBCvals =
     metricName = "SBC_norm", 
     levels = "Resources", 
     change.only = TRUE)
-rank_resources_SBCvals
 ```
+
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_rank_resources_SBCvals_20230725-151620.png"), 
+               alt = 'rank_resources_SBCvals', width = 800)
+```
+
 Note that for Stable Betweenness Centrality ranks - unlike Eigenvector Centrality ranks - multiple vertices can be positioned at the same rank. This is due to having the same number of "shortest paths". For this reason SBC rank is also more prone to low confidence ratings, however these confidence ratings are still displayed for completeness.
+<br>
 
 
 #### 2.1.4. Summarising confidence ratings for rank changes with `vis_plotConfidence()`
@@ -387,7 +449,7 @@ It has input arguments:
 - *family* - the font family to visualise; by default this is set to `family = "Harding"`
 
 Note that for Eigenvector Centrality, `type = "scenario"` and `type = "overall"` capture results only for the Purposes, Outcomes, and Tasks levels of the Abstraction Hierarchy. Likewise for Stable Betweenness Centrality, this captures results only for the Tasks, Processes, and Resources levels of the Abstraction Hierarchy.
-```{r}
+```{r, eval = FALSE}
 # Confidence ratings for rank by level by Eigenvector Centrality
 # broken down by scenario and level
 confidence_EC_scenarioLevel = 
@@ -395,9 +457,14 @@ confidence_EC_scenarioLevel =
     results = allScenarios_compared, 
     metricName = "EC", 
     type = "scenarioLevel")
+```
 
-confidence_EC_scenarioLevel
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_confidence_EC_scenarioLevel_20230725-151718.png"), 
+               alt = 'confidence_EC_scenarioLevel', width = 700)
+```
 
+```{r, eval = FALSE}
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by scenario and level
 confidence_SBC_scenarioLevel = 
@@ -405,9 +472,14 @@ confidence_SBC_scenarioLevel =
     results = allScenarios_compared, 
     metricName = "SBC_norm", 
     type = "scenarioLevel")
+```
 
-confidence_SBC_scenarioLevel
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_confidence_SBCnorm_scenarioLevel_20230725-151721.png"), 
+               alt = 'confidence_SBC_scenarioLevel', width = 700)
+```
 
+```{r, eval = FALSE}
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by scenario
 confidence_EC_scenario = 
@@ -415,9 +487,14 @@ confidence_EC_scenario =
     results = allScenarios_compared, 
     metricName = "EC", 
     type = "scenario")
+```
 
-confidence_EC_scenario
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_confidence_EC_scenario_20230725-151725.png"), 
+               alt = 'confidence_EC_scenario', width = 700)
+```
 
+```{r, eval = FALSE}
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # broken down by level
 confidence_EC_level = 
@@ -425,9 +502,14 @@ confidence_EC_level =
     results = allScenarios_compared, 
     metricName = "EC", 
     type = "level")
+```
 
-confidence_EC_level
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_confidence_EC_level_20230725-151729.png"), 
+               alt = 'confidence_EC_level', width = 450)
+```
 
+```{r, eval = FALSE}
 # Confidence ratings for rank by level by Stable Betweenness Centrality
 # overall
 confidence_EC_overall = 
@@ -435,10 +517,13 @@ confidence_EC_overall =
     results = allScenarios_compared, 
     metricName = "EC", 
     type = "overall")
-
-confidence_EC_overall
 ```
 
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/6 - Visualise/fiveCities-floodRiver-100-200_confidence_EC_overall_20230725-151733.png"), 
+               alt = 'confidence_EC_overall', width = 500)
+```
+<br>
 
 
 ### 2.2. Tables
@@ -486,7 +571,7 @@ tbl_edges_multi =
 
 tbl_edges_multi
 ```
-
+<br>
 
 
 #### 2.2.2. Summary table for excluded vertices
@@ -509,6 +594,7 @@ tbl_vExcluded =
 
 tbl_vExcluded
 ```
+
 
 
 
@@ -548,7 +634,7 @@ tbl_degrees_resources =
 
 tbl_degrees_resources
 ```
-
+<br>
 
 
 #### 2.2.4. Summary table for Eigenvector Centrality results
@@ -570,7 +656,7 @@ tbl_EC =
     compareLocations = TRUE, 
     compareScenarios = TRUE)
 ```
-
+<br>
 
 
 #### 2.2.5. Summary table for Stable Betweenness Centrality results
@@ -594,7 +680,7 @@ tbl_SBC =
 
 tbl_SBC
 ```
-
+<br>
 
 
 #### 2.2.6. `tables_AHgen()`
@@ -643,7 +729,7 @@ exportExcel(
 
 
 ## Next
-Next in [Vignette 7A - Application - Generate template](Vignette-7A---Application---Generate-template), you will go through the steps of generating a template Urban Systems Abstraction Hierarchy in `AHgen`.
+Next in [Vignette 7A - Application - Generate template Urban Systems Abstraction Hierarchy](Vignette-7A---Application---Generate-template-Urban-Systems-Abstraction-Hierarchy.html), you will go through the steps of generating a template Urban Systems Abstraction Hierarchy in `AHgen`.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

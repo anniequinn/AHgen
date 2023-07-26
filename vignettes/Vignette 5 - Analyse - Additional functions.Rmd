@@ -29,7 +29,7 @@ library(AHgen)
 <style>
 #TOC {
   background: url("images/hex.png");
-  background-size: 230px;
+  background-size: 220px;
   background-position-x: center;
   background-position-y: top;
   padding-top: 280px !important;
@@ -227,6 +227,7 @@ USAH_Bristol_baseline$results
 USAH_Bristol_baseline$summary
 ```
 </details>
+<br>
 
 
 ## 2. Scenario analysis
@@ -348,6 +349,7 @@ edgesFlood %>%
     AH_scenario = "floodRiver-100")
 ```
 </details>
+<br>
 
 
 ### 2.2. `apply_scenario()`
@@ -586,7 +588,7 @@ allScenarios_compared %>%
 
 
 ## Next
-Next in [Vignette 6 - Visualise](Vignette-6---visualise.html), you will see how to visualise Abstraction Hierarchies and network analysis results.
+Next in [Vignette 6 - Visualise](Vignette-6---Visualise.html), you will see how to visualise Abstraction Hierarchies and network analysis results.
 
 ## Last updated
 This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.
