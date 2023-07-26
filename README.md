@@ -55,7 +55,4 @@ Five walkthrough vignettes are provided to illustrate the application of `AHgen`
 If you have any questions about using or running the code, please contact [Melissa Bedinger](dr.m.bedinger@gmail.com). 
 
 ### Citation
-Visser-Quinn, A., Bedinger, M., Aitken, G., & Songchon, C. (2023). AHgen **v1.0.0**.
-
-TO BE UPDATED
-https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
+Visser-Quinn, A., Bedinger, M., Aitken, G., & Songchon, C. (2023). AHgen **v1.0.0**. https://doi.org/10.5281/zenodo.8187279 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8187279.svg)](https://doi.org/10.5281/zenodo.8187279)
