@@ -5,3 +5,104 @@ Additionally, its underlying functions may be adapted to analyse Abstraction Hie
 **Contact** If you have any questions about using or running the code please contact [Melissa Bedinger](dr.m.bedinger@gmail.com).
 
 **Please cite** Visser-Quinn, A., Bedinger, M., Aitken, G., & Songchon, C. (2023) AHgen V1.0. https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
+
+Welcome to `AHgen`!
+
+## What is an Abstraction Hierarchy?
+
+The Abstraction Hierarchy enables analysis of systems at any scale – from microwaves to transport systems to entire cities. By understanding how physical objects connect to different – yet interdependent – functions, we can improve the design of the system.
+
+### Key terms
+
+- A network is a collection of parts (**vertices** aka **nodes**) and connections between parts (**edges** aka **links**).
+- The Abstraction Hierarchy is a type of **hierarchical network**
+
+### Structure
+
+In the Abstraction Hierarchy:
+
+- Vertices are structured across five **levels** of increasing abstraction, from physical objects to the functional purpose(s) of the system.
+- Edges connect vertices between two levels (a **layer**), to represent the functional connections between the physical and abstract parts of a system.
+                            
+At the bottom of the hierarchy are the Resources (Level 5). These object types are linked to Processes (Level 4) they support, then to Tasks (Level 3) they achieve, then to Outcomes (Level 2), and finally to Purposes (Level 1). These system parts are nodes, which are linked between levels through their functionality, connecting the physical to the abstract. Moving upward through the levels the nodes are connected by asking ‘why the node exists’; moving downward levels the nodes are connected by asking ‘how a node is afforded’. These links represent the ‘means’ that a system can use to achieve defined ‘ends’, explicitly connecting the physical and abstract.
+
+### Background
+
+The Abstraction Hierarchy is a method from the discipline of human factors, as one part of the [Cognitive Work Analysis](https://doi.org/10.1201/9781315572543) framework. Originally developed to improve the design of safety-critical work systems (e.g., a nuclear power plant), this has also been applied to map and explore complex systems to inform product design, transport safety, urban resilience, and more. 
+
+Below is an interactive version of an Abstraction Hierarchy for a generic UK city: the Urban Systems Abstraction Hierarchy (USAH).
+
+```{r, echo = FALSE}
+knitr::include_app("https://mbedinger.shinyapps.io/AHexploreR/", height = "600px")
+```
+
+<br>
+
+## What is `AHgen`?
+
+`AHgen` was created to generate, analyse, compare, and visualise Abstraction Hierarchies. Historically, applications of the Abstraction Hierarchy method aimed to visualise and inspect the network, relying on pen-and-paper methods, PowerPoint drawing, or proprietary software. `AHgen` brings the Abstraction Hierarchy into the 21st century with an open source software code in R.
+
+`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1), using outputs from [OSMtidy](https://github.com/avisserquinn/OSMtidy). Additionally, its underlying functions may be adapted to analyse Abstraction Hierarchies in any domain or at any scale.
+
+## `AHgen` workflow and functions
+
+`AHgen` is extremely flexible, with lots of possible workflows. There are five families of functions: 
+
+1. **Input** Reading in the Abstraction Hierarchy and accompanying data
+2. **Convert** Converting the Abstraction Hierarchy into formats compatible with network analysis in R
+3. **Weight** Weighting edges
+4. **Analyse** Applying network analysis, plus summarising, comparing, and exporting outputs
+5. **Visualise** Visualising the Abstraction Hierarchy and results
+```{r, echo = FALSE}
+htmltools::img(src = knitr::image_uri("images/workflow-clean.png"), 
+               alt = 'workflow-clean', width = 600)
+```
+There are six vignettes designed to get you on your way:
+
+- Vignette 1 - [Getting started](Vignette-1---Getting-started.html)
+- Vignette 2 - [Input & Convert](Vignette-2---Input-&-Convert.html)
+- Vignette 3 - [Weight](Vignette-3---Weight.html)
+- Vignette 4 - [Analyse - Core functions](Vignette-4---Analyse---Core-functions.html)
+- Vignette 5 - [Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html)
+- Vignette 6 - [Visualise](Vignette-6---Visualise.html)
+
+
+## Applications
+`AHgen` can be applied to Abstraction Hierarchies in any domain at any scale for various objectives.
+
+Five walkthrough vignettes are provided to illustrate the application of `AHgen` to create and explore the Urban Systems Abstraction Hierarchy (USAH).
+
+- Vignette 7A - [Application - Generate template Urban Systems Abstraction Hierarchy](Vignette-7A---Application---Generate-template-Urban-Systems-Abstraction-Hierarchy.html)
+- Vignette 7B - [Application - Apply OSMtidy data](Vignette-7B---Application---Apply-OSMtidy-data.html)
+- Vignette 7C - [Application - Introduce flood](Vignette-7C---Application---Introduce-flood.html)
+- Vignette 7D - [Application - Introduce other hazards](Vignette-7D---Application---Introduce-other-hazards.html)
+- Vignette 7E - [Application - Compare scenarios](Vignette-7E---Application---Compare-scenarios.html)
+
+
+## Further information
+
+### Related reading
+
+- Bedinger, M., McClymont, K., Beevers, L., Visser-Quinn, A., & Aitken, G. (2023). [Five cities: Application of the Urban Systems Abstraction Hierarchy to characterize resilience across locations](https://doi.org/10.1016/j.cities.2023.104355). *Cities*, 139, 104335.
+- McClymont, K., Bedinger, M., Beevers, L., & Walker, G. H. (2023). [Applying the Urban Systems Abstraction Hierarchy as a Tool for Flood Resilience](https://doi.org/10.1029/2023EF003594). *Earth’s Future*, 11(5), e2023EF003594.
+- Morrison, D., Bedinger, M., (2022). [Exploring the *raison d’etre* behind metric selection in network analysis: a systematic review](https://doi.org/10.1007/s41109-022-00476-w). *Applied Network Science*, 7, 50.
+- Beevers, L., Bedinger, M., McClymont, K., Morrison, D., Aitken, G., & Visser-Quinn, A. (2022). [Modelling systemic COVID-19 impacts in cities](https://doi.org/10.1038/s42949-022-00060-2). *npj Urban Sustainability*, 2, 17.
+- Beevers, L., McClymont, K., & Bedinger, M. (2022). [A hazard-agnostic model for unpacking systemic impacts in urban systems](https://doi.org/10.1080/10286608.2022.2083112). *Civil Engineering and Environmental Systems*, 39(3), p. 224-241.
+- McClymont, K., Bedinger, M., Beevers, L., & Walker, G. (2022). [Understanding urban resilience with the Urban Systems Abstraction Hierarchy](https://doi.org/10.1016/j.scs.2022.103729). *Sustainable Cities and Society*, 80, 103729.
+- McClymont, K., Bedinger, M., Beevers, L., Walker, G., Morrison, D. (2021). [‘Chapter 2.2 – Analyzing city-scale resilience using a novel systems approach’](https://doi.org/10.1016/B978-0-12-819047-0.00011-1), in Santos, P.P., Chmutina, & K. Von Meding, J., and Raju, E., (eds.) *Understanding Disaster Risk*. Elsevier, p. 179-201.
+- Bedinger, M., Beevers, L., Walker, G. H., Visser-Quinn, A., & McClymont, K. (2020). [Urban systems: Mapping interdependencies and outcomes to support systems thinking](http://dx.doi.org/10.1029/2019EF001389). Earth’s Future, 8(3), e2019EF001389.
+- Beevers, L., Walker, G., & Strathie, A. (2016). [A systems approach to flood vulnerability](https://doi.org/10.1080/10286608.2016.1202931). *Civil Engineering and Environmental Systems*, 33(3), p. 199-213.
+- Segarra, S. & Ribeiro, A. (2014). [A stable betweenness centrality measure in networks](https://doi.org/10.1109/ICASSP.2014.6854324). *2014 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)*, Florence, Italy, p. 3859-3863.
+- Visser-Quinn, A., Morrison, D., & Bedinger, M. (2023). [AHexploreR v3.0](https://mbedinger.shinyapps.io/AHexploreR).
+
+### Acknowledgements
+`AHgen` was developed to compare Urban Systems Abstraction Hierarchy (USAH) scenarios for UK cities as part of the Water Resilient Cities project (EPSRC EP/N030419/1).
+
+### Contact 
+If you have any questions about using or running the code, please contact [Melissa Bedinger](dr.m.bedinger@gmail.com). 
+
+### Citation
+Visser-Quinn, A., Bedinger, M., Aitken, G., & Songchon, C. (2023). AHgen **v1.0.0**.
+
+TO BE UPDATED
+https://doi.org/10.5281/zenodo.3975549 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3975549.svg)](https://doi.org/10.5281/zenodo.3975549)
