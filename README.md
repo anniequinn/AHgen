@@ -1,6 +1,6 @@
 # AHgen
 
-<img align="left" src="vignettes/images/hex.png" height = "10%" width = "10%"> 
+<img align="left" src="vignettes/images/hex.png" height = "15%" width = "15%"> 
 
 ## What is `AHgen`?
 
@@ -19,7 +19,7 @@
 5. **Visualise** Visualising the Abstraction Hierarchy and results
 
 <p align="center">
-<img src="vignettes/images/workflow-clean.png" height = "80%" width = "80%">
+<img src="vignettes/images/workflow-clean.png" height = "70%" width = "70%">
 </p
 
 
