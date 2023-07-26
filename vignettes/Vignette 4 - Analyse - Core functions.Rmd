@@ -1,0 +1,377 @@
+---
+title: "Analyse - Core functions"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{4 - Analyse - Core functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(readxl)
+library(kableExtra)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 220px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+---
+
+In this vignette, you will find out about analysing Abstraction Hierarchies with core `AHgen` functions:
+
+- Section 1 - The Abstraction Hierarchy and network metrics
+- Section 2 - `AHgen` functions for individual network metrics
+- Section 3 - `gen_results()`
+- Section 4 - `summarise_AH()`
+- Section 5 - `gen_AH()`
+- Section 6 - `export_AHgen()`
+
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
+## 1. The Abstraction Hierarchy and network metrics
+
+Network analysis is a useful tool to quantify and analyse the interactions and structure of graphs, which represent the relationships among entities such as sectors within an urban system. For more background, check out [this guide by Barabasi](http://networksciencebook.com/).
+
+There are numerous metrics which can be calculated to analyse networks. Network metrics help to describe a network at either a local level (which looks at individual elements i.e. particular nodes or edges) or a global level (which looks at the network as a whole). The current verison of `AHgen` focuses on analysing the network at a local level, using the metrics:
+
+- [Degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)) is the number of edges connected to a vertex.
+- [Eigenvector Centrality (EC)](https://en.wikipedia.org/wiki/Eigenvector_centrality) is a measure of the influence of a node in a network. Relative scores are assigned to all nodes in the network based on the concept that connections to high-scoring nodes contribute more to the score of the node in question than equal connections to low-scoring nodes.
+- [Stable Betweenness Centrality (SBC)](https://doi.org/10.1109/ICASSP.2014.6854324) is a variation of Betweenness Centrality, which is a measure of centrality in a network based on shortest paths. For every pair of vertices in a network, there exists at least one shortest path between the vertices such that either the number of edges that the path passes through (for unweighted graphs) or the sum of the weights of the edges (for weighted graphs) is minimized. The Betweenness Centrality for each vertex is the number of these shortest paths that pass through the vertex. Traditional Betweenness Centrality was found by Segarra & Ribeiro to be unstable; hence they created a "Stable" version of Betweenness Centrality which is "invariant to small perturbations in the edge weights".
+
+For more detail and a longer list of options for network analysis metrics, check out [this review of network metrics by Morrison et al](https://doi.org/10.1007/s41109-022-00476-w).
+
+We can use the guidelines in the table below for interpreting the network analysis results for any Abstraction Hierarchy, adapted from see [McClymont et al.](https://doi.org/10.1029/2023EF003594) and [Bedinger et al](https://doi.org/10.1016/j.cities.2023.104355). Due to the hierarchical nature of the Abstraction Hierarchy results should only be compared within a level, i.e. a result for a Resource should only be compared to results for other Resources.
+
+```{r, echo = FALSE}
+metricsTable = read_xlsx("images/4 - Analyse - Core functions/USAH_interpretation.xlsx")
+knitr::kable(metricsTable) %>% kable_styling(font_size = 11)
+```
+
+To get ready for network analysis in the following sections, let's read in and convert an example Abstraction Hierarchy.
+```{r}
+# Read in adjacency matrix for the Urban Systems Abstraction Hierarchy
+dh = read_adjMat("inputs/USAH_3.0_template_baseline_adjMat_20230602.xlsx") 
+
+# Extract vInfo
+dv = dh %>% select(level, levelName_full, levelName, Node)
+
+# Read in vInfo_full
+vInfo_full = read_xlsx("inputs/USAH_3.0_template_baseline_vInfo-full_20230621.xlsx")
+
+# Convert to an igraph
+di = adjMat_to_igraph(adjMat = dh, vInfo = dv)
+
+# Convert to an edgelist
+de = adjMat_to_edgelist(adjMat = dh, vInfo = dv)
+```
+
+
+## 2. `AHgen` functions for individual network metrics
+
+`AHgen` includes functions to apply three individual network metrics: `calc_degrees`, `calc_EC()`, `calc_SBC()`. All three functions have two input arguments: 
+
+- *igraph* - the igraph to be analysed
+- *vInfo* - the vertex information
+
+When applying the functions:
+
+- The vertex names must be identical in both the *igraph* and the *vInfo*.
+
+### 2.1. `calc_degrees()`
+
+The function `calc_degrees()` calculates the node degree of each vertex, i.e. the number of edges that are connected to a vertex. In a hierarchical network like an Abstraction Hierarchy, multiple types of degree can be calculated. In `AHgen`, the following are calculated for each vertex:
+
+- the *up* degree - the number of edges to the level above the vertex
+- the *down* degree - the number of edges to the level below the vertex
+- the *total* degree - the sum of the *up* and *down* degrees
+
+Because an Abstraction Hierarchy has five levels, the *up* and *down* degrees are also calculated for "additional" steps away from the vertex. 
+
+For example, for a Resource vertex at level 5, we first calculated the *up* degree to level 4 (*nodeDegree_up1*) which is equal to the *nodeDegree_total1* due to the vertex being at the bottom of the hierarchy and having no edges downward. We can then propagate upwards to calculate:
+
+- for the connected vertices found at level 4, the *up* degree to vertices in level 3 (*nodeDegree_up2*)
+- for the connected vertices found at level 3, the *up* degree to vertices in level 2 (*nodeDegree_up3*), and
+- for the connected vertices found at level 2, the *up* degree to vertices in level 1 (*nodeDegree_up4*)
+
+Another example would be a Task vertex at level 3. After calculating the *up* degree to level 2 (*nodeDegree_up1*) and the *down* degree to level 4 (*nodeDegree_down1*), we can then propagate in either direction to also calculate:
+
+- for the connected vertices found at level 2, the *up* degree to vertices in level 1 (*nodeDegree_up2*)
+- for the connected vertices found at level 4, the *down* degree to vertices in level 5 (*nodeDegree_down2*)
+
+Below is an example of the application of `calc_degrees()`.
+
+<details><summary><span style = "color: #2196F3;">Example 1 - Degree(s)</span></summary>
+```{r}
+# Calculate the degree(s) of each vertex
+degrees = calc_degrees(igraph = di, vInfo = dv)
+
+# Inspect the system-level multi-functionality of Outcomes by inspecting their nodeDegree_down3
+degrees %>% filter(level == 2) %>% select(Node, nodeDegree_down3) %>% arrange(desc(nodeDegree_down3))
+
+# Inspect the Processes which support all the Outcomes
+# i.e. those that have high system-level multi-functionality
+nOutcomes = degrees %>% filter(level == 2) %>% nrow()
+degrees %>% filter(level == 4, nodeDegree_up2 == nOutcomes) %>% select(Node, nodeDegree_up2)
+
+# Inspect the top 6 Resources with the highest node-level multi-functionality
+degrees %>% 
+  filter(level == 5) %>% 
+  arrange(desc(nodeDegree_up1), Node) %>% 
+  select(Node, nodeDegree_up1) %>% 
+  head()
+
+# Inspect the top 6 Processes with the highest functional redundancy
+degrees %>% 
+  filter(level == 4) %>% 
+  arrange(desc(nodeDegree_down1), Node) %>% 
+  select(Node, nodeDegree_down1) %>% 
+  head()
+
+# Inspect the top 6 Processes with the highest functional diversity
+degrees %>% 
+  filter(level == 4) %>% 
+  arrange(nodeDegree_down1, Node) %>% 
+  select(Node, nodeDegree_down1) %>% 
+  head()
+```
+</details>
+
+
+### 2.2. `calc_EC()`
+
+The function `calc_EC()` uses `igraph`'s `eigen_centrality()`. As Abstraction Hierarchies are bidirectional they can be treated as undirected or directed with similar results, with the default set to `directed = FALSE`.
+
+Below is an example application of `calc_EC()`.
+
+<details><summary><span style = "color: #2196F3;">Example 2 - Eigenvector Centrality</span></summary>
+```{r}
+# Calculate the Eigenvector Centrality (EC) of each vertex
+ec = calc_EC(igraph = di, vInfo = dv)
+
+# Inspect the Purposes ranked by their Eigenvector Centrality
+ec %>% filter(level == 1) %>% select(Node, EC) %>% arrange(desc(EC))
+
+# Inspect the Outcomes ranked by their Eigenvector Centrality
+ec %>% filter(level == 2) %>% select(Node, EC) %>% arrange(desc(EC))
+
+# Inspect the top 6 Tasks ranked by their Eigenvector Centrality
+ec %>% filter(level == 3) %>% select(Node, EC) %>% arrange(desc(EC)) %>% head()
+```
+</details>
+
+
+### 2.3. `calc_SBC()`
+
+The function `calc_SBC()` uses an internal `AHgen` function `sbc_norm()`. 
+
+`sbc_norm()` was developed to calculate [Segarra & Ribeiro's Stable Betweenness Centrality](https://doi.org/10.1109/ICASSP.2014.6854324) as an R function to do this was not already available. It has three input arguments:
+
+- *igraph* - the igraph to be analysed
+- *undirected* - whether the network is to be treated as directed or undirected; by default this is set to `undirected = TRUE`
+- *normalize* - whether to calculate Stable Betweenness Centrality (SBC) only, or to also calculate a version of it that is normalized by the number of nodes in the network (SBC_norm); by default this is set to `normalize = TRUE`
+
+If you need to apply Stable Betwenness Centrality to another type of network (e.g. a social network), you can use `sbc_norm()` and change these inputs as needed.
+
+Below is an example application of `calc_SBC()`.
+
+<details><summary><span style = "color: #2196F3;">Example 3 - Stable Betweenness Centrality (SBC)</span></summary>
+```{r}
+# Calculate the Stable Betweenness Centrality (SBC) of each vertex
+sbc = calc_SBC(igraph = di, vInfo = dv)
+
+# Inspect the top 6 Resources ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 5) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
+
+# Inspect the top 6 Processes ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 4) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
+
+# Inspect the top 6 Tasks ranked by their Stable Betweenness Centrality
+sbc %>% filter(level == 3) %>% select(Node, SBC) %>% arrange(desc(SBC)) %>% head()
+```
+</details>
+
+
+## 3. `gen_results()`
+
+`AH_gen` has a handy function to generate, consolidate, and tidy the results for all of the individual network metrics, called `gen_results()`. The function has six input arguments: 
+
+- *igraph* - the igraph to be analysed
+- *vInfo* - the vertex information
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+When applying the function:
+
+- The vertex names must be identical in both the *igraph* and the *vInfo*.
+
+Below is an example application of `gen_results()`.
+
+<details><summary><span style = "color: #2196F3;">Example 4 - Generate results for multiple metrics at once</span></summary>
+```{r}
+# Generate results
+results = 
+  gen_results(igraph = di, 
+              vInfo = dv, 
+              AH_name = "USAH", 
+              AH_version = "3.0", 
+              AH_location = "template", 
+              AH_scenario = "baseline")
+
+# Inspect the metrics that have been calculated for this results file
+results$metric %>% unique()
+```
+</details>
+
+
+## 4. `summarise_AH()`
+
+`AH_gen` has a handy function to generate, consolidate, and tidy the results for all of the individual network metrics, called `gen_results()`. The function has six input arguments: 
+
+- *vIncluded* - the vertices in the Abstraction Hierarchy to be summarised; a variation of vInfo
+- *edgelist* - the edge list of the Abstraction Hierarchy to be summarised
+- *proxyWeight* - a near-zero weight can sometimes be used to imitate removal of a vertex from the network, without actual removal (e.g. 0.000000001); this is optional and by default this is set to `proxyWeight = 0`
+
+Below is an example application of `summarise_AH()`.
+
+<details><summary><span style = "color: #2196F3;">Example 5 - Summarise an Abstraction Hierarchy</span></summary>
+```{r}
+# Generate a summary of the Abstraction Hierarchy
+summary = summarise_AH(vIncluded = dv, edgelist = de)
+
+# Inspect the summary of vertices
+summary$vertices
+
+# Inspect the summary of edges
+summary$edges
+```
+</details>
+
+
+## 5. `gen_AH()`
+
+The function `gen_AH()` brings together multiple core functions to create a single standardised `AHgen` output. This creates a list of elements:
+
+- *vInfo_full* - the full vertex information for all vertices relevant to this Abstraction Hierarchy; in addition to the basic information in vIncluded, it is sometimes useful to include other characteristics e.g. definitions for each vertex, or colour specifications for visualisations
+- *vIncluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices included in this version of the Abstraction Hierarchy
+- *vExcluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices excluded in this version of the Abstraction Hierarchy, as compared to some baseline or benchmark
+- *adjMat* - the adjacency matrix
+- *edgelist* - the edge list
+- *igraph* - the igraph
+- *results* - the network analysis results
+- *summary* - the summary of vertices and edges in the Abstraction Hierarchy
+
+It has eight input arguments:
+
+- *vInfo_full* - the full vertex information for all vertices relevant to this Abstraction Hierarchy; in addition to the basic information in vIncluded, it is sometimes useful to include other characteristics e.g. definitions for each vertex, or colour specifications for visualisations
+- *vIncluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices included in this version of the Abstraction Hierarchy
+- *vExcluded* - the basic vertex information (level, levelName_full, levelName, Node) for the vertices excluded in this version of the Abstraction Hierarchy, as compared to some baseline or benchmark
+- *adjMat* - the adjacency matrix to be analysed and converted into other formats
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+Below is an example application of `gen_AH()`.
+
+<details><summary><span style = "color: #2196F3;">Example 6 - Generate standard `AHgen` output</span></summary>
+```{r}
+# Generate standard AHgen output for Urban Systems Abstraction Hierarchy baseline template
+USAH_template_baseline = 
+  gen_AH(vInfo = vInfo_full, 
+         vIncluded = dv,
+         adjMat = dh,
+         AH_name = "USAH", 
+         AH_version = "3.0", 
+         AH_location = "template", 
+         AH_scenario = "baseline")
+
+# Inspect vInfo element
+USAH_template_baseline$vInfo
+
+# Inspect vIncluded element
+USAH_template_baseline$vIncluded
+
+# Inspect vExcluded element
+USAH_template_baseline$vExcluded
+
+# Inspect adjMat element
+USAH_template_baseline$adjMat
+
+# Inspect edgelist element
+USAH_template_baseline$edgelist
+
+# Inspect igraph element
+USAH_template_baseline$igraph
+
+# Inspect results element
+USAH_template_baseline$results
+
+# Inspect summary element
+USAH_template_baseline$summary
+```
+</details>
+
+
+## 6. `export_AHgen()`
+
+The function `export_AHgen()` exports outputs of AHgen. 
+
+It has seven input arguments:
+
+- *output* - the R object to be exported
+- *type* - one of six types of output:
+    - *AH* or *USAH* - a standard `AHgen` output with eight list elements (as in Example 5 above), for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+    - *AH_compared* or *USAH_compared* - a comparison of `AHgen` outputs, for Abstraction Hierarchies in general or the more specific Urban Systems Abstraction Hierarchies
+    - *AH_edges* or *USAH_edges* - edges which have been generated for a new scenario, for any Abstraction Hierarchy or the more specific Urban Systems Abstraction Hierarchy
+
+- *directory* - the directory to which the output will be exported; by default this is set to `directory = NULL` such that the output will be exported to the same directory as the R script you are using
+- *AH_name* - the name of the system being modelled by this Abstraction Hierarchy, e.g. "USAH" for Urban Systems Abstraction Hierarchy
+- *AH_version* - the version of this Abstraction Hierarchy, e.g. "3.0"; by default this is set to `version = NULL`
+- *AH_location* - for applications of the Urban Systems Abstraction Hierarchy to specific geographical locations, e.g. "Bristol"; by default this is set to `location = NULL`
+- *AH_scenario* - for applications of the Urban Systems Abstraction Hierarchy to specific scenarios, e.g. "flood"; by default this is set to `scenario = NULL`
+
+Standard `AHgen` outputs (`type = "AH"`, `type = "AH_compared"`, `type = "USAH"`, and `type = "USAH_compared"`) will be exported as a .RDS file with all eight list elements, plus a .xlsx file of results. Edges outputs (`type = "AH_edges"` and `type = "USAH_edges"`) will be exported as a .RDS file and a .xlsx file. In all cases, a message will be printed in the console to confirm the output has been exported with the directory and file name.
+
+
+<details><summary><span style = "color: #2196F3;">Example 7 - Export `AHgen` outputs</span></summary>
+```{r, eval = FALSE}
+# Export the USAH_template_baseline
+export_AHgen(
+  output = USAH_template_baseline,
+  type = "USAH", 
+  AH_version = "3.0", 
+  AH_location = "template", 
+  AH_scenario = "baseline")
+```
+</details>
+
+
+## Next
+Next in [Vignette 5 - Analyse - Additional functions](Vignette-5---Analyse---Additional-functions.html), you will see how these core functions can be brought together and applied.
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

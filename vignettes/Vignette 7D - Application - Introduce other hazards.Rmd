@@ -1,0 +1,319 @@
+---
+title: "Application - <br>Introduce other hazards"
+author: 
+ - Annie Visser-Quinn & Melissa Bedinger
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: paper
+    highlight: haddock
+vignette: >
+  %\VignetteIndexEntry{Vignette 7D - Application - Introduce other hazards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+
+rm(list = ls()); cat("\014")
+
+library(knitr)
+library(tidyverse)
+library(AHgen)
+```
+
+<style>
+#TOC {
+  background: url("images/hex.png");
+  background-size: 220px;
+  background-position-x: center;
+  background-position-y: top;
+  padding-top: 280px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
+---
+
+In this vignette, you will go through the steps of applying other hazards to an Urban Systems Abstraction Hierarchy template in `AHgen`:
+
+1. Prepare the environment
+2. Read in the data
+3. Generate and apply a hypothetical drought hazard
+4. Generate and apply a hypothetical flood hazard
+5. Generate and apply a hypothetical pandemic hazard
+6. Export
+
+To navigate to other vignettes, go to [Vignette 0 - Welcome to AHgen](Vignette-0---Welcome-to-AHgen.html).
+
+
+## 1. Prepare the environment
+
+```{r, eval = FALSE}
+# Clear the RStudio environment
+rm(list = ls()); cat("/014"); gc(verbose = TRUE)
+
+# CTRL + SHIFT + F10 will detach any loaded packages and restart R
+
+# Set the working directory to the folder where this script is saved
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)); getwd()
+
+# If you are doing this for the first time
+
+# install the package pacman which checks to see if a package is installed
+# and if not it attempts to install the package from CRAN 
+# and/or any other repository in the pacman repository list
+
+# and install the package devtools which will allow you to download a package straight from GitHub 
+# i.e. if they are not yet on CRAN and/or the pacman repository list
+
+install.packages("devtools")
+install.packages("pacman")
+
+# Ensure latest version of AHgen is installed
+devtools::install_github("avisserquinn/AHgen", dependencies = TRUE)
+
+# If package has 'non-zero exit status', try re-installing devtools & rlang
+install.packages("devtools")
+install.packages("rlang")
+
+# Load required packages
+pacman::p_load(tidyverse, installr, janitor, AHgen)
+```
+
+
+## 2. Read in the data
+
+```{r}
+# Set names for AH, version, location, and scenarios
+AH_name = "USAH"
+AH_version = "3.0"
+AH_location = "template"
+scenario_drought = "drought-hypothetical"
+scenario_flood = "flood-hypothetical"
+scenario_pandemic = "pandemic-hypothetical"
+
+# Set directory for outputs
+directory = "outputs/"
+
+# Read in the USAH input you want to start with
+USAH_template_baseline = 
+  read_rds("inputs/USAH_3.0_template_baseline_20230719-104712.RDS")
+
+# Extract input edgelist
+edgelist_template_baseline = USAH_template_baseline$edgelist
+
+# Read in a guide specifying which vertices may be affected by a hypothetical drought
+vDrought = 
+  readxl::read_xlsx("inputs/vGuide_2.0_template_drought-hypothetical_20210720.xlsx")
+
+# Read in a guide specifying which edges may be affected by a hypothetical flood
+eFlood = 
+  readxl::read_xlsx("inputs/edgeGuide_2.0_template_flood-hypothetical_20210803.xlsx")
+
+# Read in a guide specifying which edges may be affected by a hypothetical pandemic
+ePandemic = 
+  readxl::read_xlsx("inputs/edgeGuide_2.0_template_pandemic-hypothetical_20210805.xlsx")
+
+# Inspect the data
+USAH_template_baseline
+vDrought
+eFlood
+ePandemic
+```
+
+
+## 3. Generate and apply a hypothetical drought hazard
+```{r}
+# Create vector of Process vertices affected by a drought
+vDrought = vDrought %>% pull(Node)
+
+# Create edgesDrought
+edgesDrought = 
+  edgelist_template_baseline %>% 
+  filter(from %in% vDrought) %>%
+  mutate(weight = 0.5) %>%
+  rename(weightNew = weight)
+
+# Inspect new edges representing the drought hazard to be introduced
+edgesDrought
+
+# Check for duplicate edges (that may have been accidentally added to a 
+# manual edgelist for a hypothetical flood scenario) - confirms whether there 
+# are any potential conflicts to sort out before introducing the new edge 
+# weights for that scenario
+edgesDrought %>% check_duplicates()
+
+# If any, inspect the duplicate edges with (potentially) different weights
+# and correct input file then re-import before proceeding
+
+# Checking for outdated or inconsistent edges in the edge guide 
+# that are inconsistent with the USAH_input edgelist you want to overwrite 
+# both in terms of outdated linkages and outdated vertex names,
+# this prevents adding anything odd to the structure of the network
+edgesDrought %>% check_diff(edgelist = edgelist_template_baseline)
+
+# If any, inspect the edgesNew that do not match and correct input file 
+# then re-import before proceeding
+
+# Introduce edgesDrought to create edgelist_template_drought
+edgelist_template_drought = 
+  edgelist_template_baseline %>%
+  weight_edges(edgesDrought, remove = FALSE) %>%
+  weight_hangingVertices(remove = FALSE)
+
+# Generate output for USAH_template_drought
+USAH_template_drought = 
+  apply_scenario(
+    AH_input = USAH_template_baseline, 
+    edgelist_scenario = edgelist_template_drought,
+    AH_name = AH_name, 
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_drought)
+
+# Inspect removed nodes
+USAH_template_drought$vExcluded
+
+# Inspect results
+USAH_template_drought$results
+```
+
+
+## 4. Generate and apply a hypothetical flood hazard
+```{r}
+# Select only necessary columns
+edgesFlood = eFlood %>% select(layer, from, to, weightNew)
+  
+# Inspect new edges representing the flood hazard to be introduced
+edgesFlood
+
+# Check for duplicate edges (that may have been accidentally added to a 
+# manual edgelist for a hypothetical flood scenario) - confirms whether there 
+# are any potential conflicts to sort out before introducing the new edge 
+# weights for that scenario
+edgesFlood %>% check_duplicates()
+
+# If any, inspect the duplicate edges with (potentially) different weights
+# and correct input file then re-import before proceeding
+
+# Checking for outdated or inconsistent edges in the edge guide 
+# that are inconsistent with the USAH_input edgelist you want to overwrite 
+# both in terms of outdated linkages and outdated vertex names,
+# this prevents adding anything odd to the structure of the network
+edgesFlood %>% check_diff(edgelist = edgelist_template_baseline)
+
+# If any, inspect the edgesNew that do not match and correct input file 
+# then re-import before proceeding
+
+# Introduce edgesFlood to create edgelist_template_flood
+edgelist_template_flood = 
+  edgelist_template_baseline %>%
+  weight_edges(edgesFlood, remove = FALSE) %>%
+  weight_hangingVertices(remove = FALSE)
+
+# Generate output for USAH_template_flood
+USAH_template_flood = 
+  apply_scenario(
+    AH_input = USAH_template_baseline, 
+    edgelist_scenario = edgelist_template_flood,
+    AH_name = AH_name, 
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_flood)
+
+# Inspect removed nodes
+USAH_template_flood$vExcluded
+
+# Inspect results
+USAH_template_flood$results
+```
+
+
+## 5. Generate and apply a hypothetical pandemic hazard
+```{r}
+# Select only necessary columns
+edgesPandemic = ePandemic %>% select(layer, from, to, weightNew)
+  
+# Inspect new edges representing the pandemic hazard to be introduced
+edgesPandemic
+
+# Check for duplicate edges (that may have been accidentally added to a 
+# manual edgelist for a hypothetical pandemic scenario) - confirms whether there 
+# are any potential conflicts to sort out before introducing the new edge 
+# weights for that scenario
+edgesPandemic %>% check_duplicates()
+
+# If any, inspect the duplicate edges with (potentially) different weights
+# and correct input file then re-import before proceeding
+
+# Checking for outdated or inconsistent edges in the edge guide 
+# that are inconsistent with the USAH_input edgelist you want to overwrite 
+# both in terms of outdated linkages and outdated vertex names,
+# this prevents adding anything odd to the structure of the network
+edgesPandemic %>% check_diff(edgelist = edgelist_template_baseline)
+
+# If any, inspect the edgesNew that do not match and correct input file 
+# then re-import before proceeding
+
+# Introduce edgesPandemic to create edgelist_template_pandemic
+edgelist_template_pandemic = 
+  edgelist_template_baseline %>%
+  weight_edges(edgesPandemic, remove = FALSE) %>%
+  weight_hangingVertices(remove = FALSE)
+
+# Generate output for USAH_template_pandemic
+USAH_template_pandemic = 
+  apply_scenario(
+    AH_input = USAH_template_baseline, 
+    edgelist_scenario = edgelist_template_pandemic,
+    AH_name = AH_name, 
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_pandemic)
+
+# Inspect removed nodes
+USAH_template_pandemic$vExcluded
+
+# Inspect results
+USAH_template_pandemic$results
+```
+
+
+## 6. Export
+```{r, eval = FALSE}
+USAH_template_drought %>% 
+  export_AHgen(
+    type = "USAH",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_drought)
+
+USAH_template_flood %>% 
+  export_AHgen(
+    type = "USAH",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_flood)
+
+USAH_template_pandemic %>% 
+  export_AHgen(
+    type = "USAH",
+    directory = directory,
+    AH_version = AH_version, 
+    AH_location = AH_location, 
+    AH_scenario = scenario_pandemic)
+```
+
+
+## Next
+Next in [Vignette 7E - Application - Compare scenarios](Vignette-7E---Application---Compare-scenarios.html), you will go through the steps of comparing Urban Systems Abstraction Hierarchies in `AHgen`.
+
+
+## Last updated
+This vignette is associated with `AHgen` v1.0.0, and was last updated by Melissa Bedinger on `r Sys.Date()`.

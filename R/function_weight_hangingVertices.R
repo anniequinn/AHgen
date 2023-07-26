@@ -1,9 +1,6 @@
-# Function to remove hanging vertices after initial adjustments have been made
-# Note this is written in such a way that apply_geoData is best applied before 
-# apply_stressors, not tested backward order yet
-weight_hangingVertices <- function(
-  edgelist, 
-  proxyWeight = 0) {
+weight_hangingVertices <- function(edgelist, proxyWeight = 0, remove = TRUE) {
+  
+  require(tidyverse)
   
   # Check for ORPs which have all links weighted the proxyWeight (to imitate removal) 
   # and set all their links to GFs to the proxyWeight
@@ -12,7 +9,7 @@ weight_hangingVertices <- function(
     filter(layer == "l4ORP_l5PO") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l4ORP_l5PO_included <- 
@@ -38,7 +35,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -49,7 +46,7 @@ weight_hangingVertices <- function(
     filter(layer == "l3GF_4ORP") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l3GF_l4ORP_included <- 
@@ -75,7 +72,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -86,7 +83,7 @@ weight_hangingVertices <- function(
     filter(layer == "l2VPM_l3GF") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l2VPM_l3GF_included <- 
@@ -112,7 +109,7 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
@@ -123,7 +120,7 @@ weight_hangingVertices <- function(
     filter(layer == "l1FP_l2VPM") %>% 
     select(from, weight) %>% 
     unique %>%
-    filter(weight == proxyWeight) %>%
+    filter(weight <= proxyWeight) %>%
     select(-weight)
   
   l1FP_l2VPM_included <- 
@@ -149,10 +146,17 @@ weight_hangingVertices <- function(
       mutate(weight = proxyWeight) %>%
       rename(weightNew = weight)
     
-    edgelist <- edgelist %>% weightEdges(edgesNew)
+    edgelist <- edgelist %>% weight_edges(edgesNew, remove = FALSE)
     
     return(edgelist)
     
+  }
+  
+  if(remove == TRUE) {
+
+    edgelist <- edgelist %>% filter(weight != 0) # If you want to remove the edges with a weight of 0 i.e. after this point, you don't need to track the vertices that have been excluded
+    
+    return(edgelist)
   }
   
 }
