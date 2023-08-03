@@ -517,7 +517,7 @@ It has three input arguments:
 When applying the function:
 
 - If `type = "AH"`, the file names of all inputs must be in the format of "name_date.RDS".
-- If `type = "AH"`, the file names of all inputs must be in the format of "name_version_location_scenario_date.RDS".
+- If `type = "USAH"`, the file names of all inputs must be in the format of "name_version_location_scenario_date.RDS".
 - All inputs must include list elements named *summary$vertices*, *summary$edges*, *vExcluded*, and *results*, each formatted in the standard `AHgen` output structure.
 
 <details><summary><span style = "color: #2196F3;">Example 8 - Compare Abstraction Hierarchies</span></summary>

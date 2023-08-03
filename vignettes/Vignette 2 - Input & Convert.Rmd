@@ -305,7 +305,7 @@ In `AHgen`, the abstraction hierarchy can be captured in three different formats
 
 To change format, `AHgen` has a family of six conversion functions:
 
-- `adjMat_to_edgelist()` and `adjMat_to_igraph()`, where the input arguments are the adjacency matrix
+- `adjMat_to_edgelist()` and `adjMat_to_igraph()`, where the input argument is the adjacency matrix
 - `edgelist_to_igraph()` and `edgelist_to_adjMat()`, where the input arguments are the abstraction hierarchy in edge list format, and the vertex information
 - `igraph_to_adjMat()` and `igraph_to_edgelist()`, where the input arguments are the abstraction hierarchy in the igraph format
 

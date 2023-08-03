@@ -191,7 +191,7 @@ Through examples 1-4 we've seen how to change weightings directly. These methods
 - Cumbersome, requiring prior coding experience
 - Impractical for cases where you want to weight edges connected to more than one vertex in a real-world application
 
-`AHgen` has four functions to simplify edge weighting for Abstraction Hierarchies: `check_duplicates()`, `check_diff()`, `weight_edges`, and `weight_hangingVertices`.
+`AHgen` has four functions to simplify edge weighting for Abstraction Hierarchies: `check_duplicates()`, `check_diff()`, `weight_edges()`, and `weight_hangingVertices()`.
 
 ### 4.1. `check_duplicates()`
 
@@ -342,7 +342,7 @@ weight_edges(edgelist = de, edgesNew = de_w)
 
 ### 4.4. `weight_hangingVertices()`
 
-The second function is `weight_hangingVertices()`. When introducing new weights with `weight_edges()`, the `edgesNew` can include edges with a weight of 0, therefore completely removing those edges from the original edge list. 
+The second function is `weight_hangingVertices()`. When introducing new weights with `weight_edges()`, the `edgesNew` can include edges with a weight of 0, if you intend to completely remove those edges from the original edge list. 
 
 Abstraction Hierarchies are hierarchical networks, wherein if a vertex at level 4 has all of its downward edges to level 5 removed, the vertex at level 4 is no longer required in the network. This means that the vertex at level 4 is now a "hanging" vertex which should also be removed.
 
