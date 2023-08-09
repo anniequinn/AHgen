@@ -181,7 +181,7 @@ USAH_template_baseline %>%
 
 # If subnetwork assignment has been updated, write out to .xlsx for future use
 USAH_template_baseline$vInfo %>% 
- write.xlsx(
+ writexl::write_xlsx(
    filenameTimestamp(
      prefix = paste0(directory,
                      name, "_", version, "_", location, "_", scenario, 
