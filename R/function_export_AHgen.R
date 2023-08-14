@@ -89,7 +89,7 @@ export_AHgen <- function(output,
     
     filenameXLSX <- filenameTimestamp(prefix = prefixXLSX, extension = ".xlsx")
     
-    outputXLSX %>% xlsx::write.xlsx(filenameXLSX)
+    outputXLSX %>% writexl::write_xlsx(filenameXLSX)
     message(paste0("Files saved as: "))
     message(paste0("\n\t", filenameXLSX))
     

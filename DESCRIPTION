@@ -31,5 +31,5 @@ Depends:
     sf,
     tidytext,
     vctrs,
-    xlsx,
+    writexl,
     R (>= 4.3.1)
