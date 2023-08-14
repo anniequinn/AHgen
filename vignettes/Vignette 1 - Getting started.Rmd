@@ -135,7 +135,7 @@ There are many ways to install R packages. In example `AHgen` scripts, there are
 - [**`installr`**](https://cran.r-project.org/web/packages/installr/readme/README.html) offers a set of R functions for the installation and updating of software.
 - [**`janitor`**](https://cran.r-project.org/web/packages/janitor/readme/README.html) provides simple functions for examining and cleaning dirty data.
 - [**`vctrs`**](https://cran.r-project.org/web/packages/vctrs/readme/README.html) provides tools to ensure that functions behave consistently with respect to inputs of varying length and type.
-- [**`xlsx`**](https://cran.r-project.org/web/packages/xlsx/readme/README.html) provides R functions to read, write, and format Excel files.
+- [**`writexl`**](https://github.com/ropensci/writexl/blob/master/README.md) an R function to export portable light-weight data frames to xlsx files, without requirement for Java or Excel.
 
 - [**`ggh4x`**](https://cran.r-project.org/web/packages/ggh4x/readme/README.html),  [**`gginnards`**](https://cran.r-project.org/web/packages/gginnards/readme/README.html), [**`ggraph`**](https://cran.r-project.org/web/packages/ggraph/readme/README.html), [**`ggrepel`**](https://cran.r-project.org/web/packages/ggrepel/readme/README.html), and [**`scales`**](https://cran.r-project.org/web/packages/scales/readme/README.html) are all [`ggplot2`](https://ggplot2.tidyverse.org/) extension packages to customise visualisations.
 - [**`plotly`**](https://cran.r-project.org/web/packages/plotly/readme/README.html) helps to create interactive web graphics via the open source JavaScript graphing library [plotly.js](https://github.com/plotly/plotly.js).
@@ -184,7 +184,7 @@ To install the rest of the dependencies, use the following code.
 ```{r, eval = FALSE}
 # Install AHgen dependencies
 pacman::p_load(
-  tidyverse, data.table, igraph, installr, janitor, vctrs, xlsx,
+  tidyverse, data.table, igraph, installr, janitor, vctrs, writexl,
   ggh4x, gginnards, ggraph, ggrepel, scales, plotly, see, sf, tidytext)
 ```
 <br>

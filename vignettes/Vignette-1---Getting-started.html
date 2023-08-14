@@ -1717,8 +1717,9 @@ data.</p></li>
 <li><p><a href="https://cran.r-project.org/web/packages/vctrs/readme/README.html"><strong><code>vctrs</code></strong></a>
 provides tools to ensure that functions behave consistently with respect
 to inputs of varying length and type.</p></li>
-<li><p><a href="https://cran.r-project.org/web/packages/xlsx/readme/README.html"><strong><code>xlsx</code></strong></a>
-provides R functions to read, write, and format Excel files.</p></li>
+<li><p><a href="https://github.com/ropensci/writexl/blob/master/README.md"><strong><code>writexl</code></strong></a>
+an R function to export portable light-weight data frames to xlsx files,
+without requirement for Java or Excel.</p></li>
 <li><p><a href="https://cran.r-project.org/web/packages/ggh4x/readme/README.html"><strong><code>ggh4x</code></strong></a>,
 <a href="https://cran.r-project.org/web/packages/gginnards/readme/README.html"><strong><code>gginnards</code></strong></a>,
 <a href="https://cran.r-project.org/web/packages/ggraph/readme/README.html"><strong><code>ggraph</code></strong></a>,
@@ -1769,7 +1770,7 @@ following code.</p>
 <p>To install the rest of the dependencies, use the following code.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Install AHgen dependencies</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  tidyverse, data.table, igraph, installr, janitor, vctrs, xlsx,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  tidyverse, data.table, igraph, installr, janitor, vctrs, writexl,</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  ggh4x, gginnards, ggraph, ggrepel, scales, plotly, see, sf, tidytext)</span></code></pre></div>
 <p><br></p>
 </div>
@@ -1937,7 +1938,7 @@ Input &amp; Convert</a>, you will find out about inputs and data in
 <div id="last-updated" class="section level2">
 <h2>Last updated</h2>
 <p>This vignette is associated with <code>AHgen</code> v1.0.0, and was
-last updated by Melissa Bedinger on 2023-07-26.</p>
+last updated by Melissa Bedinger on 2023-08-14.</p>
 </div>
 
 
