@@ -98,7 +98,7 @@ vis_plotViolin <- function(results,
           alpha = 0.7, aes(fill = "#56B4E9"), flip = TRUE, linewidth = 0.1) + # using default colours from AHgen package; flipped
         see::geom_violinhalf(
           data = results %>% filter(scenario == "offline"), 
-          alpha = 0.7, aes(fill = "#85929E")," linewidth = 0.1) + # using default colours from AHgen package
+          alpha = 0.7, aes(fill = "#85929E"), linewidth = 0.1) + # using default colours from AHgen package
         ggh4x::facet_grid2(
           independent = "x", levelName ~ location, 
           labeller = label_wrap_gen(width = 15), scales = "free", switch = "y") +
