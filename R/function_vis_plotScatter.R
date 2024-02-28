@@ -3,7 +3,7 @@ vis_plotScatter <- function(results,
                             AH_benchmark = "baseline", 
                             type, 
                             levels = NULL, 
-                            locations = NULL, 
+                            locations = NULL,
                             omit.zeros = TRUE, 
                             omit.inf = TRUE,
                             family = "Harding") { 
@@ -15,7 +15,7 @@ vis_plotScatter <- function(results,
   require(grid)
   
   # currently by = "location"
-  # potential future adaptaion: by = "scenario" (e.g. Edinburgh COVID weeks) flip the scenario & location
+  # potential future adaptation: by = "scenario" (e.g. Edinburgh COVID weeks) flip the scenario & location
   
   # Size aesthetics prep
   results <- 
@@ -113,13 +113,13 @@ vis_plotScatter <- function(results,
   if(metricName == "SBC_norm" & is.null(levels))
   {levels <- c("Tasks", "Processes", "Resources")}
   
-  if(is.null(locations))
-  {locations <- results %>% select(location) %>% unique() %>% pull}
-  
   
   # Define different ggplot approaches
   
-  if((length(levels) > 1) & (length(locations) > 1)) {
+  if(is.null(locations))
+  {locations <- results %>% select(location) %>% unique() %>% pull}
+  
+  if((length(levels) > 1) & (length(location) > 1)) {
     
     results <-
       results %>%
