@@ -93,16 +93,16 @@ vis_plotRank <- function(results,
       geom_text(data = subset(results, scenario == AH_benchmark),
                 mapping = aes(label = Node, color = cols, family = family, 
                               fontface = "bold", hjust = 1), 
-                nudge_x = -0.05, size = 9) +
+                nudge_x = -0.05, size = 15) +
       geom_text(data = subset(results, scenario != AH_benchmark),
                 mapping = aes(label = confidenceLab, 
                               color = cols, family = family, hjust = "left"), 
-                nudge_x = 0.1, size = 9) +
+                nudge_x = 0.1, size = 15) +
       facet_wrap(~location, labeller = label_wrap_gen(width = 15), 
                  ncol = 3, scales = "free") +
       scale_color_manual(values = levels(results$cols)) +
-      theme(axis.text.x = element_text(colour = "grey30", size = 28, vjust = 5),
-            axis.text.y = element_text(colour = "grey30", size = 24),
+      theme(axis.text.x = element_text(colour = "grey30", size = 35, vjust = 5),
+            axis.text.y = element_text(colour = "grey30", size = 35),
             axis.title.x = element_blank(),
             axis.title.y = element_blank(),
             axis.ticks.y = element_blank(),
@@ -212,25 +212,25 @@ vis_plotRank <- function(results,
         lineheight = 0.15,
         mapping = aes(label = stringr::str_wrap(Node, 22), colour = cols, 
                       family = family, fontface = "bold", hjust = 1), 
-        nudge_x = -1.95, seed = 1, segment.alpha = 0.5, segment.size = 0.3, size = 10, 
+        nudge_x = -1.95, seed = 1, segment.alpha = 0.5, segment.size = 0.3, size = 12, 
         xlim = c(-Inf, Inf), ylim = c(-Inf, Inf)) +
       geom_text(
         data = subset(results, 
                       scenario == AH_benchmark & group == "single-benchmark"),
         mapping = aes(label = Node, colour = cols, family = family, 
                       fontface = "bold", hjust = 1), 
-        nudge_x = -0.05, size = 11) +
+        nudge_x = -0.05, size = 15) +
       geom_text(
         data = subset(results, scenario != AH_benchmark),
         mapping = aes(label = confidenceLab, 
                       color = cols, family = family, hjust = "left"), 
-        nudge_x = 0.1, size = 9) +
+        nudge_x = 0.1, size = 15) +
       coord_cartesian(clip = "off") +
       scale_color_manual(values = levels(results$cols)) +
       facet_wrap(~location, labeller = label_wrap_gen(width = 15), 
                  ncol = 3, scales = "free") +
-      theme(axis.text.x = element_text(colour = "grey30", size = 36, vjust = 3),
-            axis.text.y = element_text(colour = "grey30", size = 30),
+      theme(axis.text.x = element_text(colour = "grey30", size = 40, vjust = 3),
+            axis.text.y = element_text(colour = "grey30", size = 40),
             axis.title.x = element_blank(),
             axis.title.y = element_blank(),
             axis.ticks.y = element_blank(),
@@ -241,7 +241,7 @@ vis_plotRank <- function(results,
             panel.grid.major.x = element_blank(),
             panel.grid.major.y = element_line(colour = "grey90"),
             panel.spacing.y = unit(1, "lines"),
-            plot.margin = grid::unit(c(2, 4, 6, 4), "mm"),
+            plot.margin = grid::unit(c(2, 4, 18, 4), "mm"),
             plot.title = element_text(color = "grey20", size = 50, vjust = -1),
             strip.background = element_rect(fill = "white"),
             strip.text.x = element_text(colour = "grey20", size = 42),
